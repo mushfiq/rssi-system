@@ -13,8 +13,15 @@ RSSI based indoor localization project.
 	
 	git push origin myFeature
 
+###Some good practice for commit message:
 
-	
+-- Describe why a change is being made.
+
+-- Ensure sufficient information to decide whether to review.
+
+-- Multiple commit line if needed, the first commit line is the most important.
+
+-- Describe any limitations of the current code.
 
 
 
