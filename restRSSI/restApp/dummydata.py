@@ -3,11 +3,8 @@ from documents import rawData
 import datetime
 from  mongoengine import connect, Document
 
-# print connect('rssiSystem')
+''' this script is for inserting dummy data into the mongo'''	
 
-
-
-		
 def getAll():
 	allData = rawData.objects.all()
 	print allData
@@ -26,5 +23,4 @@ def insertDummyData():
 		insertTest(line)
 	
 if __name__ == '__main__':
-	# insertTest()
 	insertDummyData()
