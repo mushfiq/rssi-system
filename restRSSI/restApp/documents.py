@@ -1,8 +1,4 @@
-import bson
-from mongoengine import connect, Document, EmbeddedDocument, StringField
-import datetime
-
-connect('rssiSystem')
+from mongoengine import Document, EmbeddedDocument, StringField
 
 class InheritableDocument(Document):
     meta = {
