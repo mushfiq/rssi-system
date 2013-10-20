@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 from fabric.api import *
 abspath = lambda filename: os.path.join(os.path.abspath(os.path.dirname(__file__)), filename)
 
@@ -9,19 +8,26 @@ env.local_site_root = abspath('')
 env.serverpath = '/'
 env.site_root = '/tmp/'
 
-
 def server():
     env.hosts      = [
 		'shironambd.com',
 	]
     env.graceful = False
+
+#next two tasks shows access log and error log
+def show_access_log():
+	run('sudo tail -n 10 /var/log/apache2/shironambd-custom.log')
 	
 def show_error_log():
-	run('sudo tail -n 10 /var/log/apache2/shironambd-custom.log')
+	run('sudo tail -n 10 /var/log/apache2/shironambd-error.log')
 	
 def restart_apache():
 	run('sudo service apache2 restart')
-	
+
+'''
+	this task deploy the code to server 
+	paths need to fixed before real prod use
+'''
 def rssi_deploy():
 	env.site_name = 'restRSSI'
 	env.site_path    = '/tmp'
