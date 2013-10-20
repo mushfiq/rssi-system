@@ -9,8 +9,6 @@ class RssiResource(resources.MongoEngineResource):
         # Ordering by id so that pagination is predictable
         queryset = documents.rawData.objects.all().order_by('id')
         # print queryset
-        for q in queryset:
-	         print q
         allowed_methods = ('get')
         # authorization = tastypie_authorization.Authorization()
         paginator_class = paginator.Paginator
