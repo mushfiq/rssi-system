@@ -1,27 +1,16 @@
 rssi-system
 ===========
-
 RSSI based indoor localization project.
 
-###Example commit message:
+This  projects contains following applications.
 
-	git commit -m "Details of changes"
-	
-### Pull latest branch before pushing your branch to the master
-	
-	git pull origin dev
-	
-	git push origin myFeature
+-- A stand alone java application that reads RSSI and calculate RSSI strings (choronoApp)
 
-###Some good practice for commit message:
+-- A REST API that serves latest calculated data (RESTApi)
 
--- Describe why a change is being made.
+-- An android application that display latest position of the (choronoApp)
 
--- Ensure sufficient information to decide whether to review.
-
--- Multiple commit line if needed, the first commit line is the most important.
-
--- Describe any limitations of the current code.
+-- A web application that shows users current location and track position real time (webMap)
 
 
 
