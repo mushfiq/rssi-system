@@ -1,5 +1,5 @@
 
-//test comment
+//test comment2
 public class PositionLocalization {
 
 }
