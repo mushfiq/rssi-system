@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/SelectWatch"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/selectWatch" />
+
+                <Spinner
+                    android:id="@+id/WatchSpinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/watches" />
+            </LinearLayout>
+
+            <com.example.chronolocalization.DrawableImage
+                android:id="@+id/mapImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/room" />
+
+            <TextView
+                android:id="@+id/PositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/Position_Text" />
+
+            <TextView
+                android:id="@+id/CurrentPositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unknown" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+           	 	android:orientation="vertical" >
+	                <Button
+	                android:id="@+id/displayPosition"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:layout_weight="1"
+	                android:textSize="12sp"
+	                android:text="@string/Display_Position" />
+	            	<Button
+	                android:id="@+id/displayLastNPositions"
+	                android:layout_width="wrap_content"
+	                android:layout_height="fill_parent"
+	                android:layout_weight="1"
+	                android:textSize="12sp"
+	                android:text="@string/Display_Last_N_Positions" />
+            </LinearLayout>
+</LinearLayout>
