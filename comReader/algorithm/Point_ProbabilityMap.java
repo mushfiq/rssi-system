@@ -1,5 +1,8 @@
 import GeometryObjects.*;
 
+import HelperClass_Math.*;
+
+
 public class Point_ProbabilityMap extends Point {
 
 	public double rssi_value;
