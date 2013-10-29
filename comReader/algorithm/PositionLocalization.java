@@ -2,6 +2,8 @@
 
 import java.util.ArrayList;
 
+import HelperClass_Math.Point;
+
 import sun.org.mozilla.javascript.internal.ast.WithStatement;
 
 
@@ -99,11 +101,34 @@ public class PositionLocalization {
 	private ArrayList<Point_RoomMap> giveMaxWeightedValue (ArrayList<Point_RoomMap> roomMap) {
 		
 		ArrayList<Point_RoomMap> maxWeightedValue = new ArrayList<Point_RoomMap>();
+		double maxValue = 0;
+		
 		
 		for (int i = 0; i < roomMap.size(); i++) {
-			if (roomMap.get(i).getWeightValue() >= 100)
+			if (roomMap.get(i).getWeightValue() >= maxValue) {
+				maxValue = roomMap.get(i).getWeightValue();
+				maxWeightedValue.add(roomMap.get(i));
+			}
+			else
+				maxWeightedValue.clear();
 				maxWeightedValue.add(roomMap.get(i));
 		}
 		return maxWeightedValue;
 	}
+	
+	// This method calculates the average point of the suitable points
+	private Point getPosition (ArrayList<Point_RoomMap> roomMap) {
+		
+		double sumX = 0, sumY = 0;
+		for (int i = 0; i < roomMap.size(); i++) {
+			sumX = roomMap.get(i).x;
+			sumY = roomMap.get(i).y;
+		}
+		
+		double x = sumX/roomMap.size();
+		double y = sumY/roomMap.size();
+		
+		return new Point(x,y);
+	}
+		
 }
