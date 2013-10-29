@@ -1,6 +1,6 @@
 *.DS_Store
 *.pyc
-
+*.class
 RESTApi/htmlcov/*
 */.coverage/*
 /bin
