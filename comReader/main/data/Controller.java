@@ -1,9 +1,11 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class Controller.
  */
@@ -18,13 +20,17 @@ public final class Controller {
 	/** The batch queue. */
 	private BlockingQueue<ArrayList<Reading>> batchQueue;
 	
+	/** The batch signal queue. */
+	private BlockingQueue<HashMap<Integer, HashMap<Integer, Integer>>> batchSignalQueue;
+	
 	/**
 	 * Instantiates a new controller.
 	 */
 	private Controller() {
 		// TODO Auto-generated constructor stub
-		dataQueue  = new LinkedBlockingQueue<Reading>();
-		batchQueue = new LinkedBlockingQueue<ArrayList<Reading>>();
+		dataQueue  		 = new LinkedBlockingQueue<Reading>();
+		batchQueue 		 = new LinkedBlockingQueue<ArrayList<Reading>>();
+		batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Integer>>>();
 	}
 	
 	/**
@@ -95,6 +101,29 @@ public final class Controller {
 	 */
 	public void addBatchToQueue(ArrayList<Reading> batch) {
 		this.batchQueue.add(batch);
+	}
+
+	/**
+	 * Gets the batch signal queue.
+	 *
+	 * @return the batch signal queue
+	 */
+	public BlockingQueue<HashMap<Integer, HashMap<Integer, Integer>>> getBatchSignalQueue() {
+		return batchSignalQueue;
+	}
+
+	/**
+	 * Sets the batch signal queue.
+	 *
+	 * @param batchSignalQueue the batch signal queue
+	 */
+	public void setBatchSignalQueue(
+			BlockingQueue<HashMap<Integer, HashMap<Integer, Integer>>> batchSignalQueue) {
+		this.batchSignalQueue = batchSignalQueue;
+	}
+	
+	public void addBatchSignalToQueue(HashMap<Integer, HashMap<Integer, Integer>> batchSignal) {
+		this.batchSignalQueue.add(batchSignal);
 	}
 	
 }
