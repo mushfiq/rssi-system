@@ -1,4 +1,4 @@
-package performanceTests;
+package tests;
 
 
 public class PerformanceTestFloatVsDouble {

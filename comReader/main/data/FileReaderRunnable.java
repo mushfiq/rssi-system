@@ -100,7 +100,7 @@ public class FileReaderRunnable implements Runnable {
 		 try {
 			while ((line = br.readLine()) != null) {
 				
-				if(line.startsWith("REP")){
+				if(line.startsWith("REP")) {
 					Reading reading = createReading(line);
 					System.out.println(reading);
 					int average = Utilities.calculateReadingAverage(reading);
@@ -110,7 +110,7 @@ public class FileReaderRunnable implements Runnable {
 					currentBatch.add(reading);
 					//Controller.getController().addReadingToQueue(reading);
 				}
-				
+
 				long currentTime = System.currentTimeMillis();
 				
 				if(currentTime - startTime >= SAMPLING_RATE){

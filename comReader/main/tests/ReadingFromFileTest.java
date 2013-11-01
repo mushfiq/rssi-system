@@ -1,4 +1,4 @@
-package performanceTests;
+package tests;
 
 import java.io.File;
 
@@ -6,15 +6,19 @@ import main.Application;
 import data.DataReader;
 import data.FileDataReader;
 
+/**
+ * The Class ReadingFromFileTest.
+ */
 public class ReadingFromFileTest {
 
-	public ReadingFromFileTest() {
-		// TODO Auto-generated constructor stub
-	}
 
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 
-		Application application = Application.getApplication();
 		DataReader reader = new FileDataReader(new File("comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "data.txt"));
 		reader.readData();
 	}

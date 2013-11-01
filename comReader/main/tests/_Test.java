@@ -1,4 +1,4 @@
-package performanceTests;
+package tests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
