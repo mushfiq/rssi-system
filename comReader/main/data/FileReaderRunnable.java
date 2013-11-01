@@ -10,22 +10,50 @@ import java.util.StringTokenizer;
 
 import utilities.Utilities;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileReaderRunnable.
+ *
+ * @author Danilo
+ */
 public class FileReaderRunnable implements Runnable {
 
+	/** The file. */
 	private File file;
+	
+	/** The num of millis to sleep after reading. */
 	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 200; // milliseconds
+	
+	/** The num of lines to read before sleeping. */
 	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 20;
+	
+	/** The sampling rate. */
 	private static int SAMPLING_RATE = 200; // milliseconds
 	
+	/** The Constant RADIX. */
+	private static final int RADIX = 16;
+	
+	/** The current batch. */
 	private ArrayList<Reading> currentBatch;
 
-	public FileReaderRunnable(File file) {
+	/**
+	 * Instantiates a new file reader runnable.
+	 *
+	 * @param newFile the new file
+	 */
+	public FileReaderRunnable(File newFile) {
 		
-		this.file = file;
+		this.file = newFile;
 		currentBatch = new ArrayList<Reading>();
 	}
 
-	private Reading createReading(String line){
+	/**
+	 * Creates the reading.
+	 *
+	 * @param line the line
+	 * @return the reading
+	 */
+	private Reading createReading(String line) {
 		
 		StringTokenizer tokenizer = new StringTokenizer(line);
 			
@@ -56,13 +84,13 @@ public class FileReaderRunnable implements Runnable {
 			//13
 			tokenizer.nextToken();
 			//14
-			int signalStrength1 = Integer.parseInt(tokenizer.nextToken(), 16);
+			int signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			//15
-			int signalStrength2 = Integer.parseInt(tokenizer.nextToken(), 16);
+			int signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			//16
-			int signalStrength3 = Integer.parseInt(tokenizer.nextToken(), 16);
+			int signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			//17
-			int signalStrength4 = Integer.parseInt(tokenizer.nextToken(), 16);
+			int signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			//18
 			tokenizer.nextToken();
 			//19
@@ -79,8 +107,11 @@ public class FileReaderRunnable implements Runnable {
 		return reading;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
-	public void run(){
+	public void run() {
 		
 		long overallStartTime = System.currentTimeMillis();
 		
@@ -100,7 +131,7 @@ public class FileReaderRunnable implements Runnable {
 		 try {
 			while ((line = br.readLine()) != null) {
 				
-				if(line.startsWith("REP")) {
+				if (line.startsWith("REP")) {
 					Reading reading = createReading(line);
 					System.out.println(reading);
 					int average = Utilities.calculateReadingAverage(reading);
@@ -113,14 +144,14 @@ public class FileReaderRunnable implements Runnable {
 
 				long currentTime = System.currentTimeMillis();
 				
-				if(currentTime - startTime >= SAMPLING_RATE){
+				if (currentTime - startTime >= SAMPLING_RATE) {
 					Controller.getController().addBatchToQueue(currentBatch);
 					currentBatch.clear();
 					startTime = currentTime;
 				}
 				
 				numberOfLinesRead++;
-				if(numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING){
+				if (numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING) {
 					try {
 						numberOfLinesRead = 0;
 						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
@@ -135,7 +166,7 @@ public class FileReaderRunnable implements Runnable {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally{
+		} finally {
 			System.out.println("Total number of batches after reading is: " + Controller.getController().getBatchQueue().size());
 			System.out.println("Total time: " + (System.currentTimeMillis() - overallStartTime));
 		}
