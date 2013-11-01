@@ -4,49 +4,96 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-public class Controller {
+/**
+ * The Class Controller.
+ */
+public final class Controller {
 
+	/** The controller. */
 	private static Controller controller;
+	
+	/** The data queue. */
 	private BlockingQueue<Reading> dataQueue;
+	
+	/** The batch queue. */
 	private BlockingQueue<ArrayList<Reading>> batchQueue;
 	
+	/**
+	 * Instantiates a new controller.
+	 */
 	private Controller() {
 		// TODO Auto-generated constructor stub
 		dataQueue  = new LinkedBlockingQueue<Reading>();
 		batchQueue = new LinkedBlockingQueue<ArrayList<Reading>>();
 	}
 	
-	public static Controller getController(){
+	/**
+	 * Gets the controller.
+	 *
+	 * @return the controller
+	 */
+	public static Controller getController() {
 		
-		if(controller == null){
+		if (controller == null) {
 			controller = new Controller();
 		}
 		
 		return controller;
 	}
 
+	/**
+	 * Gets the data queue.
+	 *
+	 * @return the data queue
+	 */
 	public BlockingQueue<Reading> getDataQueue() {
 		return dataQueue;
 	}
 
-	public void setDataQueue(BlockingQueue<Reading> dataQueue) {
-		this.dataQueue = dataQueue;
+	/**
+	 * Sets the data queue.
+	 *
+	 * @param newDataQueue the new data queue
+	 */
+	public void setDataQueue(BlockingQueue<Reading> newDataQueue) {
+		this.dataQueue = newDataQueue;
 	}
 	
-	public void addReadingToQueue(Reading reading) throws InterruptedException{
+	/**
+	 * Adds the reading to queue.
+	 *
+	 * @param reading the reading
+	 * @throws InterruptedException the interrupted exception
+	 */
+	public void addReadingToQueue(Reading reading) throws InterruptedException {
 		
 		this.dataQueue.put(reading);
 	}
 
+	/**
+	 * Gets the batch queue.
+	 *
+	 * @return the batch queue
+	 */
 	public BlockingQueue<ArrayList<Reading>> getBatchQueue() {
 		return batchQueue;
 	}
 
-	public void setBatchQueue(BlockingQueue<ArrayList<Reading>> batchQueue) {
-		this.batchQueue = batchQueue;
+	/**
+	 * Sets the batch queue.
+	 *
+	 * @param newBatchQueue the new batch queue
+	 */
+	public void setBatchQueue(BlockingQueue<ArrayList<Reading>> newBatchQueue) {
+		this.batchQueue = newBatchQueue;
 	}
 	
-	public void addBatchToQueue(ArrayList<Reading> batch){
+	/**
+	 * Adds the batch to queue.
+	 *
+	 * @param batch the batch
+	 */
+	public void addBatchToQueue(ArrayList<Reading> batch) {
 		this.batchQueue.add(batch);
 	}
 	
