@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import utilities.Utilities;
@@ -22,7 +23,7 @@ public class FileReaderRunnable implements Runnable {
 	private File file;
 	
 	/** The num of millis to sleep after reading. */
-	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 200; // milliseconds
+	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 50; // milliseconds
 	
 	/** The num of lines to read before sleeping. */
 	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 20;
@@ -85,12 +86,16 @@ public class FileReaderRunnable implements Runnable {
 			tokenizer.nextToken();
 			//14
 			int signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength1 = Utilities.convertRSSIDecToDbm(signalStrength1);
 			//15
 			int signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength2 = Utilities.convertRSSIDecToDbm(signalStrength2);
 			//16
 			int signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength3 = Utilities.convertRSSIDecToDbm(signalStrength3);
 			//17
 			int signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength4 = Utilities.convertRSSIDecToDbm(signalStrength4);
 			//18
 			tokenizer.nextToken();
 			//19
@@ -145,6 +150,8 @@ public class FileReaderRunnable implements Runnable {
 				long currentTime = System.currentTimeMillis();
 				
 				if (currentTime - startTime >= SAMPLING_RATE) {
+					HashMap<Integer, HashMap<Integer, Integer>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
+					Controller.getController().addBatchSignalToQueue(batchSignal);
 					Controller.getController().addBatchToQueue(currentBatch);
 					currentBatch.clear();
 					startTime = currentTime;
@@ -169,6 +176,7 @@ public class FileReaderRunnable implements Runnable {
 		} finally {
 			System.out.println("Total number of batches after reading is: " + Controller.getController().getBatchQueue().size());
 			System.out.println("Total time: " + (System.currentTimeMillis() - overallStartTime));
+			System.out.println("Total number of average signals is: " + Controller.getController().getBatchSignalQueue().size());
 		}
 		 
 		

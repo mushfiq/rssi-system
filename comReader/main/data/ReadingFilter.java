@@ -10,7 +10,7 @@ public class ReadingFilter {
 	
 	public ReadingFilter(Reading data) {
 		super();
-		if(data == null){
+		if (data == null) {
 			this.data = new Reading();
 		}
 		else{
@@ -19,11 +19,11 @@ public class ReadingFilter {
 		
 	}
 	
-	public void removeInappropriateValues(){
+	public void removeInappropriateValues() {
 		
 	}
 	
-	public int calculateAverage(){
+	public int calculateAverage() {
 		
 		return 0;
 	}
