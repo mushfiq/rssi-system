@@ -15,19 +15,19 @@ public class Reading {
 	private int watchId;
 	
 	/** The signal strengths. */
-	private ArrayList<Integer> signalStrengths;
+	private ArrayList<Double> signalStrengths;
 	
 	/** The average strength value. */
-	private int averageStrengthValue;
+	private double averageStrengthValue;
 	
 	/** The rssi dbm. */
-	private int rssiDbm = 0;
+	private double rssiDbm = 0;
 	
 	/**
 	 * Instantiates a new reading.
 	 */
 	public Reading() {
-		signalStrengths = new ArrayList<Integer>();
+		signalStrengths = new ArrayList<Double>();
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class Reading {
 	 *
 	 * @return the signal strengths
 	 */
-	public ArrayList<Integer> getSignalStrengths() {
+	public ArrayList<Double> getSignalStrengths() {
 		return signalStrengths;
 	}
 
@@ -80,7 +80,7 @@ public class Reading {
 	 *
 	 * @param signalStrengths the new signal strengths
 	 */
-	public void setSignalStrengths(ArrayList<Integer> signalStrengths) {
+	public void setSignalStrengths(ArrayList<Double> signalStrengths) {
 		this.signalStrengths = signalStrengths;
 	}
 
@@ -92,7 +92,7 @@ public class Reading {
 	 * @param signalStrengths the signal strengths
 	 */
 	public Reading(int receiverId, int watchId,
-			ArrayList<Integer> signalStrengths) {
+			ArrayList<Double> signalStrengths) {
 		super();
 		this.receiverId = receiverId;
 		this.watchId = watchId;
@@ -104,7 +104,7 @@ public class Reading {
 	 *
 	 * @param signalStrength the signal strength
 	 */
-	public void addSignalStrength(int signalStrength) {
+	public void addSignalStrength(Double signalStrength) {
 		
 		this.signalStrengths.add(signalStrength);
 	}
@@ -117,7 +117,7 @@ public class Reading {
 		
 		String string = "Watch id: " + watchId + ", receiver id: " + receiverId + ", readings: ";
 		StringBuilder builder = new StringBuilder(string);
-		for (int signalStrength : signalStrengths) {
+		for (double signalStrength : signalStrengths) {
 			builder.append(signalStrength + " ");
 		}
 		
@@ -129,7 +129,7 @@ public class Reading {
 	 *
 	 * @return the average strength value
 	 */
-	public int getAverageStrengthValue() {
+	public double getAverageStrengthValue() {
 		return averageStrengthValue;
 	}
 
@@ -138,7 +138,7 @@ public class Reading {
 	 *
 	 * @param averageStrengthValue the new average strength value
 	 */
-	public void setAverageStrengthValue(int averageStrengthValue) {
+	public void setAverageStrengthValue(double averageStrengthValue) {
 		this.averageStrengthValue = averageStrengthValue;
 	}
 
@@ -147,7 +147,7 @@ public class Reading {
 	 *
 	 * @return the rssi dbm
 	 */
-	public int getRssiDbm() {
+	public double getRssiDbm() {
 		return rssiDbm;
 	}
 
@@ -156,7 +156,7 @@ public class Reading {
 	 *
 	 * @param rssiDbm the new rssi dbm
 	 */
-	public void setRssiDbm(int rssiDbm) {
+	public void setRssiDbm(double rssiDbm) {
 		this.rssiDbm = rssiDbm;
 	}
 	

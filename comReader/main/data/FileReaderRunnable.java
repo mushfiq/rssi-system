@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
+import main.Application;
 import utilities.Utilities;
 
 // TODO: Auto-generated Javadoc
@@ -85,23 +86,23 @@ public class FileReaderRunnable implements Runnable {
 			//13
 			tokenizer.nextToken();
 			//14
-			int signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			double signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength1 = Utilities.convertRSSIDecToDbm(signalStrength1);
 			//15
-			int signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			double signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength2 = Utilities.convertRSSIDecToDbm(signalStrength2);
 			//16
-			int signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			double signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength3 = Utilities.convertRSSIDecToDbm(signalStrength3);
 			//17
-			int signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			double signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength4 = Utilities.convertRSSIDecToDbm(signalStrength4);
 			//18
 			tokenizer.nextToken();
 			//19
 			tokenizer.nextToken();
 			
-			ArrayList<Integer> signalStrengths = new ArrayList<Integer>();
+			ArrayList<Double> signalStrengths = new ArrayList<Double>();
 			signalStrengths.add(signalStrength1);
 			signalStrengths.add(signalStrength2);
 			signalStrengths.add(signalStrength3);
@@ -138,11 +139,14 @@ public class FileReaderRunnable implements Runnable {
 				
 				if (line.startsWith("REP")) {
 					Reading reading = createReading(line);
-					System.out.println(reading);
-					int average = Utilities.calculateReadingAverage(reading);
+					//System.out.println(reading);
+					double average = Utilities.calculateReadingAverage(reading);
 					reading.setAverageStrengthValue(average);
-					int rssiDbm = Utilities.convertRSSIDecToDbm(average);
+					double rssiDbm = Utilities.convertRSSIDecToDbm(average);
 					reading.setRssiDbm(rssiDbm);
+					System.out.println("Watch id: " + reading.getWatchId() + 
+							", receiver id: " + reading.getReceiverId() + 
+							", signal strength: " + reading.getAverageStrengthValue());
 					currentBatch.add(reading);
 					//Controller.getController().addReadingToQueue(reading);
 				}
@@ -150,9 +154,9 @@ public class FileReaderRunnable implements Runnable {
 				long currentTime = System.currentTimeMillis();
 				
 				if (currentTime - startTime >= SAMPLING_RATE) {
-					HashMap<Integer, HashMap<Integer, Integer>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
-					Controller.getController().addBatchSignalToQueue(batchSignal);
-					Controller.getController().addBatchToQueue(currentBatch);
+					HashMap<Integer, HashMap<Integer, Double>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
+					Application.getApplication().getController().addBatchSignalToQueue(batchSignal);
+					Application.getApplication().getController().addBatchToQueue(currentBatch);
 					currentBatch.clear();
 					startTime = currentTime;
 				}
@@ -174,9 +178,9 @@ public class FileReaderRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			System.out.println("Total number of batches after reading is: " + Controller.getController().getBatchQueue().size());
+			System.out.println("Total number of batches after reading is: " + Application.getApplication().getController().getBatchQueue().size());
 			System.out.println("Total time: " + (System.currentTimeMillis() - overallStartTime));
-			System.out.println("Total number of average signals is: " + Controller.getController().getBatchSignalQueue().size());
+			System.out.println("Total number of average signals is: " + Application.getApplication().getController().getBatchSignalQueue().size());
 		}
 		 
 		

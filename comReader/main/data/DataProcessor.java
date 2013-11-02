@@ -11,5 +11,9 @@ public class DataProcessor {
 	public void processData() {
 		
 		HashMap<Integer, HashMap<Integer, Integer>> data;
+		
+		DataProcessorRunnable runnable = new DataProcessorRunnable();
+		Thread thread = new Thread(runnable);
+		thread.start();
 	}
 }
