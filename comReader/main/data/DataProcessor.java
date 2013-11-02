@@ -1,7 +1,5 @@
 package data;
 
-import java.util.HashMap;
-
 public class DataProcessor {
 
 	public DataProcessor() {
@@ -9,8 +7,6 @@ public class DataProcessor {
 	}
 
 	public void processData() {
-		
-		HashMap<Integer, HashMap<Integer, Integer>> data;
 		
 		DataProcessorRunnable runnable = new DataProcessorRunnable();
 		Thread thread = new Thread(runnable);

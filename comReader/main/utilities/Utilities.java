@@ -7,28 +7,33 @@ import java.util.Map;
 import data.Reading;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class Utilities.
+ * Class with helper methods for various tasks.
  */
 public final class Utilities {
 
 	/** The Constant RSSI_OFFSET. */
 	private static final int RSSI_OFFSET = 77;
+	/** Parameters used in formula for converting the RSSIdec value to RSSIdBm. */
 	private static final int POSITIVE_NUMBER_LIMIT = 128;
+	
+	/** The Constant SUBTRAHEND. */
 	private static final int SUBTRAHEND = 256;
 	
 	/**
-	 * Instantiates a new utilities.
+	 *  All helper methods are static so there is no need for
+	 *  instantiation of this class. Therefore, the constructor is private. 
 	 */
 	private Utilities() {
 		
 	}
 	
 	/**
-	 * Convert rssi dec to dbm.
+	 * Convert RSSI decimal value to RSSI dBm.
 	 *
-	 * @param rssiDecimalValue the rssi decimal value
-	 * @return the int
+	 * @param rssiDecimalValue rssi decimal value
+	 * @return int RSSI dBm value
 	 */
 	public static double convertRSSIDecToDbm(double rssiDecimalValue) {
 		
@@ -36,8 +41,7 @@ public final class Utilities {
 		
 		if (rssiDecimalValue >= POSITIVE_NUMBER_LIMIT) {
 			rssiDbm = (rssiDecimalValue - SUBTRAHEND) / 2 - RSSI_OFFSET;
-		}
-		else {
+		} else {
 			rssiDbm = (rssiDecimalValue) / 2 - RSSI_OFFSET;
 		}
 		
@@ -45,30 +49,37 @@ public final class Utilities {
 	}
 	
 	/**
-	 * Removes the inappropriate values.
-	 *
+	 * Some signal strengths in the reading can be too far from the median value.
+	 * These values should not be considered for averaging. For example, in the list: 
+	 * 32, 33, 25, 32 - value '25' is inappropriate
+	 * 
 	 * @param reading the reading
 	 * @return the reading
 	 */
 	public static Reading removeInappropriateValues(Reading reading) {
 		
-		Reading newReading = null;
+		// TODO: remove statistically inappropriate values from the reading
 		
-		return newReading;
+		return reading;
 	}
 	
 	/**
-	 * Calculate reading average.
+	 * Calculates average signal strength of a single reading. Every receiver
+	 * takes several samples of signal strength. These values need to be
+	 * averaged.
+	 * 
+	 * For the reading 32, 32 , 33, 32, result will be 32,25
 	 *
 	 * @param reading the reading
-	 * @return the int
+	 * @return double average signal strength
 	 */
 	public static double  calculateReadingAverage(Reading reading) {
-		double result = 0;
 		
 		if (reading == null) {
 			return 0;
 		}
+		
+		double result = 0;
 		
 		ArrayList<Double> signalStrengths = reading.getSignalStrengths();
 		
@@ -81,6 +92,15 @@ public final class Utilities {
 		return result;
 	}
 	
+	
+	/**
+	 * Calculates batch signal averages. When reading from the COM port, during a single time interval
+	 * (e.g. 250ms), for every receiver, several signal strengths are obtained. These signal strengths are
+	 * averaged before being passed to the position localization algorithm (DataProcessor class). 
+	 *
+	 * @param batch list of signal strengths for several watches and receivers
+	 * @return Hash map with average signal strength for every watch and every receiver
+	 */
 	public static HashMap<Integer, HashMap<Integer, Double>> calculateBatchSignalAverages(ArrayList<Reading> batch) {
 		HashMap<Integer, HashMap<Integer, ArrayList<Double>>> allData = new HashMap<Integer, HashMap<Integer, ArrayList<Double>>>();
 		int watchId = 0;
@@ -113,9 +133,8 @@ public final class Utilities {
 			
 		}
 		
-		//System.out.println("Number of receivers is: " + allData.get(0).size());
-		HashMap<Integer, HashMap<Integer, Double>> averagedAllData = new HashMap<Integer, HashMap<Integer, Double>>();
 		// calculate averages
+		HashMap<Integer, HashMap<Integer, Double>> averagedAllData = new HashMap<Integer, HashMap<Integer, Double>>();
 		
 		int watchIdsSize = watchIds.size();
 		for (int i = 0; i < watchIdsSize; i++) {
@@ -124,14 +143,12 @@ public final class Utilities {
 			
 			for (Map.Entry<Integer, ArrayList<Double>> entry : hashMap.entrySet()) {
 				int receiverId2 = entry.getKey();
-			    //System.out.println(entry.getKey() + "/" + entry.getValue());
 			    
 			    if (averagedAllData.get(i) == null) {
 			    	averagedAllData.put(i, new HashMap<Integer, Double>());
 			    }
 			    
 			    averagedAllData.get(i).put(receiverId2, calculateArrayListAverage(entry.getValue()));
-			    //System.out.println(calculateArrayListAverage(entry.getValue()));
 			}
 		}
 		
@@ -139,6 +156,12 @@ public final class Utilities {
 	}
 	
 	
+	/**
+	 * Helper method that calculates average value of signal strengths in the list.
+	 *
+	 * @param list list with signal strengths
+	 * @return average value
+	 */
 	private static Double calculateArrayListAverage(ArrayList<Double> list) {
 		
 		double result = 0;
