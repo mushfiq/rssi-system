@@ -1,5 +1,7 @@
 package data;
 
+import main.Application;
+
 
 /**
  * The Class DataReader.
@@ -14,7 +16,7 @@ public abstract class DataReader {
 	 */
 	public DataReader() {
 		// TODO Auto-generated constructor stub
-		controller = Controller.getController();
+		controller = Application.getApplication().getController();
 	}
 
 	/**

@@ -30,9 +30,9 @@ public final class Utilities {
 	 * @param rssiDecimalValue the rssi decimal value
 	 * @return the int
 	 */
-	public static int convertRSSIDecToDbm(int rssiDecimalValue) {
+	public static double convertRSSIDecToDbm(double rssiDecimalValue) {
 		
-		int rssiDbm = 0;
+		double rssiDbm = 0;
 		
 		if (rssiDecimalValue >= POSITIVE_NUMBER_LIMIT) {
 			rssiDbm = (rssiDecimalValue - SUBTRAHEND) / 2 - RSSI_OFFSET;
@@ -63,14 +63,14 @@ public final class Utilities {
 	 * @param reading the reading
 	 * @return the int
 	 */
-	public static int calculateReadingAverage(Reading reading) {
-		int result = 0;
+	public static double  calculateReadingAverage(Reading reading) {
+		double result = 0;
 		
 		if (reading == null) {
 			return 0;
 		}
 		
-		ArrayList<Integer> signalStrengths = reading.getSignalStrengths();
+		ArrayList<Double> signalStrengths = reading.getSignalStrengths();
 		
 		for (int i = 0; i < signalStrengths.size(); i++) {
 			result += signalStrengths.get(i);
@@ -81,11 +81,11 @@ public final class Utilities {
 		return result;
 	}
 	
-	public static HashMap<Integer, HashMap<Integer, Integer>> calculateBatchSignalAverages(ArrayList<Reading> batch) {
-		HashMap<Integer, HashMap<Integer, ArrayList<Integer>>> allData = new HashMap<Integer, HashMap<Integer, ArrayList<Integer>>>();
+	public static HashMap<Integer, HashMap<Integer, Double>> calculateBatchSignalAverages(ArrayList<Reading> batch) {
+		HashMap<Integer, HashMap<Integer, ArrayList<Double>>> allData = new HashMap<Integer, HashMap<Integer, ArrayList<Double>>>();
 		int watchId = 0;
 		int receiverId = 0;
-		int averageStrengthValue = 0;
+		double averageStrengthValue = 0;
 		ArrayList<Integer> watchIds = new ArrayList<Integer>(); 
 		
 		// populate the three-dimensional HashMap with data 
@@ -101,37 +101,37 @@ public final class Utilities {
 			}
 			
 			if (allData.get(watchId) == null) {
-				allData.put(watchId, new HashMap<Integer, ArrayList<Integer>>());
+				allData.put(watchId, new HashMap<Integer, ArrayList<Double>>());
 			}
 			
 			if (allData.get(watchId).get(receiverId) == null) {
 				
-				allData.get(watchId).put(receiverId, new ArrayList<Integer>());
+				allData.get(watchId).put(receiverId, new ArrayList<Double>());
 			}
 			
 			allData.get(watchId).get(receiverId).add(averageStrengthValue);
 			
 		}
 		
-		System.out.println("Number of receivers is: " + allData.get(0).size());
-		HashMap<Integer, HashMap<Integer, Integer>> averagedAllData = new HashMap<Integer, HashMap<Integer, Integer>>();
+		//System.out.println("Number of receivers is: " + allData.get(0).size());
+		HashMap<Integer, HashMap<Integer, Double>> averagedAllData = new HashMap<Integer, HashMap<Integer, Double>>();
 		// calculate averages
 		
 		int watchIdsSize = watchIds.size();
 		for (int i = 0; i < watchIdsSize; i++) {
 			
-			HashMap<Integer, ArrayList<Integer>> hashMap = allData.get(i);
+			HashMap<Integer, ArrayList<Double>> hashMap = allData.get(i);
 			
-			for (Map.Entry<Integer, ArrayList<Integer>> entry : hashMap.entrySet()) {
+			for (Map.Entry<Integer, ArrayList<Double>> entry : hashMap.entrySet()) {
 				int receiverId2 = entry.getKey();
-			    System.out.println(entry.getKey() + "/" + entry.getValue());
+			    //System.out.println(entry.getKey() + "/" + entry.getValue());
 			    
 			    if (averagedAllData.get(i) == null) {
-			    	averagedAllData.put(i, new HashMap<Integer, Integer>());
+			    	averagedAllData.put(i, new HashMap<Integer, Double>());
 			    }
 			    
 			    averagedAllData.get(i).put(receiverId2, calculateArrayListAverage(entry.getValue()));
-			    System.out.println(calculateArrayListAverage(entry.getValue()));
+			    //System.out.println(calculateArrayListAverage(entry.getValue()));
 			}
 		}
 		
@@ -139,9 +139,9 @@ public final class Utilities {
 	}
 	
 	
-	private static int calculateArrayListAverage(ArrayList<Integer> list) {
+	private static Double calculateArrayListAverage(ArrayList<Double> list) {
 		
-		int result = 0;
+		double result = 0;
 		
 		for (int i = 0; i < list.size(); i++) {
 			result += list.get(i);
