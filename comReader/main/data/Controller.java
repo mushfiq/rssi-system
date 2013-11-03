@@ -38,6 +38,12 @@ public final class Controller {
 		dataQueue  		 = new LinkedBlockingQueue<Reading>();
 		batchQueue 		 = new LinkedBlockingQueue<ArrayList<Reading>>();
 		batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
+//		RoomMap roomMap  = Application.getApplication().getRoomMap();
+//		ArrayList<Receiver> receivers = Application.getApplication().getReceivers();
+//		algorithm		 = new ProbabilityBasedAlgorithm(roomMap, receivers);
+	}
+	
+	public void test() {
 		RoomMap roomMap  = Application.getApplication().getRoomMap();
 		ArrayList<Receiver> receivers = Application.getApplication().getReceivers();
 		algorithm		 = new ProbabilityBasedAlgorithm(roomMap, receivers);

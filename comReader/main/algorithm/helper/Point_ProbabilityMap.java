@@ -1,13 +1,14 @@
 package algorithm.helper;
 
+
 public class Point_ProbabilityMap extends Point {
 
-        public double rssi_value;
+	public double rssi_value;
         
-        public Point_ProbabilityMap(double x, double y, double rssi_value) {
-                super(x, y);
-                this.rssi_value = rssi_value;
-        }
+	public Point_ProbabilityMap(double x, double y, double rssi_value) {
+		super(x, y);
+        this.rssi_value = rssi_value;
+	}
         
         // Copy-Konstruktor
     public Point_ProbabilityMap(Point_ProbabilityMap p) {
