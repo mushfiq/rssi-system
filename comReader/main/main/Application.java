@@ -6,6 +6,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.SimpleLayout;
+
+import algorithm.PositionLocalizationAlgorithm;
+import algorithm.ProbabilityBasedAlgorithm;
 import algorithm.stubs.Receiver;
 import algorithm.stubs.RoomMap;
 import data.Controller;
@@ -25,12 +33,15 @@ public final class Application {
 
 	/** List of receivers. */
 	private ArrayList<Receiver> receivers;  
-	
-	/** Room map. */
-	private RoomMap roomMap;
 
 	/** The controller. */
 	private Controller controller;
+	
+	private RoomMap roomMap;
+	
+	private PositionLocalizationAlgorithm algorithm;
+	
+	private static Logger logger = Logger.getLogger(Application.class);
 	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
@@ -38,13 +49,29 @@ public final class Application {
 	 */
 	private Application() {
 		
+		initializeLogger();
 		pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
 		readConfigurationFile();
 		controller = new Controller();
 		initializeGUI();
-		
+		algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
 	
+	private void initializeLogger() {
+	
+		SimpleLayout layout = new SimpleLayout();
+		PatternLayout layout2 = new PatternLayout();
+		layout2.setConversionPattern("%d %p [%c] - %m%n");
+	      FileAppender appender = null;
+		try {
+			appender = new FileAppender(layout2,"comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log", true);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}    
+	      logger.addAppender(appender);
+	}
+
 	/**
 	 * Initialize gui.
 	 */
@@ -68,7 +95,8 @@ public final class Application {
 		
 		// iterating over properties file
 		for(String key : properties.stringPropertyNames()) {
-			  String value = properties.getProperty(key);
+			  @SuppressWarnings("unused")
+			String value = properties.getProperty(key);
 			}
 		
 		// This initialization will be done from the configuration file
@@ -83,8 +111,8 @@ public final class Application {
         receivers.add(r2);
         receivers.add(r3);
         receivers.add(r4);
-
-        roomMap = new RoomMap(25, 25);
+        
+        roomMap = new RoomMap(25,25);
 		
 	}
 
@@ -111,6 +139,10 @@ public final class Application {
 		this.receivers = receivers;
 	}
 
+	public Controller getController() {
+		return controller;
+	}
+
 	public RoomMap getRoomMap() {
 		return roomMap;
 	}
@@ -118,10 +150,19 @@ public final class Application {
 	public void setRoomMap(RoomMap roomMap) {
 		this.roomMap = roomMap;
 	}
-
-	public Controller getController() {
-		return controller;
+	
+	public PositionLocalizationAlgorithm getAlgorithm() {
+		return algorithm;
 	}
+
+	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	public static Logger getLogger() {
+		return logger;
+	}
+	
 	
 }
 
