@@ -1,90 +1,75 @@
 package algorithm.helper;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class GrahamScan {
-    
-        private ArrayList<Point_ProbabilityMap> p;
-    private int n;
-    private int h;
+	
+	public ArrayList<Point_ProbabilityMap> computeHull(ArrayList<Point_ProbabilityMap> points) {
+		
+		ArrayList<Point_ProbabilityMap> xSorted = (ArrayList<Point_ProbabilityMap>) points.clone();
+		Collections.sort(xSorted, new XCompare());
+
+		int n = xSorted.size();
+
+		Point_ProbabilityMap[] lUpper = new Point_ProbabilityMap[n];
+                
+		lUpper[0] = xSorted.get(0);
+		lUpper[1] = xSorted.get(1);
+                
+		int lUpperSize = 2;
+                
+		for (int i = 2; i < n; i++) {
+			lUpper[lUpperSize] = xSorted.get(i);
+			lUpperSize++;
+                        
+			while (lUpperSize > 2 && !rightTurn(lUpper[lUpperSize - 3], lUpper[lUpperSize - 2], lUpper[lUpperSize - 1])) {
+				// Remove the middle point of the three last
+				lUpper[lUpperSize - 2] = lUpper[lUpperSize - 1];
+				lUpperSize--;
+			}
+		}
+                
+		Point_ProbabilityMap[] lLower = new Point_ProbabilityMap[n];
+                
+		lLower[0] = xSorted.get(n - 1);
+		lLower[1] = xSorted.get(n - 2);
+                
+		int lLowerSize = 2;
+                
+		for (int i = n - 3; i >= 0; i--) {
+			lLower[lLowerSize] = xSorted.get(i);
+			lLowerSize++;
+                        
+			while(lLowerSize > 2 && !rightTurn(lLower[lLowerSize - 3], lLower[lLowerSize - 2], lLower[lLowerSize - 1])) {
+				// Remove the middle point of the three last
+				lLower[lLowerSize - 2] = lLower[lLowerSize - 1];
+				lLowerSize--;
+			}
+		}
+                
+		ArrayList<Point_ProbabilityMap> result = new ArrayList<Point_ProbabilityMap>();
+                
+		for(int i = 0; i < lUpperSize; i++) {
+			result.add(lUpper[i]);
+		}
+                
+		for (int i = 1; i < lLowerSize - 1; i++) {
+			result.add(lLower[i]);
+		}
+                
+		return result;
+	}
         
-    public ArrayList<Point_ProbabilityMap> computeHull(ArrayList<Point_ProbabilityMap> p) {
-            this.p = p;
-            n = p.size();
-            if(n < 3) return null;
-            h = 0;
-            grahamScan();
-            
-            ArrayList<Point_ProbabilityMap> convexHull = new ArrayList<Point_ProbabilityMap>();
-            for(int i = 0; i < h; i++) {
-                    convexHull.add(p.get(i));
-            }
-            return convexHull;
-    }
-    
-    public int computeHull2(ArrayList<Point_ProbabilityMap> p) {
-            this.p = p;
-            n = p.size();
-            if(n < 3) return n;
-            h = 0;
-            grahamScan();
-            return h;
-    }
-    
-    private void grahamScan() {
-            exchange(0, indexOfLowestPoint());
-            Point_ProbabilityMap p1 = new Point_ProbabilityMap(p.get(0));
-            makeRelTo(p1);
-            sort();
-            
-            makeRelTo(p1.reversed());
-            int i = 3, k = 3;
-            while(k < n) {
-                    exchange(i, k);
-                    while(!isConvex(i-1))
-                            exchange(i-1, i--);
-                    k++;
-                    i++;
-            }
-            h = i;
-    }
-    private void exchange(int i, int j) {
-            Point_ProbabilityMap t = p.get(i);
-            p.set(i, p.get(j));
-            p.set(j, t);
-    }
-    
-    private void makeRelTo(Point_ProbabilityMap p0) {
-            Point_ProbabilityMap p1 = new Point_ProbabilityMap(p0);
-            for(int i = 0; i < n; i++)
-                    p.get(i).makeRelTo(p1);
-    }
-    
-    private int indexOfLowestPoint() {
-            int min = 0;
-            for(int i = 1; i < n; i++)
-                    if(p.get(i).y < p.get(min).y || p.get(i).y == p.get(min).y && p.get(i).x < p.get(min).x)
-                            min = i;
-            return min;
-    }
-    
-    private boolean isConvex(int i) {
-            return p.get(i).isConvex(p.get(i-1), p.get(i+1));
-    }
-    
-    private void sort() {
-            quicksort(1, n-1);
-    }
-    
-    private void quicksort(int lo, int hi) {
-            int i = lo, j = hi;
-            Point_ProbabilityMap q = p.get((lo+hi)/2);
-            while(i <= j) {
-                    while(p.get(i).isLess(q)) i++;
-                    while(q.isLess(p.get(j))) j--;
-                    if(i <= j) exchange(i++, j--);
-            }
-            if(lo < j) quicksort(lo,  j);
-            if(i < hi) quicksort(i, hi);
-    }
+	private boolean rightTurn(Point a, Point b, Point c) {
+		return (b.x - a.x)*(c.y - a.y) - (b.y - a.y)*(c.x - a.x) > 0;
+	}
+
+	private class XCompare implements Comparator<Point> {
+		@Override
+		public int compare(Point o1, Point o2) {
+			return (new Double(o1.x)).compareTo(new Double(o2.x));
+		}
+	}
 }

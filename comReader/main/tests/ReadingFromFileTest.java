@@ -25,7 +25,7 @@ public class ReadingFromFileTest {
 		 *  
 		 * */
 		Application application = Application.getApplication();
-		
+		application.test();
 		/* DataReader class reads data from COM port and converts it to usable signal strengths.
 		 * Then, it puts those values into the signals queue, so that DataProcessor can calculate 
 		 * actual watch position in the room, using one of the algorithms.
