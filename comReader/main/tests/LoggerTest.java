@@ -12,9 +12,9 @@ public class LoggerTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Application.getApplication();
-		Application.getLogger().log(Level.WARN, "something awkward this way comes");
-		Application.getLogger().warn("Something something");
+		
+		Application.getApplication().getLogger().log(Level.WARN, "This is a warning message");
+		Application.getApplication().getLogger().warn("Another warning message, with different method call");
 	}
 
 }

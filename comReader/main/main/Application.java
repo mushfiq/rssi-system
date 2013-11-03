@@ -7,10 +7,8 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.log4j.FileAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.SimpleLayout;
 
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
@@ -37,11 +35,14 @@ public final class Application {
 	/** The controller. */
 	private Controller controller;
 	
+	/** The room map. */
 	private RoomMap roomMap;
 	
+	/** The algorithm. */
 	private PositionLocalizationAlgorithm algorithm;
 	
-	private static Logger logger = Logger.getLogger(Application.class);
+	/** The logger. */
+	private Logger logger;
 	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
@@ -57,14 +58,17 @@ public final class Application {
 		algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
 	
+	/**
+	 * Initialize logger.
+	 */
 	private void initializeLogger() {
 	
-		SimpleLayout layout = new SimpleLayout();
-		PatternLayout layout2 = new PatternLayout();
-		layout2.setConversionPattern("%d %p [%c] - %m%n");
+		logger = Logger.getLogger(Application.class);
+		PatternLayout layout = new PatternLayout();
+		layout.setConversionPattern("%d %p [%c] - %m%n");
 	      FileAppender appender = null;
 		try {
-			appender = new FileAppender(layout2,"comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log", true);
+			appender = new FileAppender(layout,"comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log", true);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,7 +163,12 @@ public final class Application {
 		this.algorithm = algorithm;
 	}
 
-	public static Logger getLogger() {
+	public Logger getLogger() {
+		
+		if(logger == null) {
+			initializeLogger();
+		}
+		
 		return logger;
 	}
 	

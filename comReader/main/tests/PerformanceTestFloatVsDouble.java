@@ -3,11 +3,9 @@ package tests;
 
 public class PerformanceTestFloatVsDouble {
 
-	 public static void doubleTest(int loop)
-	    {
+	 public static void doubleTest(int loop) {
 	        System.out.println("double: ");
-	        for (int i = 0; i < loop; i++)
-	        {
+	        for (int i = 0; i < loop; i++) {
 	            double a = 1000, b = 45, c = 12000, d = 2, e = 7, f = 1024;
 	            a = Math.sin(a);
 	            b = Math.asin(b);
