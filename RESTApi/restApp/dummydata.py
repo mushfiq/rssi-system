@@ -1,7 +1,12 @@
-from documents import rawData
-
+import time
 import datetime
+from random import shuffle, random
+from documents import rawData
 from  mongoengine import connect, Document
+
+connect('rssiSystem')
+
+randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
 
 ''' this script is for inserting dummy data into the mongo'''	
 
@@ -21,6 +26,17 @@ def insertDummyData():
 	fileObject = open(fileName, 'r')
 	for line in fileObject:
 		insertTest(line)
+
+def addRadomData():
+	time.sleep(3)
+	dObj = rawData()
+	shuffledSignals	= shuffle(randomStrength, random)
+	dObj.signalStrenth = randomStrength[0]
+	dObj.insertAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+	dObj.save()
+	print "saved"
 	
 if __name__ == '__main__':
-	insertDummyData()
+	# insertDummyData()
+	for i in range(0, 3):
+	    addRadomData()
