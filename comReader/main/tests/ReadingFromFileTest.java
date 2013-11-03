@@ -7,12 +7,20 @@ import data.DataProcessor;
 import data.DataReader;
 import data.FileDataReader;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ReadingFromFileTest.
  */
-public class ReadingFromFileTest {
+public final class ReadingFromFileTest {
 
 
+	/**
+	 * Instantiates a new reading from file test.
+	 */
+	private ReadingFromFileTest() {
+		
+	}
+	
 	/**
 	 * The main method.
 	 *
@@ -24,6 +32,8 @@ public class ReadingFromFileTest {
 		 * since it is a singleton class.
 		 *  
 		 * */
+		
+		@SuppressWarnings("unused")
 		Application application = Application.getApplication();
 		
 		/* DataReader class reads data from COM port and converts it to usable signal strengths.

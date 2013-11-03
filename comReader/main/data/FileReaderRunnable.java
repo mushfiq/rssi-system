@@ -139,7 +139,6 @@ public class FileReaderRunnable implements Runnable {
 				
 				if (line.startsWith("REP")) {
 					Reading reading = createReading(line);
-					//System.out.println(reading);
 					double average = Utilities.calculateReadingAverage(reading);
 					reading.setAverageStrengthValue(average);
 					double rssiDbm = Utilities.convertRSSIDecToDbm(average);
@@ -148,7 +147,6 @@ public class FileReaderRunnable implements Runnable {
 							", receiver id: " + reading.getReceiverId() + 
 							", signal strength: " + reading.getAverageStrengthValue());
 					currentBatch.add(reading);
-					//Controller.getController().addReadingToQueue(reading);
 				}
 
 				long currentTime = System.currentTimeMillis();
@@ -156,7 +154,6 @@ public class FileReaderRunnable implements Runnable {
 				if (currentTime - startTime >= SAMPLING_RATE) {
 					HashMap<Integer, HashMap<Integer, Double>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
 					Application.getApplication().getController().addBatchSignalToQueue(batchSignal);
-					Application.getApplication().getController().addBatchToQueue(currentBatch);
 					currentBatch.clear();
 					startTime = currentTime;
 				}
@@ -178,7 +175,7 @@ public class FileReaderRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			System.out.println("Total number of batches after reading is: " + Application.getApplication().getController().getBatchQueue().size());
+			/*System.out.println("Total number of batches after reading is: " + Application.getApplication().getController().getBatchQueue().size());*/
 			System.out.println("Total time: " + (System.currentTimeMillis() - overallStartTime));
 			System.out.println("Total number of average signals is: " + Application.getApplication().getController().getBatchSignalQueue().size());
 		}
