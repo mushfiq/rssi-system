@@ -51,17 +51,33 @@
            	 	android:orientation="vertical" >
 	                <Button
 	                android:id="@+id/displayPosition"
-	                android:layout_width="wrap_content"
+	                android:layout_width="fill_parent"
 	                android:layout_height="fill_parent"
 	                android:layout_weight="1"
 	                android:textSize="12sp"
 	                android:text="@string/Display_Position" />
-	            	<Button
-	                android:id="@+id/displayLastNPositions"
-	                android:layout_width="wrap_content"
-	                android:layout_height="fill_parent"
-	                android:layout_weight="1"
-	                android:textSize="12sp"
-	                android:text="@string/Display_Last_N_Positions" />
+	                <LinearLayout
+	                    android:layout_width="fill_parent"
+            			android:layout_height="fill_parent"
+            			android:layout_weight ="1"
+           	 			android:orientation="horizontal"  >
+		            	<Button
+			                android:id="@+id/displayLastNPositions"
+			                android:layout_width="wrap_content"
+			                android:layout_height="wrap_content"
+			                android:textSize="12sp"
+			                android:text="@string/Display_Last_N_Positions" />
+		            	<EditText
+		            	    android:id="@+id/numberOfSteps"
+		            	    android:layout_width="wrap_content"
+		            	    android:layout_height="wrap_content"
+		            	    
+		            	    android:inputType="number"
+		            	    android:text="@string/NumberOfSteps" >
+
+	            	    <requestFocus />
+	            	</EditText>
+	            	
+	            	</LinearLayout>
             </LinearLayout>
 </LinearLayout>

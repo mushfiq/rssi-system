@@ -1,7 +1,21 @@
 package com.example.chronolocalization;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class DataManager
 {
@@ -17,24 +31,28 @@ public class DataManager
 	 * @return ArrayList with the last n positions where the watch have been tracked
 	 */
 	public ArrayList<Point> getLastNPositions(String watchID, int n)
-	{
-		ArrayList<Point> positions = new ArrayList<Point>();
-		
-		if( !positionsHistory.isEmpty() && positionsHistory.size() > n )
+	{	
+		ArrayList<Point> ret = new ArrayList<Point>();
+		if( watchToPositionsHistory.containsKey(watchID) )
 		{
-			int index = positionsHistory.size() - n;
-			for(int insertedPositions = 0; insertedPositions < n; insertedPositions++)
+			ArrayList<Point> positions = watchToPositionsHistory.get(watchID);
+			
+			if( !positions.isEmpty() && positions.size() > n )
 			{
-				positions.add(positionsHistory.get(index));
-				index++;
+				int index = positions.size() - n;
+				for(int insertedPositions = 0; insertedPositions < n; insertedPositions++)
+				{
+					ret.add(positions.get(index));
+					index++;
+				}
+			}
+			else
+			{
+				ret = new ArrayList<Point>(positions);
 			}
 		}
-		else
-		{
-			positions = new ArrayList<Point>(positionsHistory);
-		}
 		
-		return positions;
+		return ret;
 	}
 	
 	/**
@@ -46,15 +64,21 @@ public class DataManager
 	{
 		Point lastPosition = null;
 		
-		if(!positionsHistory.isEmpty())
+		if( watchToPositionsHistory.containsKey(watchID) )
 		{
-			lastPosition = positionsHistory.get(positionsHistory.size() - 1);
+			ArrayList<Point> positions = watchToPositionsHistory.get(watchID);
+			if(!positions.isEmpty())
+			{
+				lastPosition = positions.get(positions.size() - 1);
+			}
 		}
 		
 		return lastPosition;
 	}
 	
-	ArrayList<Point> positionsHistory = new ArrayList<Point>();
+	
+	
+	Map<String, ArrayList<Point>> watchToPositionsHistory = new TreeMap<String, ArrayList<Point>>();
 	
 	
 	
@@ -73,13 +97,17 @@ public class DataManager
 	
 	private void initializePositionsHistory(int numberOfPoints)
 	{
-		int index = 0;
-		while(index < numberOfPoints)
+		watchToPositionsHistory.put("Watch A", new ArrayList<Point>());
+		watchToPositionsHistory.put("Watch B", new ArrayList<Point>());		
+		
+		for (Map.Entry<String, ArrayList<Point>> iterable_element : watchToPositionsHistory.entrySet())
 		{
-			positionsHistory.add(getRandomPoint());
-			index++;
+			int index = 0;
+			while(index < numberOfPoints)
+			{
+				iterable_element.getValue().add(getRandomPoint());
+				index++;
+			}
 		}
 	}
-	
-	
 }

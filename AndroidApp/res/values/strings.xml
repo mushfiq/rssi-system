@@ -13,5 +13,6 @@
         <item>Watch B</item>
     </string-array>
     <string name= "selectWatch">Select Watch:</string>
+    <string name="NumberOfSteps">Steps</string>
 
 </resources>

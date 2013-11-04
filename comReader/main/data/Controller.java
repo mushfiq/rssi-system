@@ -29,9 +29,9 @@ public final class Controller {
 	 */
 	public Controller() {
 		// TODO Auto-generated constructor stub
-		readings  		 		 = new LinkedBlockingQueue<Reading>();
-		batchSignalQueue 		 = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
-		calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();
+		readings = new LinkedBlockingQueue<Reading>();
+        batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
+        calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();
 	}
 	
 	

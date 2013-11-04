@@ -51,11 +51,11 @@ public final class Application {
 	private Application() {
 		
 		initializeLogger();
-		pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
-		readConfigurationFile();
-		controller = new Controller();
-		initializeGUI();
-		algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
+        pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
+        readConfigurationFile();
+        controller = new Controller();
+        initializeGUI();
+        algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ public final class Application {
         receivers.add(r3);
         receivers.add(r4);
         
-        roomMap = new RoomMap(25,25);
+        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);;
 		
 	}
 
