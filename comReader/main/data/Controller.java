@@ -1,52 +1,37 @@
 package data;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import main.Application;
-import algorithm.PositionLocalizationAlgorithm;
-import algorithm.ProbabilityBasedAlgorithm;
-import algorithm.stubs.Receiver;
-import algorithm.stubs.RoomMap;
-
 // TODO: Auto-generated Javadoc
 /**
- * The Class Controller.
+ * Controller contains queues for readings obtained from COM port, 
+ * for averaged signal strength batches and for calculated watch positions.
+ * This class transfers data from queues and to queues.
  */
 public final class Controller {
 
-	/** The data queue. */
-	private BlockingQueue<Reading> dataQueue;
+	/** Readings from COM port. */
+	private BlockingQueue<Reading> readings;
 	
-	/** The batch queue. */
-	private BlockingQueue<ArrayList<Reading>> batchQueue;
-	
-	/** The batch signal queue. */
+	/** Batches of signal that have to be passed to the algorithm. */
 	private BlockingQueue<HashMap<Integer, HashMap<Integer, Double>>> batchSignalQueue;
 	
+	
+	/** After the algorithm calculates the actual position, it puts the value in this queue. */
 	private BlockingQueue<WatchPositionData> calculatedPositionsQueue;
 	
-	private PositionLocalizationAlgorithm algorithm;
+	
 	
 	/**
 	 * Instantiates a new controller.
 	 */
 	public Controller() {
 		// TODO Auto-generated constructor stub
-		dataQueue  		 = new LinkedBlockingQueue<Reading>();
-		batchQueue 		 = new LinkedBlockingQueue<ArrayList<Reading>>();
-		batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
-//		RoomMap roomMap  = Application.getApplication().getRoomMap();
-//		ArrayList<Receiver> receivers = Application.getApplication().getReceivers();
-//		algorithm		 = new ProbabilityBasedAlgorithm(roomMap, receivers);
-	}
-	
-	public void test() {
-		RoomMap roomMap  = Application.getApplication().getRoomMap();
-		ArrayList<Receiver> receivers = Application.getApplication().getReceivers();
-		algorithm		 = new ProbabilityBasedAlgorithm(roomMap, receivers);
+		readings = new LinkedBlockingQueue<Reading>();
+        batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
+        calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();
 	}
 	
 	
@@ -56,7 +41,7 @@ public final class Controller {
 	 * @return the data queue
 	 */
 	public BlockingQueue<Reading> getDataQueue() {
-		return dataQueue;
+		return readings;
 	}
 
 	/**
@@ -65,7 +50,7 @@ public final class Controller {
 	 * @param newDataQueue the new data queue
 	 */
 	public void setDataQueue(BlockingQueue<Reading> newDataQueue) {
-		this.dataQueue = newDataQueue;
+		this.readings = newDataQueue;
 	}
 	
 	/**
@@ -76,34 +61,7 @@ public final class Controller {
 	 */
 	public void addReadingToQueue(Reading reading) throws InterruptedException {
 		
-		this.dataQueue.put(reading);
-	}
-
-	/**
-	 * Gets the batch queue.
-	 *
-	 * @return the batch queue
-	 */
-	public BlockingQueue<ArrayList<Reading>> getBatchQueue() {
-		return batchQueue;
-	}
-
-	/**
-	 * Sets the batch queue.
-	 *
-	 * @param newBatchQueue the new batch queue
-	 */
-	public void setBatchQueue(BlockingQueue<ArrayList<Reading>> newBatchQueue) {
-		this.batchQueue = newBatchQueue;
-	}
-	
-	/**
-	 * Adds the batch to queue.
-	 *
-	 * @param batch the batch
-	 */
-	public void addBatchToQueue(ArrayList<Reading> batch) {
-		this.batchQueue.add(batch);
+		this.readings.put(reading);
 	}
 
 	/**
@@ -125,6 +83,11 @@ public final class Controller {
 		this.batchSignalQueue = batchSignalQueue;
 	}
 	
+	/**
+	 * Adds the batch signal to queue.
+	 *
+	 * @param batchSignal the batch signal
+	 */
 	public void addBatchSignalToQueue(HashMap<Integer, HashMap<Integer, Double>> batchSignal) {
 		this.batchSignalQueue.add(batchSignal);
 	}
@@ -138,18 +101,17 @@ public final class Controller {
 		this.calculatedPositionsQueue = calculatedPositionsQueue;
 	}
 	
+	/**
+	 * Adds the watch position to queue.
+	 *
+	 * @param watchPosition the watch position
+	 */
 	public void addWatchPositionToQueue(WatchPositionData watchPosition){
 		
 		this.calculatedPositionsQueue.add(watchPosition);
 	}
 
-	public PositionLocalizationAlgorithm getAlgorithm() {
-		return algorithm;
-	}
-
-	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
-		this.algorithm = algorithm;
-	}
+	
 	
 	
 }

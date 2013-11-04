@@ -7,12 +7,20 @@ import data.DataProcessor;
 import data.DataReader;
 import data.FileDataReader;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class ReadingFromFileTest.
  */
-public class ReadingFromFileTest {
+public final class ReadingFromFileTest {
 
 
+	/**
+	 * Instantiates a new reading from file test.
+	 */
+	private ReadingFromFileTest() {
+		
+	}
+	
 	/**
 	 * The main method.
 	 *
@@ -24,8 +32,10 @@ public class ReadingFromFileTest {
 		 * since it is a singleton class.
 		 *  
 		 * */
+		
+		@SuppressWarnings("unused")
 		Application application = Application.getApplication();
-		application.test();
+
 		/* DataReader class reads data from COM port and converts it to usable signal strengths.
 		 * Then, it puts those values into the signals queue, so that DataProcessor can calculate 
 		 * actual watch position in the room, using one of the algorithms.
