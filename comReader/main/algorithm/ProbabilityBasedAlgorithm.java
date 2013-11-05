@@ -19,19 +19,39 @@ import algorithm.stubs.Receiver;
 import algorithm.stubs.RoomMap;
 
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProbabilityBasedAlgorithm.
+ */
 public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 
+	/** The pic counter. */
 	private static int picCounter = 0;
 	
+	/** The points_room map. */
 	private ArrayList<Point_RoomMap> points_roomMap;
+	
+	/** The receivers. */
 	private ArrayList<Receiver> receivers;
+	
+	/** The points_probability map. */
 	private ArrayList<Point_ProbabilityMap> points_probabilityMap;
 	
+	/** The roommap. */
 	private RoomMap roommap;
 	
+	/** The Constant GRANULARITY_PROBMAP. */
 	private static final double GRANULARITY_PROBMAP = 0.25;
+	
+	/** The Constant GRANULARITY_ROOMMAP. */
 	private static final double GRANULARITY_ROOMMAP = 0.25;
 	
+	/**
+	 * Instantiates a new probability based algorithm.
+	 *
+	 * @param roommap the roommap
+	 * @param receivers the receivers
+	 */
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
@@ -41,6 +61,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		this.roommap = roommap;
 	}
 	
+	/* (non-Javadoc)
+	 * @see algorithm.PositionLocalizationAlgorithm#calculate(java.util.HashMap)
+	 */
 	@Override
 	public Point calculate(HashMap<Integer, Double> readings) {
 		this.points_roomMap = createRoomMap(this.roommap.getFromX(), this.roommap.getToX(),
@@ -88,6 +111,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return p;
 	}
 	
+	/**
+	 * Find values below rssi.
+	 *
+	 * @param probabilityMap the probability map
+	 * @param rssi the rssi
+	 * @return the array list
+	 */
 	private ArrayList<Point_ProbabilityMap> findValuesBelowRssi(ArrayList<Point_ProbabilityMap> probabilityMap, double rssi) {
 		ArrayList<Point_ProbabilityMap> pMap = new ArrayList<Point_ProbabilityMap>();
 		
@@ -100,6 +130,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	// This method creates a map of the room
+	/**
+	 * Creates the room map.
+	 *
+	 * @param lengthXFrom the length x from
+	 * @param lengthXTo the length x to
+	 * @param lengthYFrom the length y from
+	 * @param lengthYTo the length y to
+	 * @param granularity the granularity
+	 * @return the array list
+	 */
 	private ArrayList<Point_RoomMap> createRoomMap(double lengthXFrom, double lengthXTo, 
 												   double lengthYFrom, double lengthYTo, 
 												   double granularity) {
@@ -115,6 +155,15 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return roomMap;
 	}
 		
+	/**
+	 * Transformation.
+	 *
+	 * @param p the p
+	 * @param angle the angle
+	 * @param receiverXpos the receiver xpos
+	 * @param receiverYpos the receiver ypos
+	 * @return the array list
+	 */
 	private ArrayList<Point_ProbabilityMap> transformation (ArrayList<Point_ProbabilityMap> p, double angle, double receiverXpos, double receiverYpos ) {
 		
 		//Define a new List with the transformated coordindates of the Probability Map
@@ -137,6 +186,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return transformation_probMap;
 	}
 	
+	/**
+	 * Weight room map.
+	 *
+	 * @param roomMap the room map
+	 * @param convexHull the convex hull
+	 */
 	private void weightRoomMap(ArrayList<Point_RoomMap> roomMap, ArrayList<Point_ProbabilityMap> convexHull) {
 		for(int i = 0; i < roomMap.size(); i++) {
 			if(liesPointInConvexHull(roomMap.get(i), convexHull)) {
@@ -144,6 +199,14 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 		}
 	}
+	
+	/**
+	 * Lies point in convex hull.
+	 *
+	 * @param pRoomMap the room map
+	 * @param convexHull the convex hull
+	 * @return true, if successful
+	 */
 	private boolean liesPointInConvexHull(Point_RoomMap pRoomMap, ArrayList<Point_ProbabilityMap> convexHull) {
 		// go along convex hull
 		int size = convexHull.size();
@@ -160,6 +223,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	//This method return the points with the highest weight
+	/**
+	 * Give max weighted value.
+	 *
+	 * @param roomMap the room map
+	 * @return the array list
+	 */
 	private ArrayList<Point_RoomMap> giveMaxWeightedValue(ArrayList<Point_RoomMap> roomMap) {
 		
 		ArrayList<Point_RoomMap> maxWeightedValue = new ArrayList<Point_RoomMap>();
@@ -179,6 +248,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	// This method calculates the average point of the suitable points
+	/**
+	 * Gets the position.
+	 *
+	 * @param roomMap the room map
+	 * @return the position
+	 */
 	private Point getPosition(ArrayList<Point_RoomMap> roomMap) {
 		
 		double sumX = 0, sumY = 0;
@@ -193,6 +268,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return new Point(x,y);
 	}
 	
+	/**
+	 * Gets the receiver.
+	 *
+	 * @param receivers the receivers
+	 * @param id the id
+	 * @return the receiver
+	 */
 	private Receiver getReceiver(ArrayList<Receiver> receivers, int id) {
 		for(int i = 0; i < receivers.size(); i++) {
 			if(receivers.get(i).getID() == id) {
@@ -202,6 +284,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return null;
 	}
 	
+	/**
+	 * New gray scale image.
+	 *
+	 * @param points the points
+	 * @param picName the pic name
+	 */
 	private void newGrayScaleImage(ArrayList<Point_RoomMap> points, String picName) {
 		double smallest = 1.0; // smallest weighted value in picture
 		double highest = 0.0; // highest weighted value in picture
@@ -258,6 +346,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 	}
 	
+	/**
+	 * New gray scale image convex hull.
+	 *
+	 * @param points the points
+	 * @param picName the pic name
+	 */
 	private void newGrayScaleImageConvexHull(ArrayList<Point_ProbabilityMap> points, String picName) {
 		double smallestX = points.get(0).x;
 		double smallestY = points.get(0).y;
