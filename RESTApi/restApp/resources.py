@@ -17,3 +17,9 @@ class WatchResource(resources.MongoEngineResource):
 		allowed_methods = ('get')
 		
 		paginator_class = paginator.Paginator
+		
+		filtering = {
+			"insertedAt" : ['gte','lte',],
+			"mapId"		 : ['exact',]
+		}
+		excludes = ['id', 'resource_uri']
