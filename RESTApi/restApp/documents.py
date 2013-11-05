@@ -21,3 +21,4 @@ class watchRecords(InheritableDocument):
 	y = FloatField()
 	insertedAt = DateTimeField()
 	mapId = IntField()
+	watchId = StringField()
