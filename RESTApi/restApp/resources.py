@@ -11,3 +11,9 @@ class RssiResource(resources.MongoEngineResource):
 
         paginator_class = paginator.Paginator
 
+class WatchResource(resources.MongoEngineResource):
+	class Meta:
+		queryset = documents.watchRecords.objects.order_by('-insertedAt')
+		allowed_methods = ('get')
+		
+		paginator_class = paginator.Paginator
