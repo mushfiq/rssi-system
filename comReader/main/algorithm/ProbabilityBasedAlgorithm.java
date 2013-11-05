@@ -48,6 +48,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	private static final double GRAYSCALE_IMAGE_START = 100.0;
 	private static final double GRAYSCALE_IMAGE_END = 200.0;
+	private static final int GRAYSCALE_IMAGE_BLACK = 0;
+	private static final int GRAYSCALE_IMAGE_WHITE = 255;
 	
 	/**
 	 * Instantiates a new probability based algorithm.
@@ -108,7 +110,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		Point p = getPosition(highestPoints_RoomMap);
 		System.out.println(p);
 		
-		newGrayScaleImage(this.points_roomMap, p, "Result" + picCounter);
+		newGrayScaleImage(this.points_roomMap, p, this.receivers, "Result" + picCounter);
 		picCounter++;
 		
 		return p;
@@ -290,65 +292,79 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * New gray scale image.
 	 *
-	 * @param points the points
-	 * @param calculatedPosition the p
+	 * @param pointsRoomMap the points
+	 * @param pointCalculatedPosition the p
 	 * @param picName the pic name
 	 */
-	private void newGrayScaleImage(ArrayList<Point_RoomMap> points, Point calculatedPosition, String picName) {
+	private void newGrayScaleImage(ArrayList<Point_RoomMap> pointsRoomMap, Point pointCalculatedPosition, ArrayList<Receiver> receivers, String picName) {
 		double smallestWeightedValue = 1.0; 	// smallest weighted value in room map
 		double highestWeightedValue = 0.0; 		// highest weighted value in room map
 		
-		double smallestX = points.get(0).x;		// smallest position in x in room map
-		double smallestY = points.get(0).y;		// smallest position in y in room map
+		double smallestX = pointsRoomMap.get(0).x;		// smallest position in x in room map
+		double smallestY = pointsRoomMap.get(0).y;		// smallest position in y in room map
 		
-		double highestX = points.get(0).x;		// highest position in x in room map
-		double highestY = points.get(0).y;		// highest position in y in room map
+		double highestX = pointsRoomMap.get(0).x;		// highest position in x in room map
+		double highestY = pointsRoomMap.get(0).y;		// highest position in y in room map
 		
-		for(int i = 1; i < points.size(); i++) {
-			if(points.get(i).x < smallestX) {
-				smallestX = points.get(i).x;
+		for(int i = 1; i < pointsRoomMap.size(); i++) {
+			if(pointsRoomMap.get(i).x < smallestX) {
+				smallestX = pointsRoomMap.get(i).x;
 			}
-			if(points.get(i).y < smallestY) {
-				smallestY = points.get(i).y;
+			if(pointsRoomMap.get(i).y < smallestY) {
+				smallestY = pointsRoomMap.get(i).y;
 			}
-			if(points.get(i).x > highestX) {
-				highestX = points.get(i).x;
+			if(pointsRoomMap.get(i).x > highestX) {
+				highestX = pointsRoomMap.get(i).x;
 			}
-			if(points.get(i).y > highestY) {
-				highestY = points.get(i).y;
+			if(pointsRoomMap.get(i).y > highestY) {
+				highestY = pointsRoomMap.get(i).y;
 			}
 			
-			if(points.get(i).getWeightValue() > highestWeightedValue) {
-				highestWeightedValue = points.get(i).getWeightValue();
+			if(pointsRoomMap.get(i).getWeightValue() > highestWeightedValue) {
+				highestWeightedValue = pointsRoomMap.get(i).getWeightValue();
 			}
 		}
 		
 		double factor = 1.0 / GRANULARITY_ROOMMAP;	// determine the factor that is needed to create the picture
 		
-		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor);// + 1; // determine the length for the needed picture in x 
-		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor);// + 1;	// determine the length for the needed picture in y
+		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor); // determine the length for the needed picture in x 
+		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor); // determine the length for the needed picture in y
 		
 		// create point of origin (for the transformation of each point, here just y value is needed). The coordinates of this point are related to the "old" CS
-		Point pointNewCoordinateSystem = new Point(0, imageLenghtY);
+		Point pointOfOriginNewCoordinateSystem = new Point(0, imageLenghtY);
 		
-		BufferedImage theImage = new BufferedImage(imageLenghtX+1, imageLenghtY+1, BufferedImage.TYPE_BYTE_GRAY); // +1, because there is the need of "0"
-	    for(int i = 0; i < points.size(); i++) {
+		BufferedImage theImage = new BufferedImage(imageLenghtX + 1, imageLenghtY + 1, BufferedImage.TYPE_BYTE_GRAY); // +1, because there is the need of "0"
+	    for(int i = 0; i < pointsRoomMap.size(); i++) {
 	    	
-	    	int value = linearInterpolation(points.get(i).getWeightValue(), smallestWeightedValue, highestWeightedValue, GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
+	    	int value = linearInterpolation(pointsRoomMap.get(i).getWeightValue(), smallestWeightedValue, highestWeightedValue, GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
 	    	Color c = new Color(value, value, value);
 	    	
 	    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
-	    	Point pointAsWholeNumber = new Point((points.get(i).x - smallestX) * factor, (points.get(i).y - smallestY) * factor);
-	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointNewCoordinateSystem);
+	    	Point pointAsWholeNumber = new Point((pointsRoomMap.get(i).x - smallestX) * factor, (pointsRoomMap.get(i).y - smallestY) * factor);
+	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	
 	    	// rounding is needed because of the "rounding effects" by double calculation
-	    	theImage.setRGB((int) Math.round(positionPointInImage.x), (int) (int) Math.round(positionPointInImage.y), c.getRGB());
+	    	theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
+	    }
+	    
+	    // the position of the receivers will be displayed as a black pixel in the image
+	    for(int i = 0; i < receivers.size(); i++) {
+	    	Color c = new Color(GRAYSCALE_IMAGE_BLACK, GRAYSCALE_IMAGE_BLACK, GRAYSCALE_IMAGE_BLACK);
+	    	
+	    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
+	    	Point pointAsWholeNumber = new Point((receivers.get(i).getXPos() - smallestX) * factor, 
+	    										 (receivers.get(i).getYPos() - smallestY) * factor);
+	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
+	    	
+	    	// rounding is needed because of the "rounding effects" by double calculation
+	    	theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
+	    	
 	    }
 	    
 	    // The determined position found by the algorithm will be displayed in white
-	    Color c = new Color(255, 255, 255);
-	    Point pointAsWholeNumber = new Point((calculatedPosition.x - smallestX) * factor, (calculatedPosition.y - smallestY) * factor);
-    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointNewCoordinateSystem);
+	    Color c = new Color(GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE);
+	    Point pointAsWholeNumber = new Point((pointCalculatedPosition.x - smallestX) * factor, (pointCalculatedPosition.y - smallestY) * factor);
+    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
 	    
 	    File outputfile = new File(picName + ".bmp");
