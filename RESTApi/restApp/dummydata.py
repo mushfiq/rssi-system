@@ -9,6 +9,7 @@ connect('rssiSystem')
 randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
 
 ''' this script is for inserting dummy data into the mongo'''	
+watchIdList = ['watch1', 'watch2', 'watch3']
 
 def getAll():
 	allData = rawData.objects.all()
@@ -42,6 +43,7 @@ def updatedDummyData():
 	dObj.y = uniform(100.01, 302.5)
 	dObj.insertedAt = datetime.now()
 	dObj.mapId = randint(1, 4)
+	dObj.watchId = watchIdList[randint(0, 2)]
 	try:
 		dObj.save()
 		print "Saved"
@@ -50,14 +52,15 @@ def updatedDummyData():
 		
 def delete_dummy_data():
 	allObjs = watchRecords.objects.all()
+	count = 0
 	for obj in allObjs:
-	
 		obj.delete()
+		count+=1
 	
-	print "All deleted!"
+	print "Total %d object deleted" %count
 	
 if __name__ == '__main__':
-	for i in range(0, 100):
+	for i in range(0, 10):
 		updatedDummyData()
 	# delete_dummy_data()
 	# insertDummyData()
