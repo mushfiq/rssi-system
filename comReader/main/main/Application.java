@@ -104,19 +104,23 @@ public final class Application {
 			}
 		
 		// This initialization will be done from the configuration file
-		Receiver r1 = new Receiver(1, 0.0, 0.0, 45.0);
-        Receiver r2 = new Receiver(2, 25.0, 0.0, 135.0);
-        Receiver r3 = new Receiver(3, 25.0, 25.0, 225.0);
-        Receiver r4 = new Receiver(4, 0.0, 25.0, 315.0);
+//		Receiver r1 = new Receiver(0, 8.0, 8.0, 45.0);
+//        Receiver r2 = new Receiver(3, 10.0, 8.0, 135.0);
+//        Receiver r3 = new Receiver(6, 10.0, 10.0, 225.0);
+		Receiver r1 = new Receiver(0, -2.0, -2.0, 45.0);
+        Receiver r2 = new Receiver(3, 0.0, -2.0, 135.0);
+        Receiver r3 = new Receiver(6, 0.0, 0.0, 225.0);
+//        Receiver r4 = new Receiver(4, 0.0, 25.0, 315.0);
         
         receivers = new ArrayList<Receiver>();
         
         receivers.add(r1);
         receivers.add(r2);
         receivers.add(r3);
-        receivers.add(r4);
+//        receivers.add(r4);
         
-        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);;
+//        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
+        roomMap = new RoomMap(-25.0, 25.0, -25.0, 25.0);
 		
 	}
 
