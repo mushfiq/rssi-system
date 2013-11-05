@@ -6,8 +6,8 @@ import site
 site.addsitedir('~/.virtualenvs/rssi/lib/python2.6/site-packages/')
 
 # Add the app's directory to the PYTHONPATH
-sys.path.append('/var/www/mushfiq/rssi/restRSSI')
-sys.path.append('/var/www/mushfiq/rssi/restRSSI/restApp')
+sys.path.append('/var/www/rssi/RESTApi')
+sys.path.append('/var/www/rssi/RESTApi/restApp')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'restApp.settings'
 
