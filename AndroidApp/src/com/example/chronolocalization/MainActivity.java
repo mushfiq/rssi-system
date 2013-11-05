@@ -48,7 +48,7 @@ public class MainActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		// just a simple comment
 		//Connects the Application with the Data Source (at the moment a dummy implementation)
 		dataManager = new DataManager();
 
