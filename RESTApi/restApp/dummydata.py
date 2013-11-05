@@ -1,6 +1,6 @@
 import time
 from datetime import datetime
-from random import shuffle, random, uniform
+from random import shuffle, random, uniform, randint
 from documents import rawData, watchRecords
 from  mongoengine import connect, Document
 
@@ -41,15 +41,25 @@ def updatedDummyData():
 	dObj.x = uniform(1.2,4.5)
 	dObj.y = uniform(100.01, 302.5)
 	dObj.insertedAt = datetime.now()
+	dObj.mapId = randint(1, 4)
 	try:
 		dObj.save()
 		print "Saved"
 	except Exception, e:
 		print e
+		
+def delete_dummy_data():
+	allObjs = watchRecords.objects.all()
+	for obj in allObjs:
+	
+		obj.delete()
+	
+	print "All deleted!"
 	
 if __name__ == '__main__':
-	for i in range(0, 10):
+	for i in range(0, 100):
 		updatedDummyData()
+	# delete_dummy_data()
 	# insertDummyData()
 	# for i in range(0, 3):
 	#     addRadomData()
