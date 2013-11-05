@@ -18,14 +18,25 @@
                     android:gravity="center_vertical"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="12sp"
                     android:text="@string/selectWatch" />
 
                 <Spinner
                     android:id="@+id/WatchSpinner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/watches" />
+                    android:layout_width="79dp"
+                    android:layout_height="30dp"
+                    android:entries="@array/watches"
+                    android:textSize="12sp" />
+
             </LinearLayout>
+
+            <EditText
+                android:id="@+id/editURL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Write URL"
+                android:textSize="12sp" />
 
             <com.example.chronolocalization.DrawableImage
                 android:id="@+id/mapImage"
@@ -71,7 +82,7 @@
 		            	    android:id="@+id/numberOfSteps"
 		            	    android:layout_width="wrap_content"
 		            	    android:layout_height="wrap_content"
-		            	    
+		            	    android:textSize="12sp"
 		            	    android:inputType="number"
 		            	    android:text="@string/NumberOfSteps" >
 
