@@ -2,6 +2,8 @@ package com.example.chronolocalization;
 
 import java.util.*;
 
+import dataobjects.Point;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
