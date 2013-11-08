@@ -29,7 +29,7 @@ public class FileDataReader extends DataReader {
 	@Override
 	public void readData() {
 		
-		Runnable runnable = new FileReaderRunnable(file);
+		Runnable runnable = new FileDataReaderRunnable(file);
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}

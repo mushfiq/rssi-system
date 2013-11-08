@@ -18,7 +18,7 @@ import utilities.Utilities;
  *
  * @author Danilo
  */
-public class FileReaderRunnable implements Runnable {
+public class FileDataReaderRunnable implements Runnable {
 
 	/** The file. */
 	private File file;
@@ -43,7 +43,7 @@ public class FileReaderRunnable implements Runnable {
 	 *
 	 * @param newFile the new file
 	 */
-	public FileReaderRunnable(File newFile) {
+	public FileDataReaderRunnable(File newFile) {
 		
 		this.file = newFile;
 		currentBatch = new ArrayList<Reading>();
@@ -119,8 +119,6 @@ public class FileReaderRunnable implements Runnable {
 	@Override
 	public void run() {
 		
-		long overallStartTime = System.currentTimeMillis();
-		
 		FileReader fileReader = null;
 		try {
 			fileReader = new FileReader(file);
@@ -143,9 +141,6 @@ public class FileReaderRunnable implements Runnable {
 					reading.setAverageStrengthValue(average);
 					double rssiDbm = Utilities.convertRSSIDecToDbm(average);
 					reading.setRssiDbm(rssiDbm);
-					/*System.out.println("Watch id: " + reading.getWatchId() + 
-							", receiver id: " + reading.getReceiverId() + 
-							", signal strength: " + reading.getAverageStrengthValue());*/
 					currentBatch.add(reading);
 				}
 
