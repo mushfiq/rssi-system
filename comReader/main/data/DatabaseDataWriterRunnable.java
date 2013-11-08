@@ -30,9 +30,13 @@ public class DatabaseDataWriterRunnable implements Runnable {
 					e.printStackTrace();
 				}
 				
-			} else {
+			} else { // queue is not empty, take WatchPositionData object and write it into the database
 				
-				// TODO write data into the database
+				
+				// we take watchPositionData object from the queue by calling method 'poll()' on the queue
+				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
+
+				// TODO write watchPositionData object into the database
 				
 			}
 			
