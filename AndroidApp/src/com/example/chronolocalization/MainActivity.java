@@ -6,28 +6,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.larvalabs.svgandroid.SVG;
-import com.larvalabs.svgandroid.SVGParser;
+import dataobjects.ResponseParser;
+import dataobjects.Point;
+import dataobjects.WatchPositionRecord;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.app.Activity;
-import android.graphics.Picture;
-import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -69,34 +54,29 @@ public class MainActivity extends Activity
 			 
 			  @Override
 			  public void onClick(View v) {
-				//int width = imageView.getMeasuredWidth();
-				    //int height = imageView.getMeasuredHeight();  
 				
-				  // Basic Example of a JSON Response of some webservice
-				String urlFromTextField = urlText.getText().toString();
-				String urlDefault = "http://echo.jsontest.com/x/123/y/135";
-
-				if( urlFromTextField.startsWith("http://echo.jsontest.com/") )
-					new GetPositionTask().execute(urlFromTextField);
-				else
-				{
-					new GetPositionTask().execute(urlDefault);
-					Toast.makeText(getApplicationContext(), 
-                            "Invalid URL, " + urlDefault + " is used instead", Toast.LENGTH_LONG).show();
-				}
+				  String watchID = spinnerChooseWatch.getSelectedItem().toString();
+					new GetPositionTask(watchID).execute();
+				
 				
 			  }
 			  
 			  class GetPositionTask extends AsyncTask<String, Void, String>
 				{
+				  String watchID = "";
+				  public GetPositionTask(String watchID)
+				  {
+					  this.watchID = watchID;
+				  }
 				    /** The system calls this to perform work in a worker thread and
 				      * delivers it the parameters given to AsyncTask.execute() */
-				    protected String doInBackground(String... urls)
+				    protected String doInBackground(String... str)
 				    {
 				    	String httpResponse = "";
 				    	try
 				    	{
-					    	URL obj = new URL(urls[0]);
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&limit=1&format=json";
+					    	URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	// optional default is GET
 							con.setRequestMethod("GET");
@@ -133,16 +113,26 @@ public class MainActivity extends Activity
 					    
 						imageView.clearWatchPositions(watchID);
 						try
-						{
-					    	JSONObject jsonObject = new JSONObject(result);
-							Double x = Double.parseDouble((String)jsonObject.get("x"));
-							Double y = Double.parseDouble((String)jsonObject.get("y"));
-					    	Point lastPosition = new Point(x.intValue(),y.intValue());
-					    	imageView.addWatchPosition(watchID, lastPosition);
-						    
-						    imageView.invalidate();
-						    String positionString = "x = " + x/10.0 + "m, " + "y = " + y/10.0 + "m"; 
-						    positionText.setText(positionString);
+						{	
+					    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
+					    	if( !records.isEmpty() )
+					    	{
+					    		WatchPositionRecord firstRecord = records.get(0);
+						    	Point lastPosition = firstRecord.getPosition();
+						    	
+						    	 
+						    	// Needed for the coordinate transformation of accessed position and the imageview
+							    Point oldZero = new Point(0,0);
+							    Point newZero = new Point(15,-360);
+							    
+							    lastPosition = dataManager.transformPosition(oldZero, newZero, lastPosition);
+							    
+						    	imageView.addWatchPosition(watchID, lastPosition);
+							    
+							    imageView.invalidate();
+							    String positionString = "x = " + lastPosition.getX()/10.0 + "m, " + "y = " + lastPosition.getY()/10.0 + "m"; 
+							    positionText.setText(positionString);
+					    	}
 						}
 						catch(Exception e)
 						{
@@ -153,9 +143,6 @@ public class MainActivity extends Activity
 				}
 		 
 			});
-
-		
-		
 		
 		buttonDisplayLastNPositions = (Button) findViewById(R.id.displayLastNPositions);
 		
@@ -181,8 +168,8 @@ public class MainActivity extends Activity
 			    {	
 			    	Point lastPosition = lastPositions.get(index);
 			    	imageView.addWatchPosition(watchID, lastPosition);
-			    	int x = lastPosition.getX();
-				    int y = lastPosition.getY();
+			    	float x = lastPosition.getX();
+				    float y = lastPosition.getY();
 				    
 				    
 				    String positionString = "x = " + (float)(x)/10.0 + "m, " + "y = " + (float)(y)/10.0 + "m"; 
@@ -190,8 +177,6 @@ public class MainActivity extends Activity
 			    }
 			    
 			    imageView.invalidate();
-			    
-			    
 			    
 			  }
 		 

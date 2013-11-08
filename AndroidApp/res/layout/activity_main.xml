@@ -23,7 +23,7 @@
 
                 <Spinner
                     android:id="@+id/WatchSpinner"
-                    android:layout_width="79dp"
+                    android:layout_width="140dp"
                     android:layout_height="30dp"
                     android:entries="@array/watches"
                     android:textSize="12sp" />
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:text="Write URL"
+                android:text="http://echo.jsontest.com/x/123/y/117"
                 android:textSize="12sp" />
 
             <com.example.chronolocalization.DrawableImage
@@ -48,12 +48,14 @@
                 android:id="@+id/PositionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="@string/Position_Text" />
 
             <TextView
                 android:id="@+id/CurrentPositionText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="12sp"
                 android:text="@string/unknown" />
 
             <LinearLayout
