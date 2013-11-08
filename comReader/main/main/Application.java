@@ -64,6 +64,8 @@ public final class Application {
 	private void initializeLogger() {
 	
 		logger = Logger.getLogger(Application.class);
+//		logger = Logger.getLogger(Thread.currentThread().getStackTrace()[2].getClass().getCanonicalName());
+		
 		PatternLayout layout = new PatternLayout();
 		layout.setConversionPattern("%d %p [%c] - %m%n");
 	      FileAppender appender = null;

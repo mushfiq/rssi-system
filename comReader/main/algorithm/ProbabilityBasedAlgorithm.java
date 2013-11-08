@@ -3,12 +3,16 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Level;
+
+import main.Application;
 import algorithm.helper.GrahamScan;
 import algorithm.helper.Line;
 import algorithm.helper.Point;
@@ -51,6 +55,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private static final double GRAYSCALE_IMAGE_END = 200.0;
 	private static final int GRAYSCALE_IMAGE_BLACK = 0;
 	private static final int GRAYSCALE_IMAGE_WHITE = 255;
+	
+	// used for formatting output to the console or log file, for presentation purposes only
+	DecimalFormat df = new DecimalFormat("#.##");
 	
 	/**
 	 * Instantiates a new probability based algorithm.
@@ -109,8 +116,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					
 		// calculate point
 		Point p = getPosition(highestPoints_RoomMap);
-		System.out.println(p);
 		
+		System.out.println("X=" + df.format( p.x) + ", Y=" + df.format(p.y));
 		newGrayScaleImage(this.points_roomMap, p, this.receivers, "Result" + picCounter);
 		picCounter++;
 		

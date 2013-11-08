@@ -24,13 +24,13 @@ public class FileReaderRunnable implements Runnable {
 	private File file;
 	
 	/** The num of millis to sleep after reading. */
-	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 50; // milliseconds
+	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 20; // milliseconds
 	
 	/** The num of lines to read before sleeping. */
 	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 20;
 	
 	/** The sampling rate. */
-	private static int SAMPLING_RATE = 200; // milliseconds
+	private static int SAMPLING_RATE = 100; // milliseconds
 	
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
@@ -143,9 +143,9 @@ public class FileReaderRunnable implements Runnable {
 					reading.setAverageStrengthValue(average);
 					double rssiDbm = Utilities.convertRSSIDecToDbm(average);
 					reading.setRssiDbm(rssiDbm);
-					System.out.println("Watch id: " + reading.getWatchId() + 
+					/*System.out.println("Watch id: " + reading.getWatchId() + 
 							", receiver id: " + reading.getReceiverId() + 
-							", signal strength: " + reading.getAverageStrengthValue());
+							", signal strength: " + reading.getAverageStrengthValue());*/
 					currentBatch.add(reading);
 				}
 
@@ -175,9 +175,7 @@ public class FileReaderRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
-			/*System.out.println("Total number of batches after reading is: " + Application.getApplication().getController().getBatchQueue().size());*/
-			System.out.println("Total time: " + (System.currentTimeMillis() - overallStartTime));
-			System.out.println("Total number of average signals is: " + Application.getApplication().getController().getBatchSignalQueue().size());
+			
 		}
 		 
 		
