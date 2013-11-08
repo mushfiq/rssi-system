@@ -3,6 +3,7 @@ package utilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import data.Reading;
 
@@ -20,6 +21,9 @@ public final class Utilities {
 	
 	/** The Constant SUBTRAHEND. */
 	private static final int SUBTRAHEND = 256;
+	
+	/** The Constant RADIX. */
+	private static final int RADIX = 16;
 	
 	/**
 	 *  All helper methods are static so there is no need for
@@ -173,6 +177,74 @@ public final class Utilities {
 		result = result / list.size();
 		
 		return result;
+	}
+	
+	/**
+	 * Creates the reading.
+	 *
+	 * @param line the line
+	 * @return the reading
+	 */
+	public static Reading createReading(String line) {
+		
+		StringTokenizer tokenizer = new StringTokenizer(line);
+			
+			//REP
+			tokenizer.nextToken();
+			//2
+			tokenizer.nextToken();
+			//3
+			tokenizer.nextToken();
+			//4
+			tokenizer.nextToken();
+			//5
+			tokenizer.nextToken();
+			//6
+			tokenizer.nextToken();
+			//7
+			tokenizer.nextToken();
+			//8
+			int receiverId = Integer.parseInt(tokenizer.nextToken());
+			//9
+			tokenizer.nextToken();
+			//10
+			tokenizer.nextToken();
+			//11
+			tokenizer.nextToken();
+			//12
+			tokenizer.nextToken();
+			//13
+			tokenizer.nextToken();
+			//14
+			double signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength1 = Utilities.convertRSSIDecToDbm(signalStrength1);
+			//15
+			double signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength2 = Utilities.convertRSSIDecToDbm(signalStrength2);
+			//16
+			double signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength3 = Utilities.convertRSSIDecToDbm(signalStrength3);
+			//17
+			double signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength4 = Utilities.convertRSSIDecToDbm(signalStrength4);
+			//18
+			tokenizer.nextToken();
+			//19
+			tokenizer.nextToken();
+			
+			ArrayList<Double> signalStrengths = new ArrayList<Double>();
+			signalStrengths.add(signalStrength1);
+			signalStrengths.add(signalStrength2);
+			signalStrengths.add(signalStrength3);
+			signalStrengths.add(signalStrength4);
+			
+			Reading reading = new Reading(receiverId, 0, signalStrengths);
+			double average = Utilities.calculateReadingAverage(reading);
+			reading.setAverageStrengthValue(average);
+			double rssiDbm = Utilities.convertRSSIDecToDbm(average);
+			reading.setRssiDbm(rssiDbm);
+			
+		return reading;
 	}
 	
 }
