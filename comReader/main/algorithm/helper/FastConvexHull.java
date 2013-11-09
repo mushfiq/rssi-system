@@ -46,7 +46,9 @@ public class FastConvexHull {
 			lUpper[lUpperSize] = xSorted.get(i);
 			lUpperSize++;
                         
-			while (lUpperSize > 2 && !rightTurn(lUpper[lUpperSize - FastConvexHull.THREE], lUpper[lUpperSize - FastConvexHull.TWO], lUpper[lUpperSize - FastConvexHull.ONE])) {
+			while (lUpperSize > 2 && !rightTurn(lUpper[lUpperSize - FastConvexHull.THREE], 
+											    lUpper[lUpperSize - FastConvexHull.TWO],
+											    lUpper[lUpperSize - FastConvexHull.ONE])) {
 				// Remove the middle point of the three last
 				lUpper[lUpperSize - 2] = lUpper[lUpperSize - 1];
 				lUpperSize--;
@@ -64,7 +66,9 @@ public class FastConvexHull {
 			lLower[lLowerSize] = xSorted.get(i);
 			lLowerSize++;
                         
-			while (lLowerSize > 2 && !rightTurn(lLower[lLowerSize - FastConvexHull.THREE], lLower[lLowerSize - FastConvexHull.TWO], lLower[lLowerSize - FastConvexHull.ONE])) {
+			while (lLowerSize > 2 && !rightTurn(lLower[lLowerSize - FastConvexHull.THREE], 
+												lLower[lLowerSize - FastConvexHull.TWO], 
+												lLower[lLowerSize - FastConvexHull.ONE])) {
 				// Remove the middle point of the three last
 				lLower[lLowerSize - 2] = lLower[lLowerSize - 1];
 				lLowerSize--;
@@ -93,7 +97,7 @@ public class FastConvexHull {
 	 * @return true, if successful
 	 */
 	private boolean rightTurn(Point a, Point b, Point c) {
-		return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x) > 0;
+		return (b.getX() - a.getX()) * (c.getY() - a.getY()) - (b.getY() - a.getY()) * (c.getX() - a.getX()) > 0;
 	}
 
 	/**
@@ -110,7 +114,7 @@ public class FastConvexHull {
 		 */
 		@Override
 		public int compare(Point o1, Point o2) {
-			return (new Double(o1.x)).compareTo(new Double(o2.x));
+			return (new Double(o1.getX())).compareTo(new Double(o2.getX()));
 		}
 	}
 }
