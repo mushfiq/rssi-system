@@ -20,7 +20,7 @@ import main.Application;
 
 import org.apache.log4j.Level;
 
-import algorithm.helper.GrahamScan;
+import algorithm.helper.FastConvexHull;
 import algorithm.helper.Line;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
@@ -229,7 +229,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 			
 			// calculate the convex hull of the probability map	
-			GrahamScan gs = new GrahamScan();
+			FastConvexHull gs = new FastConvexHull();
 			ArrayList<PointProbabilityMap> convexHull = gs.computeHull(newPointsProbabilityMap);
 	
 			// look for the right receiver
@@ -255,7 +255,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
-		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.x + ";" + p.y + "]");
+		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 		
 		if (grayscaleDebugInformation) {
 			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, "calculatedMap" + grayscaleImagePicCounter);
@@ -319,15 +319,15 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		// Rotation of the coordinates
 		for (int i = 0; i < points.size(); i++) {
-			double xRotation = Math.cos(angle) * points.get(i).x - Math.sin(angle) * points.get(i).y;
-			double yRotation = Math.sin(angle) * points.get(i).x + Math.cos(angle) * points.get(i).y;
+			double xRotation = Math.cos(angle) * points.get(i).getX() - Math.sin(angle) * points.get(i).getY();
+			double yRotation = Math.sin(angle) * points.get(i).getX() + Math.cos(angle) * points.get(i).getY();
 			transformationProbMap.add(new PointProbabilityMap(xRotation, yRotation, points.get(i).rssi_value));
 		}
 		
 		// Translation of the coordinates
 		for (int i = 0; i < points.size(); i++) {
-			transformationProbMap.get(i).x = transformationProbMap.get(i).x + xPos; 
-			transformationProbMap.get(i).y = transformationProbMap.get(i).y + yPos;
+			transformationProbMap.get(i).setX(transformationProbMap.get(i).getX() + xPos); 
+			transformationProbMap.get(i).setY(transformationProbMap.get(i).getY() + yPos);
 		}
 		return transformationProbMap;
 	}
@@ -400,8 +400,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private Point getPosition(ArrayList<PointRoomMap> roomMap) {
 		double sumX = 0, sumY = 0;
 		for (int i = 0; i < roomMap.size(); i++) {
-			sumX += roomMap.get(i).x;
-			sumY += roomMap.get(i).y;
+			sumX += roomMap.get(i).getX();
+			sumY += roomMap.get(i).getY();
 		}
 		double x = sumX / roomMap.size();
 		double y = sumY / roomMap.size();
@@ -451,24 +451,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		double smallestWeightedValue = 1.0; 	// smallest weighted value in room map
 		double highestWeightedValue = 0.0; 		// highest weighted value in room map
 		
-		double smallestX = pointsRoomMap.get(0).x;		// smallest position in x in room map
-		double smallestY = pointsRoomMap.get(0).y;		// smallest position in y in room map
+		double smallestX = pointsRoomMap.get(0).getX();		// smallest position in x in room map
+		double smallestY = pointsRoomMap.get(0).getY();		// smallest position in y in room map
 		
-		double highestX = pointsRoomMap.get(0).x;		// highest position in x in room map
-		double highestY = pointsRoomMap.get(0).y;		// highest position in y in room map
+		double highestX = pointsRoomMap.get(0).getX();		// highest position in x in room map
+		double highestY = pointsRoomMap.get(0).getY();		// highest position in y in room map
 		
 		for (int i = 1; i < pointsRoomMap.size(); i++) {
-			if (pointsRoomMap.get(i).x < smallestX) {
-				smallestX = pointsRoomMap.get(i).x;
+			if (pointsRoomMap.get(i).getX() < smallestX) {
+				smallestX = pointsRoomMap.get(i).getX();
 			}
-			if (pointsRoomMap.get(i).y < smallestY) {
-				smallestY = pointsRoomMap.get(i).y;
+			if (pointsRoomMap.get(i).getY() < smallestY) {
+				smallestY = pointsRoomMap.get(i).getY();
 			}
-			if (pointsRoomMap.get(i).x > highestX) {
-				highestX = pointsRoomMap.get(i).x;
+			if (pointsRoomMap.get(i).getX() > highestX) {
+				highestX = pointsRoomMap.get(i).getX();
 			}
-			if (pointsRoomMap.get(i).y > highestY) {
-				highestY = pointsRoomMap.get(i).y;
+			if (pointsRoomMap.get(i).getY() > highestY) {
+				highestY = pointsRoomMap.get(i).getY();
 			}
 			
 			if (pointsRoomMap.get(i).getWeightValue() > highestWeightedValue) {
@@ -491,11 +491,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    	Color c = new Color(value, value, value);
 	    	
 	    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
-	    	Point pointAsWholeNumber = new Point((pointsRoomMap.get(i).x - smallestX) * factor, (pointsRoomMap.get(i).y - smallestY) * factor);
+	    	Point pointAsWholeNumber = new Point((pointsRoomMap.get(i).getX() - smallestX) * factor, (pointsRoomMap.get(i).getY() - smallestY) * factor);
 	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	
 	    	// rounding is needed because of the "rounding effects" by double calculation
-	    	theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
+	    	theImage.setRGB((int) Math.round(positionPointInImage.getX()), (int) Math.round(positionPointInImage.getY()), c.getRGB());
 	    }
 	    
 	    // the position of the receivers will be displayed as a black pixel in the image
@@ -508,15 +508,15 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	
 	    	// rounding is needed because of the "rounding effects" by double calculation
-	    	theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
+	    	theImage.setRGB((int) Math.round(positionPointInImage.getX()), (int) Math.round(positionPointInImage.getY()), c.getRGB());
 	    	
 	    }
 	    
 	    // The determined position found by the algorithm will be displayed in white
 	    Color c = new Color(GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE);
-	    Point pointAsWholeNumber = new Point((pointCalculatedPosition.x - smallestX) * factor, (pointCalculatedPosition.y - smallestY) * factor);
+	    Point pointAsWholeNumber = new Point((pointCalculatedPosition.getX() - smallestX) * factor, (pointCalculatedPosition.getY() - smallestY) * factor);
     	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
-	    theImage.setRGB((int) Math.round(positionPointInImage.x), (int) Math.round(positionPointInImage.y), c.getRGB());
+	    theImage.setRGB((int) Math.round(positionPointInImage.getX()), (int) Math.round(positionPointInImage.getY()), c.getRGB());
 	    
 	    writeImage(theImage, imageName, ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_SCALE_X, ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_SCALE_Y);
 	}
@@ -528,24 +528,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param imageName the name of the image
 	 */
 	private void newGrayScaleImageConvexHull(ArrayList<PointProbabilityMap> points, String imageName) {
-		double smallestX = points.get(0).x;
-		double smallestY = points.get(0).y;
+		double smallestX = points.get(0).getX();
+		double smallestY = points.get(0).getY();
 		
-		double highestX = points.get(0).x;
-		double highestY = points.get(0).y;
+		double highestX = points.get(0).getX();
+		double highestY = points.get(0).getY();
 		
 		for (int i = 1; i < points.size(); i++) {
-			if (points.get(i).x < smallestX) {
-				smallestX = points.get(i).x;
+			if (points.get(i).getX() < smallestX) {
+				smallestX = points.get(i).getX();
 			}
-			if (points.get(i).y < smallestY) {
-				smallestY = points.get(i).y;
+			if (points.get(i).getY() < smallestY) {
+				smallestY = points.get(i).getY();
 			}
-			if (points.get(i).x > highestX) {
-				highestX = points.get(i).x;
+			if (points.get(i).getX() > highestX) {
+				highestX = points.get(i).getX();
 			}
-			if (points.get(i).y > highestY) {
-				highestY = points.get(i).y;
+			if (points.get(i).getY() > highestY) {
+				highestY = points.get(i).getY();
 			}
 		}
 		
@@ -559,8 +559,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    	Color c = new Color(ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE, 
 	    						ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE, 
 	    						ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE);
-	    	theImage.setRGB((int) Math.round((points.get(i).x - smallestX) * factor), 
-							(int) Math.round((points.get(i).y - smallestY) * factor),
+	    	theImage.setRGB((int) Math.round((points.get(i).getX() - smallestX) * factor), 
+							(int) Math.round((points.get(i).getY() - smallestY) * factor),
 							c.getRGB());
 	    }
 	    
@@ -628,8 +628,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private Point pointToImageTransformation(Point pointToTransform, Point pointNewCS) {
 		Point negPoint = pointNewCS.neg();
 		
-		double x = 1.0 * pointToTransform.x + /*0.0 * pointToTransform.y*/ +negPoint.x * 1;
-		double y = /*0.0 * pointToTransform.x*/ -1.0 * pointToTransform.y - negPoint.y * 1;
+		double x = 1.0 * pointToTransform.getX() + /*0.0 * pointToTransform.y*/ +negPoint.getX() * 1;
+		double y = /*0.0 * pointToTransform.x*/ -1.0 * pointToTransform.getY() - negPoint.getY() * 1;
 				
 		return new Point(x, y);
 	}
