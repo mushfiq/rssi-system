@@ -36,7 +36,6 @@ import components.RoomMap;
  * The underlying algorithm is based on the paper "RSSI based Position estimation employing probability Maps" by S. Knauth,
  * D. Geisler, G. Ruzicka from Faculty Computer Science, Mathematics and Geomatics by University of Applied Sciences Stuttgart.
  * 
- * @see algorithm.helper.*
  * @version 1.0 09 Nov 2013
  * @author Tommy Griese and Yentran Tran
  */
@@ -200,7 +199,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * Calculates the position depending of the given readings. The position is located within the borders of the room.
 	 * 
-	 * @param readings the rssi values in dBm for a receiver 
+	 * @param readings the rssi values measured in dBm for all receivers
 	 * @return the calculated position in a room will be returned in the form of a point ({@link algorithm.helper.Point})
 	 */
 	@Override
