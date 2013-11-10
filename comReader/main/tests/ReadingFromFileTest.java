@@ -45,7 +45,7 @@ public final class ReadingFromFileTest {
 		 * DataReader reader = new COMPortReader();
 		 * */
 		
-		DataReader reader = new FileDataReader(new File("comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "data.txt"));
+		DataReader reader = new FileDataReader(new File("comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "bigdata2.txt"));
 		reader.readData();
 		
 		/* Controller class is used to change the algorithm. Default algorithm is ProbabilityBasedAlgorithm. 

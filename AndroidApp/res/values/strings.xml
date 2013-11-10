@@ -9,8 +9,8 @@
     <string name="Position_Text">The Position of the watch is</string>
     <string name= "unknown">unknown</string>
     <string-array name="watches">
-        <item>Watch A</item>
-        <item>Watch B</item>
+        <item>watch1</item>
+        <item>Watch2</item>
     </string-array>
     <string name= "selectWatch">Select Watch:</string>
     <string name="NumberOfSteps">Steps</string>
