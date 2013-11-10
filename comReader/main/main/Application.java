@@ -10,10 +10,10 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
+import components.Receiver;
+import components.RoomMap;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
-import algorithm.stubs.Receiver;
-import algorithm.stubs.RoomMap;
 import data.Controller;
 
 // TODO: Auto-generated Javadoc
@@ -107,20 +107,34 @@ public final class Application {
 //		Receiver r1 = new Receiver(0, 8.0, 8.0, 45.0);
 //        Receiver r2 = new Receiver(3, 10.0, 8.0, 135.0);
 //        Receiver r3 = new Receiver(6, 10.0, 10.0, 225.0);
-		Receiver r1 = new Receiver(0, -2.0, -2.0, 45.0);
-        Receiver r2 = new Receiver(3, 0.0, -2.0, 135.0);
-        Receiver r3 = new Receiver(6, 0.0, 0.0, 225.0);
-//        Receiver r4 = new Receiver(4, 0.0, 25.0, 315.0);
-        
+		Receiver r1 = new Receiver(0, -1.5, -1.5, 45.0);
+        Receiver r2 = new Receiver(3, -1.5, 1.5, 315.0);
+        Receiver r3 = new Receiver(6, 1.5, 1.5, 225.0);
+//        Receiver r4 = new Receiver(9, 1.5, -1.5, 135.0);
+//		Receiver r1 = new Receiver(3, 0.0, 0.0, 0.0);
+//		Receiver r2 = new Receiver(0, 1.0, 0.0, 0.0);
+//		Receiver r3 = new Receiver(0, 2.0, 0.0, 0.0);
+//		Receiver r4 = new Receiver(0, 3.0, 0.0, 0.0);
+//		Receiver r5 = new Receiver(0, 4.0, 0.0, 0.0);
+//		Receiver r6 = new Receiver(0, 5.0, 0.0, 0.0);
+//		Receiver r7 = new Receiver(0, 6.0, 0.0, 0.0);
+//		Receiver r8 = new Receiver(0, 7.0, 0.0, 0.0);
+//		Receiver r9 = new Receiver(0, 8.0, 0.0, 0.0);
+
         receivers = new ArrayList<Receiver>();
         
         receivers.add(r1);
         receivers.add(r2);
         receivers.add(r3);
 //        receivers.add(r4);
+//        receivers.add(r5);
+//        receivers.add(r6);
+//        receivers.add(r7);
+//        receivers.add(r8);
+//        receivers.add(r9);
         
 //        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
-        roomMap = new RoomMap(-25.0, 25.0, -25.0, 25.0);
+        roomMap = new RoomMap(-10.0, 10.0, -10.0, 10.0);
 		
 	}
 

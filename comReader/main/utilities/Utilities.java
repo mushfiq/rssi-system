@@ -14,7 +14,7 @@ import data.Reading;
 public final class Utilities {
 
 	/** The Constant RSSI_OFFSET. */
-	private static final int RSSI_OFFSET = 77;
+	private static final int RSSI_OFFSET = 74;
 	/** Parameters used in formula for converting the RSSIdec value to RSSIdBm. */
 	private static final int POSITIVE_NUMBER_LIMIT = 128;
 	

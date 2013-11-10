@@ -24,13 +24,13 @@ public class FileReaderRunnable implements Runnable {
 	private File file;
 	
 	/** The num of millis to sleep after reading. */
-	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 50; // milliseconds
+	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 1; // milliseconds
 	
 	/** The num of lines to read before sleeping. */
-	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 20;
+	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 1;
 	
 	/** The sampling rate. */
-	private static int SAMPLING_RATE = 200; // milliseconds
+	private static int SAMPLING_RATE = 3; // milliseconds
 	
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
@@ -160,13 +160,13 @@ public class FileReaderRunnable implements Runnable {
 				
 				numberOfLinesRead++;
 				if (numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING) {
-					try {
-						numberOfLinesRead = 0;
-						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					try {
+//						numberOfLinesRead = 0;
+////						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 				
 			 }

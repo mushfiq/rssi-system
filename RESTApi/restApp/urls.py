@@ -17,9 +17,11 @@ from django.conf.urls import patterns, include, url
 # )
 from tastypie import api
 from restApp.resources import RssiResource
+from restApp.resources import WatchResource
 
 v1_api = api.Api(api_name='v1')
 v1_api.register(RssiResource())
+v1_api.register(WatchResource())
 urlpatterns = patterns('',
 	url(r'^$', 'restApp.views.index'),
     url(r'^api/', include(v1_api.urls)),
