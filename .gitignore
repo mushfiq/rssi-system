@@ -6,3 +6,5 @@ RESTApi/htmlcov/*
 /bin
 
 /sample values.docx
+/debug
+/img
