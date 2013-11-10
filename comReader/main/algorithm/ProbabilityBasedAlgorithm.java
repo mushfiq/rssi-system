@@ -25,7 +25,7 @@ import algorithm.helper.Line;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
-import algorithm.probabilityMap.ProbabilityMap_Empiric;
+import algorithm.probabilityMap.ProbabilityMapEmpiric;
 
 import components.Receiver;
 import components.RoomMap;
@@ -37,7 +37,7 @@ import components.RoomMap;
  * D. Geisler, G. Ruzicka from Faculty Computer Science, Mathematics and Geomatics by University of Applied Sciences Stuttgart.
  * 
  * @version 1.0 09 Nov 2013
- * @author Tommy Griese and Yentran Tran
+ * @author Tommy Griese, Yentran Tran
  */
 public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 
@@ -170,7 +170,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		// calculate the probability map
 		ArrayList<PointProbabilityMap> pointsProbabilityMap = 
-				new ProbabilityMap_Empiric(signalPropagationConstant, signalStrengthOneMeter).getProbabilityMap(xFrom, xTo, yFrom, yTo, granularity);
+				new ProbabilityMapEmpiric(signalPropagationConstant, signalStrengthOneMeter).getProbabilityMap(xFrom, xTo, yFrom, yTo, granularity);
 					
 		// store it in the hashmap
 		pointsProbabilityMaps.put(receiverId, pointsProbabilityMap);
@@ -275,7 +275,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private ArrayList<PointProbabilityMap> findValuesAboveRssi(ArrayList<PointProbabilityMap> probabilityMap, double rssi) {
 		ArrayList<PointProbabilityMap> pMap = new ArrayList<PointProbabilityMap>();
 		for (int i = 0; i < probabilityMap.size(); i++) {
-			if (probabilityMap.get(i).rssi_value >= rssi) {
+			if (probabilityMap.get(i).getRSSIValue() >= rssi) {
 				pMap.add(probabilityMap.get(i));
 			}
 		}
@@ -321,7 +321,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		for (int i = 0; i < points.size(); i++) {
 			double xRotation = Math.cos(angle) * points.get(i).getX() - Math.sin(angle) * points.get(i).getY();
 			double yRotation = Math.sin(angle) * points.get(i).getX() + Math.cos(angle) * points.get(i).getY();
-			transformationProbMap.add(new PointProbabilityMap(xRotation, yRotation, points.get(i).rssi_value));
+			transformationProbMap.add(new PointProbabilityMap(xRotation, yRotation, points.get(i).getRSSIValue()));
 		}
 		
 		// Translation of the coordinates
