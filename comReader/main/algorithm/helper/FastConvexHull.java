@@ -2,6 +2,7 @@
  * File: FastConvexHull.java
  * Date				Author				Changes
  * 09 Nov 2013		Tommy Griese		create version 1.0
+ * 					Yentran Tran
  */
 package algorithm.helper;
 
@@ -12,7 +13,7 @@ import java.util.Comparator;
 /**
  * The Class FastConvexHull is derived from
  * <a href="https://code.google.com/p/convex-hull/source/browse/Convex+Hull/src/algorithms/FastConvexHull.java?r=4">FastConvexHull</a>.
- * Little adaptations were made so that we can use it in our context.
+ * Little adaptations were made so that we can use it in our code.
  * 
  * @version 1.0 09 Nov 2013
  */

@@ -1,46 +1,59 @@
+/*
+ * File: PointRoomMap.java
+ * Date				Author				Changes
+ * 08 Nov 2013		Yentran Tran		create version 1.0
+ */
 package algorithm.helper;
 
 /**
- * The Class Point_RoomMap.
+ * The class PointRoomMap represents a special point in a room map. 
+ * Each point has a variable that represents the current weight of this point in a map
+ * (this class is inherited by class {@link algorithm.helper.Point}).
+ * 
+ * @version 1.0 08 Nov 2013
+ * @author Yentran Tran
+ * @see algorithm.helper.Point
  */
 public class PointRoomMap extends Point {
 	
-	/** The weight_value. */
-	private double weight_value;
+	/** The weighted value in this point. */
+	private double weightValue;
 
 	/**
-	 * Instantiates a new point_ room map.
+	 * Instantiates a new PointRoomMap. The weight of each point will be set by 1 default.
 	 *
-	 * @param x the x
-	 * @param y the y
+	 * @param x the x coordinate of the point
+	 * @param y the y coordinate of the point
 	 */
 	public PointRoomMap(double x, double y) {
 		super(x, y);
-		weight_value = 1;
+		this.weightValue = 1;
 	}
 
 	/**
-	 * Sets the new weight value.
+	 * Sets the weight value in this point.
 	 *
-	 * @param value the new new weight value
+	 * @param weight the new weight value
 	 */
-	public void setNewWeightValue (double value) {
-		weight_value = value;
+	public void setNewWeightValue(double weight) {
+		this.weightValue = weight;
 	}
 	
 	/**
-	 * Gets the weight value.
+	 * Gets the weight value in this point.
 	 *
 	 * @return the weight value
 	 */
-	public double getWeightValue () {
-		return weight_value;
+	public double getWeightValue() {
+		return this.weightValue;
 	}
     
-    /* (non-Javadoc)
-     * @see algorithm.helper.Point#toString()
-     */
+	/**
+	 * Represents a string of this point.
+	 *
+	 * @return a string
+	 */
     public String toString() {
-        return "x = " + super.x + " y = " + super.y + " weight = " + this.weight_value;
+        return "[" + this.getX() + ";" + this.getY() + "] - weight = " + this.weightValue;
     }	
 }

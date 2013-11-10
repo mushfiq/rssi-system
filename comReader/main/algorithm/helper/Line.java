@@ -2,6 +2,7 @@
  * File: Line.java
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
+ * 					Yentran Tran
  */
 package algorithm.helper;
 
@@ -9,7 +10,7 @@ package algorithm.helper;
  * The class Line represents a line from a start point p0 to an end point p1.
  * 
  * @version 1.0 08 Nov 2013
- * @author Tommy Griese
+ * @author Yentran Tran, Tommy Griese
  */
 public class Line {
     
@@ -46,25 +47,6 @@ public class Line {
      */
     public Point getEndPoint() {
     	return this.p1;
-    }
-    
-    /**
-     * Gets the normalized direction vector of the line in direction of p0 to p1.
-     *
-     * @return the vector
-     */
-    public Point getVector() {
-        return p1.sub(p0).normalize();
-    }
-
-    /**
-     * Distance of the given point p to the line.
-     *
-     * @param p the point
-     * @return the distance
-     */
-    public double distanceOf(Point p) {
-        return Math.abs(p.sub(p0).cross(getVector()));
     }
 
     /**
