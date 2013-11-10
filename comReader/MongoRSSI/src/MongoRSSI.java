@@ -13,8 +13,8 @@ public class MongoRSSI {
 		DBCollection rawData = db.getCollection("rawData");
 		long currentUnixTime = System.currentTimeMillis() / 1000L;
 		try {
-			rawData.insert(new BasicDBObject().append("signalStrenth",
-					"HDM 1230009 89 89 89 67 66").append("insertedAt",
+			rawData.insert(new BasicDBObject().append("watchPositionData"
+					).append("insertedAt",
 					currentUnixTime));
 		} catch (Exception e) {
 			System.out.print(e);
