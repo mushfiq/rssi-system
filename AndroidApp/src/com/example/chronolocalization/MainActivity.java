@@ -1,7 +1,6 @@
 package com.example.chronolocalization;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -22,11 +21,10 @@ public class MainActivity extends Activity
 {
 	private Spinner spinnerChooseWatch;
 	private Button buttonDisplayPosition;
-	private Button buttonDisplayLastNPositions;
 	private DrawableImage imageView;
 	private TextView positionText;
 	private DataManager dataManager;
-	private EditText urlText;
+	int offset = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -40,7 +38,7 @@ public class MainActivity extends Activity
 		imageView = (DrawableImage) findViewById(R.id.mapImage);
 		
 		positionText = (TextView) findViewById(R.id.CurrentPositionText);
-		urlText = (EditText) findViewById(R.id.editURL);
+		
 
 		imageView.addReceiver("Receiver1", new Point(20,55));
 		imageView.addReceiver("Receiver2", new Point(20,350));
@@ -53,35 +51,29 @@ public class MainActivity extends Activity
 		buttonDisplayPosition.setOnClickListener(new OnClickListener() {
 			 
 			  @Override
-			  public void onClick(View v) {
-				
+			  public void onClick(View v) {				
 				  String watchID = spinnerChooseWatch.getSelectedItem().toString();
 					new GetPositionTask(watchID).execute();
-				
-				
 			  }
 			  
 			  class GetPositionTask extends AsyncTask<String, Void, String>
-				{
+			  {
 				  String watchID = "";
 				  public GetPositionTask(String watchID)
 				  {
 					  this.watchID = watchID;
 				  }
-				    /** The system calls this to perform work in a worker thread and
-				      * delivers it the parameters given to AsyncTask.execute() */
-				    protected String doInBackground(String... str)
-				    {
+				   
+				  protected String doInBackground(String... str)
+				  {
 				    	String httpResponse = "";
 				    	try
 				    	{
-				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&limit=1&format=json";
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+				    		offset++;
 					    	URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-					    	// optional default is GET
-							con.setRequestMethod("GET");
-				 
-							int responseCode = con.getResponseCode();
+					    	con.setRequestMethod("GET");
 					 
 							BufferedReader in = new BufferedReader(
 							        new InputStreamReader(con.getInputStream()));
@@ -101,17 +93,15 @@ public class MainActivity extends Activity
 					 				
 						return httpResponse;
 				    }
-				    
-				    /** The system calls this to perform work in the UI thread and delivers
-				      * the result from doInBackground() */
+
 				    protected void onPostExecute(String result)
 				    {
-				    	imageView.clearWatchesToDraw();
-				    	
 				    	String watchID = spinnerChooseWatch.getSelectedItem().toString();
-						imageView.addWatchToDraw(watchID);
-					    
+				    	
+				    	imageView.clearWatchesToDraw();
+				    	imageView.addWatchToDraw(watchID);					    
 						imageView.clearWatchPositions(watchID);
+						
 						try
 						{	
 					    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
@@ -119,6 +109,8 @@ public class MainActivity extends Activity
 					    	{
 					    		WatchPositionRecord firstRecord = records.get(0);
 						    	Point lastPosition = firstRecord.getPosition();
+						    	float x = lastPosition.getX();
+						    	float y = lastPosition.getY();
 						    	
 						    	 
 						    	// Needed for the coordinate transformation of accessed position and the imageview
@@ -130,7 +122,7 @@ public class MainActivity extends Activity
 						    	imageView.addWatchPosition(watchID, lastPosition);
 							    
 							    imageView.invalidate();
-							    String positionString = "x = " + lastPosition.getX()/10.0 + "m, " + "y = " + lastPosition.getY()/10.0 + "m"; 
+							    String positionString = "x = " + x + "m, " + "y = " + y + "m"; 
 							    positionText.setText(positionString);
 					    	}
 						}
@@ -142,46 +134,7 @@ public class MainActivity extends Activity
 				    }
 				}
 		 
-			});
-		
-		buttonDisplayLastNPositions = (Button) findViewById(R.id.displayLastNPositions);
-		
-		buttonDisplayLastNPositions.setOnClickListener(new OnClickListener() {
-			 
-			  @Override
-			  public void onClick(View v) {
-		 		
-				imageView.clearWatchesToDraw();
-				
-				String watchID = spinnerChooseWatch.getSelectedItem().toString();
-				imageView.addWatchToDraw(watchID);
-			    
-				
-				imageView.clearWatchPositions(watchID);
-				
-				EditText stepsInput = (EditText) findViewById(R.id.numberOfSteps);
-				int numberOfSteps = Integer.parseInt(stepsInput.getText().toString());
-						
-			    ArrayList<Point> lastPositions = dataManager.getLastNPositions(watchID,numberOfSteps);
-			    
-			    for(int index = 0; index < lastPositions.size(); ++index)
-			    {	
-			    	Point lastPosition = lastPositions.get(index);
-			    	imageView.addWatchPosition(watchID, lastPosition);
-			    	float x = lastPosition.getX();
-				    float y = lastPosition.getY();
-				    
-				    
-				    String positionString = "x = " + (float)(x)/10.0 + "m, " + "y = " + (float)(y)/10.0 + "m"; 
-				    positionText.setText(positionString);   
-			    }
-			    
-			    imageView.invalidate();
-			    
-			  }
-		 
-			});
-
+			});		
 	}
 
 	@Override
