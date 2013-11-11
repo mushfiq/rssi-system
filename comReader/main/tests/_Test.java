@@ -3,10 +3,11 @@ package tests;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import components.Receiver;
-import components.RoomMap;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
+
+import components.Receiver;
+import components.RoomMap;
 
 
 public class _Test {

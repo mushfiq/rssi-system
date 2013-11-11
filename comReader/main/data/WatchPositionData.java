@@ -1,12 +1,12 @@
 package data;
 
-import algorithm.helper.PointRoomMap;
+import algorithm.helper.Point;
 
 public class WatchPositionData {
 
 	private int watchId;
 	private long time;
-	private PointRoomMap position;
+	private Point position;
 	
 	public WatchPositionData() {
 		// TODO Auto-generated constructor stub
@@ -28,21 +28,25 @@ public class WatchPositionData {
 		this.time = time;
 	}
 
-	public PointRoomMap getPosition() {
+	public Point getPosition() {
 		return position;
 	}
 
-	public void setPosition(PointRoomMap position) {
+	public void setPosition(Point position) {
 		this.position = position;
 	}
 
-	public WatchPositionData(int watchId, long time, PointRoomMap position) {
+	public WatchPositionData(int watchId, long time, Point position) {
 		super();
 		this.watchId = watchId;
 		this.time = time;
 		this.position = position;
 	}
 
-	
+	@Override
+	public String toString() {
+		
+		return "Watch id: " + watchId + ", time: " + time + ", position: " + position.toString();
+	}
 	
 }

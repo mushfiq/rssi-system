@@ -10,10 +10,12 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
-import components.Receiver;
-import components.RoomMap;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
+
+import components.Receiver;
+import components.RoomMap;
+
 import data.Controller;
 
 // TODO: Auto-generated Javadoc
@@ -64,6 +66,8 @@ public final class Application {
 	private void initializeLogger() {
 	
 		logger = Logger.getLogger(Application.class);
+//		logger = Logger.getLogger(Thread.currentThread().getStackTrace()[2].getClass().getCanonicalName());
+		
 		PatternLayout layout = new PatternLayout();
 		layout.setConversionPattern("%d %p [%c] - %m%n");
 	      FileAppender appender = null;
