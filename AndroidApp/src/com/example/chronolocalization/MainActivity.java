@@ -1,22 +1,17 @@
 package com.example.chronolocalization;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Random;
+import dataobjects.ResponseParser;
+import dataobjects.Point;
+import dataobjects.WatchPositionRecord;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.SystemClock;
 import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
@@ -31,6 +26,7 @@ public class MainActivity extends Activity
 	private DrawableImage imageView;
 	private TextView positionText;
 	private DataManager dataManager;
+	private EditText urlText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -42,7 +38,9 @@ public class MainActivity extends Activity
 		dataManager = new DataManager();
 
 		imageView = (DrawableImage) findViewById(R.id.mapImage);
+		
 		positionText = (TextView) findViewById(R.id.CurrentPositionText);
+		urlText = (EditText) findViewById(R.id.editURL);
 
 		imageView.addReceiver("Receiver1", new Point(20,55));
 		imageView.addReceiver("Receiver2", new Point(20,350));
@@ -56,32 +54,95 @@ public class MainActivity extends Activity
 			 
 			  @Override
 			  public void onClick(View v) {
-				//int width = imageView.getMeasuredWidth();
-				    //int height = imageView.getMeasuredHeight();  
 				
-				imageView.clearWatchesToDraw();
-			    
-				String watchID = spinnerChooseWatch.getSelectedItem().toString();
-				imageView.addWatchToDraw(watchID);
-			    
-				imageView.clearWatchPositions(watchID);
-				Point lastPosition = dataManager.getLastPoint(watchID);
-			    imageView.addWatchPosition(watchID, lastPosition);
-			    
-			    int x = lastPosition.getX();
-			    int y = lastPosition.getY();
-			    
-			    imageView.invalidate();
-			    String positionString = "x = " + (float)(x)/10.0 + "m, " + "y = " + (float)(y)/10.0 + "m"; 
-			    positionText.setText(positionString);
-			    
-			    
+				  String watchID = spinnerChooseWatch.getSelectedItem().toString();
+					new GetPositionTask(watchID).execute();
+				
+				
 			  }
+			  
+			  class GetPositionTask extends AsyncTask<String, Void, String>
+				{
+				  String watchID = "";
+				  public GetPositionTask(String watchID)
+				  {
+					  this.watchID = watchID;
+				  }
+				    /** The system calls this to perform work in a worker thread and
+				      * delivers it the parameters given to AsyncTask.execute() */
+				    protected String doInBackground(String... str)
+				    {
+				    	String httpResponse = "";
+				    	try
+				    	{
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&limit=1&format=json";
+					    	URL obj = new URL(url);
+					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+					    	// optional default is GET
+							con.setRequestMethod("GET");
+				 
+							int responseCode = con.getResponseCode();
+					 
+							BufferedReader in = new BufferedReader(
+							        new InputStreamReader(con.getInputStream()));
+							String inputLine;
+							StringBuffer response = new StringBuffer();
+					 
+							while ((inputLine = in.readLine()) != null) {
+								response.append(inputLine);
+							}
+							in.close();
+							httpResponse = response.toString();
+				    	}
+				    	catch(Exception e)
+				    	{
+				    		e.printStackTrace();
+				    	}
+					 				
+						return httpResponse;
+				    }
+				    
+				    /** The system calls this to perform work in the UI thread and delivers
+				      * the result from doInBackground() */
+				    protected void onPostExecute(String result)
+				    {
+				    	imageView.clearWatchesToDraw();
+				    	
+				    	String watchID = spinnerChooseWatch.getSelectedItem().toString();
+						imageView.addWatchToDraw(watchID);
+					    
+						imageView.clearWatchPositions(watchID);
+						try
+						{	
+					    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
+					    	if( !records.isEmpty() )
+					    	{
+					    		WatchPositionRecord firstRecord = records.get(0);
+						    	Point lastPosition = firstRecord.getPosition();
+						    	
+						    	 
+						    	// Needed for the coordinate transformation of accessed position and the imageview
+							    Point oldZero = new Point(0,0);
+							    Point newZero = new Point(15,-360);
+							    
+							    lastPosition = dataManager.transformPosition(oldZero, newZero, lastPosition);
+							    
+						    	imageView.addWatchPosition(watchID, lastPosition);
+							    
+							    imageView.invalidate();
+							    String positionString = "x = " + lastPosition.getX()/10.0 + "m, " + "y = " + lastPosition.getY()/10.0 + "m"; 
+							    positionText.setText(positionString);
+					    	}
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+							positionText.setText(result);
+						}
+				    }
+				}
 		 
 			});
-
-		
-		
 		
 		buttonDisplayLastNPositions = (Button) findViewById(R.id.displayLastNPositions);
 		
@@ -107,8 +168,8 @@ public class MainActivity extends Activity
 			    {	
 			    	Point lastPosition = lastPositions.get(index);
 			    	imageView.addWatchPosition(watchID, lastPosition);
-			    	int x = lastPosition.getX();
-				    int y = lastPosition.getY();
+			    	float x = lastPosition.getX();
+				    float y = lastPosition.getY();
 				    
 				    
 				    String positionString = "x = " + (float)(x)/10.0 + "m, " + "y = " + (float)(y)/10.0 + "m"; 
@@ -116,8 +177,6 @@ public class MainActivity extends Activity
 			    }
 			    
 			    imageView.invalidate();
-			    
-			    
 			    
 			  }
 		 

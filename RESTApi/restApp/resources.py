@@ -21,6 +21,7 @@ class WatchResource(resources.MongoEngineResource):
 		
 		filtering = {
 			"insertedAt" : ['gte','lte',],
-			"mapId"		 : ['exact',]
+			"mapId"		 : ['exact',],
+			"watchId"	 : ['exact',],
 		}
 		excludes = ['id', 'resource_uri']

@@ -4,4 +4,4 @@
 RESTApi/htmlcov/*
 */.coverage/*
 /bin
-
+*.class
