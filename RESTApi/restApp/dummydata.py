@@ -1,12 +1,26 @@
 import time
-from datetime import datetime
+import datetime
 from random import shuffle, random, uniform, randint
 from documents import rawData, watchRecords
+import json
 from  mongoengine import connect, Document
+
+#datetime.datetime.strptime(d, '%Y-%m-%dT%H:%M:%S')
 
 connect('rssiSystem')
 
 randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
+
+dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime)  or isinstance(obj, datetime.date) else None
+
+silvioDataWatch1 = [{'x':0,'y':145}, {'x':10,'y':145}, {'x':20,'y':145},
+{'x':35,'y':145}, {'x':50,'y':160}, {'x':70,'y':180}, {'x':90,'y':200},
+{'x':90,'y':220}, {'x':110,'y':230}, {'x':130,'y':235}, {'x':150,'y':238},
+{'x':180,'y':238}, {'x':210,'y':238}]
+
+silvioDataWatch2 = [{'x':0,'y':145}, {'x':10,'y':145}, {'x':30,'y':130},
+{'x':60,'y':130}, {'x':90,'y':120}, {'x':120,'y':120}, {'x':140,'y':90}, {'x':160,'y':85}, 
+{'x':190,'y':85},{'x':210,'y':85}, {'x':230,'y':85}, {'x':250,'y':85}, {'x':210,'y':75}, {'x':140,'y':75}]
 
 ''' this script is for inserting dummy data into the mongo'''	
 watchIdList = ['watch1', 'watch2', 'watch3']
@@ -37,16 +51,28 @@ def addRadomData():
 	dObj.save()
 	print "saved"
 	
-def updatedDummyData():
+def updatedDummyData(dataDict):
 	dObj = watchRecords()
-	dObj.x = uniform(1.2,4.5)
-	dObj.y = uniform(100.01, 302.5)
-	dObj.insertedAt = datetime.now()
-	dObj.mapId = randint(1, 4)
-	dObj.watchId = watchIdList[randint(0, 2)]
+
+	dObj.x = dataDict.get('x')
+	dObj.y = dataDict.get('y')
+	dateString = dataDict.get('insertedAt')
+	# print "DATE STRING", dateString
+	# print "CONVERTED", datetime.datetime.strptime(dateString, '%Y-%m-%dT%H:%M:%S')
+	# dObj.insertedAt = dataDict.get('insertedAt')
+	# dObj.insertedAt = datetime.datetime.fromtimestamp(dataDict.get('insertedAt'))
+	dObj.insertedAt = datetime.datetime.strptime(dateString, '%Y-%m-%dT%H:%M:%S')
+	dObj.watchId = dataDict.get("watchId")
+
+	dObj.mapId = dataDict.get('mapId')
+
 	try:
+		# print dObj.watchId
+		# k 
+		# print dObj
+		# print dObj.insertedAt
 		dObj.save()
-		print "Saved"
+		# print "Saved"
 	except Exception, e:
 		print e
 		
@@ -57,11 +83,33 @@ def delete_dummy_data():
 		obj.delete()
 		count+=1
 	
-	print "Total %d object deleted" %count
+	print "All deleted!"
+
+
+def insertedSilviosData():
+	for dataDict in  silvioDataWatch1:
+		# print i
+		time.sleep(3)
+		updatedDummyData(dataDict)
+		# x = list(i)[0]
+		# y = list(i)[1]
+		# print x, y
+
+def readAndInsetrfromJSON():
+	file = open('sampleData.json', 'r+')
+	lines = file.xreadlines()
+
+	for l in lines:
+		dict = json.loads(l)
+		# print dict.get('insertedAt')
+		updatedDummyData(dict)
+		# print json.loads(l).get('x'), json.loads(l).get('y')
 	
 if __name__ == '__main__':
-	for i in range(0, 10):
-		updatedDummyData()
+	readAndInsetrfromJSON()
+	# insertedSilviosData()
+	# for i in range(0, 100):
+	# 	updatedDummyData()
 	# delete_dummy_data()
 	# insertDummyData()
 	# for i in range(0, 3):
