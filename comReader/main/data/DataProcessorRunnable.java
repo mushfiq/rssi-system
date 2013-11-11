@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import main.Application;
+import algorithm.helper.Point;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,10 +44,12 @@ public class DataProcessorRunnable implements Runnable {
 				// for every watch, send the average receivers strength to the algorithm for calculation 
 				for (Map.Entry<Integer, HashMap<Integer, Double>> entry : allSignalStrengths.entrySet()) {
 					
-					System.out.println(entry.getKey() + ", " + entry.getValue());
-					System.out.println("Calculated something: " + Application.getApplication().getAlgorithm().calculate(entry.getValue()));
-					
-					// TODO: Send the calculated values to the calculatedPositionsQueue
+					Point position = Application.getApplication().getAlgorithm().calculate(entry.getValue());
+					int watchId = entry.getKey();
+					long currentTime = System.currentTimeMillis() / 1000L; // Tommy: changed it by dividing 1000L to get UNIX timestamp
+					int mapId = 0; // TODO: get actual room map id instead of supplying zero every time
+					WatchPositionData newData = new WatchPositionData(watchId, currentTime, position);
+					Application.getApplication().getController().getCalculatedPositionsQueue().add(newData);
 				}
 				
 			} else { // queue is empty, check again later

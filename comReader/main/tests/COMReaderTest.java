@@ -1,25 +1,31 @@
 package tests;
 
-import java.io.File;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import main.Application;
+
+import com.sun.corba.se.pept.transport.ReaderThread;
+
+import data.COMPortDataReader;
 import data.DataProcessor;
-import data.DataReader;
-import data.FileDataReader;
+import data.DatabaseDataWriter;
+import data.SerialComm;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class ReadingFromFileTest.
- */
-public final class ReadingFromFileTest {
+public class COMReaderTest {
 
+	
 	/**
-	 * Instantiates a new reading from file test.
+	 * Instantiates a new reading from com port.
 	 */
-	private ReadingFromFileTest() {
+	private COMReaderTest() {
 
 	}
 
+	static SerialComm s;
+    static ReaderThread rdt;
+	
 	/**
 	 * The main method.
 	 * 
@@ -27,6 +33,16 @@ public final class ReadingFromFileTest {
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
+		
+		
+		
+
+        
+      
+
+ 	
+		
+		
 
 		/*
 		 * We instantiate the application simply by calling its "getApplication"
@@ -40,21 +56,14 @@ public final class ReadingFromFileTest {
 		 * DataReader class reads data from COM port and converts it to usable
 		 * signal strengths. Then, it puts those values into the signals queue,
 		 * so that DataProcessor can calculate actual watch position in the
-		 * room, using one of the algorithms. For testing purposes, we are
-		 * reading sample data from a file. To read data from COM port, the
-		 * following line of code should be changed to:
+		 * room, using one of the algorithms. 
 		 * 
-		 * DataReader reader = new COMPortReader();
+		 * 
 		 */
 
-		/*DataReader reader = new FileDataReader(new File("comReader"
-				+ File.separator + "main" + File.separator + "resources"
-				+ File.separator + "data.txt"));*/
-		
-		DataReader reader = new FileDataReader(new File("comReader"
-				+ File.separator + "main" + File.separator + "resources"
-				+ File.separator + "bigdata2.txt"));
-		reader.readData();
+		COMPortDataReader reader = new COMPortDataReader();
+		Thread thread = new Thread(reader);
+		 thread.start();
 
 		/*
 		 * Controller class is used to change the algorithm. Default algorithm
@@ -75,6 +84,8 @@ public final class ReadingFromFileTest {
 		DataProcessor processor = new DataProcessor();
 		processor.processData();
 		
+		DatabaseDataWriter writer = new DatabaseDataWriter();
+		writer.writeData();
+	
 	}
-
 }

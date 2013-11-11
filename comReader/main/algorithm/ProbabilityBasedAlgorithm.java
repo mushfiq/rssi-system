@@ -256,6 +256,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
 		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
+		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
 		if (grayscaleDebugInformation) {
 			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, "calculatedMap" + grayscaleImagePicCounter);
