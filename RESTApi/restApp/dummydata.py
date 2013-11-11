@@ -23,6 +23,7 @@ silvioDataWatch2 = [{'x':0,'y':145}, {'x':10,'y':145}, {'x':30,'y':130},
 {'x':190,'y':85},{'x':210,'y':85}, {'x':230,'y':85}, {'x':250,'y':85}, {'x':210,'y':75}, {'x':140,'y':75}]
 
 ''' this script is for inserting dummy data into the mongo'''	
+watchIdList = ['watch1', 'watch2', 'watch3']
 
 def getAll():
 	allData = rawData.objects.all()
@@ -52,6 +53,7 @@ def addRadomData():
 	
 def updatedDummyData(dataDict):
 	dObj = watchRecords()
+
 	dObj.x = dataDict.get('x')
 	dObj.y = dataDict.get('y')
 	dateString = dataDict.get('insertedAt')
@@ -63,6 +65,7 @@ def updatedDummyData(dataDict):
 	dObj.watchId = dataDict.get("watchId")
 
 	dObj.mapId = dataDict.get('mapId')
+
 	try:
 		# print dObj.watchId
 		# k 
@@ -75,8 +78,10 @@ def updatedDummyData(dataDict):
 		
 def delete_dummy_data():
 	allObjs = watchRecords.objects.all()
+	count = 0
 	for obj in allObjs:
 		obj.delete()
+		count+=1
 	
 	print "All deleted!"
 

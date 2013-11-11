@@ -1,5 +1,7 @@
 package com.example.chronolocalization;
 
+import dataobjects.Point;
+
 public class Line
 {
 	private Point start;

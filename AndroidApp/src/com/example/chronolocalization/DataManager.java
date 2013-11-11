@@ -17,6 +17,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import dataobjects.Point;
+
 public class DataManager
 {
 
@@ -109,5 +111,14 @@ public class DataManager
 				index++;
 			}
 		}
+	}
+	
+	public Point transformPosition(Point oldZero, Point newZero, Point point)
+	{
+		float dx = newZero.getX() - oldZero.getX();
+		float dy = newZero.getY() - oldZero.getY();
+		float x = point.getX() + dx;
+		float y = -point.getY() - dy;
+		return new Point(x, y);
 	}
 }
