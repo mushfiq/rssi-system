@@ -3,8 +3,6 @@ package dataobjects;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +36,8 @@ public class ResponseParser {
 						dateFormatter.parse(jsonObj.getString("insertedAt").toString());
 					} catch (ParseException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    //want to implement
-                    /*String msgTime = jsonObj.getString("insertedAt").toString();
-                    pojoDeviceInformation.setMsgTime(msgTime);*/
 
                     String x = jsonObj.getString("x").toString();
                     Double parseX = Double.parseDouble(x);
@@ -58,7 +52,6 @@ public class ResponseParser {
                 }
             	return deviceInformation;
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
