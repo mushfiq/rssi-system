@@ -30,14 +30,6 @@
 
             </LinearLayout>
 
-            <EditText
-                android:id="@+id/editURL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="http://echo.jsontest.com/x/123/y/117"
-                android:textSize="12sp" />
-
             <com.example.chronolocalization.DrawableImage
                 android:id="@+id/mapImage"
                 android:layout_width="wrap_content"
@@ -58,39 +50,10 @@
                 android:textSize="12sp"
                 android:text="@string/unknown" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/displayPosition"
                 android:layout_width="wrap_content"
-            	android:layout_height="wrap_content"
-           	 	android:orientation="vertical" >
-	                <Button
-	                android:id="@+id/displayPosition"
-	                android:layout_width="fill_parent"
-	                android:layout_height="fill_parent"
-	                android:layout_weight="1"
-	                android:textSize="12sp"
-	                android:text="@string/Display_Position" />
-	                <LinearLayout
-	                    android:layout_width="fill_parent"
-            			android:layout_height="fill_parent"
-            			android:layout_weight ="1"
-           	 			android:orientation="horizontal"  >
-		            	<Button
-			                android:id="@+id/displayLastNPositions"
-			                android:layout_width="wrap_content"
-			                android:layout_height="wrap_content"
-			                android:textSize="12sp"
-			                android:text="@string/Display_Last_N_Positions" />
-		            	<EditText
-		            	    android:id="@+id/numberOfSteps"
-		            	    android:layout_width="wrap_content"
-		            	    android:layout_height="wrap_content"
-		            	    android:textSize="12sp"
-		            	    android:inputType="number"
-		            	    android:text="@string/NumberOfSteps" >
-
-	            	    <requestFocus />
-	            	</EditText>
-	            	
-	            	</LinearLayout>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:text="@string/Display_Position"
+                android:textSize="12sp" />
 </LinearLayout>
