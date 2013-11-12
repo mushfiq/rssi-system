@@ -8,9 +8,10 @@
     <string name= "Display_Last_N_Positions">Display last n positions</string>
     <string name="Position_Text">The Position of the watch is</string>
     <string name= "unknown">unknown</string>
+    <string name= "track_position">Show Path</string>
     <string-array name="watches">
         <item>watch1</item>
-        <item>Watch2</item>
+        <item>watch2</item>
     </string-array>
     <string name= "selectWatch">Select Watch:</string>
     <string name="NumberOfSteps">Steps</string>
