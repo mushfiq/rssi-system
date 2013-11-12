@@ -13,7 +13,18 @@ import android.widget.ImageView;
 
 public class DrawableImage extends ImageView {
 	
+	Point zeroPoint = null;
+	public void setZeroPoint(Point zeroPoint)
+	{
+		this.zeroPoint = zeroPoint;
+	}
+	
     Paint paint = new Paint();
+    boolean drawPath = false;
+    public void setDrawPath(boolean drawPath)
+    {
+    	this.drawPath = drawPath;
+    }
 
     public DrawableImage(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -81,9 +92,26 @@ public class DrawableImage extends ImageView {
         	ArrayList<Point> points = watchToPositions.get(watchID);
         	if( points != null )
         	{
-        		for(int index = 0; index < points.size(); ++index )
+        		if( drawPath )
         		{
-        			Point point = points.get(index);
+	        		for(int index = 0; index < points.size() - 1; ++index )
+	        		{
+	        			Point point = points.get(index);
+	        			if(watchID.equals("watch1") )
+	        			{
+	        				p.setColor(Color.GREEN);
+	        			}
+	        			else
+	        			{
+	        				p.setColor(Color.RED);
+	        			}
+	                	p.setStrokeWidth(2);
+	                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
+	                	Point nextPoint = points.get(index+1);
+	                	canvas.drawLine(point.getX(), point.getY(), nextPoint.getX(), nextPoint.getY(), p);
+	           		}
+	        		
+	        		Point point = points.get(points.size() - 1);
         			if(watchID.equals("Watch A") )
         			{
         				p.setColor(Color.GREEN);
@@ -94,7 +122,28 @@ public class DrawableImage extends ImageView {
         			}
                 	p.setStrokeWidth(2);
                 	canvas.drawCircle(point.getX(), point.getY(), 10, p );
-           		}
+        		}
+        		else
+        		{
+        			for(int index = 0; index < points.size(); ++index )
+	        		{
+	        			Point point = points.get(index);
+	        			if(watchID.equals("Watch A") )
+	        			{
+	        				p.setColor(Color.GREEN);
+	        			}
+	        			else
+	        			{
+	        				p.setColor(Color.RED);
+	        			}
+	                	p.setStrokeWidth(2);
+	                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
+	           		}
+        		}
+        		if( zeroPoint != null) 
+        		{
+        			canvas.drawText("(0/0)", zeroPoint.getX(), zeroPoint.getY(), p);
+        		}
 	    	}
 		}
     }       
