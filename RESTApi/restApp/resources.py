@@ -24,4 +24,5 @@ class WatchResource(resources.MongoEngineResource):
 			"mapId"		 : ['exact',],
 			"watchId"	 : ['exact',],
 		}
+
 		excludes = ['id', 'resource_uri']
