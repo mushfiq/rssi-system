@@ -3,6 +3,8 @@ package dataobjects;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,10 +32,11 @@ public class ResponseParser {
                     watchPositionRecord.setMapId(jsonObj.getInt("mapId"));
                     watchPositionRecord.setWatchId(jsonObj.getString("watchId").toString());
                     
-                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy.MM.dd'T'HH:mm:ss" );
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
                     try
 					{
-						dateFormatter.parse(jsonObj.getString("insertedAt").toString());
+						Date insertedAt = dateFormatter.parse(jsonObj.getString("insertedAt").toString());
+						watchPositionRecord.setInsertedAt(insertedAt);
 					} catch (ParseException e)
 					{
 						e.printStackTrace();
