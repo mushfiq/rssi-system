@@ -23,7 +23,6 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		
 		try {
 			mongo = new Mongo("127.0.0.1");
-//			mongo = new Mongo("50.57.78.184");
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
