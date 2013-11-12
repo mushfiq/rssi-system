@@ -34,7 +34,7 @@
                 android:id="@+id/mapImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/room" />
+                android:src="@drawable/square3m" />
 
             <TextView
                 android:id="@+id/PositionText"
@@ -56,4 +56,24 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Display_Position"
                 android:textSize="12sp" />
+			<LinearLayout
+			    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/trackPosition"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="138dp"
+                android:layout_height="wrap_content"
+                android:text="@string/track_position" />
+
+            <EditText
+                android:id="@+id/editNumberOfSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NumberOfSteps" 
+                />
+            </LinearLayout>
+
 </LinearLayout>
