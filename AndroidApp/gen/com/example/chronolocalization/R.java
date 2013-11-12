@@ -29,15 +29,18 @@ public final class R {
         public static final int room2=0x7f020002;
         public static final int room_kl=0x7f020003;
         public static final int room_svg=0x7f020004;
+        public static final int square3m=0x7f020005;
     }
     public static final class id {
         public static final int CurrentPositionText=0x7f090004;
         public static final int PositionText=0x7f090003;
         public static final int SelectWatch=0x7f090000;
         public static final int WatchSpinner=0x7f090001;
-        public static final int action_settings=0x7f090006;
+        public static final int action_settings=0x7f090008;
         public static final int displayPosition=0x7f090005;
+        public static final int editNumberOfSteps=0x7f090007;
         public static final int mapImage=0x7f090002;
+        public static final int trackPosition=0x7f090006;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -48,12 +51,13 @@ public final class R {
     public static final class string {
         public static final int Display_Last_N_Positions=0x7f050004;
         public static final int Display_Position=0x7f050003;
-        public static final int NumberOfSteps=0x7f050008;
+        public static final int NumberOfSteps=0x7f050009;
         public static final int Position_Text=0x7f050005;
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
-        public static final int selectWatch=0x7f050007;
+        public static final int selectWatch=0x7f050008;
+        public static final int track_position=0x7f050007;
         public static final int unknown=0x7f050006;
     }
     public static final class style {

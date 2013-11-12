@@ -12,8 +12,23 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class DrawableImage extends ImageView {
+<<<<<<< HEAD
         
+=======
+	
+	Point zeroPoint = null;
+	public void setZeroPoint(Point zeroPoint)
+	{
+		this.zeroPoint = zeroPoint;
+	}
+	
+>>>>>>> 53ba1440e8702c29a6223f35e5ffd8d19c22ce96
     Paint paint = new Paint();
+    boolean drawPath = false;
+    public void setDrawPath(boolean drawPath)
+    {
+    	this.drawPath = drawPath;
+    }
 
     public DrawableImage(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -77,6 +92,7 @@ public class DrawableImage extends ImageView {
         
         //Draw all points of the watches we want to visualize
         for (String watchID : watchesToDraw )
+<<<<<<< HEAD
                 {
                 ArrayList<Point> points = watchToPositions.get(watchID);
                 if( points != null )
@@ -97,5 +113,65 @@ public class DrawableImage extends ImageView {
                            }
                     }
                 }
+=======
+		{
+        	ArrayList<Point> points = watchToPositions.get(watchID);
+        	if( points != null )
+        	{
+        		if( drawPath )
+        		{
+	        		for(int index = 0; index < points.size() - 1; ++index )
+	        		{
+	        			Point point = points.get(index);
+	        			if(watchID.equals("watch1") )
+	        			{
+	        				p.setColor(Color.GREEN);
+	        			}
+	        			else
+	        			{
+	        				p.setColor(Color.RED);
+	        			}
+	                	p.setStrokeWidth(2);
+	                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
+	                	Point nextPoint = points.get(index+1);
+	                	canvas.drawLine(point.getX(), point.getY(), nextPoint.getX(), nextPoint.getY(), p);
+	           		}
+	        		
+	        		Point point = points.get(points.size() - 1);
+        			if(watchID.equals("Watch A") )
+        			{
+        				p.setColor(Color.GREEN);
+        			}
+        			else
+        			{
+        				p.setColor(Color.RED);
+        			}
+                	p.setStrokeWidth(2);
+                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
+        		}
+        		else
+        		{
+        			for(int index = 0; index < points.size(); ++index )
+	        		{
+	        			Point point = points.get(index);
+	        			if(watchID.equals("Watch A") )
+	        			{
+	        				p.setColor(Color.GREEN);
+	        			}
+	        			else
+	        			{
+	        				p.setColor(Color.RED);
+	        			}
+	                	p.setStrokeWidth(2);
+	                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
+	           		}
+        		}
+        		if( zeroPoint != null) 
+        		{
+        			canvas.drawText("(0/0)", zeroPoint.getX(), zeroPoint.getY(), p);
+        		}
+	    	}
+		}
+>>>>>>> 53ba1440e8702c29a6223f35e5ffd8d19c22ce96
     }       
 }
