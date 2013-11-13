@@ -2,7 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path="AndroidApp/gen"/>
 	<classpathentry kind="src" path="AndroidApp/src"/>
-	<classpathentry kind="src" path="comReader/MongoRSSI/src"/>
 	<classpathentry kind="src" path="comReader/main"/>
 	<classpathentry kind="lib" path="AndroidApp/libs/android-support-v4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
