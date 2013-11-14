@@ -17,4 +17,3 @@ python-mimeparse==0.1.4
 six==1.4.1
 wsgiref==0.1.2
 
-jhiuh
