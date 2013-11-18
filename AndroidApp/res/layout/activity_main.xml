@@ -29,13 +29,30 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+                <ScrollView
+                    android:id="@+id/scrollView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="258dp"
+                     >
 
-            <com.example.chronolocalization.DrawableImage
-                android:id="@+id/mapImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/square3m" />
+                    <HorizontalScrollView
+                        android:id="@+id/horizontalScrollView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
 
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <com.example.chronolocalization.DrawableImage
+                                android:id="@+id/mapImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/room_big" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
             <TextView
                 android:id="@+id/PositionText"
                 android:layout_width="wrap_content"

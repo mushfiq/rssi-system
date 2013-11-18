@@ -41,19 +41,13 @@ public class MainActivity extends Activity
 		positionText = (TextView) findViewById(R.id.CurrentPositionText);
 		
 
-		int pos_a = 10;
-		int pos_b = 350;
+		int pos_a = 10; // Position in pixel
+		int pos_b = 350; // Position in pixel
 		imageView.addReceiver("Receiver1", new Point(pos_a,pos_a));
 		imageView.addReceiver("Receiver2", new Point(pos_a,pos_b));
 		imageView.addReceiver("Receiver3", new Point(pos_b,pos_a));
 		//imageView.addReceiver("Receiver4", new Point(pos_b,pos_b));
-		
-		/*
-		imageView.addReceiver("Receiver1", new Point(20,55));
-		imageView.addReceiver("Receiver2", new Point(20,350));
-		imageView.addReceiver("Receiver3", new Point(250,350));
-		imageView.addReceiver("Receiver4", new Point(400,55));
-		*/
+	
 		
 		spinnerChooseWatch = (Spinner) findViewById(R.id.WatchSpinner);
 		
@@ -133,21 +127,20 @@ public class MainActivity extends Activity
 						    	// Needed for the coordinate transformation of accessed position and the imageview
 							    Point oldZero = new Point(0,0);
 							    Point newZero = new Point((width)/2,-((height)/2));
-							    
-							    /*
-							    Point oldZero = new Point(0,0);
-							    Point newZero = new Point(15,-360);
-							    */
-							    
-							    //lastPosition = dataManager.transformPosition(oldZero, newZero, lastPosition);
+							 
 							    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
 							    
 							    Point transformedZero = dataManager.transformPosition(oldZero, newZero, oldZero);
-						    	//imageView.addWatchPosition(watchID, lastPosition);
+
 						    	imageView.addWatchPosition(watchID, positionInPixel);
 						    	imageView.setZeroPoint(transformedZero);
 							    
-							    imageView.invalidate();
+							    imageView.invalidate(); // This yields to a redraw of the view
+							    
+							    // Rounding to two digits after decimal point to get a shorter text
+							    // 0.17293092 => 0.17
+							    x = Math.round(x * 100) / 100.0f;
+							    y = Math.round(y * 100) / 100.0f;
 							    String positionString = "x = " + x + "m, " + "y = " + y + "m at " + firstRecord.getInsertedAt(); 
 							    positionText.setText(positionString);
 					    	}
@@ -191,7 +184,7 @@ public class MainActivity extends Activity
 				    			limit = limitFromString;
 				    		
 				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+				    		url = "http://shironambd.com/api/v1/watch/?limit=" + limit + "&format=json";
 				    		URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	con.setRequestMethod("GET");
@@ -246,17 +239,19 @@ public class MainActivity extends Activity
 								    Point newZero = new Point((width)/2,-((height)/2));
 								    
 								    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
-								    
-							    	//imageView.addWatchPosition(watchID, lastPosition);
+								    							    	
 							    	imageView.addWatchPosition(watchID, positionInPixel);
+							    	
+							    	// Rounding to two digits after decimal point to get a shorter text
+								    // 0.17293092 => 0.17
+								    x = Math.round(x * 100) / 100.0f;
+								    y = Math.round(y * 100) / 100.0f;
 							    	String positionString = "x = " + x + "m, " + "y = " + y + "m at " + record.getInsertedAt(); 
 								    positionText.setText(positionString);
 								    
 								}
-					    		imageView.setDrawPath(true);
-					    		imageView.invalidate();
-					    		
-					    		
+					    		imageView.setDrawPath(true); //The edges between the positions will be drawn
+					    		imageView.invalidate(); // This yields to a redraw of the view
 					    	}
 						}
 						catch(Exception e)
