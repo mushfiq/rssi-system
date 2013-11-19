@@ -1,0 +1,118 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:id="@+id/tabWatchUser"
+    tools:context=".WatchUserActivity" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/SelectWatch"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:text="@string/selectWatch" />
+
+                <Spinner
+                    android:id="@+id/WatchSpinner"
+                    android:layout_width="140dp"
+                    android:layout_height="30dp"
+                    android:entries="@array/watches"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+                <ScrollView
+                    android:id="@+id/scrollView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="258dp"
+                     >
+
+                    <HorizontalScrollView
+                        android:id="@+id/horizontalScrollView1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal" >
+
+                            <com.example.chronolocalization.DrawableImage
+                                android:id="@+id/mapImage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/room_big" />
+                        </LinearLayout>
+                    </HorizontalScrollView>
+                </ScrollView>
+            <TextView
+                android:id="@+id/PositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/Position_Text" />
+
+            <TextView
+                android:id="@+id/CurrentPositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/unknown" />
+
+            <Button
+                android:id="@+id/displayPosition"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:text="@string/Display_Position"
+                android:textSize="12sp" />
+			<LinearLayout
+			    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+				<TextView
+				    android:id="@+id/textView2"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="2"
+				    android:text="@string/showLast"
+				    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+	            <EditText
+	                android:id="@+id/editNumberOfSteps"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="2"
+	                android:text="5"
+	                android:inputType="number" 
+	                />
+	
+	            <TextView
+	                android:id="@+id/textView1"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="2"
+	                android:text="@string/Positions"
+	                android:textAppearance="?android:attr/textAppearanceSmall" />
+	
+	            <Button
+	                android:id="@+id/trackPosition"
+	                style="?android:attr/buttonStyleSmall"
+					android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="2"
+	                android:text="@string/show" />
+
+            </LinearLayout>
+
+</LinearLayout>
