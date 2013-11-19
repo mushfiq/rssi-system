@@ -1,4 +1,4 @@
-from mongoengine import Document, EmbeddedDocument, StringField, FloatField, DateTimeField, IntField
+from mongoengine import Document, EmbeddedDocument, StringField, FloatField, DateTimeField, IntField, FileField
 
 class InheritableDocument(Document):
     meta = {
@@ -22,3 +22,5 @@ class watchRecords(InheritableDocument):
 	insertedAt = DateTimeField()
 	mapId = IntField()
 	watchId = StringField()
+	mapImage = FileField()
+	
