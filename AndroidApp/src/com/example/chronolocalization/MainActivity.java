@@ -5,6 +5,14 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import stu.project.chronolocalization.Utilities;
+
+
 import dataobjects.ResponseParser;
 import dataobjects.Point;
 import dataobjects.WatchPositionRecord;
@@ -12,6 +20,8 @@ import dataobjects.WatchPositionRecord;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.speech.tts.TextToSpeech;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,13 +35,57 @@ public class MainActivity extends Activity
 	private DrawableImage imageView;
 	private TextView positionText;
 	private DataManager dataManager;
+	
+
+	public String watchID;
 	int offset = 0;
 
+	//For rest and voice
+	Timer timer = null;
+	TextToSpeech tts;
+		
+	ImageView start;
+	ImageView stop;
+		@Override
+		protected void onPause() {
+			// TODO Auto-generated method stub
+			super.onPause();
+		
+			if(tts!=null){
+				tts.stop();
+				tts.shutdown();
+				
+			}
+		
+		}
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+//		setContentView(R.layout.activity_main);
+		setContentView(R.layout.home);
+		
+		//Intialize the Speech
+		start = (ImageView)findViewById(R.id.startImg);
+		stop = (ImageView)findViewById(R.id.stopImg);
+
+		Utilities util =new Utilities();
+		tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+			
+			@Override
+			public void onInit(int status) {
+				// TODO Auto-generated method stub
+//				Log.d("*****onInit****","onInit********");
+
+				if(status!=TextToSpeech.ERROR){
+					
+					tts.setLanguage(Locale.UK);
+				}
+			}
+		});
+
+		
 		
 		//Connects the Application with the Data Source (at the moment a dummy implementation)
 		dataManager = new DataManager();
@@ -56,112 +110,7 @@ public class MainActivity extends Activity
 		*/
 		
 		spinnerChooseWatch = (Spinner) findViewById(R.id.WatchSpinner);
-		
-		buttonDisplayPosition = (Button) findViewById(R.id.displayPosition);
-		buttonDisplayPosition.setOnClickListener(new OnClickListener() {
-			 
-			  @Override
-			  public void onClick(View v) {				
-				  String watchID = spinnerChooseWatch.getSelectedItem().toString();
-					new GetPositionTask(watchID).execute();
-			  }
-			  
-			  class GetPositionTask extends AsyncTask<String, Void, String>
-			  {
-				  String watchID = "";
-				  public GetPositionTask(String watchID)
-				  {
-					  this.watchID = watchID;
-				  }
-				   
-				  protected String doInBackground(String... str)
-				  {
-				    	String httpResponse = "";
-				    	try
-				    	{
-				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?limit=1&format=json";
-					    	URL obj = new URL(url);
-					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-					    	con.setRequestMethod("GET");
-					 
-							BufferedReader in = new BufferedReader(
-							        new InputStreamReader(con.getInputStream()));
-							String inputLine;
-							StringBuffer response = new StringBuffer();
-					 
-							while ((inputLine = in.readLine()) != null) {
-								response.append(inputLine);
-							}
-							in.close();
-							httpResponse = response.toString();
-				    	}
-				    	catch(Exception e)
-				    	{
-				    		e.printStackTrace();
-				    	}
-					 				
-						return httpResponse;
-				    }
-
-				    protected void onPostExecute(String result)
-				    {
-				    	String watchID = spinnerChooseWatch.getSelectedItem().toString();
-				    	
-				    	imageView.clearWatchesToDraw();
-				    	imageView.addWatchToDraw(watchID);					    
-						imageView.clearWatchPositions(watchID);
-						imageView.setDrawPath(false);
-						
-						try
-						{	
-					    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
-					    	if( !records.isEmpty() )
-					    	{
-					    		WatchPositionRecord firstRecord = records.get(0);
-						    	Point lastPosition = firstRecord.getPosition();
-						    	float x = lastPosition.getX();
-						    	float y = lastPosition.getY();
-						    	
-						    	int width = imageView.getWidth();
-						    	int height = imageView.getHeight();
-						    	
-						    	float x_inPixel = x / 3.0f * (width-20);
-						    	float y_inPixel = y / 3.0f * (height-20);
-						    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
-						    	 
-						    	// Needed for the coordinate transformation of accessed position and the imageview
-							    Point oldZero = new Point(0,0);
-							    Point newZero = new Point((width)/2,-((height)/2));
-							    
-							    /*
-							    Point oldZero = new Point(0,0);
-							    Point newZero = new Point(15,-360);
-							    */
-							    
-							    //lastPosition = dataManager.transformPosition(oldZero, newZero, lastPosition);
-							    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
-							    
-							    Point transformedZero = dataManager.transformPosition(oldZero, newZero, oldZero);
-						    	//imageView.addWatchPosition(watchID, lastPosition);
-						    	imageView.addWatchPosition(watchID, positionInPixel);
-						    	imageView.setZeroPoint(transformedZero);
-							    
-							    imageView.invalidate();
-							    String positionString = "x = " + x + "m, " + "y = " + y + "m at " + firstRecord.getInsertedAt(); 
-							    positionText.setText(positionString);
-					    	}
-						}
-						catch(Exception e)
-						{
-							e.printStackTrace();
-							positionText.setText(result);
-						}
-				    }
-				}
-		 
-			});		
-		
+				
 		buttonTrackPosition = (Button) findViewById(R.id.trackPosition);
 		buttonTrackPosition.setOnClickListener(new OnClickListener() {
 			 
@@ -225,7 +174,9 @@ public class MainActivity extends Activity
 						
 						try
 						{	
+							
 					    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
+					    	
 					    	if( !records.isEmpty() )
 					    	{
 					    		for (WatchPositionRecord record : records)
@@ -254,6 +205,7 @@ public class MainActivity extends Activity
 								    
 								}
 					    		imageView.setDrawPath(true);
+//					    		String direction = Utilities.getDirection(lastPosition.getX(), p2)
 					    		imageView.invalidate();
 					    		
 					    		
@@ -266,10 +218,165 @@ public class MainActivity extends Activity
 						}
 				    }
 				}
-		 
+
 			});		
+			
+
+	 }
+	
+	public void startApplication(View view){
+		
+		watchID = spinnerChooseWatch.getSelectedItem().toString();
+		 
+		 timer = new Timer();
+ 		tts.speak("Device is started to move", TextToSpeech.QUEUE_FLUSH, null);
+ 		start.setVisibility(View.GONE);
+ 		stop.setVisibility(View.VISIBLE);
+
+	        timer.scheduleAtFixedRate(new TimerTask() {         
+	            @Override
+	            public void run() {
+	                runOnUiThread(new Runnable()
+	                {
+	                    @Override
+	                    public void run()
+	                    {
+//	                    	Log.d("inside timer****", "*************");
+
+	            			new GetPositionTask(watchID).execute();
+
+	                    }
+	                });
+	            }
+	        }, 3000,3000);
+	        
+		
+	}
+	
+	public void stopApplication(View view){
+
+//		Log.d("stopApplication","******");
+		stop.setVisibility(View.GONE);
+		start.setVisibility(View.VISIBLE);
+
+		if(timer !=null){
+			tts.speak("Device is stopped its moving", TextToSpeech.QUEUE_FLUSH, null);
+
+			tts.stop();
+			timer.cancel();
+		}
 	}
 
+	class GetPositionTask extends AsyncTask<String, Void, String>
+	  {
+		  String watchID = "";
+		  public GetPositionTask(String watchID)
+		  {
+			  this.watchID = watchID;
+		  }
+		   
+		  protected String doInBackground(String... str)
+		  {
+		    	String httpResponse = "";
+		    	try
+		    	{
+
+		    		int limit = 1;
+		    		EditText editNumberOfSteps = (EditText) findViewById(R.id.editNumberOfSteps);
+		    		String stepsValue = editNumberOfSteps.getText().toString();
+		    		
+		    		Integer limitFromString = null;
+		    		
+		    		if(!stepsValue.matches("Steps"))
+		    		 limitFromString = Integer.parseInt(editNumberOfSteps.getText().toString());
+
+		    		if( limitFromString != null)
+		    			limit = limitFromString;
+		    		
+		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
+		    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+		    		URL obj = new URL(url);
+			    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+			    	con.setRequestMethod("GET");
+			 
+					BufferedReader in = new BufferedReader(
+					        new InputStreamReader(con.getInputStream()));
+					String inputLine;
+					StringBuffer response = new StringBuffer();
+			 
+					while ((inputLine = in.readLine()) != null) {
+						response.append(inputLine);
+					}
+					in.close();
+					httpResponse = response.toString();
+		    	}
+		    	catch(Exception e)
+		    	{
+		    		e.printStackTrace();
+		    	}
+			 				
+				return httpResponse;
+		    }
+
+		    protected void onPostExecute(String result)
+		    {
+		    	String watchID = spinnerChooseWatch.getSelectedItem().toString();
+		    	
+		    	imageView.clearWatchesToDraw();
+		    	imageView.addWatchToDraw(watchID);					    
+				imageView.clearWatchPositions(watchID);
+				
+				try
+				{	
+					Point lastPosition = null;
+			    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
+			    	if( !records.isEmpty() )
+			    	{
+			    		for (WatchPositionRecord record : records)
+						{	
+			    			 lastPosition = record.getPosition();
+					    	float x = lastPosition.getX();
+					    	float y = lastPosition.getY();
+					    	
+					    	int width = imageView.getWidth();
+					    	int height = imageView.getHeight();
+					    	
+					    	float x_inPixel = x / 3.0f * (width-20);
+					    	float y_inPixel = y / 3.0f * (height-20);
+					    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
+					    	 
+					    	// Needed for the coordinate transformation of accessed position and the imageview
+						    Point oldZero = new Point(0,0);
+						    Point newZero = new Point((width)/2,-((height)/2));
+						    
+						    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
+						    
+					    	//imageView.addWatchPosition(watchID, lastPosition);
+					    	imageView.addWatchPosition(watchID, positionInPixel);
+					    	String positionString = "x = " + x + "m, " + "y = " + y + "m at " + record.getInsertedAt(); 
+						    positionText.setText(positionString);
+
+						}
+			    		imageView.setDrawPath(true);
+					    Point currentLocation = new Point(lastPosition.getX(),lastPosition.getY());
+			    		String direction = Utilities.getDirection(currentLocation);
+//			    		Log.d("********",""+direction);
+			    		Thread.sleep(2000);
+			    		tts.speak(direction, TextToSpeech.QUEUE_FLUSH, null);
+			    		imageView.invalidate();
+			    		
+			    		
+			    	}
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+					positionText.setText(result);
+				}
+		    }
+		}
+
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -279,3 +386,5 @@ public class MainActivity extends Activity
 	}
 
 }
+
+//Code of trackPosition which you have done 
