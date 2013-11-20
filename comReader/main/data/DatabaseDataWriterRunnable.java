@@ -1,6 +1,8 @@
 package data;
 
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 
 import main.Application;
@@ -28,10 +30,10 @@ public class DatabaseDataWriterRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-//        db = mongo.getDB("javaTest");
-//        sampleData = db.getCollection("sampleData");
         db = mongo.getDB("javaTest");
         sampleData = db.getCollection("sampleData");
+//        db = mongo.getDB("rssiSystem");
+//        sampleData = db.getCollection("watch_records");
 	}
 
 	@Override
@@ -58,26 +60,31 @@ public class DatabaseDataWriterRunnable implements Runnable {
 				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
 				
 				// WRITE HERE THE watchPositionData TO MONGODB
-				System.out.println(watchPositionData);
 				// TODO write watchPositionData object into the database
 				
 			    try {
 		        	DBObject documentDetail = new BasicDBObject();
+		        	
+		        	documentDetail.put("_cls", "watchRecords"); // for mongoEngine ORM users
+		        	
 		        	documentDetail.put("x", watchPositionData.getPosition().getX());
 		        	documentDetail.put("y", watchPositionData.getPosition().getY());
-		        	documentDetail.put("insertedAt", watchPositionData.getTime());
-		        	documentDetail.put("mapId", 1);
+		        	
+		        	long time = watchPositionData.getTime();
+		        	SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		        	String strDate = simpledateformat.format(new Date(time));
+		        	documentDetail.put("insertedAt", strDate);
+		        	
+		        	documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
 		        	documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
-//		        	System.out.println(documentDetail);
+		        	
 		        	sampleData.insert(documentDetail);
+//		        	System.out.println(documentDetail);
 
 		        } catch (Exception e) {
 		        	System.out.print(e);
 		        }
-				
 			}
-			
 		}
 	}
-
 }
