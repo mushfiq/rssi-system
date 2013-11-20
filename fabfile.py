@@ -3,7 +3,8 @@ from fabric.api import *
 abspath = lambda filename: os.path.join(os.path.abspath(os.path.dirname(__file__)), filename)
 
 #specify server user name
-env.user = 'user1'
+
+env.user = 'putUserName'
 env.local_site_root = abspath('')
 env.serverpath = '/'
 env.site_root = '/var/www/rssi'

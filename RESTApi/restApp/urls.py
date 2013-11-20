@@ -23,6 +23,7 @@ v1_api = api.Api(api_name='v1')
 v1_api.register(RssiResource())
 v1_api.register(WatchResource())
 urlpatterns = patterns('',
-	url(r'^$', 'restApp.views.index'),
+	url(r'^index$', 'restApp.views.index'),
+	url(r'^api/image/', 'restApp.views.getImage'),
     url(r'^api/', include(v1_api.urls)),
 )

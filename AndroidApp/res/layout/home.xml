@@ -1,0 +1,105 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical" 
+    tools:context=".MainActivity" >
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="56dp"
+        android:background="#DCDCDC"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:padding="15dp" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/SelectWatch"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:gravity="left|center_horizontal|center_vertical"
+                android:text="@string/selectWatch"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            </FrameLayout>
+
+        <Spinner
+            android:id="@+id/WatchSpinner"
+            android:layout_width="107dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="-10dp"
+            android:entries="@array/watches"
+            android:gravity="left|center_horizontal|center_vertical"
+            android:textSize="12sp" />
+
+	    <ImageView
+	        android:id="@+id/startImg"
+	        android:layout_width="101dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical|center_horizontal"
+	        android:gravity="right|center_horizontal|center_vertical"
+	        android:src="@drawable/start_final" 
+	        android:onClick="startApplication"/>
+		
+	    <ImageView
+	        android:id="@+id/stopImg"
+	        android:layout_width="101dp"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_vertical|center_horizontal"
+	        android:gravity="right|center_horizontal|center_vertical"
+	        android:src="@drawable/stop_final"
+	        android:visibility="gone" 
+	        android:onClick="stopApplication"/>
+			    
+    </LinearLayout>
+    
+       <com.example.chronolocalization.DrawableImage
+                android:id="@+id/mapImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/square3m" />
+
+            <TextView
+                android:id="@+id/PositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/Position_Text" />
+
+            <TextView
+                android:id="@+id/CurrentPositionText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/unknown" />
+    
+            <LinearLayout
+			    android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/trackPosition"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="138dp"
+                android:layout_height="wrap_content"
+                android:text="Test" />
+
+            <EditText
+                android:id="@+id/editNumberOfSteps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/NumberOfSteps" 
+                />
+            </LinearLayout>
+            
+</LinearLayout>

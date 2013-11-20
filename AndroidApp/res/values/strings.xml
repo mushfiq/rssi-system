@@ -6,13 +6,18 @@
     <string name="hello_world">Hello world!</string>
     <string name="Display_Position">Display Position</string>
     <string name= "Display_Last_N_Positions">Display last n positions</string>
-    <string name="Position_Text">The Position of the watch is</string>
+    <string name="Position_Text">The current position of the watch is:</string>
     <string name= "unknown">unknown</string>
+    <string name= "show">Draw</string>
     <string-array name="watches">
         <item>watch1</item>
-        <item>Watch2</item>
+        <item>watch2</item>
     </string-array>
     <string name= "selectWatch">Select Watch:</string>
     <string name="NumberOfSteps">Steps</string>
+    <string name="configurationTab">Configuration</string>
+    <string name="watchUserTab">Watch User</string>
+    <string name="showLast">Draw path of last</string>
+    <string name="Positions">position(s)</string>
 
 </resources>

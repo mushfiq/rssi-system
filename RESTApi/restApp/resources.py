@@ -26,3 +26,4 @@ class WatchResource(resources.MongoEngineResource):
 		}
 
 		excludes = ['id', 'resource_uri']
+
