@@ -3,6 +3,7 @@
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 					Yentran Tran
+ * 20 Nov 2013		Tommy Griese		Added hashcode and equals method
  */
 package algorithm.helper;
 
@@ -135,6 +136,30 @@ public class Point {
      */
     public String toString() {
         return "[" + x + ";" + y + "]";
+    }
+    
+    @Override
+    public int hashCode() {
+    	return 0;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+    	if (this == obj) {
+    		return true;
+    	}
+        if (obj == null) {
+        	return false;
+        }
+        if (getClass() != obj.getClass()) {
+        	return false;
+        }
+        
+        Point p = (Point) obj;
+        if (x != p.x || y != p.y) {
+        	return false;
+        }
+        return true;
     }
 }
 

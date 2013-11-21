@@ -2,6 +2,7 @@
  * File: ProbabilityBasedAlgorithm.java
  * Date				Author				Changes
  * 09 Nov 2013		Tommy Griese		create version 1.0
+ * 22 Nov 2013		Tommy Griese		added an extended debug information (showing each step of calculation)
  */
 package algorithm;
 import java.awt.Color;
@@ -51,14 +52,20 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
     /** A flag to enable/disable the writing of grayscale images (for debugging purpose). */
 	private boolean grayscaleDebugInformation;
 	
+	/** A flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
+	private boolean grayscaleDebugInformationExtended;
+	
 	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = true;
 	
+	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED = false;
+	
 	/** Defines the start intensity of the grayscale image. */
-	public static final double GRAYSCALE_IMAGE_START = 100.0;
+	public static final double GRAYSCALE_IMAGE_START = 75.0;
 	
 	/** Defines the end intensity of the grayscale image. */
-	public static final double GRAYSCALE_IMAGE_END = 200.0;
+	public static final double GRAYSCALE_IMAGE_END = 225.0;
 	
 	/** The color black. */
 	public static final int GRAYSCALE_IMAGE_BLACK = 0;
@@ -82,7 +89,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private double granularityRoommap;
 	
 	/** Factor that is used to determine the weighted points of a room map. */
-	public static final double FACTOR_FOR_WEIGHTING_ROOMMAP = 5.0;
+	public static final double FACTOR_FOR_WEIGHTING_ROOMMAP = 2.0;
 	// --- End --- variables for roommap
 	
 	// --- Start --- variables for probability map
@@ -116,8 +123,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to a probability map {@link algorithm.helper.PointProbabilityMap}. */
 	private HashMap<Integer, ArrayList<PointProbabilityMap>> pointsProbabilityMaps;
 	// --- End --- misc variables
-	
-	
+		
 	
 	/**
 	 * Instantiates a new probability based algorithm.
@@ -127,22 +133,35 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
-		
+		setUpConstructor(ProbabilityBasedAlgorithm.PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT, 
+						 ProbabilityBasedAlgorithm.PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT,
+						 ProbabilityBasedAlgorithm.PROBABILITYMAP_X_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_X_TO_DEFAULT, 
+						 ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_TO_DEFAULT,
+						 ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT);
+	}
+	
+	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers, 
+									 double signalPropagationConstant, double signalStrengthOneMeter,
+									 double xFrom, double xTo, double yFrom, double yTo, double granularity) {
+		super(roommap, receivers);
+		setUpConstructor(signalPropagationConstant, signalStrengthOneMeter, xFrom, xTo, yFrom, yTo, granularity);
+	}
+	
+	private void setUpConstructor(double signalPropagationConstant, double signalStrengthOneMeter,
+			 					  double xFrom, double xTo, double yFrom, double yTo, double granularity) {
 		grayscaleImagePicCounter = 0;
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
-		setGrayscaleImagePath(System.getProperty("java.io.tmpdir"));
+		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED);
+		
+//		setGrayscaleImagePath(System.getProperty("java.io.tmpdir"));
+		setGrayscaleImagePath("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
 		
 		this.granularityRoommap = ProbabilityBasedAlgorithm.GRANULARITY_ROOMMAP_DEFAULT;
 		pointsProbabilityMaps = new HashMap<Integer, ArrayList<PointProbabilityMap>>();
 		
 		// calculate for each receiver (id) its probability map and store it in the hashmap
 		for (int i = 0; i < receivers.size(); i++) {
-			setProbabilityMapForReceiver(receivers.get(i), 
-					ProbabilityBasedAlgorithm.PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT, 
-					ProbabilityBasedAlgorithm.PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT,
-					ProbabilityBasedAlgorithm.PROBABILITYMAP_X_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_X_TO_DEFAULT, 
-					ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_TO_DEFAULT,
-					ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT);
+			setProbabilityMapForReceiver(receivers.get(i), signalPropagationConstant, signalStrengthOneMeter, xFrom, xTo, yFrom, yTo, granularity);
 		}
 	}
 	
@@ -197,6 +216,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	/**
+	 * Enables/Disables the debug information for the grayscale image extended.
+	 * This means each step will be showed.
+	 *
+	 * @param debug true = enable debugging extended - false = disable debugging extended
+	 */
+	public void setGrayscaleDebugInformationExtended(boolean debug) {
+		this.grayscaleDebugInformationExtended = debug;
+	}
+	
+	/**
 	 * Calculates the position depending of the given readings. The position is located within the borders of the room.
 	 * 
 	 * @param readings the rssi values measured in dBm for all receivers
@@ -221,7 +250,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 				return null;
 			}
 			
-			// find the points in the probability map where the rssi value is below the given value
+			// find the points in the probability map where the rssi value is above the given value
 			ArrayList<PointProbabilityMap> newPointsProbabilityMap = findValuesAboveRssi(pointsProbabilityMap, e.getValue());
 			if (newPointsProbabilityMap.size() <= 2) {
 				Application.getApplication().getLogger().log(Level.ERROR, "The are less than two values below the rssi in points_probabilityMap (ArrayList)");
@@ -229,8 +258,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 			
 			// calculate the convex hull of the probability map	
-			FastConvexHull gs = new FastConvexHull();
-			ArrayList<PointProbabilityMap> convexHull = gs.computeHull(newPointsProbabilityMap);
+			FastConvexHull fch = new FastConvexHull();
+			ArrayList<PointProbabilityMap> convexHull = fch.computeHull(newPointsProbabilityMap);
 	
 			// look for the right receiver
 			Receiver receiver = getReceiver(receivers, e.getKey());
@@ -242,13 +271,19 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// transform the convex hull into the correct position
 			ArrayList<PointProbabilityMap> convexHullTransformed = 
 					convexHullTransformation(convexHull, receiver.getAngle(), receiver.getXPos(), receiver.getYPos());
-
-			if (grayscaleDebugInformation) {
-				newGrayScaleImageConvexHull(convexHullTransformed, "convexHull" + e.getKey());
-			}
 			
 			// Test each point from room map if it lies in the transformed convex hull and weight each point
 			weightRoomMap(this.pointsRoomMap, convexHullTransformed);
+			
+			if (grayscaleDebugInformation) {
+//				newGrayScaleImageConvexHull(convexHullTransformed, grayscaleImagePicCounter + "_convexHull" + e.getKey());
+			}
+			if(grayscaleDebugInformationExtended) {
+				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
+				Point p = getPosition(highestPointsRoomMap);
+				newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, grayscaleImagePicCounter + "_calculatedMap");
+				grayscaleImagePicCounter++;
+			}
 		}
 		// Find points with the highest weighted value
 		ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
@@ -259,7 +294,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
 		if (grayscaleDebugInformation) {
-			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, "calculatedMap" + grayscaleImagePicCounter);
+			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, grayscaleImagePicCounter + "_calculatedMap");
 			grayscaleImagePicCounter++;
 		}
 		return p;
@@ -343,7 +378,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private void weightRoomMap(ArrayList<PointRoomMap> roomMap, ArrayList<PointProbabilityMap> convexHull) {
 		for (int i = 0; i < roomMap.size(); i++) {
 			if (liesPointInConvexHull(roomMap.get(i), convexHull)) {
+				// this should be a function to set the weight of the point
 				roomMap.get(i).setNewWeightValue(roomMap.get(i).getWeightValue() * ProbabilityBasedAlgorithm.FACTOR_FOR_WEIGHTING_ROOMMAP);
+			} else {
+				// the points outside the convex hull can also get a new weighted value, depending on the weighted function
 			}
 		}
 	}
@@ -427,11 +465,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	/**
-	 * Sets the image path for the grayscale image.
+	 * Sets the image path for the grayscale image. It also sets the counter to zero.
 	 *
 	 * @param path the new path for the grayscale image
 	 */
 	public void setGrayscaleImagePath(String path) {
+		grayscaleImagePicCounter = 0;
 		if (path.endsWith("\\")) {
 			this.grayscaleImagePath = path;
 		} else {
@@ -477,7 +516,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 		}
 		
-		double factor = 1.0 / GRANULARITY_ROOMMAP_DEFAULT;	// determine the factor that is needed to create the picture
+		double factor = 1.0 / this.granularityRoommap;	// determine the factor that is needed to create the picture
 		
 		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor); // determine the length for the needed picture in x 
 		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor); // determine the length for the needed picture in y
