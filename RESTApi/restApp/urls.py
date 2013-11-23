@@ -16,10 +16,9 @@ from django.conf.urls import patterns, include, url
 #     # url(r'^admin/', include(admin.site.urls)),
 # )
 from tastypie import api
-from restApp.resources import RssiResource, WatchResource, MapResource
+from restApp.resources import WatchResource, MapResource
 
 v1_api = api.Api(api_name='v1')
-v1_api.register(RssiResource())
 v1_api.register(WatchResource())
 v1_api.register(MapResource())
 
