@@ -24,8 +24,7 @@ class watchRecords(InheritableDocument):
 	insertedAt = DateTimeField()
 	mapId = IntField()
 	watchId = StringField()
-    # wMap =  EmbeddedDocumentField('map')
-    
+            
 
 class maps(InheritableDocument):
 	mapId = IntField()
