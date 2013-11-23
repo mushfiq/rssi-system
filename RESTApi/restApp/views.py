@@ -13,5 +13,5 @@ def index(request):
 	
 def getImage(request):
     image_id = request.GET.get('id')
-    obj = maps.objects.get(id=image_id)
-    return HttpResponse(obj.image.read(), mimetype="image/jpeg")
+    file_obj = maps.objects.get(id=image_id)
+    return HttpResponse(file_obj.image.read(), mimetype="image/jpeg")
