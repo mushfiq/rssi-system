@@ -25,6 +25,6 @@ v1_api.register(MapResource())
 
 urlpatterns = patterns('',
 	url(r'^index$', 'restApp.views.index'),
-	url(r'^api/image/', 'restApp.views.getImage'),
+	url(r'^api/v1/image/', 'restApp.views.getImage'),
     url(r'^api/', include(v1_api.urls)),
 )
