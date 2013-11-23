@@ -2,7 +2,7 @@ import time
 import datetime
 import setup_django
 from random import shuffle, random, uniform, randint
-from restApp.documents import rawData, watchRecords
+from restApp.documents import rawData, watchRecords, maps
 import json
 from  mongoengine import connect, Document
 
@@ -97,6 +97,37 @@ def insertedSilviosData():
 		# y = list(i)[1]
 		# print x, y
 
+def generateAndSaveMap():
+	#set image number
+	# imageNumber = ''
+    m = maps()
+    m.mapId = randint(0, 12)
+    m.width = randint(0, 200)
+    m.height = randint(0, 200)
+    m.scaling = random()*10
+    m.offsetX = randint(0, 12)
+    m.offsetY = randint(0, 12)
+    m.updateTime = datetime.datetime.now()
+    m.save()
+    print "saved"
+	
+def generateMapWatch():
+    randomMapId = randint(0, 5)
+    m = maps.objects.get(mapId=9)
+    watch = watchRecords()
+    watch.x = random()*10
+    watch.y = random()*10
+    watch.watchId = str(randint(0, 12))
+    watch.insertedAt = datetime.datetime.now()
+    watch.save()
+    print "saved!"
+	# print watch
+	
+def deleteMaps():
+	maps = map.objects.all()
+	maps.delete()
+	print "Total %d map has been deleted!" % len(maps)
+	
 def readAndInsetrfromJSON():
 	file = open('sampleData.json', 'r+')
 	lines = file.xreadlines()
@@ -108,9 +139,14 @@ def readAndInsetrfromJSON():
 		# print json.loads(l).get('x'), json.loads(l).get('y')
 	
 if __name__ == '__main__':
-	readAndInsetrfromJSON()
-	# insertedSilviosData()
-	# for i in range(0, 100):
-	# 	updatedDummyData()
 	# delete_dummy_data()
-	# insertDummyData()
+    # for i in range(0, 5):
+    #     generateAndSaveMap()
+    for i in range(0, 30):
+        generateMapWatch()
+	# readAndInsetrfromJSON()
+	# insertedSilviosData()
+	# for i in range(0, 12):
+	# 	generateAndSaveMap()
+	# deleteMaps()
+

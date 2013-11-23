@@ -1,4 +1,5 @@
-from mongoengine import Document, EmbeddedDocument, StringField, FloatField, DateTimeField, IntField, FileField
+from mongoengine import Document, EmbeddedDocument, StringField, FloatField, DateTimeField,\
+                    IntField, FileField, ReferenceField, ListField, EmbeddedDocumentField
 
 class InheritableDocument(Document):
     meta = {
@@ -16,11 +17,24 @@ class rawData(InheritableDocument):
     signalStrenth = StringField(max_length=200, required=True)
     insertAt = StringField(max_length=40, required=True)
     
+    
 class watchRecords(InheritableDocument):
 	x = FloatField()
 	y = FloatField()
 	insertedAt = DateTimeField()
 	mapId = IntField()
 	watchId = StringField()
-	mapImage = FileField()
+    # wMap =  EmbeddedDocumentField('map')
+    
+
+class maps(InheritableDocument):
+	mapId = IntField()
+	image = FileField()
+	width = IntField()
+	height = IntField()
+	sclaing = FloatField()
+	offsetX = IntField()
+	offsetY = IntField()
+	updateTime = DateTimeField()
 	
+
