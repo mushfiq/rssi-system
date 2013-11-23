@@ -2,7 +2,7 @@ import time
 import datetime
 import setup_django
 from random import shuffle, random, uniform, randint
-from restApp.documents import watchRecords, maps
+from restApp.documents import watchRecords, maps, receivers
 import json
 from  mongoengine import connect, Document
 
@@ -40,6 +40,7 @@ class GenerateData(object):
         
             m = maps()
             m.mapId = randint(0, total)
+            m.receiverId = randint(0, 5)
             m.width = randint(0, 200)
             m.height = randint(0, 200)
             m.scaling = random()*10
@@ -56,6 +57,11 @@ class GenerateData(object):
         
         return 
     
+    def get_random_mapId(self):
+        all_maps = maps.objects.all()
+        randomMapId = randint(0, len(all_maps))
+        return all_maps[randomMapId].mapId
+        
     def generate_save_watch(self, total):
         for i in range(0, total):
             
@@ -68,7 +74,6 @@ class GenerateData(object):
             watch.y = random()*10
             watch.watchId = str(randint(0, 12))
             watch.insertedAt = datetime.datetime.now()
-            watch.receiverId = randint(0, 5)
             watch.mapId = m[randomMapId].mapId
         
             try:
@@ -80,6 +85,21 @@ class GenerateData(object):
         print "Total %d objects created!" %total
             
         return 
+        
+    def generate_save_receiver(self, total):
+        for i in range(0, total):
+            r = receivers()
+            r.receiverId = randint(0, 5)
+            r.mapId = self.get_random_mapId()
+            r.x = random()*10
+            r.y = random()*10
+            
+            try:
+                r.save()
+                pass
+            except Exception, e:
+                print e
+            
         
 
         

@@ -32,5 +32,13 @@ class maps(InheritableDocument):
     offsetY = IntField()
     updateTime = DateTimeField()
     
+    
+class receivers(InheritableDocument):
+    receiverId = IntField()
+    mapId = IntField()
+    x = FloatField()
+    y = FloatField()
+    
+    
 	
 
