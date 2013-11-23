@@ -113,19 +113,21 @@ def generateAndSaveMap():
 	
 def generateMapWatch():
     randomMapId = randint(0, 5)
-    m = maps.objects.get(mapId=9)
+    m = maps.objects.get(mapId=1)
     watch = watchRecords()
     watch.x = random()*10
     watch.y = random()*10
     watch.watchId = str(randint(0, 12))
     watch.insertedAt = datetime.datetime.now()
+    watch.mapId = m.mapId
     watch.save()
+    
     print "saved!"
 	# print watch
 	
 def deleteMaps():
-	maps = map.objects.all()
-	maps.delete()
+	all_map = maps.objects.all()
+	all_map.delete()
 	print "Total %d map has been deleted!" % len(maps)
 	
 def readAndInsetrfromJSON():
@@ -139,7 +141,7 @@ def readAndInsetrfromJSON():
 		# print json.loads(l).get('x'), json.loads(l).get('y')
 	
 if __name__ == '__main__':
-	# delete_dummy_data()
+    # delete_dummy_data()
     # for i in range(0, 5):
     #     generateAndSaveMap()
     for i in range(0, 30):
@@ -148,5 +150,5 @@ if __name__ == '__main__':
 	# insertedSilviosData()
 	# for i in range(0, 12):
 	# 	generateAndSaveMap()
-	# deleteMaps()
+    # deleteMaps()
 
