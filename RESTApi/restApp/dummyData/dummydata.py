@@ -2,7 +2,7 @@ import time
 import datetime
 import setup_django
 from random import shuffle, random, uniform, randint
-from restApp.documents import rawData, watchRecords, maps
+from restApp.documents import watchRecords, maps
 import json
 from  mongoengine import connect, Document
 
@@ -25,17 +25,6 @@ silvioDataWatch2 = [{'x':0,'y':145}, {'x':10,'y':145}, {'x':30,'y':130},
 
 ''' this script is for inserting dummy data into the mongo'''	
 watchIdList = ['watch1', 'watch2', 'watch3']
-
-def getAll():
-	allData = rawData.objects.all()
-	print allData
-	
-def insertTest(signalString):
-	dObj = rawData()
-	dObj.signalStrenth = signalString
-	dObj.insertAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-	dObj.save()
-	print "saved"
 	
 def insertDummyData():
 	fileName = 'dummyData/testdata.txt'
@@ -43,14 +32,6 @@ def insertDummyData():
 	for line in fileObject:
 		insertTest(line)
 
-def addRadomData():
-	time.sleep(3)
-	dObj = rawData()
-	shuffledSignals	= shuffle(randomStrength, random)
-	dObj.signalStrenth = randomStrength[0]
-	dObj.insertAt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-	dObj.save()
-	print "saved"
 	
 def updatedDummyData(dataDict):
 	dObj = watchRecords()
