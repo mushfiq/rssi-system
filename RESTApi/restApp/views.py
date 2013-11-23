@@ -2,7 +2,7 @@ from django.http import HttpResponse
 
 
 from  mongoengine import connect
-from documents import watchRecords
+from documents import maps
 
 connect('rssiSystem')
 
@@ -12,10 +12,6 @@ def index(request):
 	return HttpResponse(html)
 	
 def getImage(request):
-	image_id = request.GET.get('id')
-	image = watchRecords.objects.get(id=image_id)
-	
-	records = watchRecords.objects.all()[:2]
-	for record in records:
-		print record.id
-	return HttpResponse(image.mapImage.read(), mimetype="image/jpeg")
+    image_id = request.GET.get('id')
+    obj = maps.objects.get(id=image_id)
+    return HttpResponse(obj.image.read(), mimetype="image/jpeg")
