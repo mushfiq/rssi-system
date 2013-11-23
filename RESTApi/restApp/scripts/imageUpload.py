@@ -12,7 +12,7 @@ mPhoto = open('sampleMap2.jpg', 'r')
 def saveMap():
     print "starting..."
     m = maps()
-    m.mapId = randint(0, 12)
+    m.mapId = randint(0,5)
     m.width = randint(0, 200)
     m.height = randint(0, 200)
     m.scaling = random()*10

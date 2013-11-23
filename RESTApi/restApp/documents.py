@@ -12,7 +12,6 @@ class InheritableEmbeddedDocument(EmbeddedDocument):
         'abstract': True,
         'allow_inheritance': True,
     }
-
     
 class watchRecords(InheritableDocument):
 	x = FloatField()
@@ -23,13 +22,15 @@ class watchRecords(InheritableDocument):
             
 
 class maps(InheritableDocument):
-	mapId = IntField()
-	image = FileField()
-	width = IntField()
-	height = IntField()
-	sclaing = FloatField()
-	offsetX = IntField()
-	offsetY = IntField()
-	updateTime = DateTimeField()
+    mapId = IntField()
+    receiverId = IntField()
+    image = FileField()
+    width = IntField()
+    height = IntField()
+    sclaing = FloatField()
+    offsetX = IntField()
+    offsetY = IntField()
+    updateTime = DateTimeField()
+    
 	
 
