@@ -25,5 +25,21 @@ class WatchResource(resources.MongoEngineResource):
 			"watchId"	 : ['exact',],
 		}
 
-		excludes = ['id', 'resource_uri']
+        excludes = ['id', 'resource_uri']
 
+class MapResource(resources.MongoEngineResource):
+	class Meta:
+		queryset = documents.maps.objects.all()
+		
+		allowed_methods = ('get')
+        
+		paginator_class = paginator.Paginator
+		
+		filtering = {
+			"mapId"		 : ['exact',],
+		}
+        
+        excludes = ['id', 'resource_uri']
+        
+		
+		
