@@ -26,7 +26,7 @@ import algorithm.helper.Line;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
-import algorithm.probabilityMap.ProbabilityMapEmpiric;
+import algorithm.probabilityMap.ProbabilityMapPathLoss;
 
 import components.Receiver;
 import components.RoomMap;
@@ -189,7 +189,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		// calculate the probability map
 		ArrayList<PointProbabilityMap> pointsProbabilityMap = 
-				new ProbabilityMapEmpiric(signalPropagationConstant, signalStrengthOneMeter).getProbabilityMap(xFrom, xTo, yFrom, yTo, granularity);
+				new ProbabilityMapPathLoss(signalPropagationConstant, signalStrengthOneMeter).getProbabilityMap(xFrom, xTo, yFrom, yTo, granularity);
 					
 		// store it in the hashmap
 		pointsProbabilityMaps.put(receiverId, pointsProbabilityMap);
