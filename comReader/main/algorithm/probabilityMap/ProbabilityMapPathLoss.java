@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import algorithm.helper.PointProbabilityMap;
 
 /**
- * The class ProbabilityMapEmpiric represents a probability map created with the empirical equation
+ * The class ProbabilityMapPathLoss represents a probability map created with the path loss formula
  * <br>
  * RSSI = -(10 * n * log(d) + A)
  * <br>
@@ -24,7 +24,7 @@ import algorithm.helper.PointProbabilityMap;
  * @author Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
-public class ProbabilityMapEmpiric extends ProbabilityMap {
+public class ProbabilityMapPathLoss extends ProbabilityMap {
 	
 	/** The signal propagation constant, also named propagation exponent. */
 	private double n;
@@ -40,7 +40,7 @@ public class ProbabilityMapEmpiric extends ProbabilityMap {
 	 * @param n the signal propagation constant
 	 * @param a the received signal strength at a distance of one meter
 	 */
-	public ProbabilityMapEmpiric(double n, double a) {
+	public ProbabilityMapPathLoss(double n, double a) {
 		this.n = n;
 		this.a = a;
 	}
@@ -120,7 +120,7 @@ public class ProbabilityMapEmpiric extends ProbabilityMap {
 	 * @return the rssi value
 	 */
 	public double distanceToRSSI(double distance) {
-		double rssi = -(ProbabilityMapEmpiric.EMPIRIC_PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
+		double rssi = -(ProbabilityMapPathLoss.EMPIRIC_PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
 		return rssi;
 	}
 }
