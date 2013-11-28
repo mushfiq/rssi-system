@@ -32,10 +32,10 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	/** The received signal strength at a distance of one meter. */
 	private double a;
 	
-	private static final double EMPIRIC_PRPAGATION_CONSTANT = 10.0;
+	private static final double PRPAGATION_CONSTANT = 10.0;
 	
 	/**
-	 * Instantiates a new ProbabilityMapEmpiric.
+	 * Instantiates a new ProbabilityMapPathLoss.
 	 *
 	 * @param n the signal propagation constant
 	 * @param a the received signal strength at a distance of one meter
@@ -46,14 +46,14 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	}
 	
 	/**
-	 * Creates a new empirical probability map based on the given parameters.
+	 * Creates a new probability map based on the given parameters.
 	 *
 	 * @param xFrom the start value for the probability map in x
 	 * @param xTo the end value for the probability map in x
 	 * @param yFrom the start value for the probability map in y
 	 * @param yTo the end value for the probability map in y
 	 * @param granularity the granularity for the probability map
-	 * @return the new empirical probability map
+	 * @return the new probability map
 	 */
 	@Override
 	public ArrayList<PointProbabilityMap> getProbabilityMap(double xFrom, double xTo, 
@@ -114,13 +114,13 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	
 	/**
 	 * Calculates the rssi value based on the given distance with the help of the
-	 * empirical equation.
+	 * path loss formula.
 	 *
 	 * @param distance the distance
 	 * @return the rssi value
 	 */
 	public double distanceToRSSI(double distance) {
-		double rssi = -(ProbabilityMapPathLoss.EMPIRIC_PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
+		double rssi = -(ProbabilityMapPathLoss.PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
 		return rssi;
 	}
 }
