@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 import main.Application;
 import utilities.Utilities;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class FileReaderRunnable.
  *

@@ -9,6 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Controller contains queues for readings obtained from COM port, 
  * for averaged signal strength batches and for calculated watch positions.
  * This class transfers data from queues and to queues.
+ * 
  */
 public final class Controller {
 
@@ -38,7 +39,7 @@ public final class Controller {
 	/**
 	 * Gets the data queue.
 	 *
-	 * @return the data queue
+	 * @return the data queue - readings from COM port
 	 */
 	public BlockingQueue<Reading> getDataQueue() {
 		return readings;
@@ -67,7 +68,8 @@ public final class Controller {
 	/**
 	 * Gets the batch signal queue.
 	 *
-	 * @return the batch signal queue
+	 * @return the batch signal queue - contains batches of signal that have to be passed
+	 * to the algorithm
 	 */
 	public BlockingQueue<HashMap<Integer, HashMap<Integer, Double>>> getBatchSignalQueue() {
 		return batchSignalQueue;

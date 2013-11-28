@@ -2,7 +2,7 @@ package data;
 
 
 /**
- * The Class DataReader.
+ * Contains the thread that reads and parses data from COM port.
  */
 public abstract class DataReader {
 

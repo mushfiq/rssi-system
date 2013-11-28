@@ -2,9 +2,11 @@ package data;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Reading.
+ * Reading represents a single set of data obtained from one line from COM port, i.e. it
+ * contains information obtained from one receiver. This data includes: watchId, receiverId and
+ * four signal strengths.
  */
 public class Reading {
 

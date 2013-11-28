@@ -1,6 +1,5 @@
 package data;
 
-// TODO: Auto-generated Javadoc
 /**
  * DataProcessor takes batches of signal strengths from the batchSignalQueue and performs 
  * algorithm calculations on them. 

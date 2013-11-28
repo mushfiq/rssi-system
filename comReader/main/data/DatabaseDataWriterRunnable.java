@@ -2,22 +2,37 @@ package data;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
-
 import main.Application;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+
+
+/**
+ *  Thread that is run from DatabaseDataWriter object. It reads 
+ *  calculated watch positions queue and writes them into the database one
+ *  by one. If the queue is empty, It sleeps MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY milliseconds.  
+ */
 public class DatabaseDataWriterRunnable implements Runnable {
 
+	/** The Constant MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY. */
 	private static final int MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY = 10;
+	
+	/** The mongo. */
 	private Mongo mongo;
+	
+	/** The database. */
 	private DB db;
+	
+	/** The sample data. */
 	private DBCollection sampleData;
 	
+	/**
+	 * Instantiates a new database data writer runnable.
+	 */
 	public DatabaseDataWriterRunnable() {
 		// TODO Auto-generated constructor stub
 		
@@ -27,12 +42,14 @@ public class DatabaseDataWriterRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-//        db = mongo.getDB("javaTest");
-//        sampleData = db.getCollection("sampleData");
+
         db = mongo.getDB("javaTest");
         sampleData = db.getCollection("sampleData");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -52,13 +69,10 @@ public class DatabaseDataWriterRunnable implements Runnable {
 				
 			} else { // queue is not empty, take WatchPositionData object and write it into the database
 				
-				
 				// we take watchPositionData object from the queue by calling method 'poll()' on the queue
 				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
 				
-				// WRITE HERE THE watchPositionData TO MONGODB
 				System.out.println(watchPositionData);
-				// TODO write watchPositionData object into the database
 				
 			    try {
 		        	DBObject documentDetail = new BasicDBObject();
@@ -67,15 +81,12 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		        	documentDetail.put("insertedAt", watchPositionData.getTime());
 		        	documentDetail.put("mapId", 1);
 		        	documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
-//		        	System.out.println(documentDetail);
 		        	sampleData.insert(documentDetail);
 
 		        } catch (Exception e) {
-		        	System.out.print(e);
-		        }
-				
+		        	System.err.print(e);
+		        }	
 			}
-			
 		}
 	}
 
