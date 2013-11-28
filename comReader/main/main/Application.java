@@ -1,5 +1,7 @@
 package main;
 
+import gui.MainFrame;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -46,6 +48,9 @@ public final class Application {
 	/** The logger. */
 	private Logger logger;
 	
+	/** Main frame of the application. Shown when application is started. */
+	private MainFrame mainFrame;
+	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
 	 * of type Application, static method 'getApplication()' should be called.
@@ -57,7 +62,7 @@ public final class Application {
         readConfigurationFile();
         controller = new Controller();
         initializeGUI();
-        algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
+        //algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
 	
 	/**
@@ -84,7 +89,8 @@ public final class Application {
 	 * Initialize gui.
 	 */
 	private void initializeGUI() {
-		// TODO Auto-generated method stub
+		
+		mainFrame = new MainFrame();
 		
 	}
 
@@ -193,6 +199,11 @@ public final class Application {
 		
 		return logger;
 	}
+
+	public MainFrame getMainFrame() {
+		return mainFrame;
+	}
+	
 	
 	
 }

@@ -1,0 +1,44 @@
+package gui;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+public class MapsPanel extends JPanel{
+
+	private static final long serialVersionUID = 1L;
+	private static final int MAPS_PANEL_WIDTH  = 620;
+	private static final int MAPS_PANEL_HEIGHT = 500;
+	
+	public MapsPanel() {
+		
+		setSize(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT);
+		setPreferredSize(new Dimension(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT));
+		setBackground(Color.gray);
+		setLayout(new FlowLayout(FlowLayout.LEADING));
+		// add sample map item
+		MapItem item1 = new MapItem("Room 433");
+		this.add(item1);
+		
+		// add sample map item
+		MapItem item2 = new MapItem("Room 438");
+		this.add(item2);
+				
+		// add sample map item
+		MapItem item3 = new MapItem("Room 501");
+		this.add(item3);
+		
+		// add sample map item
+		MapItem item4 = new MapItem("Room 401");
+		this.add(item4);
+		
+		// add sample map item
+		MapItem item5 = new MapItem();
+		this.add(item5);
+		
+	}
+
+}
