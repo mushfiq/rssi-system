@@ -2,16 +2,18 @@ import setup_django
 import datetime
 from random import randint, random
 from  mongoengine import connect
-from restApp.documents import maps
+from restApp.documents import mapRecords
 
 
 connect('rssiSystem')
 
 mPhoto = open('sampleMap2.jpg', 'r')
 
+#curl -i -H "Content-Type: application/json" -X POST -d '{"mapId": 2, "watchId": "42", "x": 12.3, "y": 3.4}'  http://localhost:8000/api/v1/watch/
+
 def saveMap():
     print "starting..."
-    m = maps()
+    m = mapRecords()
     m.mapId = randint(0,5)
     m.width = randint(0, 200)
     m.height = randint(0, 200)
