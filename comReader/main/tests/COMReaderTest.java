@@ -34,16 +34,6 @@ public class COMReaderTest {
 	 */
 	public static void main(String[] args) {
 		
-		
-		
-
-        
-      
-
- 	
-		
-		
-
 		/*
 		 * We instantiate the application simply by calling its "getApplication"
 		 * method, since it is a singleton class.
@@ -62,8 +52,7 @@ public class COMReaderTest {
 		 */
 
 		COMPortDataReader reader = new COMPortDataReader();
-		Thread thread = new Thread(reader);
-		 thread.start();
+		reader.readData();
 
 		/*
 		 * Controller class is used to change the algorithm. Default algorithm
