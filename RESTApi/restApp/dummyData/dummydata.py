@@ -2,7 +2,7 @@ import time
 import datetime
 import setup_django
 from random import shuffle, random, uniform, randint
-from restApp.documents import watchRecords, maps, receivers
+from restApp.documents import watchRecords, mapRecords, receiverRecords
 import json
 from  mongoengine import connect, Document
 
@@ -21,7 +21,7 @@ class GenerateData(object):
         return 
         
     def delete_maps(self):
-        all_maps = maps.objects.all()
+        all_maps = mapRecords.objects.all()
         all_maps.delete()
         print "All maps deleted!"
         return 
@@ -33,12 +33,12 @@ class GenerateData(object):
         return
         
     def get_maps(self):
-        return maps.objects.all()
+        return mapRecords.objects.all()
     
     def generate_save_map(self, total):
         for i in range(0, total):
         
-            m = maps()
+            m = mapRecords()
             m.mapId = randint(0, total)
             m.receiverId = randint(0, 5)
             m.width = randint(0, 200)
@@ -58,7 +58,7 @@ class GenerateData(object):
         return 
     
     def get_random_mapId(self):
-        all_maps = maps.objects.all()
+        all_maps = mapRecords.objects.all()
         randomMapId = randint(0, len(all_maps))
         return all_maps[randomMapId].mapId
         
@@ -67,7 +67,7 @@ class GenerateData(object):
             
             randomMapId = randint(0, 5)
             # print randomMapId
-            m = maps.objects.all()
+            m = mapRecords.objects.all()
             # print m[randomMapId].mapId
             watch = watchRecords()
             watch.x = random()*10
@@ -85,10 +85,11 @@ class GenerateData(object):
         print "Total %d objects created!" %total
             
         return 
+    
         
     def generate_save_receiver(self, total):
         for i in range(0, total):
-            r = receivers()
+            r = receiverRecords()
             r.receiverId = randint(0, 5)
             r.mapId = self.get_random_mapId()
             r.x = random()*10
@@ -100,13 +101,19 @@ class GenerateData(object):
             except Exception, e:
                 print e
             
-        
+    def delete_receivers(self):
+        all_recievers = receiverRecords.objects.all()
+        all_recievers.delete()
+        print "All receivers deleted!"
+        return 
 
         
 if __name__ == '__main__':
     dataGen = GenerateData()
     # dataGen.generate_save_map(6)
-    dataGen.generate_save_watch(30)
+    dataGen.generate_save_receiver(7)
+    # dataGen.generate_save_watch(30)
     # dataGen.delete_maps()
     # dataGen.delete_watches()
+    # dataGen.delete_receivers()
 
