@@ -2,7 +2,6 @@
  * File: ProbabilityMapEmpiric.java
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
- * 28 Nov 2013		Tommy Griese		renamed the classname
  */
 package algorithm.probabilityMap;
 
@@ -21,7 +20,7 @@ import algorithm.helper.PointProbabilityMap;
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
  * 
- * @version 1.1 08 Nov 2013
+ * @version 1.0 08 Nov 2013
  * @author Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
