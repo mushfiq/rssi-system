@@ -20433,3 +20433,1220 @@ Something something
 2013-11-11 15:13:16,535 INFO [main.Application] - End calculation, calculated position: [-0.6602941176470588;0.27205882352941174]
 2013-11-11 15:13:16,548 INFO [main.Application] - Start calculation
 2013-11-11 15:13:16,569 INFO [main.Application] - End calculation, calculated position: [-1.5;1.0676229508196722]
+2013-11-29 16:05:06,546 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,603 INFO [main.Application] - End calculation, calculated position: [0.3549618320610687;1.202290076335878]
+2013-11-29 16:05:06,702 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,722 INFO [main.Application] - End calculation, calculated position: [-1.3311688311688312;1.4350649350649352]
+2013-11-29 16:05:06,820 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,842 INFO [main.Application] - End calculation, calculated position: [0.6666666666666666;0.6666666666666666]
+2013-11-29 16:05:06,875 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,893 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:05:06,910 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,922 INFO [main.Application] - End calculation, calculated position: [0.85;0.9]
+2013-11-29 16:05:06,939 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,953 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:06,974 INFO [main.Application] - Start calculation
+2013-11-29 16:05:06,984 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,013 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,019 INFO [main.Application] - End calculation, calculated position: [-1.5;1.5]
+2013-11-29 16:05:07,034 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,042 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,055 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,065 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,078 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,087 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:05:07,100 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,108 INFO [main.Application] - End calculation, calculated position: [-1.4572649572649572;1.4914529914529915]
+2013-11-29 16:05:07,123 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,132 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,146 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,154 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,169 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,177 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,192 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,201 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:07,215 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,229 INFO [main.Application] - End calculation, calculated position: [1.0;1.0]
+2013-11-29 16:05:07,242 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,248 INFO [main.Application] - End calculation, calculated position: [-1.2761194029850746;1.2761194029850746]
+2013-11-29 16:05:07,260 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,266 INFO [main.Application] - End calculation, calculated position: [-0.7613065326633166;1.4246231155778895]
+2013-11-29 16:05:07,278 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,285 INFO [main.Application] - End calculation, calculated position: [0.05913978494623656;1.2311827956989247]
+2013-11-29 16:05:07,297 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,306 INFO [main.Application] - End calculation, calculated position: [-0.48484848484848486;1.5]
+2013-11-29 16:05:07,320 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,327 INFO [main.Application] - End calculation, calculated position: [-0.5470588235294118;-0.3941176470588235]
+2013-11-29 16:05:07,339 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,347 INFO [main.Application] - End calculation, calculated position: [-1.1588235294117648;-1.1]
+2013-11-29 16:05:07,365 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,374 INFO [main.Application] - End calculation, calculated position: [-1.0628140703517588;-0.9874371859296482]
+2013-11-29 16:05:07,388 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,401 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,414 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,419 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,430 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,436 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,447 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,453 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,465 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,470 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,481 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,487 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:07,503 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,510 INFO [main.Application] - End calculation, calculated position: [-0.45180722891566266;-0.41566265060240964]
+2013-11-29 16:05:07,525 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,532 INFO [main.Application] - End calculation, calculated position: [-0.7816901408450704;-0.7394366197183099]
+2013-11-29 16:05:07,545 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,550 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:05:07,560 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,566 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:05:07,576 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,582 INFO [main.Application] - End calculation, calculated position: [-0.635593220338983;-0.5847457627118644]
+2013-11-29 16:05:07,593 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,598 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:05:07,608 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,613 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.7394366197183099]
+2013-11-29 16:05:07,624 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,629 INFO [main.Application] - End calculation, calculated position: [-0.5439560439560439;-0.3791208791208791]
+2013-11-29 16:05:07,640 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,649 INFO [main.Application] - End calculation, calculated position: [-0.28125;-0.078125]
+2013-11-29 16:05:07,660 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,666 INFO [main.Application] - End calculation, calculated position: [-0.013043478260869565;1.1608695652173913]
+2013-11-29 16:05:07,675 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,681 INFO [main.Application] - End calculation, calculated position: [-1.3211920529801324;1.0827814569536425]
+2013-11-29 16:05:07,691 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,697 INFO [main.Application] - End calculation, calculated position: [-1.4212827988338192;1.3862973760932944]
+2013-11-29 16:05:07,709 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,726 INFO [main.Application] - End calculation, calculated position: [-0.13043478260869565;0.22826086956521738]
+2013-11-29 16:05:07,735 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,747 INFO [main.Application] - End calculation, calculated position: [-0.24489795918367346;-0.24489795918367346]
+2013-11-29 16:05:07,758 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,770 INFO [main.Application] - End calculation, calculated position: [-0.058823529411764705;-0.058823529411764705]
+2013-11-29 16:05:07,781 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,796 INFO [main.Application] - End calculation, calculated position: [1.0909090909090908;1.0909090909090908]
+2013-11-29 16:05:07,813 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,825 INFO [main.Application] - End calculation, calculated position: [-0.1235632183908046;0.011494252873563218]
+2013-11-29 16:05:07,837 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,846 INFO [main.Application] - End calculation, calculated position: [0.036885245901639344;0.44672131147540983]
+2013-11-29 16:05:07,856 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,863 INFO [main.Application] - End calculation, calculated position: [0.20945945945945946;1.054054054054054]
+2013-11-29 16:05:07,874 INFO [main.Application] - Start calculation
+2013-11-29 16:05:07,882 INFO [main.Application] - End calculation, calculated position: [0.20454545454545456;1.2348484848484849]
+2013-11-29 16:05:07,894 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,306 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,371 INFO [main.Application] - End calculation, calculated position: [1.5;1.5]
+2013-11-29 16:05:13,481 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,505 INFO [main.Application] - End calculation, calculated position: [-1.2272727272727273;0.7909090909090909]
+2013-11-29 16:05:13,622 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,640 INFO [main.Application] - End calculation, calculated position: [-1.3311688311688312;1.4350649350649352]
+2013-11-29 16:05:13,668 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,691 INFO [main.Application] - End calculation, calculated position: [0.6666666666666666;0.6666666666666666]
+2013-11-29 16:05:13,723 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,739 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:05:13,759 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,774 INFO [main.Application] - End calculation, calculated position: [0.85;0.9]
+2013-11-29 16:05:13,790 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,800 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,823 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,833 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,851 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,859 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,872 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,880 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,894 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,905 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:05:13,918 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,925 INFO [main.Application] - End calculation, calculated position: [-1.4572649572649572;1.4914529914529915]
+2013-11-29 16:05:13,939 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,947 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,960 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,969 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:13,987 INFO [main.Application] - Start calculation
+2013-11-29 16:05:13,995 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:14,009 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,017 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:05:14,030 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,043 INFO [main.Application] - End calculation, calculated position: [1.0;1.0]
+2013-11-29 16:05:14,055 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,061 INFO [main.Application] - End calculation, calculated position: [-1.2761194029850746;1.2761194029850746]
+2013-11-29 16:05:14,072 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,080 INFO [main.Application] - End calculation, calculated position: [-0.7613065326633166;1.4246231155778895]
+2013-11-29 16:05:14,091 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,099 INFO [main.Application] - End calculation, calculated position: [0.05913978494623656;1.2311827956989247]
+2013-11-29 16:05:14,111 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,121 INFO [main.Application] - End calculation, calculated position: [-0.48484848484848486;1.5]
+2013-11-29 16:05:14,133 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,151 INFO [main.Application] - End calculation, calculated position: [-0.5470588235294118;-0.3941176470588235]
+2013-11-29 16:05:14,163 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,170 INFO [main.Application] - End calculation, calculated position: [-1.1588235294117648;-1.1]
+2013-11-29 16:05:14,182 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,188 INFO [main.Application] - End calculation, calculated position: [-1.0628140703517588;-0.9874371859296482]
+2013-11-29 16:05:14,206 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,212 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,248 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,253 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,264 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,270 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,281 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,286 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,297 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,303 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,314 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,320 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:05:14,331 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,336 INFO [main.Application] - End calculation, calculated position: [-0.45180722891566266;-0.41566265060240964]
+2013-11-29 16:05:14,347 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,352 INFO [main.Application] - End calculation, calculated position: [-0.7816901408450704;-0.7394366197183099]
+2013-11-29 16:05:14,362 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,368 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:05:14,381 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,386 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:05:14,396 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,401 INFO [main.Application] - End calculation, calculated position: [-0.635593220338983;-0.5847457627118644]
+2013-11-29 16:05:14,411 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,416 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:05:14,426 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,431 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.7394366197183099]
+2013-11-29 16:05:14,441 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,446 INFO [main.Application] - End calculation, calculated position: [-0.5439560439560439;-0.3791208791208791]
+2013-11-29 16:05:14,456 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,466 INFO [main.Application] - End calculation, calculated position: [-0.28125;-0.078125]
+2013-11-29 16:05:14,476 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,483 INFO [main.Application] - End calculation, calculated position: [-0.013043478260869565;1.1608695652173913]
+2013-11-29 16:05:14,492 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,498 INFO [main.Application] - End calculation, calculated position: [-1.3211920529801324;1.0827814569536425]
+2013-11-29 16:05:14,508 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,514 INFO [main.Application] - End calculation, calculated position: [-1.4212827988338192;1.3862973760932944]
+2013-11-29 16:05:14,530 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,538 INFO [main.Application] - End calculation, calculated position: [-0.13043478260869565;0.22826086956521738]
+2013-11-29 16:05:14,548 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,560 INFO [main.Application] - End calculation, calculated position: [-0.24489795918367346;-0.24489795918367346]
+2013-11-29 16:05:14,571 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,583 INFO [main.Application] - End calculation, calculated position: [-0.058823529411764705;-0.058823529411764705]
+2013-11-29 16:05:14,594 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,609 INFO [main.Application] - End calculation, calculated position: [1.0909090909090908;1.0909090909090908]
+2013-11-29 16:05:14,621 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,631 INFO [main.Application] - End calculation, calculated position: [-0.1235632183908046;0.011494252873563218]
+2013-11-29 16:05:14,643 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,652 INFO [main.Application] - End calculation, calculated position: [0.036885245901639344;0.44672131147540983]
+2013-11-29 16:05:14,663 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,670 INFO [main.Application] - End calculation, calculated position: [0.20945945945945946;1.054054054054054]
+2013-11-29 16:05:14,680 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,688 INFO [main.Application] - End calculation, calculated position: [0.20454545454545456;1.2348484848484849]
+2013-11-29 16:05:14,698 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,705 INFO [main.Application] - End calculation, calculated position: [0.2903225806451613;1.3629032258064515]
+2013-11-29 16:05:14,715 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,721 INFO [main.Application] - End calculation, calculated position: [0.2894736842105263;1.5789473684210527]
+2013-11-29 16:05:14,736 INFO [main.Application] - Start calculation
+2013-11-29 16:05:14,746 INFO [main.Application] - End calculation, calculated position: [0.19642857142857142;1.5]
+2013-11-29 16:07:50,917 INFO [main.Application] - Start calculation
+2013-11-29 16:07:50,985 INFO [main.Application] - End calculation, calculated position: [1.5;1.5]
+2013-11-29 16:07:51,084 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,106 INFO [main.Application] - End calculation, calculated position: [-1.2272727272727273;0.7909090909090909]
+2013-11-29 16:07:51,239 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,259 INFO [main.Application] - End calculation, calculated position: [-1.3311688311688312;1.4350649350649352]
+2013-11-29 16:07:51,287 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,306 INFO [main.Application] - End calculation, calculated position: [0.6666666666666666;0.6666666666666666]
+2013-11-29 16:07:51,331 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,344 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:07:51,363 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,376 INFO [main.Application] - End calculation, calculated position: [0.85;0.9]
+2013-11-29 16:07:51,400 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,409 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,424 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,433 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,447 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,456 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,469 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,478 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,491 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,499 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:07:51,512 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,520 INFO [main.Application] - End calculation, calculated position: [-1.4572649572649572;1.4914529914529915]
+2013-11-29 16:07:51,533 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,541 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,555 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,564 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,578 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,587 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,601 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,609 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:07:51,623 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,642 INFO [main.Application] - End calculation, calculated position: [1.0;1.0]
+2013-11-29 16:07:51,654 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,660 INFO [main.Application] - End calculation, calculated position: [-1.2761194029850746;1.2761194029850746]
+2013-11-29 16:07:51,670 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,677 INFO [main.Application] - End calculation, calculated position: [-0.7613065326633166;1.4246231155778895]
+2013-11-29 16:07:51,688 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,696 INFO [main.Application] - End calculation, calculated position: [0.05913978494623656;1.2311827956989247]
+2013-11-29 16:07:51,707 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,717 INFO [main.Application] - End calculation, calculated position: [-0.48484848484848486;1.5]
+2013-11-29 16:07:51,729 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,740 INFO [main.Application] - End calculation, calculated position: [-0.5470588235294118;-0.3941176470588235]
+2013-11-29 16:07:51,753 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,760 INFO [main.Application] - End calculation, calculated position: [-1.1588235294117648;-1.1]
+2013-11-29 16:07:51,772 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,786 INFO [main.Application] - End calculation, calculated position: [-1.0628140703517588;-0.9874371859296482]
+2013-11-29 16:07:51,802 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,807 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,819 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,824 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,835 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,840 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,851 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,857 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,868 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,874 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,885 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,890 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:07:51,902 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,908 INFO [main.Application] - End calculation, calculated position: [-0.45180722891566266;-0.41566265060240964]
+2013-11-29 16:07:51,919 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,925 INFO [main.Application] - End calculation, calculated position: [-0.7816901408450704;-0.7394366197183099]
+2013-11-29 16:07:51,936 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,942 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:07:51,955 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,960 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:07:51,970 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,975 INFO [main.Application] - End calculation, calculated position: [-0.635593220338983;-0.5847457627118644]
+2013-11-29 16:07:51,985 INFO [main.Application] - Start calculation
+2013-11-29 16:07:51,991 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:07:52,001 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,006 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.7394366197183099]
+2013-11-29 16:07:52,016 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,022 INFO [main.Application] - End calculation, calculated position: [-0.5439560439560439;-0.3791208791208791]
+2013-11-29 16:07:52,032 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,041 INFO [main.Application] - End calculation, calculated position: [-0.28125;-0.078125]
+2013-11-29 16:07:52,053 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,059 INFO [main.Application] - End calculation, calculated position: [-0.013043478260869565;1.1608695652173913]
+2013-11-29 16:07:52,070 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,076 INFO [main.Application] - End calculation, calculated position: [-1.3211920529801324;1.0827814569536425]
+2013-11-29 16:07:52,086 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,098 INFO [main.Application] - End calculation, calculated position: [-1.4212827988338192;1.3862973760932944]
+2013-11-29 16:07:52,108 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,118 INFO [main.Application] - End calculation, calculated position: [-0.13043478260869565;0.22826086956521738]
+2013-11-29 16:07:52,128 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,140 INFO [main.Application] - End calculation, calculated position: [-0.24489795918367346;-0.24489795918367346]
+2013-11-29 16:07:52,152 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,165 INFO [main.Application] - End calculation, calculated position: [-0.058823529411764705;-0.058823529411764705]
+2013-11-29 16:07:52,179 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,195 INFO [main.Application] - End calculation, calculated position: [1.0909090909090908;1.0909090909090908]
+2013-11-29 16:07:52,207 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,216 INFO [main.Application] - End calculation, calculated position: [-0.1235632183908046;0.011494252873563218]
+2013-11-29 16:07:52,227 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,236 INFO [main.Application] - End calculation, calculated position: [0.036885245901639344;0.44672131147540983]
+2013-11-29 16:07:52,246 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,254 INFO [main.Application] - End calculation, calculated position: [0.20945945945945946;1.054054054054054]
+2013-11-29 16:07:52,264 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,273 INFO [main.Application] - End calculation, calculated position: [0.20454545454545456;1.2348484848484849]
+2013-11-29 16:07:52,284 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,291 INFO [main.Application] - End calculation, calculated position: [0.2903225806451613;1.3629032258064515]
+2013-11-29 16:07:52,302 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,308 INFO [main.Application] - End calculation, calculated position: [0.2894736842105263;1.5789473684210527]
+2013-11-29 16:07:52,319 INFO [main.Application] - Start calculation
+2013-11-29 16:07:52,325 INFO [main.Application] - End calculation, calculated position: [0.19642857142857142;1.5]
+2013-11-29 16:11:33,902 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,906 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,907 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,910 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,910 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,912 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,912 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,915 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,940 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,940 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,940 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,940 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,940 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,941 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,966 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,966 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,966 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,966 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,992 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,992 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,992 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,992 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:33,992 INFO [main.Application] - Start calculation
+2013-11-29 16:11:33,992 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,017 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,017 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,017 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,017 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,042 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,042 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,042 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,042 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,042 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,043 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,068 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,068 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,069 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,069 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,069 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,070 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,095 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,095 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,096 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,097 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,122 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,122 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,123 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,123 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,123 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,124 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,149 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,150 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,150 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,150 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,175 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,175 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,176 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,176 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,201 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,201 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,201 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,202 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,202 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,202 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,228 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,228 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,228 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,228 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,229 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,229 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,254 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,254 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,254 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,254 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,279 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,279 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,279 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,279 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,279 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,279 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,304 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,304 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,304 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,304 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,304 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,304 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,330 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,330 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,330 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,330 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,330 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,340 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,365 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,365 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,365 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,365 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,365 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,366 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,391 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,392 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,393 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,393 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,393 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,394 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,419 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,419 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:34,419 INFO [main.Application] - Start calculation
+2013-11-29 16:11:34,419 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,789 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,792 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,818 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,820 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,820 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,822 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,823 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,825 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,850 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,850 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,850 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,850 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,850 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,851 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,876 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,876 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,876 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,876 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,876 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,876 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,902 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,902 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,903 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,903 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,928 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,929 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,930 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,931 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,956 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,956 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,956 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,956 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,981 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,981 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,981 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,981 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:44,981 INFO [main.Application] - Start calculation
+2013-11-29 16:11:44,982 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,007 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,007 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,008 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,009 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,009 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,010 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,035 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,035 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,036 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,036 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,061 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,061 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,061 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,062 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,063 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,064 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,089 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,089 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,089 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,090 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,115 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,115 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,115 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,115 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,115 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,116 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,141 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,141 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,141 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,141 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,167 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,167 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,167 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,167 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,167 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,167 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,193 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,193 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,193 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,193 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,218 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,218 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,218 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,218 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,219 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,219 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,244 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,244 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,244 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,244 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,269 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,269 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,269 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,286 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,286 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,286 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,286 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,287 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,312 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,312 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,312 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,312 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,338 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,338 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,338 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,338 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:11:45,338 INFO [main.Application] - Start calculation
+2013-11-29 16:11:45,339 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,958 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,961 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,962 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,965 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,965 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,966 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,967 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,968 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,993 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,993 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:10,993 INFO [main.Application] - Start calculation
+2013-11-29 16:13:10,993 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,018 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,018 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,019 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,019 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,019 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,020 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,045 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,045 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,045 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,046 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,046 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,046 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,071 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,071 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,072 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,072 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,098 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,098 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,098 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,098 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,123 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,123 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,123 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,123 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,123 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,123 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,149 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,149 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,150 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,150 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,150 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,151 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,176 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,177 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,177 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,177 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,203 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,203 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,204 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,204 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,204 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,205 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,230 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,230 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,231 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,231 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,256 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,256 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,257 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,257 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,282 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,282 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,283 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,283 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,283 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,284 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,309 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,309 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,309 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,309 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,334 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,334 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,334 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,334 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,334 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,334 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,359 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,359 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,359 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,359 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,384 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,384 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,384 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,385 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,385 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,386 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,411 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,412 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,412 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,437 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,437 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,437 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,437 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,438 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,463 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,463 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,463 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,463 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,488 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,488 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,488 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,488 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:13:11,489 INFO [main.Application] - Start calculation
+2013-11-29 16:13:11,489 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,517 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,521 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,521 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,524 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,524 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,526 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,551 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,551 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,551 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,551 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,551 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,551 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,577 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,577 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,577 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,578 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,603 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,603 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,603 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,604 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,604 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,605 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,630 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,630 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,630 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,630 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,656 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,656 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,656 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,656 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,656 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,656 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,681 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,681 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,682 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,682 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,707 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,708 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,708 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,709 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,709 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,710 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,735 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,735 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,736 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,736 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,761 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,761 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,762 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,762 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,762 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,763 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,788 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,789 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,789 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,790 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,815 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,815 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,816 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,816 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,816 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,817 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,843 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,843 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,843 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,844 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,869 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,869 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,869 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,869 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,869 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,870 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,895 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,895 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,895 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,895 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,921 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,921 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,921 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,921 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,921 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,921 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,946 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,946 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,946 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,947 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,972 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,972 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,972 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,973 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,973 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,990 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:41,990 INFO [main.Application] - Start calculation
+2013-11-29 16:14:41,991 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:42,016 INFO [main.Application] - Start calculation
+2013-11-29 16:14:42,016 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:42,016 INFO [main.Application] - Start calculation
+2013-11-29 16:14:42,016 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:42,041 INFO [main.Application] - Start calculation
+2013-11-29 16:14:42,041 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:42,041 INFO [main.Application] - Start calculation
+2013-11-29 16:14:42,042 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:14:42,042 INFO [main.Application] - Start calculation
+2013-11-29 16:14:42,043 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,177 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,181 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,181 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,184 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,209 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,210 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,210 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,212 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,212 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,214 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,239 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,239 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,239 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,239 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,239 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,240 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,265 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,265 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,265 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,265 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,290 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,290 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,290 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,290 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,290 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,291 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,316 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,316 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,316 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,316 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,341 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,341 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,341 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,342 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,342 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,343 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,368 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,368 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,369 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,370 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,370 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,370 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,396 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,396 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,397 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,397 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,422 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,422 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,422 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,423 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,423 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,423 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,449 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,449 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,449 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,450 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,475 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,475 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,475 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,476 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,476 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,477 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,502 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,502 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,502 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,503 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,528 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,528 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,528 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,529 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,529 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,530 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,555 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,555 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,555 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,555 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,580 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,580 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,580 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,580 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,580 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,581 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,606 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,606 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,606 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,606 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,606 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,607 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,632 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,632 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,632 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,658 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,683 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,683 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,683 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,683 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,683 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,683 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,709 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,709 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,709 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,709 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:16:40,709 INFO [main.Application] - Start calculation
+2013-11-29 16:16:40,710 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,509 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,513 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,514 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,518 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,543 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,545 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,545 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,547 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,548 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,550 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,575 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,575 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,575 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,575 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,575 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,576 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,601 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,601 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,601 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,601 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,601 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,602 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,627 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,628 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,628 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,629 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,655 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,655 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,655 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,656 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,681 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,681 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,681 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,681 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,681 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,682 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,707 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,707 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,707 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,708 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,708 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,709 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,734 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,734 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,734 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,734 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,760 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,760 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,761 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,761 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,761 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,762 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,787 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,787 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,787 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,788 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,814 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,815 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,815 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,816 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,816 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,816 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,842 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,842 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,843 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,843 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,844 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,845 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,870 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,870 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,870 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,871 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,896 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,896 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,896 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,897 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,897 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,897 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,922 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,922 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,922 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,922 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,947 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,947 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,947 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,947 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,972 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,972 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,972 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,973 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:27,973 INFO [main.Application] - Start calculation
+2013-11-29 16:17:27,999 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,025 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,025 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,025 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,025 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,025 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,025 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,051 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,051 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,051 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,051 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,051 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,051 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,076 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,076 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:17:28,076 INFO [main.Application] - Start calculation
+2013-11-29 16:17:28,076 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:18:12,029 INFO [main.Application] - Start calculation
+2013-11-29 16:18:12,039 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:18:12,265 INFO [main.Application] - Start calculation
+2013-11-29 16:18:12,270 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:20:23,953 INFO [main.Application] - Start calculation
+2013-11-29 16:20:23,959 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:20:24,193 INFO [main.Application] - Start calculation
+2013-11-29 16:20:24,198 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:20:46,863 INFO [main.Application] - Start calculation
+2013-11-29 16:20:46,869 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:20:47,096 INFO [main.Application] - Start calculation
+2013-11-29 16:20:47,101 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:23:28,214 INFO [main.Application] - Start calculation
+2013-11-29 16:23:28,230 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:23:28,457 INFO [main.Application] - Start calculation
+2013-11-29 16:23:28,461 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:24:27,419 INFO [main.Application] - Start calculation
+2013-11-29 16:24:27,428 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:27:53,180 INFO [main.Application] - Start calculation
+2013-11-29 16:27:53,192 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:27:53,419 INFO [main.Application] - Start calculation
+2013-11-29 16:27:53,424 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,534 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,537 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,563 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,565 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,590 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,592 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,617 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,617 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,642 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,642 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,667 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,667 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,693 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,693 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,744 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,745 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,771 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,771 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,797 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,798 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,823 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,823 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,873 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,873 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,898 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,898 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,923 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,923 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,973 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,973 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:22,998 INFO [main.Application] - Start calculation
+2013-11-29 16:28:22,998 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:28:23,023 INFO [main.Application] - Start calculation
+2013-11-29 16:28:23,024 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,110 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,114 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,140 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,142 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,167 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,171 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,198 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,199 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,249 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,249 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,274 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,274 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,300 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,301 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,326 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,326 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,352 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,352 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,403 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,403 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,428 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,428 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,453 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,453 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,478 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,478 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,528 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,528 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,554 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,554 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,580 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,580 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:32:55,606 INFO [main.Application] - Start calculation
+2013-11-29 16:32:55,606 ERROR [main.Application] - The are less than two values below the rssi in points_probabilityMap (ArrayList)
+2013-11-29 16:36:34,208 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,258 INFO [main.Application] - End calculation, calculated position: [-0.5;1.316326530612245]
+2013-11-29 16:36:34,371 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,394 INFO [main.Application] - End calculation, calculated position: [1.0;1.0]
+2013-11-29 16:36:34,466 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,480 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:36:34,526 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,544 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:36:34,568 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,584 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:36:34,600 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,617 INFO [main.Application] - End calculation, calculated position: [0.85;0.9]
+2013-11-29 16:36:34,634 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,645 INFO [main.Application] - End calculation, calculated position: [-0.7666666666666667;1.211111111111111]
+2013-11-29 16:36:34,669 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,678 INFO [main.Application] - End calculation, calculated position: [-0.3237885462555066;-0.15198237885462554]
+2013-11-29 16:36:34,699 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,707 INFO [main.Application] - End calculation, calculated position: [-0.7434782608695653;-0.717391304347826]
+2013-11-29 16:36:34,720 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,727 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:36:34,740 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,746 INFO [main.Application] - End calculation, calculated position: [-0.45180722891566266;-0.41566265060240964]
+2013-11-29 16:36:34,759 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,765 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.4523809523809524]
+2013-11-29 16:36:34,778 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,784 INFO [main.Application] - End calculation, calculated position: [-0.98;-0.78]
+2013-11-29 16:36:34,797 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,804 INFO [main.Application] - End calculation, calculated position: [-0.3675496688741722;0.3675496688741722]
+2013-11-29 16:36:34,818 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,832 INFO [main.Application] - End calculation, calculated position: [-0.13043478260869565;-0.13043478260869565]
+2013-11-29 16:36:34,844 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,860 INFO [main.Application] - End calculation, calculated position: [0.5517241379310345;0.5890804597701149]
+2013-11-29 16:36:34,874 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,882 INFO [main.Application] - End calculation, calculated position: [0.2196969696969697;1.0075757575757576]
+2013-11-29 16:36:34,894 INFO [main.Application] - Start calculation
+2013-11-29 16:36:34,902 INFO [main.Application] - End calculation, calculated position: [0.24107142857142858;1.4285714285714286]
+2013-11-29 16:38:31,821 INFO [main.Application] - Start calculation
+2013-11-29 16:38:31,875 INFO [main.Application] - End calculation, calculated position: [0.75;1.625]
+2013-11-29 16:38:32,002 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,029 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:38:32,177 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,200 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:38:32,238 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,257 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:38:32,283 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,298 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:38:32,322 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,335 INFO [main.Application] - End calculation, calculated position: [-1.282122905027933;1.4162011173184357]
+2013-11-29 16:38:32,358 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,369 INFO [main.Application] - End calculation, calculated position: [-0.4117647058823529;1.4852941176470589]
+2013-11-29 16:38:32,386 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,406 INFO [main.Application] - End calculation, calculated position: [-0.5470588235294118;-0.3941176470588235]
+2013-11-29 16:38:32,421 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,428 INFO [main.Application] - End calculation, calculated position: [-0.9081632653061225;-0.8061224489795918]
+2013-11-29 16:38:32,443 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,449 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:38:32,462 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,468 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:38:32,481 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,490 INFO [main.Application] - End calculation, calculated position: [-0.5597014925373134;-0.5149253731343284]
+2013-11-29 16:38:32,503 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,509 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:38:32,522 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,530 INFO [main.Application] - End calculation, calculated position: [-0.20053475935828877;0.008021390374331552]
+2013-11-29 16:38:32,543 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,551 INFO [main.Application] - End calculation, calculated position: [-1.3494208494208495;1.2104247104247103]
+2013-11-29 16:38:32,563 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,580 INFO [main.Application] - End calculation, calculated position: [0.38028169014084506;0.38028169014084506]
+2013-11-29 16:38:32,595 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,605 INFO [main.Application] - End calculation, calculated position: [0.1;0.5153846153846153]
+2013-11-29 16:38:32,618 INFO [main.Application] - Start calculation
+2013-11-29 16:38:32,628 INFO [main.Application] - End calculation, calculated position: [0.2903225806451613;1.3629032258064515]
+2013-11-29 16:38:56,461 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,518 INFO [main.Application] - End calculation, calculated position: [0.75;1.625]
+2013-11-29 16:38:56,639 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,668 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:38:56,809 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,830 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:38:56,860 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,876 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:38:56,900 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,919 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:38:56,942 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,957 INFO [main.Application] - End calculation, calculated position: [-1.282122905027933;1.4162011173184357]
+2013-11-29 16:38:56,975 INFO [main.Application] - Start calculation
+2013-11-29 16:38:56,989 INFO [main.Application] - End calculation, calculated position: [0.05913978494623656;1.2311827956989247]
+2013-11-29 16:38:57,004 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,023 INFO [main.Application] - End calculation, calculated position: [0.2863247863247863;0.6025641025641025]
+2013-11-29 16:38:57,041 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,049 INFO [main.Application] - End calculation, calculated position: [-0.9081632653061225;-0.8061224489795918]
+2013-11-29 16:38:57,062 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,071 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:38:57,084 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,090 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:38:57,104 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,110 INFO [main.Application] - End calculation, calculated position: [-0.5597014925373134;-0.5149253731343284]
+2013-11-29 16:38:57,123 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,131 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:38:57,143 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,151 INFO [main.Application] - End calculation, calculated position: [-0.20053475935828877;0.008021390374331552]
+2013-11-29 16:38:57,164 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,173 INFO [main.Application] - End calculation, calculated position: [-1.3494208494208495;1.2104247104247103]
+2013-11-29 16:38:57,185 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,203 INFO [main.Application] - End calculation, calculated position: [0.38028169014084506;0.38028169014084506]
+2013-11-29 16:38:57,217 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,229 INFO [main.Application] - End calculation, calculated position: [0.1;0.5153846153846153]
+2013-11-29 16:38:57,241 INFO [main.Application] - Start calculation
+2013-11-29 16:38:57,251 INFO [main.Application] - End calculation, calculated position: [0.25;1.3928571428571428]
+2013-11-29 16:39:10,469 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,517 INFO [main.Application] - End calculation, calculated position: [0.75;1.625]
+2013-11-29 16:39:10,646 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,672 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:39:10,802 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,823 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:39:10,862 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,881 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:39:10,900 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,913 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:39:10,934 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,944 INFO [main.Application] - End calculation, calculated position: [-1.282122905027933;1.4162011173184357]
+2013-11-29 16:39:10,959 INFO [main.Application] - Start calculation
+2013-11-29 16:39:10,969 INFO [main.Application] - End calculation, calculated position: [0.38599348534201955;0.9429967426710097]
+2013-11-29 16:39:10,985 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,001 INFO [main.Application] - End calculation, calculated position: [-0.9081632653061225;-0.8061224489795918]
+2013-11-29 16:39:11,017 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,024 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:39:11,038 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,044 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:39:11,058 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,065 INFO [main.Application] - End calculation, calculated position: [-0.5597014925373134;-0.5149253731343284]
+2013-11-29 16:39:11,079 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,085 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:39:11,098 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,105 INFO [main.Application] - End calculation, calculated position: [-0.20053475935828877;0.008021390374331552]
+2013-11-29 16:39:11,118 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,126 INFO [main.Application] - End calculation, calculated position: [-1.3494208494208495;1.2104247104247103]
+2013-11-29 16:39:11,141 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,158 INFO [main.Application] - End calculation, calculated position: [0.38028169014084506;0.38028169014084506]
+2013-11-29 16:39:11,172 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,183 INFO [main.Application] - End calculation, calculated position: [0.1;0.5153846153846153]
+2013-11-29 16:39:11,195 INFO [main.Application] - Start calculation
+2013-11-29 16:39:11,204 INFO [main.Application] - End calculation, calculated position: [0.25;1.3928571428571428]
+2013-11-29 16:40:00,167 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,214 INFO [main.Application] - End calculation, calculated position: [0.75;1.625]
+2013-11-29 16:40:00,308 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,332 INFO [main.Application] - End calculation, calculated position: [0.6875;0.6875]
+2013-11-29 16:40:00,504 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,527 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:40:00,564 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,585 INFO [main.Application] - End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+2013-11-29 16:40:00,611 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,627 INFO [main.Application] - End calculation, calculated position: [1.25;1.5]
+2013-11-29 16:40:00,648 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,658 INFO [main.Application] - End calculation, calculated position: [-1.282122905027933;1.4162011173184357]
+2013-11-29 16:40:00,675 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,686 INFO [main.Application] - End calculation, calculated position: [0.38599348534201955;0.9429967426710097]
+2013-11-29 16:40:00,703 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,722 INFO [main.Application] - End calculation, calculated position: [-1.1167400881057268;-1.050660792951542]
+2013-11-29 16:40:00,743 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,751 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:40:00,763 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,770 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:40:00,783 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,789 INFO [main.Application] - End calculation, calculated position: [-0.5;-0.46551724137931033]
+2013-11-29 16:40:00,802 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,807 INFO [main.Application] - End calculation, calculated position: [-0.5597014925373134;-0.5149253731343284]
+2013-11-29 16:40:00,820 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,827 INFO [main.Application] - End calculation, calculated position: [-0.9507042253521126;-0.9084507042253521]
+2013-11-29 16:40:00,839 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,847 INFO [main.Application] - End calculation, calculated position: [-0.20053475935828877;0.008021390374331552]
+2013-11-29 16:40:00,860 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,868 INFO [main.Application] - End calculation, calculated position: [-1.3494208494208495;1.2104247104247103]
+2013-11-29 16:40:00,880 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,896 INFO [main.Application] - End calculation, calculated position: [0.38028169014084506;0.38028169014084506]
+2013-11-29 16:40:00,910 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,921 INFO [main.Application] - End calculation, calculated position: [0.1;0.5153846153846153]
+2013-11-29 16:40:00,933 INFO [main.Application] - Start calculation
+2013-11-29 16:40:00,942 INFO [main.Application] - End calculation, calculated position: [0.25;1.3928571428571428]

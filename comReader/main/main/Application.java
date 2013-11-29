@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
 import algorithm.PositionLocalizationAlgorithm;
+import algorithm.ProbabilityBasedAlgorithm;
 
 import components.Receiver;
 import components.RoomMap;
@@ -61,7 +62,7 @@ public final class Application {
         readConfigurationFile();
         controller = new Controller();
         initializeGUI();
-        //algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
+        algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
 	
 	/**

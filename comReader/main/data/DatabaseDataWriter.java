@@ -6,6 +6,8 @@ package data;
  */
 public class DatabaseDataWriter implements DataWriter{
 
+	private DatabaseDataWriterRunnable runnable;
+	
 	/**
 	 * Instantiates a new database data writer.
 	 */
@@ -20,11 +22,13 @@ public class DatabaseDataWriter implements DataWriter{
 	@Override
 	public void writeData() {
 		
-		DatabaseDataWriterRunnable runnable = new DatabaseDataWriterRunnable();
+		runnable = new DatabaseDataWriterRunnable();
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
 	
-	
+	public void stopReading() {
+		runnable.terminate();
+	}
 
 }

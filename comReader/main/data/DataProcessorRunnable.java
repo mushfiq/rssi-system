@@ -2,6 +2,8 @@ package data;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import main.Application;
 import algorithm.helper.Point;
@@ -14,6 +16,9 @@ import algorithm.helper.Point;
  */
 public class DataProcessorRunnable implements Runnable {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private volatile boolean running = true;
+	
 	/** Time in milliseconds to put the thread to sleep before checking again is the queue empty.  */
 	private static final int TIME_TO_SLEEP_IF_QUEUE_EMPTY = 25;
 	
@@ -21,8 +26,8 @@ public class DataProcessorRunnable implements Runnable {
 	 * Instantiates a new data processor runnable.
 	 */
 	public DataProcessorRunnable() {
-		// TODO Auto-generated constructor stub
 		
+		running = true;
 	}
 
 	/** (non-Javadoc)
@@ -31,7 +36,7 @@ public class DataProcessorRunnable implements Runnable {
 	@Override
 	public void run() {
 		
-		while (true) {
+		while (running == true) {
 			
 			if (!Application.getApplication().getController().getBatchSignalQueue().isEmpty()) {
 				
@@ -42,8 +47,14 @@ public class DataProcessorRunnable implements Runnable {
 				
 				// for every watch, send the average receivers strength to the algorithm for calculation 
 				for (Map.Entry<Integer, HashMap<Integer, Double>> entry : allSignalStrengths.entrySet()) {
-					
+						
 					Point position = Application.getApplication().getAlgorithm().calculate(entry.getValue());
+					if(position == null) {
+						System.out.println("position is null");
+					}
+					else {
+						System.out.println(position);
+					}
 					int watchId = entry.getKey();
 					long currentTime = System.currentTimeMillis() / 1000L; // Tommy: changed it by dividing 1000L to get UNIX timestamp
 					int mapId = 0; // TODO: get actual room map id instead of supplying zero every time
@@ -61,7 +72,11 @@ public class DataProcessorRunnable implements Runnable {
 				}
 			}
 		}
+	} // end run
 
-	}
-
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "DataProcessorRunnable has been terminated.");
+    }
+	
 }

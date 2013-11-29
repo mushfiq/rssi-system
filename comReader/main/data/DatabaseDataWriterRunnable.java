@@ -2,7 +2,11 @@ package data;
 
 import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import main.Application;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -18,6 +22,10 @@ import com.mongodb.Mongo;
  */
 public class DatabaseDataWriterRunnable implements Runnable {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	
+	private volatile boolean running = true;
+	
 	/** The Constant MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY. */
 	private static final int MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY = 10;
 	
@@ -86,6 +94,11 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		        }	
 			}
 		}
-	}
+	} // end run
+	
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");
+    }
 
 }

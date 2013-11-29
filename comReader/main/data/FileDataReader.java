@@ -10,6 +10,8 @@ import java.io.File;
  */
 public class FileDataReader extends DataReader {
 
+	private FileDataReaderRunnable runnable;
+	
 	/** The file. */
 	private File file;
 	
@@ -19,7 +21,7 @@ public class FileDataReader extends DataReader {
 	 * @param newFile the new file
 	 */
 	public FileDataReader(File newFile) {
-		// TODO Auto-generated constructor stub
+		
 		this.file = newFile;
 	}
 	
@@ -29,9 +31,12 @@ public class FileDataReader extends DataReader {
 	@Override
 	public void readData() {
 		
-		Runnable runnable = new FileDataReaderRunnable(file);
+		runnable = new FileDataReaderRunnable(file);
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
 
+	public void stopReading() {
+		runnable.terminate();
+	}
 }

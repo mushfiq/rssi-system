@@ -2,6 +2,8 @@ package data;
 
 import java.util.ArrayList;
 
+import utilities.Utilities;
+
 
 /**
  * Reading represents a single set of data obtained from one line from COM port, i.e. it
@@ -99,6 +101,10 @@ public class Reading {
 		this.receiverId = receiverId;
 		this.watchId = watchId;
 		this.signalStrengths = signalStrengths;
+		
+		double average = Utilities.calculateReadingAverage(this);
+		this.setAverageStrengthValue(average);
+		this.setRssiDbm(average);
 	}
 	
 	/**

@@ -3,6 +3,9 @@ package data;
 
 public class COMPortDataReader extends DataReader {
 
+	
+	private ComPortDataReaderRunnable runnable;
+	
 	public COMPortDataReader() {
 		super();
 	}
@@ -10,8 +13,13 @@ public class COMPortDataReader extends DataReader {
 	@Override
 	public void readData() {
 		
-		Thread thread = new Thread(new ComPortDataReaderRunnable());
+		ComPortDataReaderRunnable runnable = new ComPortDataReaderRunnable();
+		Thread thread = new Thread(runnable);
 		thread.start();
+	}
+	
+	public void stopReading() {
+		runnable.terminate();
 	}
       
 }

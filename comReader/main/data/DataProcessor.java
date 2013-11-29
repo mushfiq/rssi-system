@@ -6,11 +6,13 @@ package data;
  */
 public class DataProcessor {
 
+	private DataProcessorRunnable runnable;
+	
 	/**
 	 * Instantiates a new data processor.
 	 */
 	public DataProcessor() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	/**
@@ -18,8 +20,12 @@ public class DataProcessor {
 	 */
 	public void processData() {
 		
-		DataProcessorRunnable runnable = new DataProcessorRunnable();
+		runnable = new DataProcessorRunnable();
 		Thread thread = new Thread(runnable);
 		thread.start();
+	}
+	
+	public void stopReading() {
+		runnable.terminate();
 	}
 }

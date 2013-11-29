@@ -3,11 +3,18 @@ package data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import main.Application;
 import utilities.Utilities;
 
 public class ComPortDataReaderRunnable implements Runnable{
+	
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	
+	@SuppressWarnings("unused")
+	private volatile boolean running = true;
 	
 	/** The sampling rate. */
 	private static int SAMPLING_RATE = 100; // milliseconds
@@ -16,7 +23,7 @@ public class ComPortDataReaderRunnable implements Runnable{
 	private ArrayList<Reading> currentBatch = new ArrayList<Reading>();
 	final static int NMAX = 500;
     Thread treader;
-    private SerialComm s;
+    private SerialComm serialPortEventListener;
     private byte rdBuf[] = new byte[NMAX];
     private int rdPos = 0;
     int numberCounter = 0;
@@ -24,52 +31,53 @@ public class ComPortDataReaderRunnable implements Runnable{
     long startTime = System.currentTimeMillis();
 	
 	public ComPortDataReaderRunnable() {
-		// TODO Auto-generated constructor stub
+		this.running = true; // otherwise it would be 'false' and the thread would terminate immediately after starting
 	}
 
 	@Override
 	public void run() {
 	
-		s = new SerialComm();
-		s.getPortList();
-		boolean isOpen = s.openSio(1, 115200);
+		serialPortEventListener = new SerialComm();
+		serialPortEventListener.getPortList();
+		boolean isOpen = serialPortEventListener.openSio(1, 115200);
 		
-		while (true) {
-            try {Thread.sleep(10);}
+		while (running == true) {
+            try {
+            	Thread.sleep(10);
+            }
             catch (InterruptedException e) {};
             // check for incoming data
-            char cc;
-            int c;
+            char character;
+            int serializedIntegerValue;
             String line = "";
    		 
             try {
-                    while ((c = s.readSio()) > -1) {
-                     	cc = (char) c; 
-                    	line = line +cc;
-                     	rdBuf[rdPos] = new Integer(c).byteValue();
-                        if (rdPos < NMAX-1) {
-                        	rdPos++;
-                        }
-  
-                       numberCounter++;
-                  
-                       if(c == 10) {
-                    	   if (line.startsWith("REP")) {
-                    		   Reading reading = Utilities.createReading(line);
-                    		   currentBatch.add(reading);
-                    	   }
-                        	  
-                           currentTime = System.currentTimeMillis();
-              			   if (currentTime - startTime >= SAMPLING_RATE) {
-              					HashMap<Integer, HashMap<Integer, Double>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
-              					Application.getApplication().getController().addBatchSignalToQueue(batchSignal);
-              					currentBatch.clear();
-              					startTime = currentTime;
-              				}
-              				
-              				line = "";
-                          }            
-                      }
+                while ((serializedIntegerValue = serialPortEventListener.readSio()) > -1) {
+                 	character = (char) serializedIntegerValue; 
+                	line = line + character;
+                 	rdBuf[rdPos] = new Integer(serializedIntegerValue).byteValue();
+                    if (rdPos < NMAX-1) {
+                    	rdPos++;
+                    }
+                    numberCounter++;
+              
+                    if(serializedIntegerValue == 10) {
+                	    if (line.startsWith("REP")) {
+                		   Reading reading = Utilities.createReading(line);
+                		   currentBatch.add(reading);
+                	   }
+                    	  
+                       currentTime = System.currentTimeMillis();
+          			   if (currentTime - startTime >= SAMPLING_RATE) {
+          					HashMap<Integer, HashMap<Integer, Double>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
+          					Application.getApplication().getController().addBatchSignalToQueue(batchSignal);
+          					currentBatch.clear();
+          					startTime = currentTime;
+          				}
+          				
+          			   line = "";
+                      }            
+                  }
                 } // try 
             catch (IOException e) {
                 System.err.println("Exception: " + e.getMessage());
@@ -77,4 +85,10 @@ public class ComPortDataReaderRunnable implements Runnable{
         } // while always
 	} // end run
 
+	
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");
+    }
+	
 }

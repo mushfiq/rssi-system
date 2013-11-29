@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import main.Application;
 import utilities.Utilities;
@@ -22,6 +24,10 @@ import utilities.Utilities;
  */
 public class FileDataReaderRunnable implements Runnable {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
+	
+	private volatile boolean running = true;
+	
 	/** The file to read from. */
 	private File file;
 	
@@ -32,7 +38,7 @@ public class FileDataReaderRunnable implements Runnable {
 	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 10;
 	
 	/** The sampling rate. */
-	private static int SAMPLING_RATE = 3; // milliseconds
+	private static int SAMPLING_RATE = 30; // milliseconds
 	
 	/** The current batch. */
 	private ArrayList<Reading> currentBatch;
@@ -46,6 +52,7 @@ public class FileDataReaderRunnable implements Runnable {
 		
 		this.file = newFile;
 		currentBatch = new ArrayList<Reading>();
+		running = true;
 	}
 	
 	/* (non-Javadoc)
@@ -103,8 +110,11 @@ public class FileDataReaderRunnable implements Runnable {
 		} finally {
 			
 		}
-		 
-		
-	}
+	} // end run
 
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");
+    }
+	
 }
