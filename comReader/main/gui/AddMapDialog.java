@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.io.File;
 
 import javax.swing.JDialog;
-import javax.swing.SwingUtilities;
 
 public class AddMapDialog extends JDialog{
 

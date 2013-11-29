@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 public class MapItem extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	private ThumbnailImageLabel thumbnailImageLabel;
 	private JButton deleteButton, editButton;
 	private String mapTitle;

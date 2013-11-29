@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,7 @@ import main.Application;
 
 public class MenuBar extends JMenuBar{
 	
+	private static final long serialVersionUID = 1L;
 	private JMenu fileMenu, helpMenu;
 	private JMenuItem exitMenuItem, aboutMenuItem, helpMenuItem, addMap;
 	

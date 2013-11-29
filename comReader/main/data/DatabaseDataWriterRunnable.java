@@ -34,7 +34,6 @@ public class DatabaseDataWriterRunnable implements Runnable {
 	 * Instantiates a new database data writer runnable.
 	 */
 	public DatabaseDataWriterRunnable() {
-		// TODO Auto-generated constructor stub
 		
 		try {
 			mongo = new Mongo("127.0.0.1");
@@ -52,7 +51,6 @@ public class DatabaseDataWriterRunnable implements Runnable {
 	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		
 		BlockingQueue<WatchPositionData> calculatedPositionsQueue = Application.getApplication().getController().getCalculatedPositionsQueue();
 		

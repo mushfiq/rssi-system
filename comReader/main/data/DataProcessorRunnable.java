@@ -6,7 +6,6 @@ import java.util.Map;
 import main.Application;
 import algorithm.helper.Point;
 
-// TODO: Auto-generated Javadoc
 /**
  * DataProcessorRunnable checks if the batchSignalQueue is empty. If it is not empty, it takes
  * a batch of signal strengths and performs algorithm calculations on them. After that, it puts 

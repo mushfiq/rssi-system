@@ -1,9 +1,5 @@
 package tests;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import main.Application;
 
 import com.sun.corba.se.pept.transport.ReaderThread;

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-// TODO: Auto-generated Javadoc
 /**
  * Controller contains queues for readings obtained from COM port, 
  * for averaged signal strength batches and for calculated watch positions.
@@ -29,7 +28,7 @@ public final class Controller {
 	 * Instantiates a new controller.
 	 */
 	public Controller() {
-		// TODO Auto-generated constructor stub
+		
 		readings = new LinkedBlockingQueue<Reading>();
         batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
         calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();

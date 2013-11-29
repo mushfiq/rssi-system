@@ -13,14 +13,13 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 
 import algorithm.PositionLocalizationAlgorithm;
-import algorithm.ProbabilityBasedAlgorithm;
 
 import components.Receiver;
 import components.RoomMap;
 
 import data.Controller;
 
-// TODO: Auto-generated Javadoc
+
 /**
  *  This is the starting point of the RSSI reader. It contains information
  *  about receivers, room map and parameters. It is implemented as a Singleton.
@@ -98,7 +97,7 @@ public final class Application {
 	 * Read configuration file.
 	 */
 	private void readConfigurationFile() {
-		// TODO Auto-generated method stub
+		
 		Properties properties = new Properties();
 		try {
 			properties.load(new FileInputStream(pathToConfigurationFile));

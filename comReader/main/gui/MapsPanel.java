@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
 public class MapsPanel extends JPanel{
 

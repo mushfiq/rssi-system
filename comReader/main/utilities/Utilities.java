@@ -7,8 +7,6 @@ import java.util.StringTokenizer;
 
 import data.Reading;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * Class with helper methods for various tasks.
  */
