@@ -1,8 +1,7 @@
 /*
- * File: ProbabilityMapEmpiric.java
+ * File: ProbabilityMapElliptic.java
  * Date				Author				Changes
- * 08 Nov 2013		Tommy Griese		create version 1.0
- * 28 Nov 2013		Tommy Griese		renamed the classname
+ * 28 Nov 2013		Tommy Griese		create version 1.0
  */
 package algorithm.probabilityMap;
 
@@ -11,21 +10,16 @@ import java.util.ArrayList;
 import algorithm.helper.PointProbabilityMap;
 
 /**
- * The class ProbabilityMapPathLoss represents a probability map created with the path loss formula
- * <br>
- * RSSI = -(10 * n * log(d) + A)
- * <br>
- * n = signal propagation constant, also named propagation exponent<br>
- * d = distance from sender<br>
- * A = received signal strength at a distance of one meter
+ * The class ProbabilityMapElliptic represents a probability map created with an combination of 
+ * the path loss formula and an elliptical approach.
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
  * 
- * @version 1.1 08 Nov 2013
+ * @version 1.0 28 Nov 2013
  * @author Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
-public class ProbabilityMapPathLoss extends ProbabilityMap {
+public class ProbabilityMapElliptic extends ProbabilityMap {
 	
 	/** The signal propagation constant, also named propagation exponent. */
 	private double n;
@@ -33,17 +27,28 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	/** The received signal strength at a distance of one meter. */
 	private double a;
 	
+	/** The length of the half-axis in direction x */
+	private double lengthHalfAxisX = 3.0;
+	
+	/** The length of the half-axis in direction y */
+	private double lengthHalfAxisY = 1.0;
+	
 	private static final double PRPAGATION_CONSTANT = 10.0;
 	
 	/**
-	 * Instantiates a new ProbabilityMapPathLoss.
+	 * Instantiates a new ProbabilityMapElliptic.
 	 *
 	 * @param n the signal propagation constant
 	 * @param a the received signal strength at a distance of one meter
+	 * @param lengthHalfAxisX the length of the half-axis in direction x
+	 * @param lengthHalfAxisY the length of the half-axis in direction y
 	 */
-	public ProbabilityMapPathLoss(double n, double a) {
+	public ProbabilityMapElliptic(double n, double a, double lengthHalfAxisX, double lengthHalfAxisY) {
 		this.n = n;
 		this.a = a;
+		
+		this.lengthHalfAxisX = lengthHalfAxisX;
+		this.lengthHalfAxisY = lengthHalfAxisY;
 	}
 	
 	/**
@@ -121,7 +126,7 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	 * @return the rssi value
 	 */
 	public double distanceToRSSI(double distance) {
-		double rssi = -(ProbabilityMapPathLoss.PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
+		double rssi = -(ProbabilityMapElliptic.PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
 		return rssi;
 	}
 }
