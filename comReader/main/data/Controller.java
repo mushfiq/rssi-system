@@ -3,6 +3,9 @@ package data;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
+
+import utilities.Utilities;
 
 /**
  * Controller contains queues for readings obtained from COM port, 
@@ -18,17 +21,18 @@ public final class Controller {
 	/** Batches of signal that have to be passed to the algorithm. */
 	private BlockingQueue<HashMap<Integer, HashMap<Integer, Double>>> batchSignalQueue;
 	
-	
 	/** After the algorithm calculates the actual position, it puts the value in this queue. */
 	private BlockingQueue<WatchPositionData> calculatedPositionsQueue;
 	
-	
+	/** The logger. */
+	private Logger logger;
 	
 	/**
 	 * Instantiates a new controller.
 	 */
 	public Controller() {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		readings = new LinkedBlockingQueue<Reading>();
         batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
         calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();

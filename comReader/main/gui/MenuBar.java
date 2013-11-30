@@ -2,11 +2,13 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import utilities.Utilities;
 import main.Application;
 
 public class MenuBar extends JMenuBar{
@@ -14,12 +16,15 @@ public class MenuBar extends JMenuBar{
 	private static final long serialVersionUID = 1L;
 	private JMenu fileMenu, helpMenu;
 	private JMenuItem exitMenuItem, aboutMenuItem, helpMenuItem, addMap;
-	
+	/** The logger. */
+	private Logger logger;
 	
 	public MenuBar() {
 		
 		initialize();
 		addListenersToComponents();
+		logger = Utilities.initializeLogger(this.getClass().getName());
+		logger.info("MenuBar initialized.");
 	}
 
 	private void initialize() {

@@ -1,5 +1,8 @@
 package data;
 
+import java.util.logging.Logger;
+
+import utilities.Utilities;
 import algorithm.helper.Point;
 
 
@@ -9,6 +12,9 @@ import algorithm.helper.Point;
  */
 public class WatchPositionData {
 
+	/** The logger. */
+	private Logger logger;
+	
 	/** The watch id. */
 	private int watchId;
 	
@@ -27,6 +33,7 @@ public class WatchPositionData {
 	 */
 	public WatchPositionData() {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 	}
 
 	public int getWatchId() {

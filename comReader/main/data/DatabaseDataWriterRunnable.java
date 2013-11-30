@@ -5,6 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import utilities.Utilities;
 import main.Application;
 
 import com.mongodb.BasicDBObject;
@@ -13,8 +14,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
-
-
 /**
  *  Thread that is run from DatabaseDataWriter object. It reads 
  *  calculated watch positions queue and writes them into the database one
@@ -22,7 +21,7 @@ import com.mongodb.Mongo;
  */
 public class DatabaseDataWriterRunnable implements Runnable {
 
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger;
 	
 	private volatile boolean running = true;
 	
@@ -42,6 +41,8 @@ public class DatabaseDataWriterRunnable implements Runnable {
 	 * Instantiates a new database data writer runnable.
 	 */
 	public DatabaseDataWriterRunnable() {
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		
 		try {
 			mongo = new Mongo("127.0.0.1");

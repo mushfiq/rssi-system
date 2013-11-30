@@ -9,11 +9,16 @@ import java.util.logging.Logger;
 import main.Application;
 import utilities.Utilities;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ComPortDataReaderRunnable.
+ */
 public class ComPortDataReaderRunnable implements Runnable{
 	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	/** The logger. */
+	private Logger logger;
 	
-	@SuppressWarnings("unused")
+	/** The running. */
 	private volatile boolean running = true;
 	
 	/** The sampling rate. */
@@ -21,25 +26,76 @@ public class ComPortDataReaderRunnable implements Runnable{
 	
 	/** The current batch. */
 	private ArrayList<Reading> currentBatch = new ArrayList<Reading>();
+	
+	/** The Constant NMAX. */
 	final static int NMAX = 500;
+    
+    /** The treader. */
     Thread treader;
+    
+    /** The serial port event listener. */
     private SerialComm serialPortEventListener;
+    
+    /** The rd buf. */
     private byte rdBuf[] = new byte[NMAX];
+    
+    /** The rd pos. */
     private int rdPos = 0;
+    
+    /** The number counter. */
     int numberCounter = 0;
+    
+    /** The current time. */
     long currentTime = 0;
+    
+    /** The start time. */
     long startTime = System.currentTimeMillis();
 	
+    /** The Constant COM_PORT_NUMBER. */
+	private static final String COM_PORT_NUMBER = "com_port_number";
+	
+	/** The Constant BAUD_RATE. */
+	private static final String BAUD_RATE = "baud_rate";
+	
+	/** The Constant DEFAULT_COM_PORT_NUMBER. */
+	private static final int DEFAULT_COM_PORT_NUMBER = 1;
+	
+	/** The Constant DEFAULT_BAUD_RATE. */
+	private static final int DEFAULT_BAUD_RATE = 115200;
+    
+	/**
+	 * Instantiates a new com port data reader runnable.
+	 */
 	public ComPortDataReaderRunnable() {
 		this.running = true; // otherwise it would be 'false' and the thread would terminate immediately after starting
+		logger = Utilities.initializeLogger(this.getClass().getName());
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 	
 		serialPortEventListener = new SerialComm();
 		serialPortEventListener.getPortList();
-		boolean isOpen = serialPortEventListener.openSio(1, 115200);
+		/* we set the default values for com_port_number and baud_rate in case
+		 reading from the config file fails */
+		int com_port_number = DEFAULT_COM_PORT_NUMBER;
+		int baud_rate = DEFAULT_BAUD_RATE;
+		
+		try {
+			
+			com_port_number = Integer.parseInt(Application.getApplication().getConfigurationValue(COM_PORT_NUMBER));
+			baud_rate = Integer.parseInt(Application.getApplication().getConfigurationValue(BAUD_RATE));
+		
+		} catch (NumberFormatException exception) {
+			
+			logger.info("Reading parameters from configuration file failed. "
+					+ "Using default values for com_port_number and default_baud_rate instead.");
+		}
+		
+		boolean isOpen = serialPortEventListener.openSio(com_port_number, baud_rate);
 		
 		while (running == true) {
             try {
@@ -86,6 +142,9 @@ public class ComPortDataReaderRunnable implements Runnable{
 	} // end run
 
 	
+	/**
+	 * Terminate.
+	 */
 	public void terminate() {
         running = false;
         logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");

@@ -3,6 +3,8 @@ package gui;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
@@ -11,8 +13,13 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import utilities.Utilities;
+
 public class MainFrame extends JFrame {
 
+	/** The logger. */
+	private Logger logger;
+	
 	private static final long serialVersionUID = 1L;
 	private static final int WINDOW_WIDTH = 1000;
 	private static final int WINDOW_HEIGHT = 700;
@@ -25,8 +32,10 @@ public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		initialize();
 		addListenersForComponents();
+		logger.log(Level.INFO, "GUI initialized.");
 	}
 
 	private void initialize() {
@@ -85,8 +94,6 @@ public class MainFrame extends JFrame {
 	}
 	
 	private void addListenersForComponents() {
-		
-		
 		
 		// TODO: add other listeners
 	}

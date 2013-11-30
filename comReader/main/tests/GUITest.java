@@ -9,6 +9,7 @@ import main.Application;
  */
 public class GUITest {
 
+	
 	/**
 	 * Instantiates a new GUI test.
 	 */

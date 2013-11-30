@@ -24,7 +24,7 @@ import utilities.Utilities;
  */
 public class FileDataReaderRunnable implements Runnable {
 
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger;
 	
 	private volatile boolean running = true;
 	
@@ -50,6 +50,7 @@ public class FileDataReaderRunnable implements Runnable {
 	 */
 	public FileDataReaderRunnable(File newFile) {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.file = newFile;
 		currentBatch = new ArrayList<Reading>();
 		running = true;

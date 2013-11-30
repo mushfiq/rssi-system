@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import utilities.Utilities;
 import main.Application;
 import algorithm.helper.Point;
 
@@ -16,7 +17,7 @@ import algorithm.helper.Point;
  */
 public class DataProcessorRunnable implements Runnable {
 
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger;
 	private volatile boolean running = true;
 	
 	/** Time in milliseconds to put the thread to sleep before checking again is the queue empty.  */
@@ -28,6 +29,7 @@ public class DataProcessorRunnable implements Runnable {
 	public DataProcessorRunnable() {
 		
 		running = true;
+		logger = Utilities.initializeLogger(this.getClass().getName());
 	}
 
 	/** (non-Javadoc)

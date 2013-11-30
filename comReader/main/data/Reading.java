@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import utilities.Utilities;
 
@@ -12,6 +13,9 @@ import utilities.Utilities;
  */
 public class Reading {
 
+	/** The logger. */
+	private Logger logger;
+	
 	/** The receiver id. */
 	private int receiverId;
 	
@@ -31,6 +35,9 @@ public class Reading {
 	 * Instantiates a new reading.
 	 */
 	public Reading() {
+		
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		signalStrengths = new ArrayList<Double>();
 	}
 

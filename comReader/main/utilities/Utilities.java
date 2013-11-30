@@ -1,9 +1,14 @@
 package utilities;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import data.Reading;
 
@@ -22,6 +27,17 @@ public final class Utilities {
 	
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
+	
+	private static final int SIZE_OF_LOG_FILE = 8096;
+	
+	private static final int NUMBER_OF_FILES_TO_WRITE_TO = 1;
+	
+	private static final String PATH_TO_LOG_FILE = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log";
+	
+	private static FileHandler fileHandler;
+	
+	/** The logger. */
+	private static Logger logger;
 	
 	/**
 	 *  All helper methods are static so there is no need for
@@ -159,6 +175,23 @@ public final class Utilities {
 		return averagedAllData;
 	}
 	
+	/**
+	 * Initialize logger.
+	 */
+	public static Logger initializeLogger(String className) {
+	
+		Logger logger = Logger.getLogger(className);
+		logger.setUseParentHandlers(false);
+		fileHandler = Utilities.getFileHandler();  
+		
+        // This block configures the logger with handler and formatter      	  
+        SimpleFormatter formatter = new SimpleFormatter(); 
+        fileHandler.setFormatter(formatter); 
+        logger.addHandler(fileHandler);
+
+	    return logger;
+	}
+	
 	
 	/**
 	 * Helper method that calculates average value of signal strengths in the list.
@@ -243,4 +276,34 @@ public final class Utilities {
 		return reading;
 	}
 	
+	private static FileHandler getFileHandler() {
+		
+		if (fileHandler == null) {
+			try {
+				fileHandler = new FileHandler(
+						PATH_TO_LOG_FILE, 
+						SIZE_OF_LOG_FILE, 
+						NUMBER_OF_FILES_TO_WRITE_TO, 
+						true);
+			} catch (SecurityException e) {
+				
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return fileHandler;
+		
+	}
+	
+	private static Logger getLogger () {
+		
+		if (logger == null) {
+			logger = Utilities.initializeLogger(Utilities.class.getName());
+		}
+		
+		return logger;
+	}
 }

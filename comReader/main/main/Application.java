@@ -7,22 +7,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-
+import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
-
 import components.Receiver;
 import components.RoomMap;
-
 import data.Controller;
 
 
 /**
- *  This is the starting point of the RSSI reader. It contains information
+ *  This is the starting point of the java application. It contains information
  *  about receivers, room map and parameters. It is implemented as a Singleton.
  */
 public final class Application {
@@ -44,12 +41,16 @@ public final class Application {
 	
 	/** The algorithm. */
 	private PositionLocalizationAlgorithm algorithm;
-	
+
 	/** The logger. */
 	private Logger logger;
 	
 	/** Main frame of the application. Shown when application is started. */
 	private MainFrame mainFrame;
+
+	/** The configuration file. */
+	private Properties configurationFile;
+
 	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
@@ -57,32 +58,13 @@ public final class Application {
 	 */
 	private Application() {
 		
-		initializeLogger();
+		logger = Utilities.initializeLogger(this.getClass().getName());
         pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
         readConfigurationFile();
         controller = new Controller();
         initializeGUI();
+        logger.info("Application started.");
         algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
-	}
-	
-	/**
-	 * Initialize logger.
-	 */
-	private void initializeLogger() {
-	
-		logger = Logger.getLogger(Application.class);
-//		logger = Logger.getLogger(Thread.currentThread().getStackTrace()[2].getClass().getCanonicalName());
-		
-		PatternLayout layout = new PatternLayout();
-		layout.setConversionPattern("%d %p [%c] - %m%n");
-	      FileAppender appender = null;
-		try {
-			appender = new FileAppender(layout,"comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log", true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    
-	      logger.addAppender(appender);
 	}
 
 	/**
@@ -99,18 +81,18 @@ public final class Application {
 	 */
 	private void readConfigurationFile() {
 		
-		Properties properties = new Properties();
+		configurationFile = new Properties();
 		try {
-			properties.load(new FileInputStream(pathToConfigurationFile));
+			configurationFile.load(new FileInputStream(pathToConfigurationFile));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.log(Level.SEVERE, "Couldn't open configuration file.\n" + e.getMessage());
 		}
 		
 		// iterating over properties file
-		for(String key : properties.stringPropertyNames()) {
+		for(String key : configurationFile.stringPropertyNames()) {
 			  @SuppressWarnings("unused")
-			String value = properties.getProperty(key);
+			String value = configurationFile.getProperty(key);
 			}
 		
 		// This initialization will be done from the configuration file
@@ -191,20 +173,30 @@ public final class Application {
 		this.algorithm = algorithm;
 	}
 
-	public Logger getLogger() {
-		
-		if(logger == null) {
-			initializeLogger();
-		}
-		
-		return logger;
-	}
-
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
 	
 	
+	/**
+	 * Helper method that returns the value from 'config.ini'
+	 * file for a given parameter.
+	 *
+	 * @param parameter
+	 * @return value for given parameter
+	 */
+	public String getConfigurationValue(String key) {
+		
+		String configurationValue = this.configurationFile.getProperty(key);
+		
+		return (configurationValue != null) ? configurationValue : "";
+	}
+	
+	public void setConfigurationValue(String key, String value) {
+		
+		this.configurationFile.setProperty(key, value);
+		
+	}
 	
 }
 

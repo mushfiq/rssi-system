@@ -1,6 +1,9 @@
 package data;
 
 import java.io.File;
+import java.util.logging.Logger;
+
+import utilities.Utilities;
 
 
 /**
@@ -10,6 +13,9 @@ import java.io.File;
  */
 public class FileDataReader extends DataReader {
 
+	/** The logger. */
+	private Logger logger;
+	
 	private FileDataReaderRunnable runnable;
 	
 	/** The file. */
@@ -22,6 +28,7 @@ public class FileDataReader extends DataReader {
 	 */
 	public FileDataReader(File newFile) {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.file = newFile;
 	}
 	
