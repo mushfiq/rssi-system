@@ -107,11 +107,12 @@ class GenerateData(object):
         print "All receivers deleted!"
         return 
 
+    
         
 if __name__ == '__main__':
     dataGen = GenerateData()
-    # dataGen.generate_save_map(6)
-    dataGen.generate_save_receiver(7)
+    dataGen.generate_save_map(6)
+    # dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
     # dataGen.delete_maps()
     # dataGen.delete_watches()
