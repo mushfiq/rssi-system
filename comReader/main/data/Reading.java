@@ -31,14 +31,16 @@ public class Reading {
 	/** The rssi dbm. */
 	private double rssiDbm = 0;
 	
+	private boolean empty;
+	
 	/**
 	 * Instantiates a new reading.
 	 */
 	public Reading() {
 		
-		
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		signalStrengths = new ArrayList<Double>();
+		this.empty = true;
 	}
 
 	/**
@@ -112,6 +114,7 @@ public class Reading {
 		double average = Utilities.calculateReadingAverage(this);
 		this.setAverageStrengthValue(average);
 		this.setRssiDbm(average);
+		this.setEmpty(false);
 	}
 	
 	/**
@@ -174,7 +177,12 @@ public class Reading {
 	public void setRssiDbm(double rssiDbm) {
 		this.rssiDbm = rssiDbm;
 	}
-	
-	
 
+	public boolean isEmpty() {
+		return empty;
+	}
+
+	public void setEmpty(boolean value) {
+		this.empty = value;
+	}
 }

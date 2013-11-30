@@ -220,6 +220,14 @@ public final class Utilities {
 	 */
 	public static Reading createReading(String line) {
 		
+		double signalStrength1 = 0;
+		double signalStrength2 = 0;
+		double signalStrength3 = 0;
+		double signalStrength4 = 0;
+		Reading reading = new Reading();
+		
+		try {
+		
 		StringTokenizer tokenizer = new StringTokenizer(line);
 			
 			//REP
@@ -249,16 +257,16 @@ public final class Utilities {
 			//13
 			tokenizer.nextToken();
 			//14
-			double signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength1 = Utilities.convertRSSIDecToDbm(signalStrength1);
 			//15
-			double signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength2 = Utilities.convertRSSIDecToDbm(signalStrength2);
 			//16
-			double signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength3 = Utilities.convertRSSIDecToDbm(signalStrength3);
 			//17
-			double signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength4 = Utilities.convertRSSIDecToDbm(signalStrength4);
 			//18
 			tokenizer.nextToken();
@@ -271,7 +279,11 @@ public final class Utilities {
 			signalStrengths.add(signalStrength3);
 			signalStrengths.add(signalStrength4);
 			
-			Reading reading = new Reading(receiverId, 0, signalStrengths);
+			reading = new Reading(receiverId, 0, signalStrengths);
+			
+		} catch (NumberFormatException exception) {
+			getLogger().warning("Parsing data from COM port failed. Empty reading will be returned.");
+		}
 			
 		return reading;
 	}

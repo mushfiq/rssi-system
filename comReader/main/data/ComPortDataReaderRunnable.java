@@ -84,12 +84,12 @@ public class ComPortDataReaderRunnable implements Runnable{
 		int com_port_number = DEFAULT_COM_PORT_NUMBER;
 		int baud_rate = DEFAULT_BAUD_RATE;
 		
-		try {
+		try { // read parameters from the configuration file
 			
 			com_port_number = Integer.parseInt(Application.getApplication().getConfigurationValue(COM_PORT_NUMBER));
 			baud_rate = Integer.parseInt(Application.getApplication().getConfigurationValue(BAUD_RATE));
 		
-		} catch (NumberFormatException exception) {
+		} catch (NumberFormatException exception) { // reading has failed, use default values
 			
 			logger.info("Reading parameters from configuration file failed. "
 					+ "Using default values for com_port_number and default_baud_rate instead.");

@@ -18,3 +18,9 @@ INFO: MenuBar initialized.
 INFO: GUI initialized.
 нов 30, 2013 12:27:12 PM main.Application <init>
 INFO: Application started.
+нов 30, 2013 12:52:09 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+нов 30, 2013 12:52:10 PM gui.MainFrame <init>
+INFO: GUI initialized.
+нов 30, 2013 12:52:10 PM main.Application <init>
+INFO: Application started.
