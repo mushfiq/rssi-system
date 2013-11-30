@@ -86,6 +86,15 @@ public class Point {
     public Point neg() {
         return new Point(-x, -y);
     }
+    
+    /**
+     * Euclidean norm
+     * 
+     * @return
+     */
+    public double norm2() {
+        return Math.sqrt(x * x + y * y);
+    }
 
     /**
      * Subtraction of a point.
