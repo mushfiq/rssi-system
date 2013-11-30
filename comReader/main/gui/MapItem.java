@@ -11,21 +11,44 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MapItem.
+ */
 public class MapItem extends JPanel{
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
-	private ThumbnailImageLabel thumbnailImageLabel;
-	private JButton deleteButton, editButton;
-	private String mapTitle;
-	private static final int MAP_ITEM_WIDTH = 150;
-	private static final int MAP_ITEM_HEIGHT = 100;
 	
+	/** The thumbnail image label. */
+	private ThumbnailImageLabel thumbnailImageLabel;
+	
+	/** The edit button. */
+	private JButton deleteButton, editButton;
+	
+	/** The map title. */
+	private String mapTitle;
+	
+	/** The Constant MAP_ITEM_WIDTH. */
+	public static final int MAP_ITEM_WIDTH = 150;
+	
+	/** The Constant MAP_ITEM_HEIGHT. */
+	public static final int MAP_ITEM_HEIGHT = 100;
+	
+	/**
+	 * Instantiates a new map item.
+	 */
 	public MapItem() {
 		
 		mapTitle = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
 		initialize();
 	}
 	
+	/**
+	 * Instantiates a new map item.
+	 *
+	 * @param mapTitle the map title
+	 */
 	public MapItem(String mapTitle) {
 		
 		this.mapTitle = mapTitle;
@@ -33,6 +56,9 @@ public class MapItem extends JPanel{
 	}
 	
 	
+	/**
+	 * Initialize.
+	 */
 	private void initialize() {
 		
 		this.setSize(MAP_ITEM_WIDTH, MAP_ITEM_HEIGHT);

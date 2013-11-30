@@ -1,4 +1,3 @@
-
 package gui;
 
 import java.io.File;
@@ -6,10 +5,23 @@ import java.io.File;
 import javax.swing.filechooser.FileFilter;
 
 
+/**
+ *  ImageFilter extends FileFilter and is supplied to the
+ *  JFileChooser in order to display only specific files 
+ *  and directories. Here it is used to filter everything
+ *  except directories (so that the user can browse through 
+ *  file system) and .png images.
+ */
 public class ImageFilter extends FileFilter {
-
-    // Accepts all directories and all png files.
 	
+    /** 
+     * Overridden method in order to display only 
+     * directories and .png files.
+     * 
+     * @param file One of the files in the file system
+     * @return Is file accepted
+     * @see javax.swing.filechooser.FileFilter#accept(java.io.File)
+     */
     public boolean accept(File file) {
     	
         if (file.isDirectory()) {
@@ -22,18 +34,18 @@ public class ImageFilter extends FileFilter {
         int i = fileName.lastIndexOf('.');
 
         if (i > 0 &&  i < fileName.length() - 1) {
-        	extension = fileName.substring(i+1).toLowerCase();
+        	extension = fileName.substring(i + 1).toLowerCase();
         }
         if (extension != null) {
         	
-            return (extension.equals("png") ? true:false);
+            return (extension.equals("png") ? true : false);
         }
 
         return false;
     }
 
-    //The description of this filter
+    
     public String getDescription() {
-        return "Just Images";
+        return "PNG files only";
     }
 }

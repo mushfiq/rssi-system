@@ -108,11 +108,10 @@ public class ParametersPanel extends JPanel{
 	            File file = fc.getSelectedFile();
 	            //This is where a real application would open the file.
 	            
-	            System.out.println("Opening: " + file.getName());
 	            addMapDialog.setPreviewImage(file);
 	            
 	        } else {
-	            System.out.println("Open command cancelled by user.");
+	            
 	        }
 			
 		}

@@ -15,21 +15,52 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import utilities.Utilities;
 
+
+/**
+ * Main window of the graphical user interface. When the application is started,
+ * it shows the maps that exist in the system. It also contains menus for editing 
+ * receivers, adding maps, changing database parameters and changing COM port 
+ * parameters. When this window is closed, application is terminated as well.
+ * 
+ */
 public class MainFrame extends JFrame {
 
 	/** The logger. */
 	private Logger logger;
 	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant WINDOW_WIDTH. */
 	private static final int WINDOW_WIDTH = 1000;
+	
+	/** The Constant WINDOW_HEIGHT. */
 	private static final int WINDOW_HEIGHT = 700;
+	
+	/** The Constant SCROLL_PANE_WIDTH. */
 	private static final int SCROLL_PANE_WIDTH  = 650; // 20px more than the content so that it will not display scroll bar by default
+	
+	/** The Constant SCROLL_PANE_HEIGHT. */
 	private static final int SCROLL_PANE_HEIGHT = 520; // 20px more than the content so that it will not display scroll bar by default
+	
+	@SuppressWarnings("unused") // field is used in the try/catch block
+	private static final String NIMBUS_LOOK_AND_FEEL = "Nimbus";
+	
+	/** The menu bar. */
 	private MenuBar menuBar;
+	
+	/** The buttons panel. */
 	private ButtonsPanel buttonsPanel;
+	
+	/** The maps panel. */
 	private MapsPanel mapsPanel;
+	
+	/** The status panel. */
 	private StatusPanel statusPanel;
 	
+	/**
+	 * Instantiates a new main frame.
+	 */
 	public MainFrame() {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
@@ -38,6 +69,9 @@ public class MainFrame extends JFrame {
 		logger.log(Level.INFO, "GUI initialized.");
 	}
 
+	/**
+	 * Initializes the graphical interface.
+	 */
 	private void initialize() {
 		
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -90,39 +124,39 @@ public class MainFrame extends JFrame {
 		setResizable(false);
 		setLookAndFeel();
 		setVisible(true);
-		
 	}
 	
+	/**
+	 * Adds the listeners for components.
+	 */
 	private void addListenersForComponents() {
 		
 		// TODO: add other listeners
 	}
 	
-	
-	
+	/**
+	 * Sets the look and feel. If the prefered look and feel cannot
+	 * be found, default one is used.
+	 */
 	private void setLookAndFeel() {
 		
 		try {
 	        LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
 	        for (LookAndFeelInfo lookAndFeelInfo : infos) {
 	        	
-	    		if (lookAndFeelInfo.getName() == "Nimbus" ) {
+	    		if (lookAndFeelInfo.getName() == "NIMBUS_LOOK_AND_FEEL") {
 	                UIManager.setLookAndFeel(lookAndFeelInfo.getClassName());
 	                SwingUtilities.updateComponentTreeUI(this);
 	            }
 	        }
-	    } 
-	    catch (UnsupportedLookAndFeelException e) {
-	       e.printStackTrace();
-	    }
-	    catch (ClassNotFoundException e) {
-	    	e.printStackTrace();
-	    }
-	    catch (InstantiationException e) {
-	    	e.printStackTrace();
-	    }
-	    catch (IllegalAccessException e) {
-	    	e.printStackTrace();
+	    } catch (UnsupportedLookAndFeelException e) {
+	    	logger.warning("Look and feel not supported.\n" + e.getMessage() );
+	    } catch (ClassNotFoundException e) {
+	    	logger.warning("Look and feel class not found.");
+	    } catch (InstantiationException e) {
+	    	logger.warning(e.getMessage());
+	    } catch (IllegalAccessException e) {
+	    	logger.warning(e.getMessage());
 	    }
 	}
 		

@@ -8,6 +8,7 @@ import java.io.File;
 
 import javax.swing.JDialog;
 
+
 public class AddMapDialog extends JDialog{
 
 	private static final long serialVersionUID = 1L;

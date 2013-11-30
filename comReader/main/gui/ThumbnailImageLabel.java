@@ -9,6 +9,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import utilities.Utilities;
+
 public class ThumbnailImageLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +26,8 @@ public class ThumbnailImageLabel extends JLabel {
 			e.printStackTrace();
 		}
 		
-		Image scaledImage = myPicture.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+		//Image scaledImage = myPicture.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+		BufferedImage scaledImage = Utilities.scaleImageToFitContainer(myPicture, MapItem.MAP_ITEM_WIDTH, MapItem.MAP_ITEM_HEIGHT);
 		this.setIcon(new ImageIcon(scaledImage));
 		
 		// TODO: add onclick listener to open new window with controls for starting and stopping the readings/writings

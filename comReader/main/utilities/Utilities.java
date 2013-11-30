@@ -1,5 +1,8 @@
 package utilities;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import data.Reading;
+
 
 /**
  * Class with helper methods for various tasks.
@@ -28,16 +32,20 @@ public final class Utilities {
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
 	
+	/** The Constant SIZE_OF_LOG_FILE. */
 	private static final int SIZE_OF_LOG_FILE = 8096;
 	
+	/** The Constant NUMBER_OF_FILES_TO_WRITE_TO. */
 	private static final int NUMBER_OF_FILES_TO_WRITE_TO = 1;
 	
+	/** The Constant PATH_TO_LOG_FILE. */
 	private static final String PATH_TO_LOG_FILE = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log";
 	
+	/** The file handler. */
 	private static FileHandler fileHandler;
 	
 	/** The logger. */
-	private static Logger logger;
+	private static Logger utilitiesLogger;
 	
 	/**
 	 *  All helper methods are static so there is no need for
@@ -125,7 +133,7 @@ public final class Utilities {
 		int receiverId = 0;
 		double averageStrengthValue = 0;
 		ArrayList<Integer> watchIds = new ArrayList<Integer>(); 
-		if(batch == null) {
+		if (batch == null) {
 			System.out.println("it is null");
 		}
 		// populate the three-dimensional HashMap with data 
@@ -176,20 +184,49 @@ public final class Utilities {
 	}
 	
 	/**
-	 * Initialize logger.
+	 * Initializes logger for other classes. Loggers from all the classes
+	 * should write into single file and in common format. 
+	 *
+	 * @param className Name of the logger owner class
+	 * @return Sustomized logger instance
 	 */
 	public static Logger initializeLogger(String className) {
 	
 		Logger logger = Logger.getLogger(className);
-		logger.setUseParentHandlers(false);
+		logger.setUseParentHandlers(false); // prevent logger from using default handlers, which include writing to the console
 		fileHandler = Utilities.getFileHandler();  
 		
-        // This block configures the logger with handler and formatter      	  
+        // Configures the logger with handler and formatter      	  
         SimpleFormatter formatter = new SimpleFormatter(); 
         fileHandler.setFormatter(formatter); 
         logger.addHandler(fileHandler);
 
 	    return logger;
+	}
+	
+	
+	/**
+	 * Converts Image to BufferedImage.
+	 *
+	 * @param img Image to be converted
+	 * @return BufferedImage instance
+	 */
+	public static BufferedImage convertImagetoBufferedImage(Image img) {
+	    if (img instanceof BufferedImage) { // image is already in appropriate format  
+	    	
+	        return (BufferedImage) img; // cast it to BufferedImage
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose(); // remove created helper graphics instance
+
+	    // Return the buffered image
+	    return bimage;
 	}
 	
 	
@@ -213,10 +250,15 @@ public final class Utilities {
 	}
 	
 	/**
-	 * Creates the reading.
+	 * Creates the reading from a string obtained from COM port. It parses
+	 * values from the string, converts them from RSSI to dBm and performs
+	 * averaging of signal strengths.
+	 * 
+	 * If there is an exception during any of the above tasks, it returns
+	 * an empty reading object.
 	 *
-	 * @param line the line
-	 * @return the reading
+	 * @param line Single line from COM port
+	 * @return Reading object
 	 */
 	public static Reading createReading(String line) {
 		
@@ -288,6 +330,14 @@ public final class Utilities {
 		return reading;
 	}
 	
+	/**
+	 * 
+	 * Returns the file handler for log file. File handler
+	 * contains information about path to log file, size of
+	 * log file, number of files to write to and append flag.
+	 *  
+	 * @return Configured file handler
+	 */
 	private static FileHandler getFileHandler() {
 		
 		if (fileHandler == null) {
@@ -298,7 +348,7 @@ public final class Utilities {
 						NUMBER_OF_FILES_TO_WRITE_TO, 
 						true);
 			} catch (SecurityException e) {
-				
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -310,12 +360,76 @@ public final class Utilities {
 		
 	}
 	
-	private static Logger getLogger () {
+	/**
+	 * Used for accessing the logger from the Utilities class.
+	 * 
+	 * @return Logger instance
+	 */
+	private static Logger getLogger() {
 		
-		if (logger == null) {
-			logger = Utilities.initializeLogger(Utilities.class.getName());
+		if (utilitiesLogger == null) {
+			utilitiesLogger = Utilities.initializeLogger(Utilities.class.getName());
 		}
 		
-		return logger;
+		return utilitiesLogger;
+	}
+	
+	public static BufferedImage scaleImageToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
+		
+		// original image dimensions in pixels
+		double imageWidthInPixels = image.getWidth();
+		double imageHeightInPixels = image.getHeight();
+		
+		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
+		double widthRatio = 0;
+		double heightRatio = 0;
+		double resizeRatio = 0;
+		
+		// if image is resized, these will be its new dimensions
+		double newImageWidthInPixels = 0;
+		double newImageHeightInPixels = 0;
+		
+		BufferedImage resultImage = image;
+		
+		if (imageWidthInPixels >= imageHeightInPixels) {
+		
+			if (imageWidthInPixels <= containerWidth && imageHeightInPixels <= containerHeight) {
+				
+				// do nothing, no resizing needed
+
+			} else { // resizing iz required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+				heightRatio = containerHeight / imageHeightInPixels;	
+			}
+			
+		} else { // imageWidthInPixels < imageHeightInPixels
+			
+			if (imageWidthInPixels <= containerWidth && imageWidthInPixels <= imageHeightInPixels) {
+	            
+				// no resizing required
+	
+			} else { // resizing is required
+				
+				widthRatio = containerHeight / imageWidthInPixels;
+		        heightRatio = containerWidth / imageHeightInPixels;
+			}
+		}
+		
+
+		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
+			
+			resizeRatio = Math.min(widthRatio, heightRatio);
+			
+		    newImageHeightInPixels = imageHeightInPixels * resizeRatio;
+		    newImageWidthInPixels = imageWidthInPixels * resizeRatio;
+		    
+		    resultImage = Utilities.convertImagetoBufferedImage(
+					image.getScaledInstance((int) newImageWidthInPixels, 
+					(int) newImageHeightInPixels, 
+					Image.SCALE_SMOOTH));
+		} 
+		
+		return resultImage;
 	}
 }
