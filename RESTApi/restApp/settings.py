@@ -1,5 +1,6 @@
 # Django settings for restApp project.
 from  mongoengine import connect
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -29,12 +30,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SESSION_ENGINE = 'mongoengine.django.sessions'
-
-INSTALLED_APPS = (
-    'tastypie',
-    'tastypie_mongoengine',
-    'resRSSI.restApp',
-)
 
 MONGO_DB_DEFAULTS = {
     'name': 'rssiSystem',
@@ -153,8 +148,12 @@ INSTALLED_APPS = (
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-	'restApp',
+	'tastypie',
+    'restApp',
+    'tastypie_mongoengine',
 )
+
+# AUTH_USER_MODEL = 'mongoengine.django.mongo_auth'
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
