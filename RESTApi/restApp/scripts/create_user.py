@@ -1,11 +1,7 @@
 import argparse
-
 import getpass
-
 import setup_django
-
 from mongoengine.django.auth import User
-
 
 
 def create_user(user_name, password, email):
