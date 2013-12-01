@@ -13,13 +13,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import algorithm.helper.Point;
-import algorithm.probabilityMap.ProbabilityMapElliptic;
+import algorithm.probabilityMap.ProbabilityMapPathLoss;
+
 import components.Receiver;
 import components.RoomMap;
 
@@ -117,8 +119,13 @@ public class ProbabilityBasedAlgorithmTest {
 	@AfterClass
 	public static void tearDown() throws Exception {
 	}
+	
+	@Before
+	public void init() {
+		algorithm.setRoomMapWeightFunction(RoomMapWeightFunction.SIMPLE);
+		algorithm.setProbabilityMap(new ProbabilityMapPathLoss(3.0, 51.0, -20.0, 20.0, -20.0, 20.0, 0.25));
+	}
 
-	@Ignore
 	@Test
 	public void testCalculateOneReceiver() {
 		HashMap<Integer, Double> readings;
@@ -245,7 +252,6 @@ public class ProbabilityBasedAlgorithmTest {
      	// -- ende test13 --
 	}
 	
-	@Ignore
 	@Test
 	public void testCalculateTwoReceiver() {
 		HashMap<Integer, Double> readings;
@@ -335,7 +341,6 @@ public class ProbabilityBasedAlgorithmTest {
 	 	// -- ende test08 --
 	}
 	
-	@Ignore
 	@Test
 	public void testCalculateThreeReceiver() {
 		HashMap<Integer, Double> readings;
@@ -422,7 +427,6 @@ public class ProbabilityBasedAlgorithmTest {
         // -- ende test07 --
 	}
 
-	@Ignore
 	@Test
 	public void testCalculateFourReceiver() {
 		HashMap<Integer, Double> readings;
@@ -495,8 +499,6 @@ public class ProbabilityBasedAlgorithmTest {
         pCalculated = algorithm.calculate(readings);
         assertTrue(testPoints(pCalculated, pExpected, DELTA));
         // -- ende test02 --
-        
-        algorithm.setRoomMapWeightFunction(RoomMapWeightFunction.SIMPLE);
 	}
 	
 	private boolean testPoints(Point pCalculated, Point pExpected) {
