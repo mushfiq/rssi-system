@@ -3,6 +3,7 @@
  * Date				Author				Changes
  * 20 Nov 2013		Tommy Griese		initial test version 1.0 (one receiver)
  * 21 Nov 2013		Tommy Griese		create test for two, three and four receiver
+ * 01 Dec 2013		Tommy Griese		Just testing the second room map function and ProbabilityMapElliptic
  */
 package algorithm;
 
@@ -14,10 +15,11 @@ import java.util.HashMap;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import algorithm.helper.Point;
-
+import algorithm.probabilityMap.ProbabilityMapElliptic;
 import components.Receiver;
 import components.RoomMap;
 
@@ -33,6 +35,8 @@ public class ProbabilityBasedAlgorithmTest {
 	private static final String FOLDER_TWORECEIVER = "comReader\\JUnitTests\\algorithm\\testTwoReceiver\\";
 	private static final String FOLDER_THREERECEIVER = "comReader\\JUnitTests\\algorithm\\testThreeReceiver\\";
 	private static final String FOLDER_FOURRECEIVER = "comReader\\JUnitTests\\algorithm\\testFourReceiver\\";
+	
+	private static final String FOLDER_WEIGHTFUNCTION = "comReader\\JUnitTests\\algorithm\\testWeightFunction\\";
 	
 	private static final int RECEIVERID_0 = 0;
 	private static final int RECEIVERID_1 = 1;
@@ -95,22 +99,26 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers, 3.0, 51.0, -20.0, 20.0, -20.0, 20.0, 0.25);  
         algorithm.setGrayscaleDebugInformation(true);
         algorithm.setGrayscaleDebugInformationExtended(true);
+        algorithm.setConvexhullDebugInformation(false);
         
         deleteDirectory(new File(FOLDER_ONERECEIVER));
         deleteDirectory(new File(FOLDER_TWORECEIVER));
         deleteDirectory(new File(FOLDER_THREERECEIVER));
         deleteDirectory(new File(FOLDER_FOURRECEIVER));
+        deleteDirectory(new File(FOLDER_WEIGHTFUNCTION));
         
         createDirectory(new File(FOLDER_ONERECEIVER));
         createDirectory(new File(FOLDER_TWORECEIVER));
         createDirectory(new File(FOLDER_THREERECEIVER));
         createDirectory(new File(FOLDER_FOURRECEIVER));
+        createDirectory(new File(FOLDER_WEIGHTFUNCTION));
 	}
 
 	@AfterClass
 	public static void tearDown() throws Exception {
 	}
 
+	@Ignore
 	@Test
 	public void testCalculateOneReceiver() {
 		HashMap<Integer, Double> readings;
@@ -237,6 +245,7 @@ public class ProbabilityBasedAlgorithmTest {
      	// -- ende test13 --
 	}
 	
+	@Ignore
 	@Test
 	public void testCalculateTwoReceiver() {
 		HashMap<Integer, Double> readings;
@@ -326,6 +335,7 @@ public class ProbabilityBasedAlgorithmTest {
 	 	// -- ende test08 --
 	}
 	
+	@Ignore
 	@Test
 	public void testCalculateThreeReceiver() {
 		HashMap<Integer, Double> readings;
@@ -412,6 +422,7 @@ public class ProbabilityBasedAlgorithmTest {
         // -- ende test07 --
 	}
 
+	@Ignore
 	@Test
 	public void testCalculateFourReceiver() {
 		HashMap<Integer, Double> readings;
@@ -443,6 +454,49 @@ public class ProbabilityBasedAlgorithmTest {
         pCalculated = algorithm.calculate(readings);
         assertTrue(testPoints(pCalculated, pExpected));
         // -- ende test02 --
+	}
+	
+	@Test
+	public void testNewWeightFunction() {
+		HashMap<Integer, Double> readings;
+		Point pExpected;
+		Point pCalculated;
+		 
+		algorithm.setGrayscaleImagePath(FOLDER_WEIGHTFUNCTION);
+
+		algorithm.setRoomMapWeightFunction(RoomMapWeightFunction.EXTENDED);
+		
+		/*algorithm.setProbabilityMapForOneReceiver(receivers.get(RECEIVERID_4), new ProbabilityMapElliptic(
+				3.0, 51.0, -20.0, 20.0, -20.0, 20.0, 0.25,
+				3.0, 1.0));*/
+		/*algorithm.setProbabilityMap(new ProbabilityMapElliptic(
+				3.0, 51.0, -20.0, 20.0, -20.0, 20.0, 0.25,
+				1.0, 0.3));*/
+		
+		// -- start test01 --
+		/*readings = new HashMap<Integer, Double>();
+        readings.put(receivers.get(RECEIVERID_3).getID(), -73.00);
+        readings.put(receivers.get(RECEIVERID_4).getID(), -73.00);
+        readings.put(receivers.get(RECEIVERID_8).getID(), -73.00);
+        readings.put(receivers.get(RECEIVERID_9).getID(), -73.00);
+
+        pExpected = new Point(0.0, 0.0);
+        pCalculated = algorithm.calculate(readings);
+        assertTrue(testPoints(pCalculated, pExpected));*/
+        // -- ende test01 --
+        
+        // -- start test02 --
+      	readings = new HashMap<Integer, Double>();
+        readings.put(receivers.get(RECEIVERID_3).getID(), -74.00);
+        readings.put(receivers.get(RECEIVERID_8).getID(), -82.00);
+        readings.put(receivers.get(RECEIVERID_4).getID(), -75.00);
+
+        pExpected = new Point(-4.42307, 1.03846);
+        pCalculated = algorithm.calculate(readings);
+        assertTrue(testPoints(pCalculated, pExpected, DELTA));
+        // -- ende test02 --
+        
+        algorithm.setRoomMapWeightFunction(RoomMapWeightFunction.SIMPLE);
 	}
 	
 	private boolean testPoints(Point pCalculated, Point pExpected) {

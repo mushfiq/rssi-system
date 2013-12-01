@@ -26,6 +26,7 @@ public class KalmanFilter {
 	    	priorEstimate = estimate;              	//estimate is the old one here
 	     	priorErrorVariance = errorCovariance;  	//errorCovariance is the old one
 	    }
+		
 		rawValue = lastPosition;          				//lastPosition is the newest Position recieved
 		kalmanGain = priorErrorVariance / (priorErrorVariance + COVARIANCE);
 		estimate = new Point (priorEstimate.getX() + (kalmanGain * (rawValue.getX() - priorEstimate.getY())),priorEstimate.getY() + (kalmanGain * (rawValue.getY() - priorEstimate.getY())));

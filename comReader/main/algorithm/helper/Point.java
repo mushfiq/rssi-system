@@ -4,6 +4,7 @@
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 					Yentran Tran
  * 20 Nov 2013		Tommy Griese		Added hashcode and equals method
+ * 30 Nov 2013		Tommy Griese		Added function norm2
  */
 package algorithm.helper;
 

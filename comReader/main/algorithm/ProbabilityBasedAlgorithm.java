@@ -3,6 +3,9 @@
  * Date				Author				Changes
  * 09 Nov 2013		Tommy Griese		create version 1.0
  * 22 Nov 2013		Tommy Griese		added an extended debug information (showing each step of calculation)
+ * ?? Nov 2013		Yentran Tran		adding kalman-filter
+ * 30 Nov 2013		Tommy Griese		started to implement a more complicated room map weight function
+ * 01 Dec 2013		Tommy Griese		general code refacotring and improvements
  */
 package algorithm;
 import java.awt.Color;
@@ -26,8 +29,9 @@ import algorithm.helper.Line;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
+import algorithm.probabilityMap.ProbabilityMap;
+import algorithm.probabilityMap.ProbabilityMapElliptic;
 import algorithm.probabilityMap.ProbabilityMapPathLoss;
-
 import components.Receiver;
 import components.RoomMap;
 
@@ -37,7 +41,7 @@ import components.RoomMap;
  * The underlying algorithm is based on the paper "RSSI based Position estimation employing probability Maps" by S. Knauth,
  * D. Geisler, G. Ruzicka from Faculty Computer Science, Mathematics and Geomatics by University of Applied Sciences Stuttgart.
  * 
- * @version 1.0 09 Nov 2013
+ * @version 1.1 01 Dec 2013
  * @author Tommy Griese, Yentran Tran
  */
 public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
@@ -55,11 +59,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/** A flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
 	private boolean grayscaleDebugInformationExtended;
 	
+	private boolean convexhullDebugInformation;
+	
 	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = true;
 	
 	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED = false;
+	
+	
+	public static final boolean CONVEXHULL_DEBUG_INFORMATION = false;
 	
 	/** Defines the start intensity of the grayscale image. */
 	public static final double GRAYSCALE_IMAGE_START = 75.0;
@@ -90,41 +99,52 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/** Factor that is used to determine the weighted points of a room map. */
 	public static final double FACTOR_FOR_WEIGHTING_ROOMMAP = 2.0;
+	
+	private HashMap<Integer, RoomMapWeightFunction> roomMapWeightFunctionValue;
 	// --- End --- variables for roommap
 	
 	// --- Start --- variables for probability map
 	/** The default granularity constant for the probability map. */
 	public static final double GRANULARITY_PROBMAP_DEFAULT = 0.25;
+	private double probMapGranularity;
 	
 	/** The default propagation constant for the probability map. */
 	public static final double PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
+	private double probMapSignalPropagationConstant;
 	
 	/** The default signal strength constant at a distance of one meter for the probability map. */
 	public static final double PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
+	private double probMapSignalStrengthOneMeter;
 	
 	/** The default start value in x for the probability map. */
 	public static final double PROBABILITYMAP_X_FROM_DEFAULT = -10.0;
+	private double probMapXFrom;
 	
 	/** The default end value in x for the probability map. */
 	public static final double PROBABILITYMAP_X_TO_DEFAULT = 10.0;
+	private double probMapXTo;
 	
 	/** The default start value in y for the probability map. */
 	public static final double PROBABILITYMAP_Y_FROM_DEFAULT = -10.0;
+	private double probMapYFrom;
 	
 	/** The default end value in y for the probability map. */
 	public static final double PROBABILITYMAP_Y_TO_DEFAULT = 10.0;
+	private double probMapYTo;
+	
+	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to a probability map {@link algorithm.helper.PointProbabilityMap}. */
+	private HashMap<Integer, ProbabilityMap> probabilityMaps;
 	// --- End --- variables for probability map
 	
 	
 	// --- Start --- misc variables
 	/** Each point of this list contains a weighted point in a room ({@link algorithm.helper.PointRoomMap}). */
 	private ArrayList<PointRoomMap> pointsRoomMap;
-	
-	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to a probability map {@link algorithm.helper.PointProbabilityMap}. */
-	private HashMap<Integer, ArrayList<PointProbabilityMap>> pointsProbabilityMaps;
 	// --- End --- misc variables
 		
 	// --- Start --- Kalmanfilter
+	public static final boolean ENABLE_KALMANFILTER = false;
+	private boolean enableKalmanfilter;
 	private Point priorEstimate, estimate, rawValue;
 	private double priorErrorVariance, errorCovariance;
 	private boolean firstTimeRunning = true;
@@ -134,47 +154,80 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	// --- End --- Kalmanfilter
 	
 	/**
-	 * Instantiates a new probability based algorithm.
+	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLoss will be 
+	 * initialized as ProbabilityMap as well as the RoomMapWeightFunction.SIMPLE. This values can be 
+	 * changed with the corresponding methods.
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm shall take into account
 	 */
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
-		setUpConstructor(ProbabilityBasedAlgorithm.PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT, 
-						 ProbabilityBasedAlgorithm.PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT,
-						 ProbabilityBasedAlgorithm.PROBABILITYMAP_X_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_X_TO_DEFAULT, 
-						 ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_FROM_DEFAULT, ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_TO_DEFAULT,
-						 ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT);
+		
+		this.probMapGranularity = ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT;
+		this.probMapSignalPropagationConstant = ProbabilityBasedAlgorithm.PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
+		this.probMapSignalStrengthOneMeter = ProbabilityBasedAlgorithm.PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		this.probMapXFrom = ProbabilityBasedAlgorithm.PROBABILITYMAP_X_FROM_DEFAULT;
+		this.probMapXTo = ProbabilityBasedAlgorithm.PROBABILITYMAP_X_TO_DEFAULT;
+		this.probMapYFrom = ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_FROM_DEFAULT;
+		this.probMapYTo = ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_TO_DEFAULT;
+		
+		setUpConstructor();
 	}
 	
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers, 
 									 double signalPropagationConstant, double signalStrengthOneMeter,
 									 double xFrom, double xTo, double yFrom, double yTo, double granularity) {
 		super(roommap, receivers);
-		setUpConstructor(signalPropagationConstant, signalStrengthOneMeter, xFrom, xTo, yFrom, yTo, granularity);
+		
+		this.probMapGranularity = granularity;
+		this.probMapSignalPropagationConstant = signalPropagationConstant;
+		this.probMapSignalStrengthOneMeter = signalStrengthOneMeter;
+		this.probMapXFrom = xFrom;
+		this.probMapXTo = xTo;
+		this.probMapYFrom = yFrom;
+		this.probMapYTo = yTo;
+		
+		setUpConstructor();
 	}
 	
-	private void setUpConstructor(double signalPropagationConstant, double signalStrengthOneMeter,
-			 					  double xFrom, double xTo, double yFrom, double yTo, double granularity) {
-		grayscaleImagePicCounter = 0;
+	private void setUpConstructor() {
+		this.grayscaleImagePicCounter = 0;
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED);
+		setConvexhullDebugInformation(ProbabilityBasedAlgorithm.CONVEXHULL_DEBUG_INFORMATION);
 		
-//		setGrayscaleImagePath(System.getProperty("java.io.tmpdir"));
-		setGrayscaleImagePath("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
+		setGrayscaleImagePath(System.getProperty("java.io.tmpdir"));
+//		setGrayscaleImagePath("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
+		
+		enableKalmanfilter(ProbabilityBasedAlgorithm.ENABLE_KALMANFILTER);
 		
 		this.granularityRoommap = ProbabilityBasedAlgorithm.GRANULARITY_ROOMMAP_DEFAULT;
-		pointsProbabilityMaps = new HashMap<Integer, ArrayList<PointProbabilityMap>>();
 		
+		this.probabilityMaps = new HashMap<Integer, ProbabilityMap>();
 		// calculate for each receiver (id) its probability map and store it in the hashmap
-		for (int i = 0; i < receivers.size(); i++) {
-			setProbabilityMapForReceiver(receivers.get(i), signalPropagationConstant, signalStrengthOneMeter, xFrom, xTo, yFrom, yTo, granularity);
+		setProbabilityMap(new ProbabilityMapPathLoss(
+				this.probMapSignalPropagationConstant, this.probMapSignalStrengthOneMeter,
+				this.probMapXFrom, this.probMapXTo, this.probMapYFrom, this.probMapYTo, this.probMapGranularity));
+				
+		this.roomMapWeightFunctionValue = new HashMap<Integer, RoomMapWeightFunction>(); 
+		setRoomMapWeightFunction(RoomMapWeightFunction.SIMPLE);
+	}
+	
+	public void setProbabilityMap(ProbabilityMap probabilityMap) {
+		for (int i = 0; i < this.receivers.size(); i++) {
+			setProbabilityMapForOneReceiver(this.receivers.get(i), probabilityMap);
+		}
+	}
+	
+	public void setRoomMapWeightFunction(RoomMapWeightFunction value) {
+		for (int i = 0; i < this.receivers.size(); i++) {
+			setRoomMapWeightFunctionForOneReceiver(this.receivers.get(i), value);
 		}
 	}
 	
 	/**
-	 * With this method it is possible to define a new probability map for a receiver. If the given receiver in the parameter
+	 * With this method it is possible to define a special new probability map for a receiver. If the given receiver in the parameter
 	 * list already exists, it will get a new calculated probability map (depending on the other given parameters). 
 	 * If the given receiver doesn't exist the receiver and a new probability map for the receiver will be added.
 	 *
@@ -187,20 +240,41 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param yTo the end value for the probability map in y
 	 * @param granularity the granularity of the probability map
 	 */
-	public void setProbabilityMapForReceiver(Receiver receiver, double signalPropagationConstant, double signalStrengthOneMeter,
-											 double xFrom, double xTo, double yFrom, double yTo, double granularity) {
+	public void setProbabilityMapForOneReceiver(Receiver receiver, ProbabilityMap probabilityMap) {
+		if (getReceiver(this.receivers, receiver.getID()) == null) {
+			this.receivers.add(receiver);
+		}
+		
+		int receiverId = receiver.getID();		
+					
+		// store it in the hashmap
+		this.probabilityMaps.put(receiverId, probabilityMap);
+		
+		if(probabilityMap.getClass() == ProbabilityMapElliptic.class &&
+		   this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.EXTENDED) {
+			Application.getApplication().getLogger().log(Level.INFO, "The ProbabiltyMapElliptic does only work with RoomMapWeightFunctino.SIMPLE so far! Therefore we switch to the RoomMapWeightFunctino.SIMPLE.");
+			this.roomMapWeightFunctionValue.put(receiver.getID(), RoomMapWeightFunction.SIMPLE);
+		}
+	}
+	
+	public void setRoomMapWeightFunctionForOneReceiver(Receiver receiver, RoomMapWeightFunction value) {
 		if (getReceiver(this.receivers, receiver.getID()) == null) {
 			this.receivers.add(receiver);
 		}
 		
 		int receiverId = receiver.getID();
 		
-		// calculate the probability map
-		ArrayList<PointProbabilityMap> pointsProbabilityMap = 
-				new ProbabilityMapPathLoss(signalPropagationConstant, signalStrengthOneMeter).getProbabilityMap(xFrom, xTo, yFrom, yTo, granularity);
-					
 		// store it in the hashmap
-		pointsProbabilityMaps.put(receiverId, pointsProbabilityMap);
+		this.roomMapWeightFunctionValue.put(receiverId, value); 
+		
+		if(this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.EXTENDED && 
+		   this.probabilityMaps.get(receiver.getID()).getClass() != ProbabilityMapPathLoss.class) {
+			Application.getApplication().getLogger().log(Level.INFO, "Extended room map weight function does only work with ProbabiltyMapPathLoss so far! Therefore we switch to the ProbabiltyMapPathLoss.");
+	
+			setProbabilityMapForOneReceiver(receiver, new ProbabilityMapPathLoss(
+					this.probMapSignalPropagationConstant, this.probMapSignalStrengthOneMeter,
+					this.probMapXFrom, this.probMapXTo, this.probMapYFrom, this.probMapYTo, this.probMapGranularity));
+		}
 	}
 	
 	/**
@@ -231,6 +305,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public void setGrayscaleDebugInformationExtended(boolean debug) {
 		this.grayscaleDebugInformationExtended = debug;
+	}
+	
+	public void setConvexhullDebugInformation(boolean debug) {
+		this.convexhullDebugInformation = debug;
 	}
 	
 	/**
@@ -270,11 +348,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
 			
 			// find the right probability map for the receiver in hashmap
-			ArrayList<PointProbabilityMap> pointsProbabilityMap = pointsProbabilityMaps.get(e.getKey());
+			ArrayList<PointProbabilityMap> pointsProbabilityMap = this.probabilityMaps.get(e.getKey()).getProbabilityMap();
 			if (pointsProbabilityMap == null) {
 				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in points_probabilityMaps (HashMap)");
 				continue;
-//				return null;
 			}
 			
 			// find the points in the probability map where the rssi value is above the given value
@@ -282,7 +359,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			if (newPointsProbabilityMap.size() <= 2) {
 				Application.getApplication().getLogger().log(Level.ERROR, "The are less than two values above the rssi in points_probabilityMap (ArrayList)");
 				continue;
-//				return null;
 			}
 			
 			// calculate the convex hull of the probability map	
@@ -290,7 +366,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			ArrayList<PointProbabilityMap> convexHull = fch.computeHull(newPointsProbabilityMap);
 	
 			// look for the right receiver
-			Receiver receiver = getReceiver(receivers, e.getKey());
+			Receiver receiver = getReceiver(this.receivers, e.getKey());
 			if (receiver == null) {
 				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in receivers (ArrayList)");
 				return null;
@@ -304,27 +380,32 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			//double weight = linearInterpolation(e.getValue(), lowestRSSI, highestRSSI, 1.0, 1.5);
 			weightRoomMap(this.pointsRoomMap, receiver, convexHullTransformed, 1.0);
 			
-			if (grayscaleDebugInformation) {
-//				newGrayScaleImageConvexHull(convexHullTransformed, grayscaleImagePicCounter + "_convexHull" + e.getKey());
+			if (this.convexhullDebugInformation) {
+				newGrayScaleImageConvexHull(convexHullTransformed, this.grayscaleImagePicCounter + "_convexHull" + e.getKey());
 			}
-			if(grayscaleDebugInformationExtended) {
+			if(this.grayscaleDebugInformationExtended) {
 				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
 				Point p = getPosition(highestPointsRoomMap);
-				newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, grayscaleImagePicCounter + "_calculatedMap");
-				grayscaleImagePicCounter++;
+				newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, this.grayscaleImagePicCounter + "_calculatedMap");
+				this.grayscaleImagePicCounter++;
 			}
 		}
 		// Find points with the highest weighted value
 		ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
 					
 		// calculate point
-		Point p = updatePoint(getPosition(highestPointsRoomMap));
+		Point p;
+		if(this.enableKalmanfilter) {
+			p = updatePoint(getPosition(highestPointsRoomMap));
+		} else {
+			p = getPosition(highestPointsRoomMap);
+		}
 		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
-		if (grayscaleDebugInformation) {
-			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, grayscaleImagePicCounter + "_calculatedMap");
-			grayscaleImagePicCounter++;
+		if (this.grayscaleDebugInformation) {
+			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, this.grayscaleImagePicCounter + "_calculatedMap");
+			this.grayscaleImagePicCounter++;
 		}
 		return p;
 	}
@@ -407,8 +488,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private void weightRoomMap(ArrayList<PointRoomMap> roomMap, Receiver receiver, ArrayList<PointProbabilityMap> convexHull, double factor) {
 		
 		for (int i = 0; i < roomMap.size(); i++) {
-//			simpleWeightFunction(roomMap.get(i), convexHull, FACTOR_FOR_WEIGHTING_ROOMMAP);
-			complexWeightFunction(roomMap.get(i), receiver, convexHull, factor, 0.1);
+			if(this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.SIMPLE) {
+				simpleWeightFunction(roomMap.get(i), convexHull, FACTOR_FOR_WEIGHTING_ROOMMAP);
+			} else if(this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.EXTENDED) {
+				complexWeightFunction(roomMap.get(i), receiver, convexHull, factor, 0.1);
+			}
 		}
 	}
 	
@@ -428,39 +512,19 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		Point vectorReceiverPoint = new Point(point.getX() - receiver.getXPos(), point.getY() - receiver.getYPos());
 		double dReceiverPoint = vectorReceiverPoint.norm2();
 		
-		double minWeightFactor = 1.0;
-		double maxWeightFactor = 2.0;
-		
 		double res = 2.0;
 		if (liesPointInConvexHull(point, convexHull)) {
 			res = 1.0 - (dReceiverPoint / dReceiverConvexHull);
-			for(double i = percentageSteps; i <= 1.0; i += percentageSteps) {
-				if(res < i) {
-//					point.setNewWeightValue(point.getWeightValue() * potentialWeight((1.0-i), dReceiverConvexHull, minWeightFactor, maxWeightFactor));
-					point.setNewWeightValue(point.getWeightValue() * (2.0 - i));
-					break;
-				}
-			}
-			
 		} else {
 			res = 1.0 - (dReceiverConvexHull / dReceiverPoint);
-			for(double i = percentageSteps; i <= 1.0; i += percentageSteps) {
-				if(res < i) {
-//					point.setNewWeightValue(point.getWeightValue() * potentialWeight((1.0-i), dReceiverConvexHull, minWeightFactor, maxWeightFactor));
-					point.setNewWeightValue(point.getWeightValue() * (2.0 - i));
-					break;
-				}
+		}
+		
+		for(double i = percentageSteps; i <= 1.0; i += percentageSteps) {
+			if(res < i) {
+				point.setNewWeightValue(point.getWeightValue() * (2.0 - i));
+				break;
 			}
 		}
-	}
-	private double potentialWeight(double percentage, double dReceiverConvexHull, double min, double max) {
-		double powFactor = 4.0;
-		double test = Math.pow(powFactor, percentage);
-		double max2 = Math.pow(powFactor, dReceiverConvexHull);
-		
-		double factor = linearInterpolation(test, 0.0, max2, min, max);
-		
-		return factor;
 	}
 	
 	/**
@@ -547,7 +611,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param path the new path for the grayscale image
 	 */
 	public void setGrayscaleImagePath(String path) {
-		grayscaleImagePicCounter = 0;
+		this.grayscaleImagePicCounter = 0;
 		if (path.endsWith("\\")) {
 			this.grayscaleImagePath = path;
 		} else {
@@ -633,7 +697,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    }
 	    
 	    // The determined position found by the algorithm will be displayed in white
-	    Color c = new Color(GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE, GRAYSCALE_IMAGE_WHITE);
+	    Color c = new Color(ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE, 
+	    					ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE, 
+	    					ProbabilityBasedAlgorithm.GRAYSCALE_IMAGE_WHITE);
 	    Point pointAsWholeNumber = new Point((pointCalculatedPosition.getX() - smallestX) * factor, (pointCalculatedPosition.getY() - smallestY) * factor);
     	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    theImage.setRGB((int) Math.round(positionPointInImage.getX()), (int) Math.round(positionPointInImage.getY()), c.getRGB());
@@ -669,7 +735,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 		}
 		
-		double factor = 1.0 / GRANULARITY_PROBMAP_DEFAULT;
+		double factor = 1.0 / ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT;
 		
 		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor) + 1;
 		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor) + 1;
@@ -739,25 +805,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return (r * value + s);
 	}
 	
-	private double expInterpolation(double value, 
-			double intervalA0, double intervalA1, double intervalB0, double intervalB1, 
-			double factor, double base) {
-		// Check borders
-		if(value == intervalA0) {
-			return intervalB0;
-		} else if(value == intervalA1) {
-			return intervalB1;
-		}
-		/*double r = (intervalB0 - intervalB1) / (intervalA0 - intervalA1);
-		double s = intervalB0 - intervalA0 * (intervalB0 - intervalB1) / (intervalA0 - intervalA1);
-				
-		double buffer = r * value + s;*/
-		
-		double ret = factor * Math.pow(base, value);
-		
-		return ret;
-	}
-	
 	/**
 	 * Makes a transformation of a point from standard math coordinate system into image coordinate system.<br>
 	 * (The point of origin of an image is located at the top left corner, the point of origin of a math coordinate
@@ -777,6 +824,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return new Point(x, y);
 	}
 	
+	public void enableKalmanfilter(boolean enable) {
+		this.enableKalmanfilter = enable;
+	}
+	
 	/**
 	 * 
 	 * @param lastPosition
@@ -784,21 +835,22 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public  Point updatePoint (Point lastPosition) {	
 		if(firstTimeRunning) {
-			priorEstimate = lastPosition;          		//estimate is the old one here
-		    priorErrorVariance = 1.5;        		//errorCovariance is the old one
-		    firstTimeRunning = false;
+			this.priorEstimate = lastPosition;          		//estimate is the old one here
+			this.priorErrorVariance = 1.5;        		//errorCovariance is the old one
+			this.firstTimeRunning = false;
 		}
 		
 	    else {
-	    	priorEstimate = estimate;              	//estimate is the old one here
-	     	priorErrorVariance = errorCovariance;  	//errorCovariance is the old one
+	    	this.priorEstimate = this.estimate;              	//estimate is the old one here
+	    	this.priorErrorVariance = this.errorCovariance;  	//errorCovariance is the old one
 	    }
 		
-		rawValue = lastPosition;          				//lastPosition is the newest Position recieved
-		kalmanGain = priorErrorVariance / (priorErrorVariance + COVARIANCE);
-		estimate = new Point (priorEstimate.getX() + (kalmanGain * (rawValue.getX() - priorEstimate.getX())),priorEstimate.getY() + (kalmanGain * (rawValue.getY() - priorEstimate.getY())));
-		errorCovariance = (1 - kalmanGain) * priorErrorVariance + STATEVARIANCE;
-		lastPosition = new Point (estimate.getX() + STATEVARIANCE,estimate.getY() + STATEVARIANCE);   //posistion is the variable I want to update which will be lastPosition next time
+		this.rawValue = lastPosition;          				//lastPosition is the newest Position recieved
+		this.kalmanGain = this.priorErrorVariance / (this.priorErrorVariance + ProbabilityBasedAlgorithm.COVARIANCE);
+		this.estimate = new Point (this.priorEstimate.getX() + (this.kalmanGain * (this.rawValue.getX() - this.priorEstimate.getX())), 
+								   this.priorEstimate.getY() + (this.kalmanGain * (this.rawValue.getY() - this.priorEstimate.getY())));
+		this.errorCovariance = (1 - this.kalmanGain) * this.priorErrorVariance + ProbabilityBasedAlgorithm.STATEVARIANCE;
+		lastPosition = new Point (this.estimate.getX() + ProbabilityBasedAlgorithm.STATEVARIANCE, this.estimate.getY() + ProbabilityBasedAlgorithm.STATEVARIANCE);   //posistion is the variable I want to update which will be lastPosition next time
 		
 		return lastPosition;	
 	}

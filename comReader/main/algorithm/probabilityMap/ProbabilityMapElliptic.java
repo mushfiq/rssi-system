@@ -1,7 +1,9 @@
 /*
  * File: ProbabilityMapElliptic.java
  * Date				Author				Changes
- * 28 Nov 2013		Tommy Griese		create version 1.0
+ * 28 Nov 2013		Tommy Griese		initialized file
+ * 30 Nov 2013		Yentran Tran		adapted the method getProbabilityMap to create elliptical maps
+ * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
  */
 package algorithm.probabilityMap;
 
@@ -15,8 +17,8 @@ import algorithm.helper.PointProbabilityMap;
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
  * 
- * @version 1.0 28 Nov 2013
- * @author Tommy Griese
+ * @version 1.1 01 Dec 2013
+ * @author Yentran Tran, Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
 public class ProbabilityMapElliptic extends ProbabilityMap {
@@ -28,94 +30,64 @@ public class ProbabilityMapElliptic extends ProbabilityMap {
 	private double a;
 	
 	/** The length of the half-axis in direction x */
-	private double lengthHalfAxisX = 3.0;
+	private double lengthHalfAxisX;
 	
 	/** The length of the half-axis in direction y */
-	private double lengthHalfAxisY = 1.0;
+	private double lengthHalfAxisY;
 	
 	private static final double PRPAGATION_CONSTANT = 10.0;
 	
+	private ArrayList<PointProbabilityMap> pMap;
+	
 	/**
-	 * Instantiates a new ProbabilityMapElliptic.
+	 * Instantiates and creates a new ProbabilityMapElliptic based on the given parameters.
 	 *
 	 * @param n the signal propagation constant
 	 * @param a the received signal strength at a distance of one meter
-	 * @param lengthHalfAxisX the length of the half-axis in direction x
-	 * @param lengthHalfAxisY the length of the half-axis in direction y
-	 */
-	public ProbabilityMapElliptic(double n, double a, double lengthHalfAxisX, double lengthHalfAxisY) {
-		this.n = n;
-		this.a = a;
-		
-		this.lengthHalfAxisX = lengthHalfAxisX;
-		this.lengthHalfAxisY = lengthHalfAxisY;
-	}
-	
-	/**
-	 * Creates a new probability map based on the given parameters.
-	 *
 	 * @param xFrom the start value for the probability map in x
 	 * @param xTo the end value for the probability map in x
 	 * @param yFrom the start value for the probability map in y
 	 * @param yTo the end value for the probability map in y
 	 * @param granularity the granularity for the probability map
-	 * @return the new probability map
+	 * @param lengthHalfAxisX the length of the half-axis in direction x
+	 * @param lengthHalfAxisY the length of the half-axis in direction y
 	 */
-	@Override
-	public ArrayList<PointProbabilityMap> getProbabilityMap(double xFrom, double xTo, 
-			   												double yFrom, double yTo,
-			   												double granularity) {
+	public ProbabilityMapElliptic(double n, double a, 
+								  double xFrom, double xTo, 
+								  double yFrom, double yTo,
+								  double granularity,
+								  double lengthHalfAxisX, double lengthHalfAxisY) {
+		super(xFrom, xTo, yFrom, yTo, granularity);
 		
-		ArrayList<PointProbabilityMap> pMap = new ArrayList<PointProbabilityMap>();
+		this.n = n;
+		this.a = a;
 		
-		for (double i = xFrom; i <= xTo; i += granularity) { // x-axis
-			for (double j = yFrom; j <= yTo; j += granularity) { // y-axis
+		this.lengthHalfAxisX = lengthHalfAxisX;
+		this.lengthHalfAxisY = lengthHalfAxisY;
+		
+		this.pMap = new ArrayList<PointProbabilityMap>();
+		
+		for (double i = this.xFrom; i <= this.xTo; i += this.granularity) { // x-axis
+			for (double j = this.yFrom; j <= this.yTo; j += this.granularity) { // y-axis
 				double distance = 0;
 				if (i == 0 && j == 0) {
-					distance = granularity;
+					distance = this.granularity;
 				} else {
-					distance = Math.sqrt(i * i + j * j);
+					distance = Math.sqrt((i * i)/this.lengthHalfAxisX + (j * j)/this.lengthHalfAxisY);
 				}
 				pMap.add(new PointProbabilityMap(i, j, distanceToRSSI(distance)));
 			}
 		}
-		return pMap;
 	}
 	
 	/**
-	 * Sets the signal propagation constant.
-	 *
-	 * @param n the new signal propagation constant
-	 */
-	public void setN(int n) {
-		this.n = n;
-	}
-	
-	/**
-	 * Sets the received signal strength at a distance of one meter.
-	 *
-	 * @param a the new received signal strength at a distance of one meter
-	 */
-	public void setA(int a) {
-		this.a = a;
-	}
-	
-	/**
-	 * Gets the signal propagation constant.
-	 *
-	 * @return the signal propagation constant
-	 */
-	public double getN() {
-		return this.n;
-	}
+	 * Returns the probability map.
 
-	/**
-	 * Gets the received signal strength at a distance of one meter.
-	 *
-	 * @return the received signal strength at a distance of one meter
+	 * @return the new probability map
 	 */
-	public double getA() {
-		return this.a;
+	@Override
+	public ArrayList<PointProbabilityMap> getProbabilityMap() {
+		return this.pMap;
 	}
 	
 	/**
