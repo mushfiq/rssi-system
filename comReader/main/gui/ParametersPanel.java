@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -37,6 +38,7 @@ public class ParametersPanel extends JPanel{
 		setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setLayout(new GridBagLayout());
+		setBackground(new Color(230, 230, 230));
 		
 		// Add 'Upload' button
 		uploadButton = new JButton("Upload");

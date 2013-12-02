@@ -16,8 +16,9 @@ public class MapsPanel extends JPanel{
 		
 		setSize(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT);
 		setPreferredSize(new Dimension(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT));
-		setBackground(Color.gray);
+		setBackground(new Color(230, 230, 230));
 		setLayout(new FlowLayout(FlowLayout.LEADING));
+		
 		// add sample map item
 		MapItem item1 = new MapItem("Room 433");
 		this.add(item1);

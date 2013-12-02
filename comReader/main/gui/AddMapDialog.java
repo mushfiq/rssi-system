@@ -24,10 +24,24 @@ public class AddMapDialog extends JDialog{
 		setSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setPreferredSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setLayout(new GridBagLayout());
+		setBackground(new Color(247, 247, 247));
+		
+		// Add MapPreviewPanel
+		mapPreviewPanel = new MapPreviewPanel();
+		GridBagConstraints gbc2 = new GridBagConstraints();
+		gbc2.gridx = 0;
+		gbc2.gridy = 1;
+		gbc2.gridwidth = 4;
+		gbc2.gridheight = 5;
+		gbc2.weightx = 1;
+		gbc2.weighty = 1;
+		gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
+		
+		this.add(mapPreviewPanel, gbc2);
+		
 		
 		// Add receivers panel
-		receiversPanel = new ReceiversPanel();
-		receiversPanel.setBackground(Color.yellow);
+		receiversPanel = new ReceiversPanel(this);
 		
 		GridBagConstraints gbc1 = new GridBagConstraints();
 		gbc1.gridx = 0;
@@ -41,25 +55,8 @@ public class AddMapDialog extends JDialog{
 		this.add(receiversPanel, gbc1);
 		
 		
-		// Add MapPreviewPanel
-		mapPreviewPanel = new MapPreviewPanel();
-		mapPreviewPanel.setBackground(Color.LIGHT_GRAY);
-		
-		GridBagConstraints gbc2 = new GridBagConstraints();
-		gbc2.gridx = 0;
-		gbc2.gridy = 1;
-		gbc2.gridwidth = 4;
-		gbc2.gridheight = 5;
-		gbc2.weightx = 1;
-		gbc2.weighty = 1;
-		gbc2.anchor = GridBagConstraints.FIRST_LINE_START;
-		
-		this.add(mapPreviewPanel, gbc2);
-		
-		
 		// Add status panel
 		statusPanel = new StatusPanel();
-		statusPanel.setBackground(Color.ORANGE);
 		GridBagConstraints gbc3 = new GridBagConstraints();
 		gbc3.gridx = 0;
 		gbc3.gridy = 6;
@@ -73,7 +70,6 @@ public class AddMapDialog extends JDialog{
 		
 		// Add parameters panel
 		parametersPanel = new ParametersPanel(this);
-		parametersPanel.setBackground(Color.green);
 		GridBagConstraints gbc4 = new GridBagConstraints();
 		gbc4.gridx = 4;
 		gbc4.gridy = 0;
@@ -98,6 +94,16 @@ public class AddMapDialog extends JDialog{
 		
 		// TODO: perform button enabling/disabling actions after changing the image
 	}
+
+	// package visibility
+	MapPreviewPanel getMapPreviewPanel() {
+		return mapPreviewPanel;
+	}
+
+
+	
+	
 	
 
+	
 }

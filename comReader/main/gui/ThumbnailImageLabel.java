@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +13,8 @@ import utilities.Utilities;
 public class ThumbnailImageLabel extends JLabel {
 
 	private static final long serialVersionUID = 1L;
+	private static final int THUMBNAIL_IMAGE_WIDTH = 130;
+	private static final int THUMBNAIL_IMAGE_HEIGHT = 160;
 
 	public ThumbnailImageLabel() {
 		
@@ -26,8 +27,7 @@ public class ThumbnailImageLabel extends JLabel {
 			e.printStackTrace();
 		}
 		
-		//Image scaledImage = myPicture.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
-		BufferedImage scaledImage = Utilities.scaleImageToFitContainer(myPicture, MapItem.MAP_ITEM_WIDTH, MapItem.MAP_ITEM_HEIGHT);
+		BufferedImage scaledImage = Utilities.scaleImageToFitContainer(myPicture, THUMBNAIL_IMAGE_WIDTH, THUMBNAIL_IMAGE_HEIGHT);
 		this.setIcon(new ImageIcon(scaledImage));
 		
 		// TODO: add onclick listener to open new window with controls for starting and stopping the readings/writings

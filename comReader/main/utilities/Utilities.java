@@ -416,7 +416,6 @@ public final class Utilities {
 			}
 		}
 		
-
 		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
 			
 			resizeRatio = Math.min(widthRatio, heightRatio);

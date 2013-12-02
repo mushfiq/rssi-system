@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
@@ -33,7 +34,7 @@ public class MapItem extends JPanel{
 	public static final int MAP_ITEM_WIDTH = 150;
 	
 	/** The Constant MAP_ITEM_HEIGHT. */
-	public static final int MAP_ITEM_HEIGHT = 100;
+	public static final int MAP_ITEM_HEIGHT = 190;
 	
 	/**
 	 * Instantiates a new map item.
@@ -62,6 +63,7 @@ public class MapItem extends JPanel{
 	private void initialize() {
 		
 		this.setSize(MAP_ITEM_WIDTH, MAP_ITEM_HEIGHT);
+		this.setPreferredSize(new Dimension(MAP_ITEM_WIDTH, MAP_ITEM_HEIGHT));
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Map title

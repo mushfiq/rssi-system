@@ -1,176 +1,218 @@
-нов 30, 2013 11:22:33 AM gui.MainFrame <init>
-INFO: GUI initialized.
-нов 30, 2013 11:25:19 AM gui.MenuBar <init>
-INFO: MenuBar initialized.
-нов 30, 2013 11:25:19 AM gui.MainFrame <init>
-INFO: GUI initialized.
-нов 30, 2013 11:25:50 AM gui.MenuBar <init>
-INFO: MenuBar initialized.
-нов 30, 2013 11:25:50 AM gui.MainFrame <init>
-INFO: GUI initialized.
-нов 30, 2013 12:05:38 PM gui.MenuBar <init>
-INFO: MenuBar initialized.
-нов 30, 2013 12:05:39 PM gui.MainFrame <init>
-INFO: GUI initialized.
-нов 30, 2013 12:27:11 PM gui.MenuBar <init>
-INFO: MenuBar initialized.
-нов 30, 2013 12:27:12 PM gui.MainFrame <init>
-INFO: GUI initialized.
-нов 30, 2013 12:27:12 PM main.Application <init>
+дец 02, 2013 5:30:54 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 12:52:09 PM gui.MenuBar <init>
+дец 02, 2013 5:31:50 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 12:52:10 PM gui.MainFrame <init>
+дец 02, 2013 5:31:51 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 12:52:10 PM main.Application <init>
+дец 02, 2013 5:31:51 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 12:58:14 PM gui.MenuBar <init>
+дец 02, 2013 5:32:03 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 12:58:14 PM gui.MainFrame <init>
+дец 02, 2013 5:32:03 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 12:58:14 PM main.Application <init>
+дец 02, 2013 5:32:03 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 1:15:54 PM gui.MenuBar <init>
+дец 02, 2013 5:32:23 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 1:15:55 PM gui.MainFrame <init>
+дец 02, 2013 5:32:24 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 1:15:55 PM main.Application <init>
+дец 02, 2013 5:32:24 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:36:02 PM gui.MenuBar <init>
+дец 02, 2013 5:32:54 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:36:03 PM gui.MainFrame <init>
+дец 02, 2013 5:32:55 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:36:03 PM main.Application <init>
+дец 02, 2013 5:32:55 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:37:48 PM gui.MenuBar <init>
+дец 02, 2013 5:34:37 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:37:49 PM gui.MainFrame <init>
+дец 02, 2013 5:34:38 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:37:49 PM main.Application <init>
+дец 02, 2013 5:34:38 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:38:43 PM gui.MenuBar <init>
+дец 02, 2013 5:34:47 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:38:44 PM gui.MainFrame <init>
+дец 02, 2013 5:34:47 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:38:44 PM main.Application <init>
+дец 02, 2013 5:34:47 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:39:39 PM gui.MenuBar <init>
+дец 02, 2013 5:35:19 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:39:40 PM gui.MainFrame <init>
+дец 02, 2013 5:35:20 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:39:40 PM main.Application <init>
+дец 02, 2013 5:35:20 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:40:48 PM gui.MenuBar <init>
+дец 02, 2013 5:36:18 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:40:49 PM gui.MainFrame <init>
+дец 02, 2013 5:36:18 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:40:49 PM main.Application <init>
+дец 02, 2013 5:36:18 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 3:41:53 PM gui.MenuBar <init>
+дец 02, 2013 5:36:30 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 3:41:53 PM gui.MainFrame <init>
+дец 02, 2013 5:36:31 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 3:41:53 PM main.Application <init>
+дец 02, 2013 5:36:31 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:08:33 PM gui.MenuBar <init>
+дец 02, 2013 5:36:44 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:08:34 PM gui.MainFrame <init>
+дец 02, 2013 5:36:45 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:08:34 PM main.Application <init>
+дец 02, 2013 5:36:45 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:20:49 PM gui.MenuBar <init>
+дец 02, 2013 5:38:19 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:20:49 PM gui.MainFrame <init>
+дец 02, 2013 5:38:20 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:20:49 PM main.Application <init>
+дец 02, 2013 5:38:20 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:26:37 PM gui.MenuBar <init>
+дец 02, 2013 5:40:12 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:26:38 PM gui.MainFrame <init>
+дец 02, 2013 5:40:13 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:26:38 PM main.Application <init>
+дец 02, 2013 5:40:13 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:27:32 PM gui.MenuBar <init>
+дец 02, 2013 5:42:29 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:27:33 PM gui.MainFrame <init>
+дец 02, 2013 5:42:29 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:27:33 PM main.Application <init>
+дец 02, 2013 5:42:29 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:28:21 PM gui.MenuBar <init>
+дец 02, 2013 5:43:56 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:28:22 PM gui.MainFrame <init>
+дец 02, 2013 5:43:56 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:28:22 PM main.Application <init>
+дец 02, 2013 5:43:56 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:30:34 PM gui.MenuBar <init>
+дец 02, 2013 5:50:23 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:30:34 PM gui.MainFrame <init>
+дец 02, 2013 5:50:23 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:30:34 PM main.Application <init>
+дец 02, 2013 5:50:23 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:31:09 PM gui.MenuBar <init>
+дец 02, 2013 6:24:44 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:31:10 PM gui.MainFrame <init>
+дец 02, 2013 6:24:44 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:31:10 PM main.Application <init>
+дец 02, 2013 6:24:44 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:33:59 PM gui.MenuBar <init>
+дец 02, 2013 6:40:27 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:34:00 PM gui.MainFrame <init>
+дец 02, 2013 6:40:28 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:34:00 PM main.Application <init>
+дец 02, 2013 6:40:28 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:34:04 PM gui.MenuBar <init>
+дец 02, 2013 6:41:32 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:34:05 PM gui.MainFrame <init>
+дец 02, 2013 6:41:32 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:34:05 PM main.Application <init>
+дец 02, 2013 6:41:32 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:34:33 PM gui.MenuBar <init>
+дец 02, 2013 6:42:02 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:34:34 PM gui.MainFrame <init>
+дец 02, 2013 6:42:02 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:34:34 PM main.Application <init>
+дец 02, 2013 6:42:02 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:37:37 PM gui.MenuBar <init>
+дец 02, 2013 6:45:40 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:37:38 PM gui.MainFrame <init>
+дец 02, 2013 6:45:40 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:37:38 PM main.Application <init>
+дец 02, 2013 6:45:40 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 4:38:26 PM gui.MenuBar <init>
+дец 02, 2013 6:49:19 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 4:38:27 PM gui.MainFrame <init>
+дец 02, 2013 6:49:20 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 4:38:27 PM main.Application <init>
+дец 02, 2013 6:49:20 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 5:21:49 PM gui.MenuBar <init>
+дец 02, 2013 7:01:17 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 5:21:49 PM gui.MainFrame <init>
+дец 02, 2013 7:01:18 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 5:21:49 PM main.Application <init>
+дец 02, 2013 7:01:18 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 6:58:08 PM gui.MenuBar <init>
+дец 02, 2013 7:01:33 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 6:58:08 PM gui.MainFrame <init>
+дец 02, 2013 7:01:34 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 6:58:08 PM main.Application <init>
+дец 02, 2013 7:01:34 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 8:03:38 PM gui.MenuBar <init>
+дец 02, 2013 7:08:18 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 8:03:39 PM gui.MainFrame <init>
+дец 02, 2013 7:08:18 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 8:03:39 PM main.Application <init>
+дец 02, 2013 7:08:18 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 8:05:28 PM gui.MenuBar <init>
+дец 02, 2013 7:09:09 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 8:05:29 PM gui.MainFrame <init>
+дец 02, 2013 7:09:10 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 8:05:29 PM main.Application <init>
+дец 02, 2013 7:09:10 PM main.Application <init>
 INFO: Application started.
-нов 30, 2013 8:08:20 PM gui.MenuBar <init>
+дец 02, 2013 7:11:55 PM gui.MenuBar <init>
 INFO: MenuBar initialized.
-нов 30, 2013 8:08:21 PM gui.MainFrame <init>
+дец 02, 2013 7:11:56 PM gui.MainFrame <init>
 INFO: GUI initialized.
-нов 30, 2013 8:08:21 PM main.Application <init>
+дец 02, 2013 7:11:56 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:16:50 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:16:50 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:16:50 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:19:44 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:19:44 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:19:44 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:20:32 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:20:33 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:20:33 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:20:51 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:20:51 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:20:51 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:24:42 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:24:43 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:24:43 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:25:15 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:25:16 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:25:16 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:27:36 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:27:37 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:27:37 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:28:26 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:28:27 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:28:27 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:49:33 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:49:34 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:49:34 PM main.Application <init>
+INFO: Application started.
+дец 02, 2013 7:57:00 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 02, 2013 7:57:01 PM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 02, 2013 7:57:01 PM main.Application <init>
 INFO: Application started.

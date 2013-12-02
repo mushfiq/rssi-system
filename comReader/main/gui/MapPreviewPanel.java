@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -33,10 +34,12 @@ public class MapPreviewPanel extends JPanel {
 	private static final int PANEL_WIDTH = 950;
 	
 	/** The Constant PANEL_HEIGHT. */
-	private static final int PANEL_HEIGHT = 500;
+	private static final int PANEL_HEIGHT = 550;
 	
 	/** Image of a map drawn as a panel background. */
 	private BufferedImage backgroundImage; 
+	
+	private static final String NO_IMAGE_STRING = "Click on 'Upload' button on the right side to show a new map.";
 	
 	/**
 	 * Instantiates a new map preview panel.
@@ -46,6 +49,7 @@ public class MapPreviewPanel extends JPanel {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
+		setBackground(new Color(230, 230, 230));
 	}
 	
 	/**
@@ -78,8 +82,11 @@ public class MapPreviewPanel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		if (backgroundImage == null) { // if there is no image, finalize painting here
-			return; 
+		if (backgroundImage == null) { // if there is no image, draw message string
+			
+			g.drawString(NO_IMAGE_STRING, PANEL_HEIGHT / 2, PANEL_WIDTH / 3);
+			
+			return;
 		}
 		
 		// original image dimensions in pixels
