@@ -33,7 +33,7 @@ public final class Utilities {
 	private static final int RADIX = 16;
 	
 	/** The Constant SIZE_OF_LOG_FILE. */
-	private static final int SIZE_OF_LOG_FILE = 8096;
+	private static final int SIZE_OF_LOG_FILE = 10485760;  // 10MB
 	
 	/** The Constant NUMBER_OF_FILES_TO_WRITE_TO. */
 	private static final int NUMBER_OF_FILES_TO_WRITE_TO = 1;
