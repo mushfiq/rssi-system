@@ -10,7 +10,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import stu.project.chronolocalization.RestService;
+import stu.project.chronolocalization.TabLayoutActivity;
 import stu.project.chronolocalization.Utilities;
+import stu.project.chronolocalization.RestService.LongRunningGetIO;
 
 
 import dataobjects.ResponseParser;
@@ -22,8 +25,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
@@ -51,9 +57,9 @@ public class MainActivity extends Activity
 			// TODO Auto-generated method stub
 			super.onPause();
 		
-			if(tts!=null){
-				tts.stop();
-				tts.shutdown();
+			if(TabLayoutActivity.tts!=null){
+				TabLayoutActivity.tts.stop();
+				TabLayoutActivity.tts.shutdown();
 				
 			}
 		
@@ -71,7 +77,7 @@ public class MainActivity extends Activity
 		stop = (ImageView)findViewById(R.id.stopImg);
 
 		Utilities util =new Utilities();
-		tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+		/*tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
 			
 			@Override
 			public void onInit(int status) {
@@ -86,7 +92,11 @@ public class MainActivity extends Activity
 		});
 
 		
+*/		
+//		setContentView(R.layout.activity_main);
 		
+		
+		// just a simple comment
 		//Connects the Application with the Data Source (at the moment a dummy implementation)
 		dataManager = new DataManager();
 
@@ -226,10 +236,22 @@ public class MainActivity extends Activity
 	
 	public void startApplication(View view){
 		
+		LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast,(ViewGroup) findViewById(R.id.toast_layout_id));
+        // set a message
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText("Application is started");
+        // Toast configuration
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.TOP, 200, 150);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+
 		watchID = spinnerChooseWatch.getSelectedItem().toString();
 		 
-		 timer = new Timer();
- 		tts.speak("Device is started to move", TextToSpeech.QUEUE_FLUSH, null);
+		timer = new Timer();
+ 		TabLayoutActivity.tts.speak("Device is started to move", TextToSpeech.QUEUE_FLUSH, null);
  		start.setVisibility(View.GONE);
  		stop.setVisibility(View.VISIBLE);
 
@@ -256,17 +278,28 @@ public class MainActivity extends Activity
 	public void stopApplication(View view){
 
 //		Log.d("stopApplication","******");
+		
 		stop.setVisibility(View.GONE);
 		start.setVisibility(View.VISIBLE);
 
 		if(timer !=null){
-			tts.speak("Device is stopped its moving", TextToSpeech.QUEUE_FLUSH, null);
+			TabLayoutActivity.tts.speak("Device is stopped its moving", TextToSpeech.QUEUE_FLUSH, null);
 
-			tts.stop();
+			TabLayoutActivity.tts.stop();
 			timer.cancel();
 		}
+
 	}
 
+	@Override
+	protected void onStart() {
+	    super.onStart();
+	    
+	    RestService resService = new RestService(MainActivity.this);
+		watchID = spinnerChooseWatch.getSelectedItem().toString();
+		resService.new LongRunningGetIO().execute(); 
+	    
+	}
 	class GetPositionTask extends AsyncTask<String, Void, String>
 	  {
 		  String watchID = "";
