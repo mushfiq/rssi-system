@@ -8,19 +8,20 @@
  */
 package algorithm.helper;
 
+import java.awt.geom.Point2D;
+
 /**
- * The class Point represents a point in a 2-Dimensional space.
+ * The class Point represents a point in a 2-Dimensional space. This class is inherited by the java class Point2D.Double
  *
  * @version 1.0 08 Nov 2013
  * @author Yentran Tran, Tommy Griese
  */
-public class Point {
+public class Point extends Point2D.Double {
 
-    /** The position on the x-axis (abscissa). */
-    private double x;
-    
-    /** The position on the y-axis (axis of ordinates). */
-    private double y;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2141258328792556002L;
 
     /**
      * Instantiates a new point.
@@ -29,44 +30,7 @@ public class Point {
      * @param y the position on the y-axis
      */
     public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    /**
-     * Gets the position on the x-axis.
-     *
-     * @return the position on the x-axis
-     */
-    public double getX() {
-    	return this.x;
-    }
-    
-    /**
-     * Gets the position on the y-axis.
-     *
-     * @return the position on the y-axis
-     */
-    public double getY() {
-    	return this.y;
-    }
-    
-    /**
-     * Sets the position on the x-axis.
-     *
-     * @param x the new position in x
-     */
-    public void setX(double x) {
-    	this.x = x;
-    }
-    
-    /**
-     * Sets the position on the y-axis.
-     *
-     * @param y the new position in y
-     */
-    public void setY(double y) {
-    	this.y = y;
+    	super(x, y);
     }
     
     /**
@@ -85,16 +49,7 @@ public class Point {
      * @return the negated point
      */
     public Point neg() {
-        return new Point(-x, -y);
-    }
-    
-    /**
-     * Euclidean norm
-     * 
-     * @return
-     */
-    public double norm2() {
-        return Math.sqrt(x * x + y * y);
+    	return new Point(-x, -y);
     }
 
     /**
@@ -105,71 +60,6 @@ public class Point {
      */
     public Point sub(Point p) {
         return add(p.neg());
-    }
-
-    /**
-     * Cross product (outer product).
-     *
-     * @param p the second point for the cross product
-     * @return the result of the cross product
-     */
-    public double cross(Point p) {
-        return x * p.y - y * p.x;
-    }
-
-    // TODO make comment (look what this function is doing in detail when time is available)!!!
-    /**
-     * 
-     * 
-     * @param p0 the p0
-     * @param p1 the p1
-     * @return the double
-     */
-    public double area2(Point p0, Point p1) {
-        return sub(p0).cross(sub(p1));
-    }
-
-    /**
-     * Checks if the point is located on the right side of the given line.
-     *
-     * @param g the line for the test 
-     * @return true, if the point is located on the right side, false otherwise
-     */
-    public boolean isRightOf(Line g) {
-        return area2(g.getStartPoint(), g.getEndPoint()) < 0;
-    }
-
-    /**
-     * A string that represents the point.
-     * 
-     * @return string of the point
-     */
-    public String toString() {
-        return "[" + x + ";" + y + "]";
-    }
-    
-    @Override
-    public int hashCode() {
-    	return 0;
-    }
-    
-    @Override
-    public boolean equals(Object obj) {
-    	if (this == obj) {
-    		return true;
-    	}
-        if (obj == null) {
-        	return false;
-        }
-        if (getClass() != obj.getClass()) {
-        	return false;
-        }
-        
-        Point p = (Point) obj;
-        if (x != p.x || y != p.y) {
-        	return false;
-        }
-        return true;
     }
 }
 
