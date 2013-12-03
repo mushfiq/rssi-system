@@ -5,6 +5,7 @@
  * 					Yentran Tran
  * 20 Nov 2013		Tommy Griese		Added hashcode and equals method
  * 30 Nov 2013		Tommy Griese		Added function norm2
+ * 03 Dec 2013		Tommy Griese		class inherits from java class Point2D.Double now (therefore unnecessary methods could be removed)
  */
 package algorithm.helper;
 

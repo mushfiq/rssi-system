@@ -5,7 +5,9 @@
  * 22 Nov 2013		Tommy Griese		added an extended debug information (showing each step of calculation)
  * ?? Nov 2013		Yentran Tran		adding kalman-filter
  * 30 Nov 2013		Tommy Griese		started to implement a more complicated room map weight function
- * 01 Dec 2013		Tommy Griese		general code refacotring and improvements
+ * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
+ * 03 Dec 2013		Tommy Griese		complex (room map) weight function can be applied for elliptical prob map now
+ * 03 Dec 2013		Tommy Griese		Bug fix in method calculate (method returns null when invalid values)
  */
 package algorithm;
 import java.awt.Color;
@@ -292,14 +294,22 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/**
 	 * Calculates the position depending of the given readings. The position is located within the borders of the room.
+	 * If the given readings are NOT valid or if the readings is empty, null will be returned.
 	 * 
 	 * @param readings the rssi values measured in dBm for all receivers
 	 * @return the calculated position in a room will be returned in the form of a point ({@link algorithm.helper.Point})
 	 */
 	@Override
-	public Point calculate(HashMap<Integer, Double> readings) {		
-		Application.getApplication().getLogger().log(Level.INFO, "Start calculation");
+	public Point calculate(HashMap<Integer, Double> readings) {
+		int counter = 0;
 		
+		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
+		
+		// test if some readings are given
+		if(readings.isEmpty()) {
+			return null;
+		}
+
 		// creates a new room map (each point gets the weight 1)
 		this.pointsRoomMap = createRoomMap(this.roommap.getXFrom(), this.roommap.getXTo(),
 										   this.roommap.getYFrom(), this.roommap.getYTo(),
@@ -308,18 +318,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		// go through each receiver and calculate a weighted map
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
 			
-			// achtung bei receivern die signale liefern aber nicht konfigurtiert sind
+			// At least one configured receiver for one reading must exist to calculate a position
+			// It could happen that we get a signal for a receiver that is not configured...
+			ProbabilityMap probMap = this.probabilityMaps.get(e.getKey());
+			if(probMap == null) {
+				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] The receiver id couldn't be found in probabilityMaps (HashMap)");
+				continue;
+			}
 			// find the right probability map for the receiver in hashmap
-			ArrayList<PointProbabilityMap> pointsProbabilityMap = this.probabilityMaps.get(e.getKey()).getProbabilityMap();
-			if (pointsProbabilityMap == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in points_probabilityMaps (HashMap)");
+			ArrayList<PointProbabilityMap> pointsProbabilityMap = probMap.getProbabilityMap();
+			if(pointsProbabilityMap == null) {
+				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] Empty probability map for receiver " + e.getKey());
 				continue;
 			}
 			
 			// find the points in the probability map where the rssi value is above the given value
 			ArrayList<PointProbabilityMap> newPointsProbabilityMap = findValuesAboveRssi(pointsProbabilityMap, e.getValue());
 			if (newPointsProbabilityMap.size() <= 2) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The are less than two values above the rssi in points_probabilityMap (ArrayList)");
+				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] The are less than two values above the rssi in pointsProbabilityMap (ArrayList)");
 				continue;
 			}
 			
@@ -330,8 +346,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// look for the right receiver
 			Receiver receiver = getReceiver(this.receivers, e.getKey());
 			if (receiver == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in receivers (ArrayList)");
-				return null;
+				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] The receiver id couldn't be found in receivers (ArrayList)");
+				continue;
 			}
 			
 			// transform the convex hull into the correct position
@@ -340,6 +356,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			
 			// Test each point from room map if it lies in the transformed convex hull and weight each point
 			weightRoomMap(this.pointsRoomMap, receiver, convexHullTransformed);
+			counter++; // when a weighting of the room map was done, increase the counter
 			
 			if (this.convexhullDebugInformation) {
 				newGrayScaleImageConvexHull(convexHullTransformed, this.grayscaleImagePicCounter + "_convexHull" + e.getKey());
@@ -351,6 +368,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 				this.grayscaleImagePicCounter++;
 			}
 		}
+		
+		if(counter == 0) {
+			return null; // no calculation for a point was done
+		}
+		
 		// Find points with the highest weighted value
 		ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
 					
@@ -361,7 +383,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			p = useKalmanfilter(p);
 		}
 		
-		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
+		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
 		if (this.grayscaleDebugInformation) {
@@ -755,7 +777,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    try {
 			ImageIO.write(theImage, "png", outputfile);
 		} catch (IOException e) {
-			Application.getApplication().getLogger().log(Level.ERROR, "Can't write debug image into file " + imageName + ".png");
+			Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - writeImage( ... )] Can't write debug image into file " + imageName + ".png");
 		}
 	}
 	
