@@ -8,11 +8,11 @@
  * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
  * 03 Dec 2013		Tommy Griese		complex (room map) weight function can be applied for elliptical prob map now
  * 03 Dec 2013		Tommy Griese		Bug fix in method calculate (method returns null when invalid values)
+ * 03 Dec 2013		Tommy Griese		Added missing JavaDoc comments
  */
 package algorithm;
 import java.awt.Color;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Line2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -33,7 +33,9 @@ import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
 import algorithm.probabilityMap.ProbabilityMap;
-import algorithm.probabilityMap.ProbabilityMapPathLoss;
+import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
+import algorithm.weightFunction.WeightFunction;
+import algorithm.weightFunction.WeightFunctionSimple;
 
 import components.Receiver;
 import components.RoomMap;
@@ -62,6 +64,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/** A flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
 	private boolean grayscaleDebugInformationExtended;
 	
+	/** A flag to enable/disable the writing of convex hull images (for debugging purpose). */
 	private boolean convexhullDebugInformation;
 	
 	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). */
@@ -70,7 +73,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). With this flag each step will be showed. */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED = false;
 	
-	
+	/** A default flag to enable/disable the writing of convex hull images (for debugging purpose). */
 	public static final boolean CONVEXHULL_DEBUG_INFORMATION = false;
 	
 	/** Defines the start intensity of the grayscale image. */
@@ -92,59 +95,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public static final int GRAYSCALE_IMAGE_SCALE_Y = 5;
 	// --- End --- variables for grayscale image
 	
+	// --- Start --- variables for weight function
+	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to a room map weight function {@link WeightFunction.RoomMapWeightFunction}. */
+	private HashMap<Integer, WeightFunction> weightFunctions;
 	
-	// --- Start --- variables for roommap
-	/** The default granularity constant for the roommap. */
-	public static final double GRANULARITY_ROOMMAP_DEFAULT = 0.25;
-	
-	/** The actual granularity for the roommap. */
-	private double granularityRoommap;
-	
-	/** Factor that is used to determine the weighted points of a room map. */
-	public static final double FACTOR_FOR_WEIGHTING_ROOMMAP = 2.0;
-	
-	private HashMap<Integer, RoomMapWeightFunction> roomMapWeightFunctionValue;
-	// --- End --- variables for roommap
+	private WeightFunction weightFunction;
+	// --- End --- variables for weight function
 	
 	// --- Start --- variables for probability map
-	/** The default granularity constant for the probability map. */
-	public static final double GRANULARITY_PROBMAP_DEFAULT = 0.25;
-	private double probMapGranularity;
-	
-	/** The default propagation constant for the probability map. */
-	public static final double PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
-	private double probMapSignalPropagationConstant;
-	
-	/** The default signal strength constant at a distance of one meter for the probability map. */
-	public static final double PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
-	private double probMapSignalStrengthOneMeter;
-	
-	/** The default start value in x for the probability map. */
-	public static final double PROBABILITYMAP_X_FROM_DEFAULT = -10.0;
-	private double probMapXFrom;
-	
-	/** The default end value in x for the probability map. */
-	public static final double PROBABILITYMAP_X_TO_DEFAULT = 10.0;
-	private double probMapXTo;
-	
-	/** The default start value in y for the probability map. */
-	public static final double PROBABILITYMAP_Y_FROM_DEFAULT = -10.0;
-	private double probMapYFrom;
-	
-	/** The default end value in y for the probability map. */
-	public static final double PROBABILITYMAP_Y_TO_DEFAULT = 10.0;
-	private double probMapYTo;
-	
-	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to a probability map {@link algorithm.helper.PointProbabilityMap}. */
+	/** Each entry in this hash map links a receiver-id {@link components.Receiver#getID()} to its current probability map {@link algorithm.helper.PointProbabilityMap}. */
 	private HashMap<Integer, ProbabilityMap> probabilityMaps;
+	
+	/** Created standard probability map. */
+	private ProbabilityMap probabilityMap;
 	// --- End --- variables for probability map
 	
 	
-	// --- Start --- misc variables
-	/** Each point of this list contains a weighted point in a room ({@link algorithm.helper.PointRoomMap}). */
-	private ArrayList<PointRoomMap> pointsRoomMap;
-	// --- End --- misc variables
-		
+	
+	//TODO: YENNI, make it checkstyle conform and write comments
 	// --- Start --- Kalmanfilter
 	public static final boolean ENABLE_KALMANFILTER = false;
 	private boolean enableKalmanfilter;
@@ -156,8 +124,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	// --- End --- Kalmanfilter
 	
 	/**
-	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLoss will be 
-	 * initialized as ProbabilityMap as well as the RoomMapWeightFunction.SIMPLE. This values can be 
+	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
+	 * initialized as ProbabilityMap as well as the WeightFunctionSimple. These values can be 
 	 * changed with the corresponding methods.
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
@@ -166,33 +134,39 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
-		this.probMapGranularity = ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT;
-		this.probMapSignalPropagationConstant = ProbabilityBasedAlgorithm.PROBABILITY_MAP_SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
-		this.probMapSignalStrengthOneMeter = ProbabilityBasedAlgorithm.PROBABILITYMAP_SIGNAL_STRENGTH_ONE_METER_DEFAULT;
-		this.probMapXFrom = ProbabilityBasedAlgorithm.PROBABILITYMAP_X_FROM_DEFAULT;
-		this.probMapXTo = ProbabilityBasedAlgorithm.PROBABILITYMAP_X_TO_DEFAULT;
-		this.probMapYFrom = ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_FROM_DEFAULT;
-		this.probMapYTo = ProbabilityBasedAlgorithm.PROBABILITYMAP_Y_TO_DEFAULT;
+		this.probabilityMap = new ProbabilityMapPathLossCircle();
+		this.weightFunction = new WeightFunctionSimple();
 		
 		setUpConstructor();
 	}
 	
+	/**
+	 * Instantiates a new probability based algorithm. The default probability map and weight function will be set 
+	 * by the given parameter. These values can be changed with the corresponding methods later.
+	 *
+	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
+	 * @param receivers a list of receivers that the algorithm shall take into account
+	 * @param signalPropagationConstant the signal propagation constant for calculation of the probability map 
+	 * @param signalStrengthOneMeter the signal strength one meter for calculating the probability map
+	 * @param xFrom the start value for the probability map in x, needed for its calculation
+	 * @param xTo the end value for the probability map in x, needed for calculation
+	 * @param yFrom the start value for the probability map in y, needed for its calculation
+	 * @param yTo the end value for the probability map in y, needed for its calculation
+	 * @param granularity the granularity for the probability map, needed for its calculation
+	 */
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers, 
-									 double signalPropagationConstant, double signalStrengthOneMeter,
-									 double xFrom, double xTo, double yFrom, double yTo, double granularity) {
+									 ProbabilityMap probabilityMap, WeightFunction weightFunction) {
 		super(roommap, receivers);
 		
-		this.probMapGranularity = granularity;
-		this.probMapSignalPropagationConstant = signalPropagationConstant;
-		this.probMapSignalStrengthOneMeter = signalStrengthOneMeter;
-		this.probMapXFrom = xFrom;
-		this.probMapXTo = xTo;
-		this.probMapYFrom = yFrom;
-		this.probMapYTo = yTo;
+		this.probabilityMap = probabilityMap;
+		this.weightFunction = weightFunction;
 		
 		setUpConstructor();
 	}
 	
+	/**
+	 * Help function to sets the up the constructor.
+	 */
 	private void setUpConstructor() {
 		this.grayscaleImagePicCounter = 0;
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
@@ -204,58 +178,99 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		enableKalmanfilter(ProbabilityBasedAlgorithm.ENABLE_KALMANFILTER);
 		
-		this.granularityRoommap = ProbabilityBasedAlgorithm.GRANULARITY_ROOMMAP_DEFAULT;
-		
-		this.probabilityMaps = new HashMap<Integer, ProbabilityMap>();
 		// calculate for each receiver (id) its probability map and store it in the hashmap
-		setProbabilityMap(new ProbabilityMapPathLoss(
-				this.probMapSignalPropagationConstant, this.probMapSignalStrengthOneMeter,
-				this.probMapXFrom, this.probMapXTo, this.probMapYFrom, this.probMapYTo, this.probMapGranularity));
+		this.probabilityMaps = new HashMap<Integer, ProbabilityMap>();
 				
-		this.roomMapWeightFunctionValue = new HashMap<Integer, RoomMapWeightFunction>(); 
-		setRoomMapWeightFunction(RoomMapWeightFunction.EXTENDED);
+		// calculate for each receiver (id) its weight function and store it in the hashmap
+		this.weightFunctions = new HashMap<Integer, WeightFunction>(); 
+		
+		for (int i = 0; i < this.receivers.size(); i++) {
+			this.probabilityMaps.put(this.receivers.get(i).getID(), this.probabilityMap);
+			this.weightFunctions.put(this.receivers.get(i).getID(), this.weightFunction); 
+		}
 	}
 	
+	/**
+	 * With this method the probability map for all receiver can be changed.
+	 *
+	 * @param probabilityMap the new probability map for the receivers
+	 */
 	public void setProbabilityMap(ProbabilityMap probabilityMap) {
 		for (int i = 0; i < this.receivers.size(); i++) {
 			setProbabilityMapForOneReceiver(this.receivers.get(i), probabilityMap);
 		}
 	}
 	
-	public void setRoomMapWeightFunction(RoomMapWeightFunction value) {
+	/**
+	 * With this method the (room map) weight function for all receiver can be changed.
+	 *
+	 * @param value the new room map weight function
+	 */
+	public void setWeightFunction(WeightFunction weightFunction) {
 		for (int i = 0; i < this.receivers.size(); i++) {
-			setRoomMapWeightFunctionForOneReceiver(this.receivers.get(i), value);
+			setWeightFunctionForOneReceiver(this.receivers.get(i), weightFunction);
 		}
 	}
 	
 	/**
-	 * With this method it is possible to define a special new probability map for a receiver. If the given receiver in the parameter
-	 * list already exists, it will get a new calculated probability map (depending on the other given parameters). 
-	 * If the given receiver doesn't exist the receiver and a new probability map for the receiver will be added.
+	 * With this method it is possible to define a special new probability map for one receiver. If the given receiver in the parameter
+	 * list already exists, it will get the given calculated probability map. If the given receiver doesn't exist nothing will happen.
 	 *
-	 * @param receiver an existing receiver that shall get a new probability map or a new receiver that shall be added
-	 * @param signalPropagationConstant the signal propagation constant regarding the given receiver for the probability map
-	 * @param signalStrengthOneMeter the signal strength at a distance of one meter regarding the given receiver for the probability map
-	 * @param xFrom the start value for the probability map in x
-	 * @param xTo the end value for the probability map in x
-	 * @param yFrom the start value for the probability map in y
-	 * @param yTo the end value for the probability map in y
-	 * @param granularity the granularity of the probability map
+	 * @param receiver an existing receiver that shall get a new probability map
+	 * @param probabilityMap the probability map for the receiver
 	 */
-	public void setProbabilityMapForOneReceiver(Receiver receiver, ProbabilityMap probabilityMap) {
-		if (getReceiver(this.receivers, receiver.getID()) == null) {
-			this.receivers.add(receiver);
+	public void setProbabilityMapForOneReceiver(Receiver receiver, ProbabilityMap probabilityMap) {		
+		if (getReceiver(this.receivers, receiver.getID()) != null && this.probabilityMaps.containsKey(receiver.getID())) {
+			this.probabilityMaps.put(receiver.getID(), probabilityMap);
 		}	
-		// store it in the hashmap
-		this.probabilityMaps.put(receiver.getID(), probabilityMap);
 	}
 	
-	public void setRoomMapWeightFunctionForOneReceiver(Receiver receiver, RoomMapWeightFunction value) {
-		if (getReceiver(this.receivers, receiver.getID()) == null) {
-			this.receivers.add(receiver);
+	/**
+	 * With this method it is possible to define a special (room map) weight function for one receiver. If the given receiver in the parameter
+	 * list already exists, it will get the given calculated probability map. If the given receiver doesn't exist nothing will happen.
+	 *
+	 * @param receiver an existing receiver that shall get a new (room map) weight function
+	 * @param value the (room map) weight function
+	 */
+	public void setWeightFunctionForOneReceiver(Receiver receiver, WeightFunction weightFunction) {
+		if (getReceiver(this.receivers, receiver.getID()) != null && this.weightFunctions.containsKey(receiver.getID())) {
+			this.weightFunctions.put(receiver.getID(), weightFunction); 
 		}
-		// store it in the hashmap
-		this.roomMapWeightFunctionValue.put(receiver.getID(), value); 
+	}
+	
+	/**
+	 * Adds a new receiver to the configuration. The receiver will get a default probability map and a
+	 * RoomMapWeightFunction or based on the parameters the constructor got.
+	 *
+	 * @param receiver the new receiver
+	 * @param probabilityMap the probability map for the receiver
+	 * @param value the value the (room map) weight function for the receiver
+	 */
+	public void addNewReceiver(Receiver receiver) {
+		if (getReceiver(this.receivers, receiver.getID()) == null && 
+				!this.probabilityMaps.containsKey(receiver.getID()) && 
+				!this.weightFunctions.containsKey(receiver.getID())) {
+			this.receivers.add(receiver);
+			setProbabilityMapForOneReceiver(receiver, this.probabilityMap);
+			setWeightFunctionForOneReceiver(receiver, this.weightFunction);
+		}	
+	}
+	
+	/**
+	 * Adds a new receiver to the configuration.
+	 *
+	 * @param receiver the new receiver
+	 * @param probabilityMap the probability map for the receiver
+	 * @param value the value the (room map) weight function for the receiver
+	 */
+	public void addNewReceiver(Receiver receiver, ProbabilityMap probabilityMap, WeightFunction weightFunction) {
+		if (getReceiver(this.receivers, receiver.getID()) == null && 
+				!this.probabilityMaps.containsKey(receiver.getID()) && 
+				!this.weightFunctions.containsKey(receiver.getID())) {
+			this.receivers.add(receiver);
+			setProbabilityMapForOneReceiver(receiver, probabilityMap);
+			setWeightFunctionForOneReceiver(receiver, weightFunction);
+		}	
 	}
 	
 	/**
@@ -264,9 +279,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param roommap the new room map for the algorithm
 	 * @param granularity the new granularity for the room map
 	 */
-	public void setRoomMap(RoomMap roommap, double granularity) {
+	public void setRoomMap(RoomMap roommap) {
 		this.roommap = roommap;
-		this.granularityRoommap = granularity;
 	}
 	
 	/**
@@ -305,15 +319,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
+		this.roommap.initialize();
+		
 		// test if some readings are given
 		if(readings.isEmpty()) {
 			return null;
 		}
-
-		// creates a new room map (each point gets the weight 1)
-		this.pointsRoomMap = createRoomMap(this.roommap.getXFrom(), this.roommap.getXTo(),
-										   this.roommap.getYFrom(), this.roommap.getYTo(),
-										   this.granularityRoommap);
 	
 		// go through each receiver and calculate a weighted map
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
@@ -355,16 +366,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					convexHullTransformation(convexHull, receiver.getAngle(), receiver.getXPos(), receiver.getYPos());
 			
 			// Test each point from room map if it lies in the transformed convex hull and weight each point
-			weightRoomMap(this.pointsRoomMap, receiver, convexHullTransformed);
+			weightRoomMap(receiver, convexHullTransformed);
 			counter++; // when a weighting of the room map was done, increase the counter
 			
 			if (this.convexhullDebugInformation) {
-				newGrayScaleImageConvexHull(convexHullTransformed, this.grayscaleImagePicCounter + "_convexHull" + e.getKey());
+				newGrayScaleImageConvexHull(convexHullTransformed, this.grayscaleImagePicCounter + "_convexHull" + e.getKey(), probMap.getGranularity());
 			}
 			if(this.grayscaleDebugInformationExtended) {
-				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
+				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue();
 				Point p = getPosition(highestPointsRoomMap);
-				newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, this.grayscaleImagePicCounter + "_calculatedMap");
+				newGrayScaleImageRoomMap(p, this.grayscaleImagePicCounter + "_calculatedMap");
 				this.grayscaleImagePicCounter++;
 			}
 		}
@@ -374,7 +385,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 		
 		// Find points with the highest weighted value
-		ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue(this.pointsRoomMap);
+		ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue();
 					
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
@@ -387,7 +398,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
 		if (this.grayscaleDebugInformation) {
-			newGrayScaleImageRoomMap(this.pointsRoomMap, p, this.receivers, this.grayscaleImagePicCounter + "_calculatedMap");
+			newGrayScaleImageRoomMap(p, this.grayscaleImagePicCounter + "_calculatedMap");
 			this.grayscaleImagePicCounter++;
 		}
 		return p;
@@ -411,25 +422,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		return pMap;
 	}
 	
-	/**
-	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}), depending on the given parameters.
-	 *
-	 * @param xFrom the start value for the room map in x
-	 * @param xTo the end value for the room map in x
-	 * @param yFrom the start value for the room map in y
-	 * @param yTo the end value for the room map in y
-	 * @param granularity the granularity of the room map
-	 * @return an array list that represents the weighted room map 
-	 */
-	private ArrayList<PointRoomMap> createRoomMap(double xFrom, double xTo, double yFrom, double yTo, double granularity) {
-		ArrayList<PointRoomMap> roomMap = new ArrayList<PointRoomMap>();
-		for (double i = xFrom; i <= xTo; i += granularity) { // x-Axe
-			for (double j = yFrom; j <= yTo; j += granularity) { // y-Axe
-				roomMap.add(new PointRoomMap(i, j));
-			}
-		}
-		return roomMap;
-	}
+	
 		
 	/**
 	 * Transforms each point of the given array list (rotation and translation) regarding the given parameters. After the
@@ -468,108 +461,30 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param roomMap the points of the room map
 	 * @param convexHull the points of the convex hull
 	 */
-	private void weightRoomMap(ArrayList<PointRoomMap> roomMap, Receiver receiver, ArrayList<PointProbabilityMap> convexHull) {
-		if(this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.SIMPLE) {
-			simpleWeightFunction(roomMap, convexHull, ProbabilityBasedAlgorithm.FACTOR_FOR_WEIGHTING_ROOMMAP);
-		} else if(this.roomMapWeightFunctionValue.get(receiver.getID()) == RoomMapWeightFunction.EXTENDED) {
-			complexWeightFunction(roomMap, receiver, convexHull, 0.1);
-		}
+	private void weightRoomMap(Receiver receiver, ArrayList<PointProbabilityMap> convexHull) {
+		this.weightFunctions.get(receiver.getID()).weight(this.roommap, receiver, convexHull);
 	}
-	
-	private void simpleWeightFunction(ArrayList<PointRoomMap> roomMap, ArrayList<PointProbabilityMap> convexHull, double factor) {
-		for (int i = 0; i < roomMap.size(); i++) {
-			if (liesPointInConvexHull(roomMap.get(i), convexHull)) {
-				roomMap.get(i).setNewWeightValue(roomMap.get(i).getWeightValue() * factor);
-			}
-		}
-	}
-	
-	// funktioniert nur für kreisförmige probability maps
-	private void complexWeightFunction(ArrayList<PointRoomMap> roomMap, Receiver receiver, 
-			ArrayList<PointProbabilityMap> convexHull, double percentageSteps) {
-		
-		for (int i = 0; i < roomMap.size(); i++) {
-			
-			double distanceConvexhullAndPoint = calcDistanceBtwConvexhullAndPoint(convexHull, roomMap.get(i));
-			double distanceReceiverAndPoint = calcDistanceBtwReceiverAndPoint(receiver, roomMap.get(i));
-			
-			double res = -1.0;
-			if (liesPointInConvexHull(roomMap.get(i), convexHull)) {
-				res = 1.0 - (distanceReceiverAndPoint / (distanceReceiverAndPoint + distanceConvexhullAndPoint));
-			} else {
-				res = 1.0 - ((distanceReceiverAndPoint - distanceConvexhullAndPoint) / distanceReceiverAndPoint);
-			}
-			
-			for(double j = percentageSteps; j <= 1.0; j += percentageSteps) {
-				if(res < j) {
-					roomMap.get(i).setNewWeightValue(roomMap.get(i).getWeightValue() * (2.0 - j));
-					break;
-				}
-			}
-		}
-	}
-	
-	private double calcDistanceBtwConvexhullAndPoint(ArrayList<PointProbabilityMap> convexHull, Point p) {
-		Point pStart = convexHull.get(0);
-		Point pEnd = convexHull.get(1);
-		double distance = Line2D.ptSegDist(pStart.x, pStart.y, pEnd.x, pEnd.y, p.x, p.y);
-		
-		int size = convexHull.size();
-		for (int i = 0; i < size; i++) {
-			pStart = convexHull.get(i % size);
-			pEnd = convexHull.get((i + 1) % size);
-			
-			double distanceTemp = Line2D.ptSegDist(pStart.x, pStart.y, pEnd.x, pEnd.y, p.x, p.y);
-			if(distanceTemp < distance) {
-				distance = distanceTemp;
-			}
-		}
-		return distance;
-	}
-	
-	private double calcDistanceBtwReceiverAndPoint(Receiver receiver, Point p) {
-		Point vectorReceiverPoint = new Point(p.x - receiver.getXPos(), p.y - receiver.getYPos());
-		return Math.sqrt(vectorReceiverPoint.x * vectorReceiverPoint.x + vectorReceiverPoint.y * vectorReceiverPoint.y);
-	}
-	
-	/**
-	 * Test if the given point is located inside the convex hull or not.
-	 *
-	 * @param pRoomMap the point to be tested
-	 * @param convexHull the convex hull
-	 * @return true, if point is located inside the convex hull, false otherwise
-	 */
-	private boolean liesPointInConvexHull(PointRoomMap pRoomMap, ArrayList<PointProbabilityMap> convexHull) {
-		int size = convexHull.size();
-		for (int i = 0; i < size; i++) {
-			Point pStart = convexHull.get(i % size);
-			Point pEnd = convexHull.get((i + 1) % size);
-			
-			if (Line2D.relativeCCW(pStart.x, pStart.y, pEnd.x, pEnd.y, pRoomMap.x, pRoomMap.y) == 1) {
-				return false;
-			}
-		}
-		return true;
-	}
-	
+
 	/**
 	 * Searches for the highest weighted points in the room map.
 	 *
 	 * @param roomMap the room map to search for the highest weighted points
 	 * @return a array list with the highest weighted points
 	 */
-	private ArrayList<PointRoomMap> giveMaxWeightedValue(ArrayList<PointRoomMap> roomMap) {
-		ArrayList<PointRoomMap> maxWeightedValue = new ArrayList<PointRoomMap>();
-		double maxValue = roomMap.get(0).getWeightValue();
+	private ArrayList<PointRoomMap> giveMaxWeightedValue() {
+		ArrayList<PointRoomMap> roomMapPoints = this.roommap.getRoomMapPoints();
 		
-		for (int i = 1; i < roomMap.size(); i++) {
-			if (roomMap.get(i).getWeightValue() > maxValue) {
-				maxValue = roomMap.get(i).getWeightValue();
+		ArrayList<PointRoomMap> maxWeightedValue = new ArrayList<PointRoomMap>();
+		double maxValue = roomMapPoints.get(0).getWeightValue();
+		
+		for (int i = 1; i < roomMapPoints.size(); i++) {
+			if (roomMapPoints.get(i).getWeightValue() > maxValue) {
+				maxValue = roomMapPoints.get(i).getWeightValue();
 				maxWeightedValue.clear();
-				maxWeightedValue.add(roomMap.get(i));
+				maxWeightedValue.add(roomMapPoints.get(i));
 				
-			} else if (roomMap.get(i).getWeightValue() == maxValue) {
-				maxWeightedValue.add(roomMap.get(i));
+			} else if (roomMapPoints.get(i).getWeightValue() == maxValue) {
+				maxWeightedValue.add(roomMapPoints.get(i));
 			}		
 		}
 		return maxWeightedValue;
@@ -627,44 +542,46 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * Creates a new grayscale image of the room map regarding the weighted values of each point. Moreover the receivers itself
 	 * will be drawn as black points and the calculated position as a white point.
 	 *
-	 * @param pointsRoomMap the points of the room map (weighted) 
+	 * @param roomMapPoints the points of the room map (weighted) 
 	 * @param pointCalculatedPosition the calculated position
 	 * @param receivers the receivers
 	 * @param imageName the name of the image
 	 */
-	private void newGrayScaleImageRoomMap(ArrayList<PointRoomMap> pointsRoomMap, Point pointCalculatedPosition, ArrayList<Receiver> receivers, String imageName) {
-		double smallestWeightedValue = pointsRoomMap.get(0).getWeightValue(); 	// smallest weighted value in room map
-		double highestWeightedValue = pointsRoomMap.get(0).getWeightValue(); 		// highest weighted value in room map
+	private void newGrayScaleImageRoomMap(Point pointCalculatedPosition, String imageName) {
+		ArrayList<PointRoomMap> roomMapPoints = this.roommap.getRoomMapPoints();
 		
-		double smallestX = pointsRoomMap.get(0).getX();		// smallest position in x in room map
-		double smallestY = pointsRoomMap.get(0).getY();		// smallest position in y in room map
+		double smallestWeightedValue = roomMapPoints.get(0).getWeightValue(); 	// smallest weighted value in room map
+		double highestWeightedValue = roomMapPoints.get(0).getWeightValue(); 		// highest weighted value in room map
 		
-		double highestX = pointsRoomMap.get(0).getX();		// highest position in x in room map
-		double highestY = pointsRoomMap.get(0).getY();		// highest position in y in room map
+		double smallestX = roomMapPoints.get(0).getX();		// smallest position in x in room map
+		double smallestY = roomMapPoints.get(0).getY();		// smallest position in y in room map
 		
-		for (int i = 1; i < pointsRoomMap.size(); i++) {
-			if (pointsRoomMap.get(i).getX() < smallestX) {
-				smallestX = pointsRoomMap.get(i).getX();
+		double highestX = roomMapPoints.get(0).getX();		// highest position in x in room map
+		double highestY = roomMapPoints.get(0).getY();		// highest position in y in room map
+		
+		for (int i = 1; i < roomMapPoints.size(); i++) {
+			if (roomMapPoints.get(i).getX() < smallestX) {
+				smallestX = roomMapPoints.get(i).getX();
 			}
-			if (pointsRoomMap.get(i).getY() < smallestY) {
-				smallestY = pointsRoomMap.get(i).getY();
+			if (roomMapPoints.get(i).getY() < smallestY) {
+				smallestY = roomMapPoints.get(i).getY();
 			}
-			if (pointsRoomMap.get(i).getX() > highestX) {
-				highestX = pointsRoomMap.get(i).getX();
+			if (roomMapPoints.get(i).getX() > highestX) {
+				highestX = roomMapPoints.get(i).getX();
 			}
-			if (pointsRoomMap.get(i).getY() > highestY) {
-				highestY = pointsRoomMap.get(i).getY();
+			if (roomMapPoints.get(i).getY() > highestY) {
+				highestY = roomMapPoints.get(i).getY();
 			}
 			
-			if (pointsRoomMap.get(i).getWeightValue() > highestWeightedValue) {
-				highestWeightedValue = pointsRoomMap.get(i).getWeightValue();
+			if (roomMapPoints.get(i).getWeightValue() > highestWeightedValue) {
+				highestWeightedValue = roomMapPoints.get(i).getWeightValue();
 			}
-			if (pointsRoomMap.get(i).getWeightValue() < smallestWeightedValue) {
-				smallestWeightedValue = pointsRoomMap.get(i).getWeightValue();
+			if (roomMapPoints.get(i).getWeightValue() < smallestWeightedValue) {
+				smallestWeightedValue = roomMapPoints.get(i).getWeightValue();
 			}
 		}
 		
-		double factor = 1.0 / this.granularityRoommap;	// determine the factor that is needed to create the picture
+		double factor = 1.0 / this.roommap.getGranularity();	// determine the factor that is needed to create the picture
 		
 		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor); // determine the length for the needed picture in x 
 		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor); // determine the length for the needed picture in y
@@ -673,13 +590,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		Point pointOfOriginNewCoordinateSystem = new Point(0, imageLenghtY);
 		
 		BufferedImage theImage = new BufferedImage(imageLenghtX + 1, imageLenghtY + 1, BufferedImage.TYPE_BYTE_GRAY); // +1, because there is the need of "0"
-	    for (int i = 0; i < pointsRoomMap.size(); i++) {
+	    for (int i = 0; i < roomMapPoints.size(); i++) {
 	    	
-	    	int value = (int) linearInterpolation(pointsRoomMap.get(i).getWeightValue(), smallestWeightedValue, highestWeightedValue, GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
+	    	int value = (int) linearInterpolation(roomMapPoints.get(i).getWeightValue(), smallestWeightedValue, highestWeightedValue, GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
 	    	Color c = new Color(value, value, value);
 	    	
 	    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
-	    	Point pointAsWholeNumber = new Point((pointsRoomMap.get(i).getX() - smallestX) * factor, (pointsRoomMap.get(i).getY() - smallestY) * factor);
+	    	Point pointAsWholeNumber = new Point((roomMapPoints.get(i).getX() - smallestX) * factor, (roomMapPoints.get(i).getY() - smallestY) * factor);
 	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	
 	    	// rounding is needed because of the "rounding effects" by double calculation
@@ -687,12 +604,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    }
 	    
 	    // the position of the receivers will be displayed as a black pixel in the image
-	    for (int i = 0; i < receivers.size(); i++) {
+	    for (int i = 0; i < this.receivers.size(); i++) {
 	    	Color c = new Color(GRAYSCALE_IMAGE_BLACK, GRAYSCALE_IMAGE_BLACK, GRAYSCALE_IMAGE_BLACK);
 	    	
 	    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
-	    	Point pointAsWholeNumber = new Point((receivers.get(i).getXPos() - smallestX) * factor, 
-	    										 (receivers.get(i).getYPos() - smallestY) * factor);
+	    	Point pointAsWholeNumber = new Point((this.receivers.get(i).getXPos() - smallestX) * factor, 
+	    										 (this.receivers.get(i).getYPos() - smallestY) * factor);
 	    	Point positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	
 	    	// rounding is needed because of the "rounding effects" by double calculation
@@ -717,7 +634,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param points the points of the convex hull
 	 * @param imageName the name of the image
 	 */
-	private void newGrayScaleImageConvexHull(ArrayList<PointProbabilityMap> points, String imageName) {
+	private void newGrayScaleImageConvexHull(ArrayList<PointProbabilityMap> points, String imageName, double granularity) {
 		double smallestX = points.get(0).getX();
 		double smallestY = points.get(0).getY();
 		
@@ -739,7 +656,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 		}
 		
-		double factor = 1.0 / ProbabilityBasedAlgorithm.GRANULARITY_PROBMAP_DEFAULT;
+		double factor = 1.0 / granularity;
 		
 		int imageLenghtX = (int) Math.round((Math.abs(highestX - smallestX)) * factor) + 1;
 		int imageLenghtY = (int) Math.round((Math.abs(highestY - smallestY)) * factor) + 1;

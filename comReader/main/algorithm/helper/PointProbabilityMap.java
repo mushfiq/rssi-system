@@ -16,6 +16,11 @@ package algorithm.helper;
  */
 public class PointProbabilityMap extends Point {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4891789580153548216L;
+	
 	/** The rssi value in this point. */
 	private double rssiValue;
         

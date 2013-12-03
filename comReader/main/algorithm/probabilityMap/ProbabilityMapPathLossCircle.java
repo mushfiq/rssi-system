@@ -25,37 +25,49 @@ import algorithm.helper.PointProbabilityMap;
  * @author Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
-public class ProbabilityMapPathLoss extends ProbabilityMap {
+public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	
-	/** The signal propagation constant, also named propagation exponent. */
-	private double n;
+	/** The default propagation constant for the probability map. */
+	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
-	/** The received signal strength at a distance of one meter. */
-	private double a;
+	/** The current applied propagation constant for the probability map. */
+	protected double signalPropagationConstant;
+	
+	/** The default signal strength constant at a distance of one meter for the probability map. */
+	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
+	
+	/** The current applied signal strength constant at a distance of one meter for the probability map. */
+	protected double signalStrengthOneMeter;
 	
 	private ArrayList<PointProbabilityMap> pMap;
 	
 	private static final double PROPAGATION_CONSTANT = 10.0;
 	
+	public ProbabilityMapPathLossCircle() {
+		super();
+		this.signalPropagationConstant = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
+		this.signalStrengthOneMeter = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+	}
+	
 	/**
 	 * Instantiates and creates a new ProbabilityMapPathLoss based on the given parameters.
 	 *
-	 * @param n the signal propagation constant
-	 * @param a the received signal strength at a distance of one meter
+	 * @param signalPropagationConstant the signal propagation constant
+	 * @param signalStrengthOneMeter the received signal strength at a distance of one meter
 	 * @param xFrom the start value for the probability map in x
 	 * @param xTo the end value for the probability map in x
 	 * @param yFrom the start value for the probability map in y
 	 * @param yTo the end value for the probability map in y
 	 * @param granularity the granularity for the probability map
 	 */
-	public ProbabilityMapPathLoss(double n, double a,
-								  double xFrom, double xTo, 
-								  double yFrom, double yTo,
-								  double granularity) {
+	public ProbabilityMapPathLossCircle(double signalPropagationConstant, double signalStrengthOneMeter,
+								  		double xFrom, double xTo, 
+								  		double yFrom, double yTo,
+								  		double granularity) {
 		super(xFrom, xTo, yFrom, yTo, granularity);
 		
-		this.n = n;
-		this.a = a;
+		this.signalPropagationConstant = signalPropagationConstant;
+		this.signalStrengthOneMeter = signalStrengthOneMeter;
 		
 		this.pMap = new ArrayList<PointProbabilityMap>();
 		
@@ -90,7 +102,7 @@ public class ProbabilityMapPathLoss extends ProbabilityMap {
 	 * @return the rssi value
 	 */
 	public double distanceToRSSI(double distance) {
-		double rssi = -(ProbabilityMapPathLoss.PROPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
+		double rssi = -(ProbabilityMapPathLossCircle.PROPAGATION_CONSTANT * this.signalPropagationConstant * Math.log10(distance) + this.signalStrengthOneMeter);
 		return rssi;
 	}
 }

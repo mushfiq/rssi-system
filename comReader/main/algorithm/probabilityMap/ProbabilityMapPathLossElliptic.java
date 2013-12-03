@@ -21,13 +21,19 @@ import algorithm.helper.PointProbabilityMap;
  * @author Yentran Tran, Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
-public class ProbabilityMapElliptic extends ProbabilityMap {
+public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	
-	/** The signal propagation constant, also named propagation exponent. */
-	private double n;
+	/** The default propagation constant for the probability map. */
+	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
-	/** The received signal strength at a distance of one meter. */
-	private double a;
+	/** The current applied propagation constant for the probability map. */
+	protected double signalPropagationConstant;
+	
+	/** The default signal strength constant at a distance of one meter for the probability map. */
+	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
+	
+	/** The current applied signal strength constant at a distance of one meter for the probability map. */
+	protected double signalStrengthOneMeter;
 	
 	/** The length of the half-axis in direction x */
 	private double lengthHalfAxisX;
@@ -42,8 +48,8 @@ public class ProbabilityMapElliptic extends ProbabilityMap {
 	/**
 	 * Instantiates and creates a new ProbabilityMapElliptic based on the given parameters.
 	 *
-	 * @param n the signal propagation constant
-	 * @param a the received signal strength at a distance of one meter
+	 * @param signalPropagationConstant the signal propagation constant
+	 * @param signalStrengthOneMeter the received signal strength at a distance of one meter
 	 * @param xFrom the start value for the probability map in x
 	 * @param xTo the end value for the probability map in x
 	 * @param yFrom the start value for the probability map in y
@@ -52,15 +58,15 @@ public class ProbabilityMapElliptic extends ProbabilityMap {
 	 * @param lengthHalfAxisX the length of the half-axis in direction x
 	 * @param lengthHalfAxisY the length of the half-axis in direction y
 	 */
-	public ProbabilityMapElliptic(double n, double a, 
-								  double xFrom, double xTo, 
-								  double yFrom, double yTo,
-								  double granularity,
-								  double lengthHalfAxisX, double lengthHalfAxisY) {
+	public ProbabilityMapPathLossElliptic(double signalPropagationConstant, double signalStrengthOneMeter, 
+								  		  double xFrom, double xTo, 
+								  		  double yFrom, double yTo,
+								  		  double granularity,
+								  		  double lengthHalfAxisX, double lengthHalfAxisY) {
 		super(xFrom, xTo, yFrom, yTo, granularity);
 		
-		this.n = n;
-		this.a = a;
+		this.signalPropagationConstant = signalPropagationConstant;
+		this.signalStrengthOneMeter = signalStrengthOneMeter;
 		
 		this.lengthHalfAxisX = lengthHalfAxisX;
 		this.lengthHalfAxisY = lengthHalfAxisY;
@@ -98,7 +104,7 @@ public class ProbabilityMapElliptic extends ProbabilityMap {
 	 * @return the rssi value
 	 */
 	public double distanceToRSSI(double distance) {
-		double rssi = -(ProbabilityMapElliptic.PRPAGATION_CONSTANT * this.n * Math.log10(distance) + this.a);
+		double rssi = -(ProbabilityMapPathLossElliptic.PRPAGATION_CONSTANT * this.signalPropagationConstant * Math.log10(distance) + this.signalStrengthOneMeter);
 		return rssi;
 	}
 }
