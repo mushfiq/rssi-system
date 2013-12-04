@@ -34,7 +34,7 @@ public class MapItem extends JPanel{
 	public static final int MAP_ITEM_WIDTH = 150;
 	
 	/** The Constant MAP_ITEM_HEIGHT. */
-	public static final int MAP_ITEM_HEIGHT = 190;
+	public static final int MAP_ITEM_HEIGHT = 210;
 	
 	/**
 	 * Instantiates a new map item.

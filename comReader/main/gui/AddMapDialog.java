@@ -5,8 +5,12 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JDialog;
+
+import components.Receiver;
 
 
 public class AddMapDialog extends JDialog{
@@ -18,6 +22,7 @@ public class AddMapDialog extends JDialog{
 	private StatusPanel statusPanel;
 	private ParametersPanel parametersPanel;
 	private ReceiversPanel receiversPanel;
+	private List<Receiver> allReceivers;
 	
 	public AddMapDialog() {
 		
@@ -26,8 +31,34 @@ public class AddMapDialog extends JDialog{
 		setLayout(new GridBagLayout());
 		setBackground(new Color(247, 247, 247));
 		
+		// TODO: load receivers from data source
+		// allReceivers = ReceiverDAO.getAllReceivers();
+		
+		// XXX: hardcoded creation of receivers and receivers that are on the map
+		allReceivers = new ArrayList<Receiver>();
+		
+		Receiver receiver1 = new Receiver(1, 25, 25, 45, true);
+		Receiver receiver2 = new Receiver(2, 30, 30, 90, true);
+		Receiver receiver3 = new Receiver(3, 50, 50, 100, true);
+		Receiver receiver4 = new Receiver(4);
+		Receiver receiver5 = new Receiver(5);
+		
+		allReceivers.add(receiver1);
+		allReceivers.add(receiver2);
+		allReceivers.add(receiver3);
+		allReceivers.add(receiver4);
+		allReceivers.add(receiver5);
+		
+		List<Receiver> receiversOnMap = new ArrayList<Receiver>();
+		
+		receiversOnMap.add(receiver1);
+		receiversOnMap.add(receiver2);
+		receiversOnMap.add(receiver3);
+		
+		// end of hardcoded creation for receivers 
+		
 		// Add MapPreviewPanel
-		mapPreviewPanel = new MapPreviewPanel();
+		mapPreviewPanel = new MapPreviewPanel(receiversOnMap);
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		gbc2.gridx = 0;
 		gbc2.gridy = 1;
@@ -41,7 +72,7 @@ public class AddMapDialog extends JDialog{
 		
 		
 		// Add receivers panel
-		receiversPanel = new ReceiversPanel(this);
+		receiversPanel = new ReceiversPanel(this, allReceivers);
 		
 		GridBagConstraints gbc1 = new GridBagConstraints();
 		gbc1.gridx = 0;
@@ -98,6 +129,21 @@ public class AddMapDialog extends JDialog{
 	// package visibility
 	MapPreviewPanel getMapPreviewPanel() {
 		return mapPreviewPanel;
+	}
+
+
+	public void addReceiverToMap(Receiver receiver) {
+		
+		// delegate call to MapPreviewPanel
+		
+		mapPreviewPanel.addReceiverViewToMap(receiver);
+	}
+	
+	public void removeReceiverFromMap(Receiver receiver) {
+		
+		// delegate call to MapPreviewPanel
+		
+		mapPreviewPanel.removeReceiverViewFromMap(receiver);
 	}
 
 

@@ -3,16 +3,22 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import utilities.ComponentMover;
 import utilities.Utilities;
+
+import components.Receiver;
 
 
 /**
@@ -37,19 +43,69 @@ public class MapPreviewPanel extends JPanel {
 	private static final int PANEL_HEIGHT = 550;
 	
 	/** Image of a map drawn as a panel background. */
-	private BufferedImage backgroundImage; 
+	private BufferedImage backgroundImage;
+	
+	private BufferedImage originalBackgroundImage; 
+	private double scalingRatioToFitContainer;
+	
+	private static final int DEFAULT_RECEIVER_VIEW_X_IN_METERS = 1;
+	private static final int DEFAULT_RECEIVER_VIEW_Y_IN_METERS = 1;
 	
 	private static final String NO_IMAGE_STRING = "Click on 'Upload' button on the right side to show a new map.";
+	
+	private List<ReceiverView> receiverViews;
+	
+	private List<Receiver> receivers;
+	private ComponentMover componentMover;
+	
 	
 	/**
 	 * Instantiates a new map preview panel.
 	 */
-	public MapPreviewPanel() {
+	public MapPreviewPanel(List<Receiver> receiversOnMap) {
+		
+		receiverViews = new ArrayList<ReceiverView>();
+		scalingRatioToFitContainer = 1.0;
+		
+		if (receiversOnMap == null) {
+			this.receivers = new ArrayList<Receiver>();
+		} else {
+			this.receivers = receiversOnMap;
+		}
+		
+		initializeGui();
+	}
+	
+	private void initializeGui() {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(new Color(230, 230, 230));
+		setLayout(null); // in order to be able to position receiver views absolutely
+		
+		// register all receiver views to the ComponentMover
+		componentMover = new ComponentMover();
+		
+		for (Receiver receiver : this.receivers) {
+			
+			if(receiver.isOnMap()) {
+				ReceiverView receiverView = new ReceiverView(receiver, this);
+				receiverViews.add(receiverView);
+				this.add(receiverView);
+				receiverView.setLocation((int)receiver.getXPos(), (int)receiver.getYPos());
+				componentMover.registerComponent(receiverView);
+			}	
+		}
+	}
+	
+	private Point getRandomPointForReceiver() {
+		
+		Random random = new Random();
+		int x = random.nextInt(PANEL_WIDTH - ReceiverView.RECEIVER_ITEM_WIDTH); 
+		int y = random.nextInt(PANEL_HEIGHT - ReceiverView.RECEIVER_ITEM_HEIGHT);
+		
+		return new Point(x,y);
 	}
 	
 	/**
@@ -64,9 +120,14 @@ public class MapPreviewPanel extends JPanel {
 		
 		try {
 			this.backgroundImage = ImageIO.read(file);
+			this.originalBackgroundImage = ImageIO.read(file);
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
+			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
+			
 		} catch (IOException e) {
 			logger.severe("Reading of the image failed.\n" + e.getMessage());
 		}
+		
 	}
 	
 	/** 
@@ -85,66 +146,49 @@ public class MapPreviewPanel extends JPanel {
 		if (backgroundImage == null) { // if there is no image, draw message string
 			
 			g.drawString(NO_IMAGE_STRING, PANEL_HEIGHT / 2, PANEL_WIDTH / 3);
+			this.scalingRatioToFitContainer = 1;
 			
 			return;
 		}
 		
-		// original image dimensions in pixels
-		double imageWidthInPixels = backgroundImage.getWidth();
-		double imageHeightInPixels = backgroundImage.getHeight();
-		
-		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
-		double widthRatio = 0;
-		double heightRatio = 0;
-		double resizeRatio = 0;
-		
-		// if image is resized, these will be its new dimensions
-		double newImageWidthInPixels = 0;
-		double newImageHeightInPixels = 0;
-		
-		
-		if (imageWidthInPixels >= imageHeightInPixels) {
-		
-			if (imageWidthInPixels <= PANEL_WIDTH && imageHeightInPixels <= PANEL_HEIGHT) {
-				
-				// do nothing, no resizing needed
-
-			} else { // resizing iz required
-				
-				widthRatio = PANEL_WIDTH / imageWidthInPixels;
-				heightRatio = PANEL_HEIGHT / imageHeightInPixels;	
-			}
-			
-		} else { // imageWidthInPixels < imageHeightInPixels
-			
-			if (imageWidthInPixels <= PANEL_WIDTH && imageWidthInPixels <= imageHeightInPixels) {
-	            
-				// no resizing required
-	
-			} else { // resizing is required
-				
-				widthRatio = PANEL_HEIGHT / imageWidthInPixels;
-		        heightRatio = PANEL_WIDTH / imageHeightInPixels;
-			}
-		}
-		
-
-		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
-			
-			resizeRatio = Math.min(widthRatio, heightRatio);
-			
-		    newImageHeightInPixels = imageHeightInPixels * resizeRatio;
-		    newImageWidthInPixels = imageWidthInPixels * resizeRatio;
-		    
-			this.backgroundImage = Utilities.convertImagetoBufferedImage(
-					this.backgroundImage.getScaledInstance((int) newImageWidthInPixels, 
-					(int) newImageHeightInPixels, 
-					Image.SCALE_SMOOTH));
-		} 
-		// otherwise, no resizing is needed, just use the original image
-		
 		// Draw the background image.
 	    g.drawImage(this.backgroundImage, 0, 0, this);
+	}
+
+	public void addReceiverViewToMap(Receiver receiver) {
+		
+		ReceiverView receiverView = new ReceiverView(receiver, this);
+		receiverViews.add(receiverView);
+		this.add(receiverView);
+		receiverView.setLocation((int)receiver.getXPos(), (int)receiver.getYPos());
+		componentMover.registerComponent(receiverView);
+		repaint();
+	}
+	
+	public void removeReceiverViewFromMap(Receiver receiver) {
+		
+		for (ReceiverView receiverView : receiverViews) {
+			if(receiverView.getReceiver().getID() == receiver.getID()) {
+				
+				// remove receiver from map and receiverViews list
+				this.remove(receiverView);
+				receiverViews.remove(receiverView);
+				componentMover.deregisterComponent(receiverView);
+				repaint();
+				
+				// set receivers coordinates to 0,0
+				for (Receiver receiverItem : receivers) {
+					if(receiverItem.getID() == receiver.getID()) {
+						receiverItem.setOnMap(false);
+						receiverItem.setxPos(0.0);
+						receiverItem.setyPos(0.0);
+					}
+				}
+				
+				return;
+				
+			}
+		}
 	}
 	
 }

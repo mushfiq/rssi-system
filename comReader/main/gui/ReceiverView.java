@@ -3,6 +3,8 @@ package gui;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -14,21 +16,23 @@ import javax.swing.JComponent;
 
 import utilities.Utilities;
 
+import components.Receiver;
+
 public class ReceiverView extends JComponent {
 
 	private static final long serialVersionUID = 1L;
-	private int receiverId;
+	private Receiver receiver;
 	private int x;
 	private int y;
 	private BufferedImage image;
-	private static final int RECEIVER_ITEM_WIDTH  = 30;
-	private static final int RECEIVER_ITEM_HEIGHT = 30;
-	private ReceiversPanel parent;
+	public static final int RECEIVER_ITEM_WIDTH  = 30;
+	public static final int RECEIVER_ITEM_HEIGHT = 30;
+	private MapPreviewPanel parent;
 	 
 	
-	public ReceiverView(int receiverId, ReceiversPanel parent) {
+	public ReceiverView(Receiver receiver, MapPreviewPanel parent) {
 		
-		this.receiverId = receiverId;
+		this.receiver = receiver;
 		this.parent = parent;
 		initialize();
 	}
@@ -39,6 +43,7 @@ public class ReceiverView extends JComponent {
 		setPreferredSize(new Dimension(RECEIVER_ITEM_WIDTH, RECEIVER_ITEM_HEIGHT));
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addMouseListener(new ReceiverViewMouseListener(this));
+		addComponentListener(new ReceiverViewComponentListener());
 		setDoubleBuffered(true);
 		
 		BufferedImage myPicture = null;
@@ -54,15 +59,48 @@ public class ReceiverView extends JComponent {
 		setOpaque(true);
 	}
 	
+	
+	
+	public Receiver getReceiver() {
+		return receiver;
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
 		g.drawImage(this.image, 0, 0, this);
-		g.drawString("" + receiverId, 10, 15);
+		g.drawString("" + receiver.getID(), 10, 15);
 		
 	}
 
+	
+	private class ReceiverViewComponentListener implements ComponentListener {
+
+		@Override
+		public void componentResized(ComponentEvent e) {
+			
+			
+		}
+
+		@Override
+		public void componentMoved(ComponentEvent e) {
+			
+			// TODO: update values when position is changed (maybe unnecessary)
+			
+		}
+
+		@Override
+		public void componentShown(ComponentEvent e) {
+			
+		}
+
+		@Override
+		public void componentHidden(ComponentEvent e) {
+			
+		}
+		
+	}
 	
 	private class ReceiverViewMouseListener implements MouseListener {
 
@@ -97,6 +135,8 @@ public class ReceiverView extends JComponent {
 			
 		}		
 	}
+	
+	
 
 	
 }

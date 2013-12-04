@@ -144,7 +144,7 @@ public class MainFrame extends JFrame {
 	        LookAndFeelInfo[] infos = UIManager.getInstalledLookAndFeels();
 	        for (LookAndFeelInfo lookAndFeelInfo : infos) {
 	        	
-	    		if (lookAndFeelInfo.getName() == "NIMBUS_LOOK_AND_FEEL") {
+	    		if (lookAndFeelInfo.getName() == NIMBUS_LOOK_AND_FEEL) {
 	                UIManager.setLookAndFeel(lookAndFeelInfo.getClassName());
 	                SwingUtilities.updateComponentTreeUI(this);
 	            }
