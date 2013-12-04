@@ -405,14 +405,14 @@ public final class Utilities {
 			
 		} else { // imageWidthInPixels < imageHeightInPixels
 			
-			if (imageWidthInPixels <= containerWidth && imageWidthInPixels <= imageHeightInPixels) {
+			if (imageHeightInPixels <= containerHeight && imageWidthInPixels <= imageWidthInPixels) {
 	            
 				// no resizing required
 	
 			} else { // resizing is required
 				
-				widthRatio = containerHeight / imageWidthInPixels;
-		        heightRatio = containerWidth / imageHeightInPixels;
+				widthRatio = containerWidth / imageWidthInPixels;
+		        heightRatio = containerHeight / imageHeightInPixels;
 			}
 		}
 		
@@ -431,4 +431,56 @@ public final class Utilities {
 		
 		return resultImage;
 	}
+	
+	public static double getScalingRatioToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
+		
+		// original image dimensions in pixels
+		double imageWidthInPixels = image.getWidth();
+		double imageHeightInPixels = image.getHeight();
+		
+		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
+		double widthRatio = 0;
+		double heightRatio = 0;
+		double resizeRatio = 1;
+		
+		// if image is resized, these will be its new dimensions
+		double newImageWidthInPixels = 0;
+		double newImageHeightInPixels = 0;
+		
+		BufferedImage resultImage = image;
+		
+		if (imageWidthInPixels >= imageHeightInPixels) {
+		
+			if (imageWidthInPixels <= containerWidth && imageHeightInPixels <= containerHeight) {
+				
+				// do nothing, no resizing needed
+
+			} else { // resizing iz required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+				heightRatio = containerHeight / imageHeightInPixels;	
+			}
+			
+		} else { // imageWidthInPixels < imageHeightInPixels
+			
+			if (imageHeightInPixels <= containerHeight && imageWidthInPixels <= imageWidthInPixels) {
+	            
+				// no resizing required
+	
+			} else { // resizing is required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+		        heightRatio = containerHeight / imageHeightInPixels;
+			}
+		}
+		
+		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
+			
+			resizeRatio = Math.min(widthRatio, heightRatio);
+			
+		} 
+		
+		return resizeRatio;
+	}
+	
 }
