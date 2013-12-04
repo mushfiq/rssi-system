@@ -26,6 +26,8 @@ public class Receiver {
 	/** The id of the receiver. */
 	private int id;
 
+	private boolean onMap;
+	
 	/**
 	 * Instantiates a new receiver.
 	 *
@@ -39,8 +41,29 @@ public class Receiver {
 		this.xPos = xPos;
 		this.yPos = yPos;
 		this.angle = angle;
+		this.onMap = false;
 	}
-	
+
+	public Receiver(int id, double xPos, double yPos, double angle ,
+			boolean onMap) {
+		super();
+		this.angle = angle;
+		this.xPos = xPos;
+		this.yPos = yPos;
+		this.id = id;
+		this.onMap = onMap;
+	}
+
+
+
+	public Receiver(int id) {
+		super();
+		this.id = id;
+		this.onMap = false;
+	}
+
+
+
 	/**
 	 * Gets the id of the receiver.
 	 *
@@ -76,4 +99,25 @@ public class Receiver {
 	public double getAngle() {
 		return this.angle;
 	}
+
+
+	public boolean isOnMap() {
+		return onMap;
+	}
+
+
+	public void setOnMap(boolean onMap) {
+		this.onMap = onMap;
+	}
+
+	public void setxPos(double xPos) {
+		this.xPos = xPos;
+	}
+
+	public void setyPos(double yPos) {
+		this.yPos = yPos;
+	}
+	
+	
+	
 }

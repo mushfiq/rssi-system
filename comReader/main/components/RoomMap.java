@@ -6,6 +6,8 @@
  */
 package components;
 
+import java.awt.image.BufferedImage;
+
 /**
  * The class RoomMap represents the map of a room.
  * 
@@ -27,7 +29,11 @@ public class RoomMap {
 	private double yTo;
 	
 	/** The path to the image of the room map. */
-	private String pathToImage;
+	private BufferedImage image;
+	
+	private double widthInMeters;
+	private double heightInMeters;
+	private double scaling; // pixels/meter
 	
 	/**
 	 * Instantiates a new room map.
@@ -54,14 +60,14 @@ public class RoomMap {
 	 * @param yTo the end value for the room map in y
 	 * @param pathToImage the path to the image of the room map
 	 */
-	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, String pathToImage) {
+	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, BufferedImage image) {
 		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
-		this.pathToImage = pathToImage;
+		this.image = image;
 	}
 	
 	/**
@@ -105,8 +111,8 @@ public class RoomMap {
 	 *
 	 * @return the path to the image
 	 */
-	public String getPathToImage() {
-		return pathToImage;
+	public BufferedImage getPathToImage() {
+		return image;
 	}
 
 	/**
@@ -114,7 +120,25 @@ public class RoomMap {
 	 *
 	 * @param pathToImage the new path to the image
 	 */
-	public void setPathToImage(String pathToImage) {
-		this.pathToImage = pathToImage;
+	public void setPathToImage(BufferedImage image) {
+		this.image = image;
 	}
+
+	public double getWidthInMeters() {
+		return widthInMeters;
+	}
+
+	public void setWidthInMeters(double widthInMeters) {
+		this.widthInMeters = widthInMeters;
+	}
+
+	public double getHeightInMeters() {
+		return heightInMeters;
+	}
+
+	public void setHeightInMeters(double heightInMeters) {
+		this.heightInMeters = heightInMeters;
+	}
+	
+	
 }
