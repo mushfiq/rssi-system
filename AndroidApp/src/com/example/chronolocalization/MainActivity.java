@@ -10,7 +10,10 @@ import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import stu.project.chronolocalization.RestService;
+import stu.project.chronolocalization.TabLayoutActivity;
 import stu.project.chronolocalization.Utilities;
+import stu.project.chronolocalization.RestService.LongRunningGetIO;
 
 
 import dataobjects.ResponseParser;
@@ -22,8 +25,11 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.*;
 
@@ -51,9 +57,9 @@ public class MainActivity extends Activity
 			// TODO Auto-generated method stub
 			super.onPause();
 		
-			if(tts!=null){
-				tts.stop();
-				tts.shutdown();
+			if(TabLayoutActivity.tts!=null){
+				TabLayoutActivity.tts.stop();
+				TabLayoutActivity.tts.shutdown();
 				
 			}
 		
@@ -71,7 +77,7 @@ public class MainActivity extends Activity
 		stop = (ImageView)findViewById(R.id.stopImg);
 
 		Utilities util =new Utilities();
-		tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+		/*tts = new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
 			
 			@Override
 			public void onInit(int status) {
@@ -86,7 +92,11 @@ public class MainActivity extends Activity
 		});
 
 		
+*/		
+//		setContentView(R.layout.activity_main);
 		
+		
+		// just a simple comment
 		//Connects the Application with the Data Source (at the moment a dummy implementation)
 		dataManager = new DataManager();
 
@@ -139,8 +149,23 @@ public class MainActivity extends Activity
 				    		if( limitFromString != null)
 				    			limit = limitFromString;
 				    		
-				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+				    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+				    		int watchNr = 0;
+				    		if( watchID.equals("watch2"))
+				    		{
+				    			watchNr = 4;
+				    		}
+				    		else if( watchID.equals("watch3"))
+				    		{
+				    			watchNr = 10;
+				    		}
+				    		else if( watchID.equals("watch4"))
+				    		{
+				    			watchNr = 11;
+				    		}
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+				    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=1&watchId=" + watchNr + "&format=json";
+					    	
 				    		URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	con.setRequestMethod("GET");
@@ -226,10 +251,22 @@ public class MainActivity extends Activity
 	
 	public void startApplication(View view){
 		
+		LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast,(ViewGroup) findViewById(R.id.toast_layout_id));
+        // set a message
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText("Application is started");
+        // Toast configuration
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.TOP, 200, 150);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+
 		watchID = spinnerChooseWatch.getSelectedItem().toString();
 		 
-		 timer = new Timer();
- 		tts.speak("Device is started to move", TextToSpeech.QUEUE_FLUSH, null);
+		timer = new Timer();
+ 		TabLayoutActivity.tts.speak("Device is started to move", TextToSpeech.QUEUE_FLUSH, null);
  		start.setVisibility(View.GONE);
  		stop.setVisibility(View.VISIBLE);
 
@@ -256,17 +293,28 @@ public class MainActivity extends Activity
 	public void stopApplication(View view){
 
 //		Log.d("stopApplication","******");
+		
 		stop.setVisibility(View.GONE);
 		start.setVisibility(View.VISIBLE);
 
 		if(timer !=null){
-			tts.speak("Device is stopped its moving", TextToSpeech.QUEUE_FLUSH, null);
+			TabLayoutActivity.tts.speak("Device is stopped its moving", TextToSpeech.QUEUE_FLUSH, null);
 
-			tts.stop();
+			TabLayoutActivity.tts.stop();
 			timer.cancel();
 		}
+
 	}
 
+	@Override
+	protected void onStart() {
+	    super.onStart();
+	    
+	    RestService resService = new RestService(MainActivity.this);
+		watchID = spinnerChooseWatch.getSelectedItem().toString();
+		resService.new LongRunningGetIO().execute(); 
+	    
+	}
 	class GetPositionTask extends AsyncTask<String, Void, String>
 	  {
 		  String watchID = "";
@@ -293,8 +341,23 @@ public class MainActivity extends Activity
 		    		if( limitFromString != null)
 		    			limit = limitFromString;
 		    		
-		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-		    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+		    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+		    		int watchNr = 0;
+		    		if( watchID.equals("watch2"))
+		    		{
+		    			watchNr = 4;
+		    		}
+		    		else if( watchID.equals("watch3"))
+		    		{
+		    			watchNr = 10;
+		    		}
+		    		else if( watchID.equals("watch4"))
+		    		{
+		    			watchNr = 11;
+		    		}
+		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+		    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=" + limit + "&watchId=" + watchNr + "&format=json";
+		    		
 		    		URL obj = new URL(url);
 			    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			    	con.setRequestMethod("GET");

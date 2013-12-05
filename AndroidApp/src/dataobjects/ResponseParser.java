@@ -61,4 +61,66 @@ public class ResponseParser {
 		}
 		return null;
 	}
+
+
+public static MapRecord parseMapRecord(String results) {
+	
+	MapRecord mapRecord = null;
+		if (results!=null) {
+			
+            try {
+            	
+            	JSONObject obj = new JSONObject(results);
+            	JSONArray  responseObject = obj.getJSONArray("objects");
+
+            	for(int i = 0 ; i < responseObject.length() ; i++){
+            		
+            		 mapRecord = new MapRecord();
+            		
+                    JSONObject jsonObj = (JSONObject)responseObject.get(i);
+                    mapRecord.setMapId(jsonObj.getString("id").toString());
+                    
+                    String height = jsonObj.getString("height").toString();
+                    Float parseHeight = Float.parseFloat(height);
+                    mapRecord.setHeight(parseHeight);
+
+                    String width = jsonObj.getString("width").toString();
+                    Float parsewidth =  Float.parseFloat(width);
+                    mapRecord.setWidth(parsewidth);
+                    
+                    String scaling = jsonObj.getString("scaling").toString();
+                    Float parseScaling =  Float.parseFloat(scaling);
+                    mapRecord.setScaling(parseScaling);
+                    
+                    String offsetX = jsonObj.getString("offsetX").toString();
+                    Float parseOffsetX =  Float.parseFloat(offsetX);
+                    mapRecord.setOffsetX(parseOffsetX);
+                    
+                    String offsetY = jsonObj.getString("offsetY").toString();
+                    Float parseOffsetY =  Float.parseFloat(offsetY);
+                    mapRecord.setOffsetY(parseOffsetY);
+                    
+                    
+                    
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
+                    try
+					{
+						Date updatedTime = dateFormatter.parse(jsonObj.getString("updateTime").toString());
+						mapRecord.setUpdateTime(updatedTime);
+					} catch (ParseException e)
+					{
+						e.printStackTrace();
+					}
+                    
+//                    mapInformation.add(mapRecord);
+                }
+            	
+            	return mapRecord;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return null;
+	}
 }

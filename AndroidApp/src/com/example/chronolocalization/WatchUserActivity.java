@@ -22,7 +22,7 @@ public class WatchUserActivity extends Activity
 	private Spinner spinnerChooseWatch;
 	private Button buttonDisplayPosition;
 	private Button buttonTrackPosition;
-	private DrawableImage imageView;
+	private MapImageView imageView;
 	private TextView positionText;
 	private DataManager dataManager;
 	int offset = 0;
@@ -40,16 +40,19 @@ public class WatchUserActivity extends Activity
 		//Connects the Application with the Data Source (at the moment a dummy implementation)
 		dataManager = new DataManager();
 
-		imageView = (DrawableImage) findViewById(R.id.mapImage);
+		imageView = (MapImageView) findViewById(R.id.mapImage);
 		
 		positionText = (TextView) findViewById(R.id.CurrentPositionText);
 	
-		int pos_a = 10; // Position in pixel
-		int pos_b = 350; // Position in pixel
-		imageView.addReceiver("Receiver1", new Point(pos_a,pos_a));
-		imageView.addReceiver("Receiver2", new Point(pos_a,pos_b));
-		imageView.addReceiver("Receiver3", new Point(pos_b,pos_a));
-		//imageView.addReceiver("Receiver4", new Point(pos_b,pos_b));
+		//Positions of Receiver hard coded in pixel
+		//for the test_room_fifth_floor to fit the real environment
+		imageView.addReceiver("Receiver1", new Point(40,13));
+		imageView.addReceiver("Receiver2", new Point(140,13));
+		imageView.addReceiver("Receiver3", new Point(390,13));
+		imageView.addReceiver("Receiver4", new Point(40,209));
+		imageView.addReceiver("Receiver5", new Point(390,209));
+		imageView.addReceiver("Receiver6", new Point(280,270));
+		imageView.addReceiver("Receiver7", new Point(390,360));
 	
 		
 		spinnerChooseWatch = (Spinner) findViewById(R.id.WatchSpinner);
@@ -87,8 +90,22 @@ public class WatchUserActivity extends Activity
 				    	String httpResponse = "";
 				    	try
 				    	{
+				    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+				    		int watchNr = 0;
+				    		if( watchID.equals("watch2"))
+				    		{
+				    			watchNr = 4;
+				    		}
+				    		else if( watchID.equals("watch3"))
+				    		{
+				    			watchNr = 10;
+				    		}
+				    		else if( watchID.equals("watch4"))
+				    		{
+				    			watchNr = 11;
+				    		}
 				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?limit=1&format=json";
+				    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=1&watchId=" + watchNr + "&format=json";
 					    	URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	con.setRequestMethod("GET");
@@ -134,20 +151,23 @@ public class WatchUserActivity extends Activity
 						    	int width = imageView.getWidth();
 						    	int height = imageView.getHeight();
 						    	
-						    	float x_inPixel = x / 3.0f * (width-20);
-						    	float y_inPixel = y / 3.0f * (height-20);
+						    	float x_inPixel = x / 10.0f * (width-20);
+						    	float y_inPixel = y / 10.0f * (height-20);
 						    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
 						    	 
 						    	// Needed for the coordinate transformation of accessed position and the imageview
 							    Point oldZero = new Point(0,0);
 							    Point newZero = new Point((width)/2,-((height)/2));
+							    newZero = new Point(0,0);
 							 
+							    /**
 							    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
 							    
 							    Point transformedZero = dataManager.transformPosition(oldZero, newZero, oldZero);
 
+							     */
 						    	imageView.addWatchPosition(watchID, positionInPixel);
-						    	imageView.setZeroPoint(transformedZero);
+						    	//imageView.setZeroPoint(transformedZero);
 							    
 							    imageView.invalidate(); // This yields to a redraw of the view
 							    
@@ -197,8 +217,23 @@ public class WatchUserActivity extends Activity
 				    		if( limitFromString != null)
 				    			limit = limitFromString;
 				    		
-				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?limit=" + limit + "&format=json";
+				    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+				    		int watchNr = 0;
+				    		if( watchID.equals("watch2"))
+				    		{
+				    			watchNr = 4;
+				    		}
+				    		else if( watchID.equals("watch3"))
+				    		{
+				    			watchNr = 10;
+				    		}
+				    		else if( watchID.equals("watch4"))
+				    		{
+				    			watchNr = 11;
+				    		}
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+				    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=" + limit + "&watchId=" + watchNr + "&format=json";
+
 				    		URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	con.setRequestMethod("GET");
@@ -244,16 +279,20 @@ public class WatchUserActivity extends Activity
 							    	int width = imageView.getWidth();
 							    	int height = imageView.getHeight();
 							    	
-							    	float x_inPixel = x / 3.0f * (width-20);
-							    	float y_inPixel = y / 3.0f * (height-20);
+							    	float x_inPixel = x / 10.0f * (width-20);
+							    	float y_inPixel = y / 10.0f * (height-20);
 							    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
 							    	 
 							    	// Needed for the coordinate transformation of accessed position and the imageview
-								    Point oldZero = new Point(0,0);
+								    /**
+							    	Point oldZero = new Point(0,0);
 								    Point newZero = new Point((width)/2,-((height)/2));
+								    newZero = new Point(0,0);
 								    
 								    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
-								    							    	
+								    	
+							    	*/
+							    	
 							    	imageView.addWatchPosition(watchID, positionInPixel);
 							    	
 							    	// Rounding to two digits after decimal point to get a shorter text
