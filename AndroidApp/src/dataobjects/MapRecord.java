@@ -16,7 +16,6 @@ public class MapRecord {
 	float offsetX;
 	float offsetY;
 	
-
 	int receiverId;
 	String resource_uri;
 	
