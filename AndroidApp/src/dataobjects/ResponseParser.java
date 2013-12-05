@@ -90,7 +90,7 @@ public static MapRecord parseMapRecord(String results) {
                     
                     String scaling = jsonObj.getString("scaling").toString();
                     Float parseScaling =  Float.parseFloat(scaling);
-                    mapRecord.setSclaing(parseScaling);
+                    mapRecord.setScaling(parseScaling);
                     
                     String offsetX = jsonObj.getString("offsetX").toString();
                     Float parseOffsetX =  Float.parseFloat(offsetX);

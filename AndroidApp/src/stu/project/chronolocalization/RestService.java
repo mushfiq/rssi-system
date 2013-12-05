@@ -22,7 +22,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 
-
 import com.example.chronolocalization.R;
 
 import dataobjects.MapRecord;

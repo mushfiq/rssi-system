@@ -1,7 +1,7 @@
 package stu.project.chronolocalization;
 
+
 import com.example.chronolocalization.R;
-import com.example.chronolocalization.R.layout;
 
 import android.app.Activity;
 import android.os.Bundle;

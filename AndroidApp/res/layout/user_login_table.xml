@@ -11,6 +11,7 @@
         android:baselineAligned="false"
         android:orientation="horizontal"
         android:padding="15dp" >
+        
 
             <TextView
                 

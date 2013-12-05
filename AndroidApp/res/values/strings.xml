@@ -12,6 +12,8 @@
     <string-array name="watches">
         <item>watch1</item>
         <item>watch2</item>
+        <item>watch3</item>
+        <item>watch4</item>
     </string-array>
     <string name= "selectWatch">Select Watch:</string>
     <string name="NumberOfSteps">Steps</string>

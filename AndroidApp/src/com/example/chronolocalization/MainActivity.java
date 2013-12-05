@@ -149,8 +149,23 @@ public class MainActivity extends Activity
 				    		if( limitFromString != null)
 				    			limit = limitFromString;
 				    		
-				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-				    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+				    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+				    		int watchNr = 0;
+				    		if( watchID.equals("watch2"))
+				    		{
+				    			watchNr = 4;
+				    		}
+				    		else if( watchID.equals("watch3"))
+				    		{
+				    			watchNr = 10;
+				    		}
+				    		else if( watchID.equals("watch4"))
+				    		{
+				    			watchNr = 11;
+				    		}
+				    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+				    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=1&watchId=" + watchNr + "&format=json";
+					    	
 				    		URL obj = new URL(url);
 					    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 					    	con.setRequestMethod("GET");
@@ -326,8 +341,23 @@ public class MainActivity extends Activity
 		    		if( limitFromString != null)
 		    			limit = limitFromString;
 		    		
-		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=0&limit=1&format=json";
-		    		url = "http://shironambd.com/api/v1/watch/?offset=" + offset + "&limit=" + limit + "&format=json";
+		    		//Hard coded watchIDs only for testing => will be removed after code cleaning
+		    		int watchNr = 0;
+		    		if( watchID.equals("watch2"))
+		    		{
+		    			watchNr = 4;
+		    		}
+		    		else if( watchID.equals("watch3"))
+		    		{
+		    			watchNr = 10;
+		    		}
+		    		else if( watchID.equals("watch4"))
+		    		{
+		    			watchNr = 11;
+		    		}
+		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
+		    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=" + limit + "&watchId=" + watchNr + "&format=json";
+		    		
 		    		URL obj = new URL(url);
 			    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			    	con.setRequestMethod("GET");
