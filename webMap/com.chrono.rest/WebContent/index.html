@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<!-- saved from url=(0057)http://getbootstrap.com/2.3.2/examples/justified-nav.html -->
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Template · Bootstrap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <!--link href="css/bootstrap-responsive.css" rel="stylesheet"-->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body
+     {
+        padding-top: 20px;
+        padding-bottom: 60px;
+      }
+
+      /* Custom container */
+      .container
+       {
+        margin: 0 auto;
+        max-width: 1000px;
+      }
+      .container > hr 
+      {
+        margin: 60px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 80px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 100px;
+        line-height: 1;
+      }
+      .jumbotron .lead {
+        font-size: 24px;
+        line-height: 1.25;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        padding: 14px 24px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 60px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+
+      /* Customize the navbar links to be fill the entire space of the .navbar */
+      .navbar .navbar-inner 
+      {
+        padding: 0;
+      }
+      .navbar .nav
+       {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav li
+       {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav li a
+       {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav li:first-child a 
+      {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav li:last-child a 
+      {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+     #mapCanvass{
+      display: block;
+      z-index: 1;
+      position: absolute;
+      left: 5px;
+      top: 100px;
+    }
+    #pinCanvass{
+      display: block;
+      z-index: 2;
+      position: absolute;
+      left: 5px;
+      top: 100px;
+    }
+    #footer{
+      position: absolute;
+      top: 600px;
+      left: 5px;
+      width:1150px;
+      vertical-align: middle;
+      text-align: center;
+    }
+    
+  
+  </style>
+    
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://getbootstrap.com/2.3.2/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="http://getbootstrap.com/2.3.2/assets/ico/favicon.png">
+    </head>
+
+
+  <body>
+    <div class="container" style="width:1190px">
+      <!-- Jumbotron -->
+      <div class="popover-title text-center">
+        <h1>chronolocalisation!<small>let's explore</small></h1>
+      </div>
+
+      <!--div class="text-center img img-rounded img-polaroid">
+        <img src="map.webp.jpg">        
+      </div-->
+      <div>
+        <canvas id="mapCanvass" width="1150" height="450"> </canvas>
+        <canvas id="pinCanvass" width="1150" height="450"> </canvas>
+        
+        <script>
+          var canvas_map = document.getElementById("mapCanvass");
+      
+          var canvas_pin = document.getElementById("pinCanvass");
+          var positionArray_x = new Array();
+          var positionArray_y = new Array();
+          var clicks=0;  
+
+          var context_map = canvas_map.getContext("2d");
+          var context_pin = canvas_pin.getContext("2d");
+          var map = new Image();
+          var pin = new Image();
+          map.src="map.webp.jpg";
+          pin.src="pinpoint.jpg";
+          
+
+          var m=new Array();
+          var n=new Array();
+          
+          var x=273;
+          var y=364;
+          
+          var xp=10;
+          var yp=10;
+          
+
+          map.onload = function () 
+          {
+              context_map.drawImage(map, 450, 50);   
+              //context_pin.drawImage(img, 450, 50); 
+              positionArray_x=[500,400,560];
+              positionArray_y=[480,560,320];
+              firstPosition();
+              
+          }
+          
+          for(i=0;i<4;i++)
+        	  
+        	{
+        	  m[i]=positionArray_x[i] * 54.6;
+        	  n[i]=positionArray_y[i] * 36.4;
+        		  
+        	} 
+          firstPosition();
+          }
+          function firstPosition() 
+          {
+            context_pin.drawImage(pin, positionArray_x[0],positionArray_y[0], (pin.width)/4, (pin.height)/4);
+          }
+          function nextPosition()
+          {
+            
+            // clear the previous pin point by covering it with background pixels - METHOD 1
+            // var deletePin=context.createImageData((pin.width)/4, (pin.height)/4);
+            // for (var i=deletePin.data.length; --i >=0;){
+            //   deletePin.data[i]=0;
+            // }
+            // context.putImageData(deletePin, positionArray_x[clicks-1],positionArray_y[clicks-1]);
+
+            if (clicks<positionArray_y.length-1)
+            {
+              clicks++;
+
+              // clear the previous pin point by covering it with background pixels - METHOD 2
+              context_pin.clearRect(positionArray_x[clicks-1],positionArray_y[clicks-1],(pin.width)/4, (pin.height)/4);
+
+              context_pin.drawImage(pin, positionArray_x[clicks],positionArray_y[clicks], (pin.width)/4, (pin.height)/4);
+            }
+            
+          }
+
+          function prevPosition()
+          {
+            if (clicks>0)
+            {
+              context_pin.clearRect(positionArray_x[clicks],positionArray_y[clicks],(pin.width)/4, (pin.height)/4);  
+              context_pin.drawImage(pin, positionArray_x[clicks-1],positionArray_y[clicks-1], (pin.width)/4, (pin.height)/4);
+              clicks--;
+            }    
+          }     
+    
+        </script>      
+      </div>
+
+     <div id="footer" >
+      <button class="btn btn-large btn-primary" name="button" value="OK" type="button" onclick="nextPosition()">Next Position</button>
+      <button class="btn btn-large btn-primary" name="button" value="OK" type="button" onclick="prevPosition()">Previous Position</button>
+     </div>
+          
+    </div>    
+      
+      
+
+
+      <!-- Example row of columns -->
+     
+       
+      
+
+      
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster >
+    <script src="./example_files/jquery.js"></script>
+    <script src="./example_files/bootstrap-transition.js"></script>
+    <script src="./example_files/bootstrap-alert.js"></script>
+    <script src="./example_files/bootstrap-modal.js"></script>
+    <script src="./example_files/bootstrap-dropdown.js"></script>
+    <script src="./example_files/bootstrap-scrollspy.js"></script>
+    <script src="./example_files/bootstrap-tab.js"></script>
+    <script src="./example_files/bootstrap-tooltip.js"></script>
+    <script src="./example_files/bootstrap-popover.js"></script>
+    <script src="./example_files/bootstrap-button.js"></script>
+    <script src="./example_files/bootstrap-collapse.js"></script>
+    <script src="./example_files/bootstrap-carousel.js"></script>
+    <script src="./example_files/bootstrap-typeahead.js"></script-->
+
+  
+
+</body>
+</html>
