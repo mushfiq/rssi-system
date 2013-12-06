@@ -1,96 +1,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent" >
+ 	<TabHost android:id="@android:id/tabhost"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="fill_parent" >
 
-                <TextView
-                    android:id="@+id/SelectWatch"
-                    android:gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:text="@string/selectWatch" />
+ 	<LinearLayout
+ 	    android:id="@+id/linearLayout1"
+ 	    android:layout_width="fill_parent"
+ 	    android:layout_height="fill_parent"
+ 	    android:orientation="vertical" >
 
-                <Spinner
-                    android:id="@+id/WatchSpinner"
-                    android:layout_width="140dp"
-                    android:layout_height="30dp"
-                    android:entries="@array/watches"
-                    android:textSize="12sp" />
+ 	    <TabWidget android:id="@android:id/tabs"
+ 	        android:layout_width="fill_parent"
+ 	        android:layout_height="wrap_content">
+ 	    </TabWidget>
+	    <FrameLayout android:id="@android:id/tabcontent"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent">
+	        <include layout="@layout/activity_watch_user"/>	
+	        <include layout="@layout/activity_configuration"/>        
+	    </FrameLayout>
+ 	</LinearLayout>
+ 	    
+ 	</TabHost>
 
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/editURL"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:text="http://echo.jsontest.com/x/123/y/117"
-                android:textSize="12sp" />
-
-            <com.example.chronolocalization.DrawableImage
-                android:id="@+id/mapImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/room" />
-
-            <TextView
-                android:id="@+id/PositionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/Position_Text" />
-
-            <TextView
-                android:id="@+id/CurrentPositionText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:text="@string/unknown" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                            android:orientation="vertical" >
-                        <Button
-                        android:id="@+id/displayPosition"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="1"
-                        android:textSize="12sp"
-                        android:text="@string/Display_Position" />
-                        <LinearLayout
-                            android:layout_width="fill_parent"
-                                    android:layout_height="fill_parent"
-                                    android:layout_weight ="1"
-                                            android:orientation="horizontal"  >
-                                    <Button
-                                        android:id="@+id/displayLastNPositions"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="12sp"
-                                        android:text="@string/Display_Last_N_Positions" />
-                                    <EditText
-                                        android:id="@+id/numberOfSteps"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:textSize="12sp"
-                                        android:inputType="number"
-                                        android:text="@string/NumberOfSteps" >
-
-                                <requestFocus />
-                            </EditText>
-                            
-                            </LinearLayout>
-            </LinearLayout>
 </LinearLayout>

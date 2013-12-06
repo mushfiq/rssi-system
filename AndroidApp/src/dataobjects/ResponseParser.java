@@ -32,18 +32,15 @@ public class ResponseParser {
                     watchPositionRecord.setMapId(jsonObj.getInt("mapId"));
                     watchPositionRecord.setWatchId(jsonObj.getString("watchId").toString());
                     
-                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy.MM.dd'T'HH:mm:ss" );
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
                     try
 					{
-						dateFormatter.parse(jsonObj.getString("insertedAt").toString());
+						Date insertedAt = dateFormatter.parse(jsonObj.getString("insertedAt").toString());
+						watchPositionRecord.setInsertedAt(insertedAt);
 					} catch (ParseException e)
 					{
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                    //want to implement
-                    /*String msgTime = jsonObj.getString("insertedAt").toString();
-                    pojoDeviceInformation.setMsgTime(msgTime);*/
 
                     String x = jsonObj.getString("x").toString();
                     Double parseX = Double.parseDouble(x);
@@ -58,7 +55,68 @@ public class ResponseParser {
                 }
             	return deviceInformation;
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+		return null;
+	}
+
+
+public static MapRecord parseMapRecord(String results) {
+	
+	MapRecord mapRecord = null;
+		if (results!=null) {
+			
+            try {
+            	
+            	JSONObject obj = new JSONObject(results);
+            	JSONArray  responseObject = obj.getJSONArray("objects");
+
+            	for(int i = 0 ; i < responseObject.length() ; i++){
+            		
+            		 mapRecord = new MapRecord();
+            		
+                    JSONObject jsonObj = (JSONObject)responseObject.get(i);
+                    mapRecord.setMapId(jsonObj.getString("id").toString());
+                    
+                    String height = jsonObj.getString("height").toString();
+                    Float parseHeight = Float.parseFloat(height);
+                    mapRecord.setHeight(parseHeight);
+
+                    String width = jsonObj.getString("width").toString();
+                    Float parsewidth =  Float.parseFloat(width);
+                    mapRecord.setWidth(parsewidth);
+                    
+                    String scaling = jsonObj.getString("scaling").toString();
+                    Float parseScaling =  Float.parseFloat(scaling);
+                    mapRecord.setScaling(parseScaling);
+                    
+                    String offsetX = jsonObj.getString("offsetX").toString();
+                    Float parseOffsetX =  Float.parseFloat(offsetX);
+                    mapRecord.setOffsetX(parseOffsetX);
+                    
+                    String offsetY = jsonObj.getString("offsetY").toString();
+                    Float parseOffsetY =  Float.parseFloat(offsetY);
+                    mapRecord.setOffsetY(parseOffsetY);
+                    
+                    
+                    
+                    SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
+                    try
+					{
+						Date updatedTime = dateFormatter.parse(jsonObj.getString("updateTime").toString());
+						mapRecord.setUpdateTime(updatedTime);
+					} catch (ParseException e)
+					{
+						e.printStackTrace();
+					}
+                    
+//                    mapInformation.add(mapRecord);
+                }
+            	
+            	return mapRecord;
+			} catch (JSONException e) {
 				e.printStackTrace();
 			}
 
