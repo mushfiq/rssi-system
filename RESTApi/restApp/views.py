@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.http import HttpResponse
 from django.http import Http404
 from mongoengine.django.auth import User
@@ -24,3 +25,10 @@ def getImage(request):
     image_id = request.GET.get('id')
     file_obj = mapRecords.objects.get(id=image_id)
     return HttpResponse(file_obj.image.read(), mimetype="image/jpeg")
+=======
+from django.http import HttpResponse
+
+def index(request):
+	html = '<h1>Hello From RSSI</h1>'
+	return HttpResponse(html)
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e

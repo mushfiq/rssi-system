@@ -20,14 +20,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
+<<<<<<< HEAD
 import main.Application;
 
 import org.apache.log4j.Level;
 
 import Jama.Matrix;
+=======
+import utilities.Utilities;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 import algorithm.helper.FastConvexHull;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
@@ -112,6 +118,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	
 	
+<<<<<<< HEAD
 	//TODO: YENNI, make it checkstyle conform and write comments
 	// --- Start --- Kalmanfilter
 	public static final boolean ENABLE_KALMANFILTER = false;
@@ -122,6 +129,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private double processNoiseStdev = 0.5;
 	private double measurementNoiseStdev = 1000.0;
 	// --- End --- Kalmanfilter
+=======
+	/** The logger. */
+	private Logger logger;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 	
 	/**
 	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
@@ -134,6 +145,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
+<<<<<<< HEAD
 		this.probabilityMap = new ProbabilityMapPathLossCircle();
 		this.weightFunction = new WeightFunctionSimple();
 		
@@ -169,6 +181,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	private void setUpConstructor() {
 		this.grayscaleImagePicCounter = 0;
+=======
+		// instantiate logger
+		logger = Utilities.initializeLogger(this.getClass().getName());
+		
+		grayscaleImagePicCounter = 0;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT_EXTENDED);
 		setConvexhullDebugInformation(ProbabilityBasedAlgorithm.CONVEXHULL_DEBUG_INFORMATION);
@@ -315,7 +333,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	@Override
 	public Point calculate(HashMap<Integer, Double> readings) {
+<<<<<<< HEAD
 		int counter = 0;
+=======
+		logger.log(Level.INFO, "Start calculation");
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 		
 		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
@@ -337,17 +359,29 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 				continue;
 			}
 			// find the right probability map for the receiver in hashmap
+<<<<<<< HEAD
 			ArrayList<PointProbabilityMap> pointsProbabilityMap = probMap.getProbabilityMap();
 			if(pointsProbabilityMap == null) {
 				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] Empty probability map for receiver " + e.getKey());
 				continue;
+=======
+			ArrayList<PointProbabilityMap> pointsProbabilityMap = pointsProbabilityMaps.get(e.getKey());
+			if (pointsProbabilityMap == null) {
+				logger.log(Level.SEVERE, "The receiver id couldn't be found in points_probabilityMaps (HashMap)");
+				return null;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 			}
 			
 			// find the points in the probability map where the rssi value is above the given value
 			ArrayList<PointProbabilityMap> newPointsProbabilityMap = findValuesAboveRssi(pointsProbabilityMap, e.getValue());
 			if (newPointsProbabilityMap.size() <= 2) {
+<<<<<<< HEAD
 				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] The are less than two values above the rssi in pointsProbabilityMap (ArrayList)");
 				continue;
+=======
+				logger.log(Level.SEVERE, "The are less than two values below the rssi in points_probabilityMap (ArrayList)");
+				return null;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 			}
 			
 			// calculate the convex hull of the probability map	
@@ -357,8 +391,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// look for the right receiver
 			Receiver receiver = getReceiver(this.receivers, e.getKey());
 			if (receiver == null) {
+<<<<<<< HEAD
 				Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - calculate( ... )] The receiver id couldn't be found in receivers (ArrayList)");
 				continue;
+=======
+				logger.log(Level.SEVERE, "The receiver id couldn't be found in receivers (ArrayList)");
+				return null;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 			}
 			
 			// transform the convex hull into the correct position
@@ -389,10 +428,15 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
+<<<<<<< HEAD
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		if(this.enableKalmanfilter) {
 			p = useKalmanfilter(p);
 		}
+=======
+		logger.log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
+		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 		
 		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
@@ -694,7 +738,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    try {
 			ImageIO.write(theImage, "png", outputfile);
 		} catch (IOException e) {
+<<<<<<< HEAD
 			Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - writeImage( ... )] Can't write debug image into file " + imageName + ".png");
+=======
+			logger.log(Level.SEVERE, "Can't write debug image into file " + imageName + ".png");
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 		}
 	}
 	

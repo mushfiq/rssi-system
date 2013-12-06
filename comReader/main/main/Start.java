@@ -1,8 +1,9 @@
 package main;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class Start.
+ *  Starting point of the application. This class is used as 
+ *  the main class.
  */
 public class Start {
 

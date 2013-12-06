@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.example.chronolocalization;
 
 import dataobjects.Point;
@@ -23,3 +24,30 @@ public class Line
 		return end;
 	}
 }
+=======
+package com.example.chronolocalization;
+
+import dataobjects.Point;
+
+public class Line
+{
+        private Point start;
+        private Point end;
+        
+        public Line(Point start, Point end)
+        {
+                this.start = start;
+                this.end = end;
+        }
+        
+        public Point getStart()
+        {
+                return start;
+        }
+        
+        public Point getEnd()
+        {
+                return end;
+        }
+}
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e

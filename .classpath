@@ -2,6 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="AndroidApp/gen"/>
 	<classpathentry kind="src" path="AndroidApp/src"/>
+<<<<<<< HEAD
+=======
+	<classpathentry kind="src" path="comReader/MongoRSSI/src"/>
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 	<classpathentry kind="src" path="comReader/main"/>
 	<classpathentry kind="src" path="comReader/JUnitTests"/>
 	<classpathentry kind="lib" path="AndroidApp/libs/android-support-v4.jar"/>
@@ -10,6 +14,9 @@
 	<classpathentry kind="lib" path="comReader/main/resources/RXTXcomm.jar"/>
 	<classpathentry kind="lib" path="comReader/main/resources/mongo-java-driver-2.9.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="Z:/Studium/Master/08_Software Project/Jama-1.0.3.jar"/>
+=======
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 	<classpathentry kind="output" path="bin"/>
 </classpath>

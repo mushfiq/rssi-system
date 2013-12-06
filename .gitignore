@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.DS_Store
 *.pyc
 *.class
@@ -8,3 +9,16 @@ RESTApi/htmlcov/*
 /sample values.docx
 /debug
 /img
+=======
+*.DS_Store
+*.pyc
+*.class
+RESTApi/htmlcov/*
+*/.coverage/*
+/bin
+
+/sample values.docx
+/debug
+/img
+/.pmd
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e

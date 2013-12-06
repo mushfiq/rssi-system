@@ -7,9 +7,13 @@
  */
 package components;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 
 import algorithm.helper.PointRoomMap;
+=======
+import java.awt.image.BufferedImage;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 
 /**
  * The class RoomMap represents the map of a room.
@@ -37,8 +41,13 @@ public class RoomMap {
 	/** The end value for the room map in y. */
 	private double yTo;
 	
-	/** The path to the image of the room map. */
-	private String pathToImage;
+	/** Map image. */
+	private BufferedImage mapImage;
+	
+	private double widthInMeters;
+	private double heightInMeters;
+	private double scaling; // pixels/meter
+	private String title;
 	
 	/** Each point of this list contains a weighted point in a room ({@link algorithm.helper.PointRoomMap}). */
 	private ArrayList<PointRoomMap> pointsRoomMap;
@@ -74,18 +83,22 @@ public class RoomMap {
 	 * @param yTo the end value for the room map in y
 	 * @param pathToImage the path to the image of the room map
 	 */
-	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, String pathToImage) {
+	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, BufferedImage image) {
 		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
+<<<<<<< HEAD
 		this.pathToImage = pathToImage;
 		
 		this.granularity = RoomMap.GRANULARITY_DEFAULT;
 		
 		initialize();
+=======
+		this.mapImage = image;
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 	}
 	
 	/**
@@ -129,8 +142,8 @@ public class RoomMap {
 	 *
 	 * @return the path to the image
 	 */
-	public String getPathToImage() {
-		return pathToImage;
+	public BufferedImage getPathToImage() {
+		return mapImage;
 	}
 
 	/**
@@ -138,9 +151,26 @@ public class RoomMap {
 	 *
 	 * @param pathToImage the new path to the image
 	 */
-	public void setPathToImage(String pathToImage) {
-		this.pathToImage = pathToImage;
+	public void setPathToImage(BufferedImage image) {
+		this.mapImage = image;
 	}
+
+	public double getWidthInMeters() {
+		return widthInMeters;
+	}
+
+	public void setWidthInMeters(double widthInMeters) {
+		this.widthInMeters = widthInMeters;
+	}
+
+	public double getHeightInMeters() {
+		return heightInMeters;
+	}
+
+	public void setHeightInMeters(double heightInMeters) {
+		this.heightInMeters = heightInMeters;
+	}
+<<<<<<< HEAD
 	
 	/**
 	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}), depending on the given parameters.
@@ -172,4 +202,24 @@ public class RoomMap {
 	public double getGranularity() {
 		return this.granularity;
 	}
+=======
+
+	public BufferedImage getMapImage() {
+		return mapImage;
+	}
+
+	public void setMapImage(BufferedImage mapImage) {
+		this.mapImage = mapImage;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	
+	
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 }

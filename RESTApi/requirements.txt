@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Django==1.5.4
 Fabric==1.8.0
 PyYAML==3.10
@@ -17,3 +18,25 @@ python-mimeparse==0.1.4
 six==1.4.1
 wsgiref==0.1.2
 
+=======
+Django==1.5.4
+Fabric==1.8.0
+PyYAML==3.10
+biplist==0.6
+coverage==3.7
+defusedxml==0.4.1
+django-tastypie==0.10.0
+django-tastypie-mongoengine==0.4.5
+ecdsa==0.9
+lxml==3.2.3
+mongoengine==0.8.1
+paramiko==1.12.0
+pycrypto==2.6.1
+pymongo==2.6.3
+python-dateutil==2.1
+python-mimeparse==0.1.4
+six==1.4.1
+wsgiref==0.1.2
+
+jhiuh
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
@@ -23,3 +24,24 @@
     <string name="Positions">position(s)</string>
 
 </resources>
+=======
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ChronoLocalization</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Display_Position">Display Position</string>
+    <string name= "Display_Last_N_Positions">Display last n positions</string>
+    <string name="Position_Text">The Position of the watch is</string>
+    <string name= "unknown">unknown</string>
+    <string name= "track_position">Show Path</string>
+    <string-array name="watches">
+        <item>watch1</item>
+        <item>watch2</item>
+    </string-array>
+    <string name= "selectWatch">Select Watch:</string>
+    <string name="NumberOfSteps">Steps</string>
+
+</resources>
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e

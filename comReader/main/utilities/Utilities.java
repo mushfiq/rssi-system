@@ -1,14 +1,21 @@
 package utilities;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import data.Reading;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * Class with helper methods for various tasks.
  */
@@ -24,6 +31,21 @@ public final class Utilities {
 	
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
+	
+	/** The Constant SIZE_OF_LOG_FILE. */
+	private static final int SIZE_OF_LOG_FILE = 10485760;  // 10MB
+	
+	/** The Constant NUMBER_OF_FILES_TO_WRITE_TO. */
+	private static final int NUMBER_OF_FILES_TO_WRITE_TO = 1;
+	
+	/** The Constant PATH_TO_LOG_FILE. */
+	private static final String PATH_TO_LOG_FILE = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log";
+	
+	/** The file handler. */
+	private static FileHandler fileHandler;
+	
+	/** The logger. */
+	private static Logger utilitiesLogger;
 	
 	/**
 	 *  All helper methods are static so there is no need for
@@ -111,7 +133,7 @@ public final class Utilities {
 		int receiverId = 0;
 		double averageStrengthValue = 0;
 		ArrayList<Integer> watchIds = new ArrayList<Integer>(); 
-		if(batch == null) {
+		if (batch == null) {
 			System.out.println("it is null");
 		}
 		// populate the three-dimensional HashMap with data 
@@ -161,6 +183,52 @@ public final class Utilities {
 		return averagedAllData;
 	}
 	
+	/**
+	 * Initializes logger for other classes. Loggers from all the classes
+	 * should write into single file and in common format. 
+	 *
+	 * @param className Name of the logger owner class
+	 * @return Sustomized logger instance
+	 */
+	public static Logger initializeLogger(String className) {
+	
+		Logger logger = Logger.getLogger(className);
+		logger.setUseParentHandlers(false); // prevent logger from using default handlers, which include writing to the console
+		fileHandler = Utilities.getFileHandler();  
+		
+        // Configures the logger with handler and formatter      	  
+        SimpleFormatter formatter = new SimpleFormatter(); 
+        fileHandler.setFormatter(formatter); 
+        logger.addHandler(fileHandler);
+
+	    return logger;
+	}
+	
+	
+	/**
+	 * Converts Image to BufferedImage.
+	 *
+	 * @param img Image to be converted
+	 * @return BufferedImage instance
+	 */
+	public static BufferedImage convertImagetoBufferedImage(Image img) {
+	    if (img instanceof BufferedImage) { // image is already in appropriate format  
+	    	
+	        return (BufferedImage) img; // cast it to BufferedImage
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose(); // remove created helper graphics instance
+
+	    // Return the buffered image
+	    return bimage;
+	}
+	
 	
 	/**
 	 * Helper method that calculates average value of signal strengths in the list.
@@ -182,12 +250,25 @@ public final class Utilities {
 	}
 	
 	/**
-	 * Creates the reading.
+	 * Creates the reading from a string obtained from COM port. It parses
+	 * values from the string, converts them from RSSI to dBm and performs
+	 * averaging of signal strengths.
+	 * 
+	 * If there is an exception during any of the above tasks, it returns
+	 * an empty reading object.
 	 *
-	 * @param line the line
-	 * @return the reading
+	 * @param line Single line from COM port
+	 * @return Reading object
 	 */
 	public static Reading createReading(String line) {
+		
+		double signalStrength1 = 0;
+		double signalStrength2 = 0;
+		double signalStrength3 = 0;
+		double signalStrength4 = 0;
+		Reading reading = new Reading();
+		
+		try {
 		
 		StringTokenizer tokenizer = new StringTokenizer(line);
 			
@@ -218,16 +299,16 @@ public final class Utilities {
 			//13
 			tokenizer.nextToken();
 			//14
-			double signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength1 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength1 = Utilities.convertRSSIDecToDbm(signalStrength1);
 			//15
-			double signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength2 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength2 = Utilities.convertRSSIDecToDbm(signalStrength2);
 			//16
-			double signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength3 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength3 = Utilities.convertRSSIDecToDbm(signalStrength3);
 			//17
-			double signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
+			signalStrength4 = Integer.parseInt(tokenizer.nextToken(), RADIX);
 			signalStrength4 = Utilities.convertRSSIDecToDbm(signalStrength4);
 			//18
 			tokenizer.nextToken();
@@ -240,13 +321,240 @@ public final class Utilities {
 			signalStrengths.add(signalStrength3);
 			signalStrengths.add(signalStrength4);
 			
+<<<<<<< HEAD
 			Reading reading = new Reading(receiverId, 0, signalStrengths);
 			double average = Utilities.calculateReadingAverage(reading);
 			reading.setAverageStrengthValue(average);
 //			double rssiDbm = Utilities.convertRSSIDecToDbm(average);
 			reading.setRssiDbm(average);
+=======
+			reading = new Reading(receiverId, 0, signalStrengths);
+			
+		} catch (NumberFormatException exception) {
+			getLogger().warning("Parsing data from COM port failed. Empty reading will be returned.");
+		}
+>>>>>>> 4468ee92ad778bbabc9428f636dafd0fcd36dd9e
 			
 		return reading;
 	}
 	
+	/**
+	 * 
+	 * Returns the file handler for log file. File handler
+	 * contains information about path to log file, size of
+	 * log file, number of files to write to and append flag.
+	 *  
+	 * @return Configured file handler
+	 */
+	private static FileHandler getFileHandler() {
+		
+		if (fileHandler == null) {
+			try {
+				fileHandler = new FileHandler(
+						PATH_TO_LOG_FILE, 
+						SIZE_OF_LOG_FILE, 
+						NUMBER_OF_FILES_TO_WRITE_TO, 
+						true);
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return fileHandler;
+		
+	}
+	
+	/**
+	 * Used for accessing the logger from the Utilities class.
+	 * 
+	 * @return Logger instance
+	 */
+	private static Logger getLogger() {
+		
+		if (utilitiesLogger == null) {
+			utilitiesLogger = Utilities.initializeLogger(Utilities.class.getName());
+		}
+		
+		return utilitiesLogger;
+	}
+	
+	public static BufferedImage scaleImageToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
+		
+		// original image dimensions in pixels
+		double imageWidthInPixels = image.getWidth();
+		double imageHeightInPixels = image.getHeight();
+		
+		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
+		double widthRatio = 0;
+		double heightRatio = 0;
+		double resizeRatio = 0;
+		
+		// if image is resized, these will be its new dimensions
+		double newImageWidthInPixels = 0;
+		double newImageHeightInPixels = 0;
+		
+		BufferedImage resultImage = image;
+		
+		if (imageWidthInPixels >= imageHeightInPixels) {
+		
+			if (imageWidthInPixels <= containerWidth && imageHeightInPixels <= containerHeight) {
+				
+				// do nothing, no resizing needed
+
+			} else { // resizing iz required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+				heightRatio = containerHeight / imageHeightInPixels;	
+			}
+			
+		} else { // imageWidthInPixels < imageHeightInPixels
+			
+			if (imageHeightInPixels <= containerHeight && imageWidthInPixels <= imageWidthInPixels) {
+	            
+				// no resizing required
+	
+			} else { // resizing is required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+		        heightRatio = containerHeight / imageHeightInPixels;
+			}
+		}
+		
+		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
+			
+			resizeRatio = Math.min(widthRatio, heightRatio);
+			
+		    newImageHeightInPixels = imageHeightInPixels * resizeRatio;
+		    newImageWidthInPixels = imageWidthInPixels * resizeRatio;
+		    
+		    resultImage = Utilities.convertImagetoBufferedImage(
+					image.getScaledInstance((int) newImageWidthInPixels, 
+					(int) newImageHeightInPixels, 
+					Image.SCALE_SMOOTH));
+		} 
+		
+		return resultImage;
+	}
+	
+	public static double getScalingRatioToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
+		
+		// original image dimensions in pixels
+		double imageWidthInPixels = image.getWidth();
+		double imageHeightInPixels = image.getHeight();
+		
+		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
+		double widthRatio = 0;
+		double heightRatio = 0;
+		double resizeRatio = 1;
+		
+		if (imageWidthInPixels >= imageHeightInPixels) {
+		
+			if (imageWidthInPixels <= containerWidth && imageHeightInPixels <= containerHeight) {
+				
+				// do nothing, no resizing needed
+
+			} else { // resizing iz required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+				heightRatio = containerHeight / imageHeightInPixels;	
+			}
+			
+		} else { // imageWidthInPixels < imageHeightInPixels
+			
+			if (imageHeightInPixels <= containerHeight && imageWidthInPixels <= imageWidthInPixels) {
+	            
+				// no resizing required
+	
+			} else { // resizing is required
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+		        heightRatio = containerHeight / imageHeightInPixels;
+			}
+		}
+		
+		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
+			
+			resizeRatio = Math.min(widthRatio, heightRatio);
+			
+		} 
+		
+		return resizeRatio;
+	}
+	
+	/*
+	 *   Methods that rotate an image
+	 * */
+	
+	/**
+	 * Rotates an image. Actually rotates a new copy of the image.
+	 * 
+	 * @param img The image to be rotated
+	 * @param angle The angle in degrees
+	 * @return The rotated image
+	 */
+	public static Image rotate(Image img, double angle){
+	    double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));
+	    int w = img.getWidth(null), h = img.getHeight(null);
+	    int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h
+	            * cos + w * sin);
+	    BufferedImage bimg = toBufferedImage(getEmptyImage(neww, newh));
+	    Graphics2D g = bimg.createGraphics();
+	    g.translate((neww - w) / 2, (newh - h) / 2);
+	    g.rotate(Math.toRadians(angle), w / 2, h / 2);
+	    g.drawRenderedImage(toBufferedImage(img), null);
+	    g.dispose();
+	    return toImage(bimg);
+	}
+	
+	/**
+     * Creates an empty image with transparency
+     * 
+     * @param width The width of required image
+     * @param height The height of required image
+     * @return The created image
+     */
+    private static Image getEmptyImage(int width, int height){
+        BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        return toImage(img);
+    }
+    
+    /**
+     * Converts a given BufferedImage into an Image
+     * 
+     * @param bimage The BufferedImage to be converted
+     * @return The converted Image
+     */
+    private static Image toImage(BufferedImage bimage){
+        // Casting is enough to convert from BufferedImage to Image
+        Image img = bimage;
+        return img;
+    }
+    
+    /**
+     * Converts a given Image into a BufferedImage
+     * 
+     * @param img The Image to be converted
+     * @return The converted BufferedImage
+     */
+    private static BufferedImage toBufferedImage(Image img){
+        if (img instanceof BufferedImage) {
+            return (BufferedImage) img;
+        }
+        // Create a buffered image with transparency
+        BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+        // Draw the image on to the buffered image
+        Graphics2D bGr = bimage.createGraphics();
+        bGr.drawImage(img, 0, 0, null);
+        bGr.dispose();
+        // Return the buffered image
+        return bimage;
+    }
+    
+    /*
+	 *   End of methods that rotate an image
+	 * */
 }
