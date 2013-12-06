@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-public class MainActivity extends TabActivity
+public class ChronoLocalizationMainActivity extends TabActivity
 {
 	@Override
 	public void onCreate(Bundle savedInstanceState)
