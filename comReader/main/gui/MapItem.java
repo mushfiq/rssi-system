@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 /**
  * The Class MapItem.
  */
-public class MapItem extends JPanel{
+public class MapItem extends JPanel {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -25,7 +25,9 @@ public class MapItem extends JPanel{
 	private ThumbnailImageLabel thumbnailImageLabel;
 	
 	/** The edit button. */
-	private JButton deleteButton, editButton;
+	private JButton editButton;
+	
+	private JButton deleteButton;
 	
 	/** The map title. */
 	private String mapTitle;
@@ -40,6 +42,7 @@ public class MapItem extends JPanel{
 	 * Instantiates a new map item.
 	 */
 	public MapItem() {
+		super();
 		
 		mapTitle = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
 		initialize();

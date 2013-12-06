@@ -19,6 +19,9 @@ public class MapsPanel extends JPanel{
 		setBackground(new Color(230, 230, 230));
 		setLayout(new FlowLayout(FlowLayout.LEADING));
 		
+		// TODO: obtain all maps, iterate over them and add MapItems
+		
+		
 		// add sample map item
 		MapItem item1 = new MapItem("Room 433");
 		this.add(item1);

@@ -43,7 +43,6 @@ public class MainFrame extends JFrame {
 	/** The Constant SCROLL_PANE_HEIGHT. */
 	private static final int SCROLL_PANE_HEIGHT = 520; // 20px more than the content so that it will not display scroll bar by default
 	
-	@SuppressWarnings("unused") // field is used in the try/catch block
 	private static final String NIMBUS_LOOK_AND_FEEL = "Nimbus";
 	
 	/** The menu bar. */

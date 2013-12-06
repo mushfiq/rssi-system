@@ -5,60 +5,78 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
 
+import main.Application;
+
 import components.Receiver;
+import components.RoomMap;
 
 
+/**
+ * Dialog window used for editing an existing map or adding a new one.
+ * 
+ */
 public class AddMapDialog extends JDialog{
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant ADD_MAP_WINDOW_WIDTH. */
 	private static final int ADD_MAP_WINDOW_WIDTH = 1200;
+	
+	/** The Constant ADD_MAP_WINDOW_HEIGHT. */
 	private static final int ADD_MAP_WINDOW_HEIGHT = 650;
+	
+	/** The map preview panel. */
 	private MapPreviewPanel mapPreviewPanel; 
+	
+	/** The status panel. */
 	private StatusPanel statusPanel;
+	
+	/** The parameters panel. */
 	private ParametersPanel parametersPanel;
+	
+	/** The receivers panel. */
 	private ReceiversPanel receiversPanel;
+	
+	/** The all receivers. */
 	private List<Receiver> allReceivers;
 	
+	/**
+	 * Instantiates a new adds the map dialog.
+	 */
 	public AddMapDialog() {
+		
+		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
+		mapPreviewPanel = new MapPreviewPanel();
+		receiversPanel = new ReceiversPanel(this, allReceivers);
+		statusPanel = new StatusPanel();
+		parametersPanel = new ParametersPanel(this);
+		initializeGui();
+	}
+	
+	public AddMapDialog(RoomMap map) {
+		
+		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
+		List<Receiver> receiversOnMap = Application.getApplication().getReceiverDAO().getAllReceiversForMap(map);
+		mapPreviewPanel = new MapPreviewPanel(receiversOnMap, map);
+		receiversPanel = new ReceiversPanel(this, allReceivers);
+		statusPanel = new StatusPanel();
+		parametersPanel = new ParametersPanel(this);
+		initializeGui();
+	}
+	
+	private void initializeGui() {
 		
 		setSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setPreferredSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setLayout(new GridBagLayout());
 		setBackground(new Color(247, 247, 247));
 		
-		// TODO: load receivers from data source
-		// allReceivers = ReceiverDAO.getAllReceivers();
-		
-		// XXX: hardcoded creation of receivers and receivers that are on the map
-		allReceivers = new ArrayList<Receiver>();
-		
-		Receiver receiver1 = new Receiver(1, 25, 25, 45, true);
-		Receiver receiver2 = new Receiver(2, 30, 30, 90, true);
-		Receiver receiver3 = new Receiver(3, 50, 50, 100, true);
-		Receiver receiver4 = new Receiver(4);
-		Receiver receiver5 = new Receiver(5);
-		
-		allReceivers.add(receiver1);
-		allReceivers.add(receiver2);
-		allReceivers.add(receiver3);
-		allReceivers.add(receiver4);
-		allReceivers.add(receiver5);
-		
-		List<Receiver> receiversOnMap = new ArrayList<Receiver>();
-		
-		receiversOnMap.add(receiver1);
-		receiversOnMap.add(receiver2);
-		receiversOnMap.add(receiver3);
-		
-		// end of hardcoded creation for receivers 
-		
 		// Add MapPreviewPanel
-		mapPreviewPanel = new MapPreviewPanel(receiversOnMap);
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		gbc2.gridx = 0;
 		gbc2.gridy = 1;
@@ -72,8 +90,6 @@ public class AddMapDialog extends JDialog{
 		
 		
 		// Add receivers panel
-		receiversPanel = new ReceiversPanel(this, allReceivers);
-		
 		GridBagConstraints gbc1 = new GridBagConstraints();
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
@@ -87,7 +103,6 @@ public class AddMapDialog extends JDialog{
 		
 		
 		// Add status panel
-		statusPanel = new StatusPanel();
 		GridBagConstraints gbc3 = new GridBagConstraints();
 		gbc3.gridx = 0;
 		gbc3.gridy = 6;
@@ -100,7 +115,6 @@ public class AddMapDialog extends JDialog{
 		
 		
 		// Add parameters panel
-		parametersPanel = new ParametersPanel(this);
 		GridBagConstraints gbc4 = new GridBagConstraints();
 		gbc4.gridx = 4;
 		gbc4.gridy = 0;
@@ -117,13 +131,10 @@ public class AddMapDialog extends JDialog{
 		setVisible(true);
 	}
 	
-	
 	public void setPreviewImage(File file) {
 		
 		mapPreviewPanel.setPreviewImage(file);
 		mapPreviewPanel.repaint();
-		
-		// TODO: perform button enabling/disabling actions after changing the image
 	}
 
 	// package visibility
@@ -132,24 +143,28 @@ public class AddMapDialog extends JDialog{
 	}
 
 
+	/**
+	 * Adds the receiver to map.
+	 *
+	 * @param receiver the receiver
+	 */
 	public void addReceiverToMap(Receiver receiver) {
 		
 		// delegate call to MapPreviewPanel
-		
 		mapPreviewPanel.addReceiverViewToMap(receiver);
 	}
 	
+	/**
+	 * Removes the receiver from map.
+	 *
+	 * @param receiver the receiver
+	 */
 	public void removeReceiverFromMap(Receiver receiver) {
 		
 		// delegate call to MapPreviewPanel
-		
 		mapPreviewPanel.removeReceiverViewFromMap(receiver);
 	}
 
-
-	
-	
-	
 
 	
 }

@@ -18,33 +18,70 @@ import utilities.Utilities;
 
 import components.Receiver;
 
+
+/**
+ * Graphical representation of a Receiver object on the MapPreviewPanel. 
+ * This class serves as a view for Receiver object model. It is added
+ * to the MapPreviewPanel when opening the AddMapDialog window (if a map
+ * already has receivers placed on it) and on the press of a button (ReceiverButton).
+ */
 public class ReceiverView extends JComponent {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The receiver model. */
 	private Receiver receiver;
+	
+	/** The x. */
 	private int x;
+	
+	/** The y. */
 	private int y;
+	
+	/** The image. */
 	private BufferedImage image;
+	
+	/** The Constant RECEIVER_ITEM_WIDTH. */
 	public static final int RECEIVER_ITEM_WIDTH  = 30;
+	
+	/** The Constant RECEIVER_ITEM_HEIGHT. */
 	public static final int RECEIVER_ITEM_HEIGHT = 30;
+	
+	/** The Constant LABEL_X_POSITION. */
+	private static final int LABEL_X_POSITION = 10;
+	
+	/** The Constant LABEL_Y_POSITION. */
+	private static final int LABEL_Y_POSITION = 15;
+	
+	/** Parent object of type MapPreviewPanel. */
 	private MapPreviewPanel parent;
 	 
 	
+	/**
+	 * Instantiates a new receiver view.
+	 *
+	 * @param receiver Receiver object used as a model
+	 * @param parent Parent panel
+	 */
 	public ReceiverView(Receiver receiver, MapPreviewPanel parent) {
 		
 		this.receiver = receiver;
 		this.parent = parent;
-		initialize();
+		initializeGui();
 	}
 	
-	private void initialize() {
+	/**
+	 * Initialize.
+	 */
+	private void initializeGui() {
 
 		setSize(RECEIVER_ITEM_WIDTH, RECEIVER_ITEM_HEIGHT);
 		setPreferredSize(new Dimension(RECEIVER_ITEM_WIDTH, RECEIVER_ITEM_HEIGHT));
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addMouseListener(new ReceiverViewMouseListener(this));
 		addComponentListener(new ReceiverViewComponentListener());
-		setDoubleBuffered(true);
+		setDoubleBuffered(true); 
 		
 		BufferedImage myPicture = null;
 		try {
@@ -60,7 +97,11 @@ public class ReceiverView extends JComponent {
 	}
 	
 	
-	
+	/**
+	 * Gets the receiver.
+	 *
+	 * @return the receiver
+	 */
 	public Receiver getReceiver() {
 		return receiver;
 	}
@@ -70,16 +111,31 @@ public class ReceiverView extends JComponent {
 		super.paintComponent(g);
 		
 		g.drawImage(this.image, 0, 0, this);
-		g.drawString("" + receiver.getID(), 10, 15);
+		g.drawString("" + receiver.getID(), LABEL_X_POSITION, LABEL_Y_POSITION);
 		
 	}
 
+	private void rotate(int angle) {
+		
+			this.image = (BufferedImage)Utilities.rotate(this.image, angle);
+	}
 	
+	/**
+	 * The listener interface for receiving receiverViewComponent events.
+	 * The class that is interested in processing a receiverViewComponent
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addReceiverViewComponentListener<code> method. When
+	 * the receiverViewComponent event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see ReceiverViewComponentEvent
+	 */
 	private class ReceiverViewComponentListener implements ComponentListener {
+
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			
 			
 		}
 
@@ -102,17 +158,34 @@ public class ReceiverView extends JComponent {
 		
 	}
 	
+	/**
+	 * The listener interface for receiving receiverViewMouse events.
+	 * The class that is interested in processing a receiverViewMouse
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addReceiverViewMouseListener<code> method. When
+	 * the receiverViewMouse event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see ReceiverViewMouseEvent
+	 */
 	private class ReceiverViewMouseListener implements MouseListener {
 
+		/** The receiver view. */
 		private ReceiverView receiverView;
 		
+		/**
+		 * Instantiates a new receiver view mouse listener.
+		 *
+		 * @param receiverView the receiver view
+		 */
 		public ReceiverViewMouseListener(ReceiverView receiverView) {
 			this.receiverView = receiverView;
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+			// TODO: set focus on this receiver
 		}
 
 		@Override
