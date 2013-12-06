@@ -243,8 +243,8 @@ public final class Utilities {
 			Reading reading = new Reading(receiverId, 0, signalStrengths);
 			double average = Utilities.calculateReadingAverage(reading);
 			reading.setAverageStrengthValue(average);
-			double rssiDbm = Utilities.convertRSSIDecToDbm(average);
-			reading.setRssiDbm(rssiDbm);
+//			double rssiDbm = Utilities.convertRSSIDecToDbm(average);
+			reading.setRssiDbm(average);
 			
 		return reading;
 	}

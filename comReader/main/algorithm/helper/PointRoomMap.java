@@ -16,6 +16,11 @@ package algorithm.helper;
  */
 public class PointRoomMap extends Point {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5499256205329251359L;
+	
 	/** The weighted value in this point. */
 	private double weightValue;
 
