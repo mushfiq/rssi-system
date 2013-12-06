@@ -5,15 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import utilities.Utilities;
+
 import components.Receiver;
 
 public class ReceiverButton extends JButton {
 
+	/** The logger. */
+	private Logger logger;
 	private static final long serialVersionUID = 1L;
 	private static Image addReceiverToMapImage;
 	private static Image removeReceiverFromMapImage;
@@ -32,6 +37,7 @@ public class ReceiverButton extends JButton {
 	}
 
 	private void initialize() {
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		ReceiverButtonState buttonState = (receiver.isOnMap()) ? ReceiverButtonState.REMOVE
 				: ReceiverButtonState.ADD;
 		addActionListener(new ReceiverButtonListener());
@@ -64,12 +70,17 @@ public class ReceiverButton extends JButton {
 
 	private void toggle() {
 		
+		
+		
 		if (this.state == ReceiverButtonState.ADD) {
-			//MapPreviewPanel.addReceiverView(new ReceiverView);
+			
+			if (this.addMapDialog.getMapPreviewPanel().getBackgroundImage() == null) {
+				return;
+			}
 			addMapDialog.addReceiverToMap(receiver);
 			
-		} else { // it is REMOVE
-			//MapPreviewPanel.removeReceiverView(Receiver);
+		} else { // it is ReceiverButtonState.REMOVE
+			
 			addMapDialog.removeReceiverFromMap(receiver);
 		}
 		
@@ -88,8 +99,8 @@ public class ReceiverButton extends JButton {
 		try {
 			myPicture = ImageIO.read(new File(path));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.warning("Image for button could not be loaded. Please check path to image.");
 		}
 		
 		return myPicture;

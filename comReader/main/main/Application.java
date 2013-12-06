@@ -13,8 +13,14 @@ import java.util.logging.Logger;
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
+
 import components.Receiver;
 import components.RoomMap;
+
+import dao.HardcodedMapDAO;
+import dao.HardcodedReceiverDAO;
+import dao.MapDAO;
+import dao.ReceiverDAO;
 import data.Controller;
 
 
@@ -50,6 +56,10 @@ public final class Application {
 
 	/** The configuration file. */
 	private Properties configurationFile;
+	
+	private MapDAO mapDAO;
+	
+	private ReceiverDAO receiverDAO;
 
 	
 	/**
@@ -60,6 +70,8 @@ public final class Application {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
         pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
+        receiverDAO = new HardcodedReceiverDAO();
+        mapDAO 		= new HardcodedMapDAO();
         readConfigurationFile();
         controller = new Controller();
         initializeGUI();
@@ -197,6 +209,15 @@ public final class Application {
 		this.configurationFile.setProperty(key, value);
 		
 	}
+
+	public MapDAO getMapDAO() {
+		return mapDAO;
+	}
+
+	public ReceiverDAO getReceiverDAO() {
+		return receiverDAO;
+	}
+
 	
 }
 

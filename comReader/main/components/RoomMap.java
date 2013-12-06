@@ -28,12 +28,13 @@ public class RoomMap {
 	/** The end value for the room map in y. */
 	private double yTo;
 	
-	/** The path to the image of the room map. */
-	private BufferedImage image;
+	/** Map image. */
+	private BufferedImage mapImage;
 	
 	private double widthInMeters;
 	private double heightInMeters;
 	private double scaling; // pixels/meter
+	private String title;
 	
 	/**
 	 * Instantiates a new room map.
@@ -67,7 +68,7 @@ public class RoomMap {
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
-		this.image = image;
+		this.mapImage = image;
 	}
 	
 	/**
@@ -112,7 +113,7 @@ public class RoomMap {
 	 * @return the path to the image
 	 */
 	public BufferedImage getPathToImage() {
-		return image;
+		return mapImage;
 	}
 
 	/**
@@ -121,7 +122,7 @@ public class RoomMap {
 	 * @param pathToImage the new path to the image
 	 */
 	public void setPathToImage(BufferedImage image) {
-		this.image = image;
+		this.mapImage = image;
 	}
 
 	public double getWidthInMeters() {
@@ -138,6 +139,22 @@ public class RoomMap {
 
 	public void setHeightInMeters(double heightInMeters) {
 		this.heightInMeters = heightInMeters;
+	}
+
+	public BufferedImage getMapImage() {
+		return mapImage;
+	}
+
+	public void setMapImage(BufferedImage mapImage) {
+		this.mapImage = mapImage;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	
