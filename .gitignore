@@ -8,3 +8,4 @@ RESTApi/htmlcov/*
 /sample values.docx
 /debug
 /img
+/.pmd
