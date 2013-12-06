@@ -5,7 +5,6 @@ RESTApi/htmlcov/*
 */.coverage/*
 /bin
 
-.project
 /sample values.docx
 /debug
 /img
