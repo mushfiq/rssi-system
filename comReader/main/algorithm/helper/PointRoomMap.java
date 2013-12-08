@@ -2,6 +2,7 @@
  * File: PointRoomMap.java
  * Date				Author				Changes
  * 08 Nov 2013		Yentran Tran		create version 1.0
+ * 03 Dec 2013		Tommy Griese		added UID (because of serialization of Point2D.Double)
  */
 package algorithm.helper;
 
@@ -10,15 +11,13 @@ package algorithm.helper;
  * Each point has a variable that represents the current weight of this point in a map
  * (this class is inherited by class {@link algorithm.helper.Point}).
  * 
- * @version 1.0 08 Nov 2013
+ * @version 1.1 03 Dev 2013
  * @author Yentran Tran
  * @see algorithm.helper.Point
  */
 public class PointRoomMap extends Point {
 	
-	/**
-	 * 
-	 */
+	/** UID of this class. */
 	private static final long serialVersionUID = -5499256205329251359L;
 	
 	/** The weighted value in this point. */
@@ -58,7 +57,8 @@ public class PointRoomMap extends Point {
 	 *
 	 * @return a string
 	 */
+	@Override
     public String toString() {
-        return "[" + this.getX() + ";" + this.getY() + "] - weight = " + this.weightValue;
+        return "[" + this.getX() + ";" + this.getY() + ";weight=" + this.weightValue + "]";
     }	
 }
