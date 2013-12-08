@@ -52,24 +52,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	// --- Start --- variables for grayscale image
 	private GrayscaleImages grayscaledimage;
 	
-	/** A default flag to enable/disable the writing of grayscale images (for debugging purpose). */
+	/** The default flag (value = false) to disable the writing of grayscale images (for debugging purpose). */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = false;
 	
-	/** A default flag to enable/disable the writing of grayscale images. With this flag each step will be showed 
+	/** The default flag (value = false) to disable the writing of grayscale images. With this flag each step will be showed 
 	 * (for debugging purpose). */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT = false;
 	
-	/** A default flag to enable/disable the debug information of the room map in an image. */
+	/** The default flag (value = true) to enable the debug information of the room map in an image. */
 	public static final boolean GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT = true;
 	
-	/** A default flag to enable/disable the debug information of the convex hulls in an image. */
-	public static final boolean GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS = false;
+	/** The default flag (value = false) to disable the debug information of the convex hulls in an image. */
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT = false;
 	
-	/** A default flag to enable/disable the debug information of the receivers in an image. */
-	public static final boolean GRAYSCALE_DEBUG_INFORMATION_RECEIVERS = true;
+	/** The default flag (value = true) to enable the debug information of the receivers in an image. */
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT = true;
 	
-	/** A default flag to enable/disable the debug information of the calculated point in an image. */
-	public static final boolean GRAYSCALE_DEBUG_INFORMATION_POINT = true;
+	/** The default flag (value = true) to enable the debug information of the calculated point in an image. */
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT = true;
 	
     /** The current applied status (enable/disable) of writing grayscale images (for debugging purpose). */
 	private boolean grayscaleDebugInformation;
@@ -125,7 +125,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
 	 * initialized as ProbabilityMap as well as the WeightFunctionSimple and the kalman filter. These values 
-	 * can be changed with the corresponding methods.
+	 * can be changed with the corresponding methods. 
+	 * <br><br>
+	 * In addition to that the debugging and image settings for the grayscale images
+	 * get following default values:<br>
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT}
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm should take into account
@@ -143,7 +152,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * Instantiates a new probability based algorithm. The 'probability map', 'weight function' and
 	 * 'filter' will be set by the given parameter. These values can be changed with the corresponding 
-	 * methods later.
+	 * methods.
+	 * <br><br>
+	 * In addition to that the debugging and image settings for the grayscale images
+	 * get following default values:<br>
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT}
+	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT}
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm shall take into account
@@ -172,9 +190,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT);
 		setGrayscaleDebugImageSettings(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_RECEIVERS,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_POINT);
+								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT,
+								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT,
+								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT);
 				
 		enableFilter(ProbabilityBasedAlgorithm.ENABLE_FILTER);
 		
