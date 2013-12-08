@@ -37,6 +37,9 @@ import components.RoomMap;
  * The Class ProbabilityBasedAlgorithmTest. This test is testing the functional principle of the 
  * {@link ProbabilityBasedAlgorithm}. For each test also a sum of images is going to be created so that
  * it is easier to verify the correct results.
+ * 
+ * @version 1.1 08 Dec 2013
+ * @author Tommy Griese
  */
 public class ProbabilityBasedAlgorithmTest {
 
