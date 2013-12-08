@@ -184,8 +184,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * Help function to setting up the constructor.
 	 */
 	private void setUpConstructor() {		
-//		this.grayscaledimage = new GrayscaledImages(System.getProperty("java.io.tmpdir"));
-		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
+		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
+//		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
 		
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT);
