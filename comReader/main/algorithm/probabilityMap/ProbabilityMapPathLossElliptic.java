@@ -1,5 +1,5 @@
 /*
- * File: ProbabilityMapElliptic.java
+ * File: ProbabilityMapPathLossElliptic.java
  * Date				Author				Changes
  * 28 Nov 2013		Tommy Griese		initialized file
  * 30 Nov 2013		Yentran Tran		adapted the method getProbabilityMap to create elliptical maps
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import algorithm.helper.PointProbabilityMap;
 
 /**
- * The class ProbabilityMapElliptic represents a probability map created with an combination of 
+ * The class ProbabilityMapPathLossElliptic represents a probability map created with an combination of 
  * the path loss formula and an elliptical approach.
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
@@ -27,26 +27,52 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
 	/** The current applied propagation constant for the probability map. */
-	protected double signalPropagationConstant;
+	private double signalPropagationConstant;
 	
 	/** The default signal strength constant at a distance of one meter for the probability map. */
 	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
 	
 	/** The current applied signal strength constant at a distance of one meter for the probability map. */
-	protected double signalStrengthOneMeter;
+	private double signalStrengthOneMeter;
 	
-	/** The length of the half-axis in direction x */
+	/** The default length of the half axis in x. */
+	public static final double LENGTH_HALFAXIS_X_DEFAULT = 1.0;
+	
+	/** The default length of the half axis in y. */
+	public static final double LENGTH_HALFAXIS_Y_DEFAULT = 0.75;
+	
+	/** The length of the half-axis in direction x. */
 	private double lengthHalfAxisX;
 	
-	/** The length of the half-axis in direction y */
+	/** The length of the half-axis in direction y. */
 	private double lengthHalfAxisY;
 	
+	/** Default path loss parameter for the path loss formula. */
 	private static final double PRPAGATION_CONSTANT = 10.0;
 	
+	/** A list of PointProbabilityMap that represents the ProbabilityMapPathLossElliptic. */
 	private ArrayList<PointProbabilityMap> pMap;
 	
+	
 	/**
-	 * Instantiates and creates a new ProbabilityMapElliptic based on the given parameters.
+	 * Instantiates a new ProbabilityMapPathLossElliptic with default 'propagation constant', 'signal strength constant'
+	 * and 'length of the elliptical half axis' parameters. Moreover it also creates the map depending on theses values.
+	 */
+	public ProbabilityMapPathLossElliptic() {
+		super();
+		
+		this.signalPropagationConstant = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
+		this.signalStrengthOneMeter = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		
+		this.lengthHalfAxisX = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_X_DEFAULT;
+		this.lengthHalfAxisY = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_Y_DEFAULT;
+		
+		initialize();
+	}
+	
+	/**
+	 * Instantiates a new ProbabilityMapPathLossElliptic depending on the given parameters. Moreover it creates the 
+	 * map depending on theses values.
 	 *
 	 * @param signalPropagationConstant the signal propagation constant
 	 * @param signalStrengthOneMeter the received signal strength at a distance of one meter
@@ -71,6 +97,13 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 		this.lengthHalfAxisX = lengthHalfAxisX;
 		this.lengthHalfAxisY = lengthHalfAxisY;
 		
+		initialize();
+	}
+	
+	/**
+	 * Creates a list of PointProbabilityMap that represents the probability map for this class.
+	 */
+	private void initialize() {
 		this.pMap = new ArrayList<PointProbabilityMap>();
 		
 		for (double i = this.xFrom; i <= this.xTo; i += this.granularity) { // x-axis
@@ -79,7 +112,7 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 				if (i == 0 && j == 0) {
 					distance = this.granularity;
 				} else {
-					distance = Math.sqrt((i * i)/this.lengthHalfAxisX + (j * j)/this.lengthHalfAxisY);
+					distance = Math.sqrt((i * i) / this.lengthHalfAxisX + (j * j) / this.lengthHalfAxisY);
 				}
 				pMap.add(new PointProbabilityMap(i, j, distanceToRSSI(distance)));
 			}
@@ -88,8 +121,8 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	
 	/**
 	 * Returns the probability map.
-
-	 * @return the new probability map
+	 * 
+	 * @return the list of PointProbabilityMap that represents the probability map.
 	 */
 	@Override
 	public ArrayList<PointProbabilityMap> getProbabilityMap() {

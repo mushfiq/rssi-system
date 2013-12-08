@@ -49,6 +49,9 @@ public abstract class ProbabilityMap {
 	protected double yTo;
 	
 	
+	/**
+	 * Instantiates a new ProbabilityMap with default parameters.
+	 */
 	ProbabilityMap() {
 		this.xFrom = ProbabilityMap.X_FROM_DEFAULT;
 		this.xTo = ProbabilityMap.X_TO_DEFAULT;
@@ -57,9 +60,16 @@ public abstract class ProbabilityMap {
 		this.granularity = ProbabilityMap.GRANULARITY_DEFAULT;
 	}
 	
-	ProbabilityMap(double xFrom, double xTo, 
-			double yFrom, double yTo,
-			double granularity) {
+	/**
+	 * Instantiates a new ProbabilityMap with the given parameters.
+	 *
+	 * @param xFrom the start value for the probability map in x
+	 * @param xTo the end value for the probability map in x
+	 * @param yFrom the start value for the probability map in y
+	 * @param yTo the end value for the probability map in y
+	 * @param granularity the granularity for the probability map
+	 */
+	ProbabilityMap(double xFrom, double xTo, double yFrom, double yTo, double granularity) {
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		this.yFrom = yFrom;
@@ -68,17 +78,18 @@ public abstract class ProbabilityMap {
 	}
 	
 	/**
-	 * Abstract method getProbabilityMap.
-	 *
-	 * @param xFrom the start value for the probability map in x
-	 * @param xTo the end value for the probability map in x
-	 * @param yFrom the start value for the probability map in y
-	 * @param yTo the end value for the probability map in y
-	 * @param granularity the granularity for the probability map
+	 * Abstract method getProbabilityMap. Should return a list of PointProbabilityMap that represents a
+	 * ProbabilityMap.
+	 * 
 	 * @return the new probability map
 	 */
 	public abstract ArrayList<PointProbabilityMap> getProbabilityMap();
 	
+	/**
+	 * Gets the granularity of this ProbabilityMap.
+	 *
+	 * @return the granularity
+	 */
 	public double getGranularity() {
 		return this.granularity;
 	}

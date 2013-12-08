@@ -1,5 +1,5 @@
 /*
- * File: ProbabilityMapEmpiric.java
+ * File: ProbabilityMapPathLossCircle.java
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
@@ -31,26 +31,36 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
 	/** The current applied propagation constant for the probability map. */
-	protected double signalPropagationConstant;
+	private double signalPropagationConstant;
 	
 	/** The default signal strength constant at a distance of one meter for the probability map. */
 	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
 	
 	/** The current applied signal strength constant at a distance of one meter for the probability map. */
-	protected double signalStrengthOneMeter;
+	private double signalStrengthOneMeter;
 	
+	/** A list of PointProbabilityMap that represents the ProbabilityMapPathLossCircle. */
 	private ArrayList<PointProbabilityMap> pMap;
 	
+	/** Default path loss parameter for the path loss formula. */
 	private static final double PROPAGATION_CONSTANT = 10.0;
 	
+	/**
+	 * Instantiates a new ProbabilityMapPathLossCircle with default 'propagation constant' and 'signal strength constant'
+	 * parameters. Moreover it also creates the map depending on theses values.
+	 */
 	public ProbabilityMapPathLossCircle() {
 		super();
+		
 		this.signalPropagationConstant = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
 		this.signalStrengthOneMeter = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		
+		initialize();
 	}
 	
 	/**
-	 * Instantiates and creates a new ProbabilityMapPathLoss based on the given parameters.
+	 * Instantiates a new ProbabilityMapPathLossCircle depending on the given parameters. Moreover it creates the 
+	 * map depending on theses values.
 	 *
 	 * @param signalPropagationConstant the signal propagation constant
 	 * @param signalStrengthOneMeter the received signal strength at a distance of one meter
@@ -69,6 +79,13 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 		this.signalPropagationConstant = signalPropagationConstant;
 		this.signalStrengthOneMeter = signalStrengthOneMeter;
 		
+		initialize();
+	}
+	
+	/**
+	 * Creates a list of PointProbabilityMap that represents the probability map for this class.
+	 */
+	private void initialize() {
 		this.pMap = new ArrayList<PointProbabilityMap>();
 		
 		for (double i = this.xFrom; i <= this.xTo; i += this.granularity) { // x-axis
@@ -85,9 +102,9 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	}
 	
 	/**
-	 * Returns the probability map based on the given parameters.
+	 * Returns the probability map.
 	 * 
-	 * @return the probability map
+	 * @return the list of PointProbabilityMap that represents the probability map.
 	 */
 	@Override
 	public ArrayList<PointProbabilityMap> getProbabilityMap() {
