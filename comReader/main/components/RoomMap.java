@@ -3,7 +3,7 @@
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 					Yentran Tran
- * 03 Dec 2013		Tommy Griese		Code refactoring (added variable GRANULARITY_DEFAULT, granularity and changed constructor)
+ * 03 Dec 2013		Tommy Griese		Code refactoring
  */
 package components;
 
@@ -14,7 +14,7 @@ import algorithm.helper.PointRoomMap;
 /**
  * The class RoomMap represents the map of a room.
  * 
- * @version 1.0 08 Nov 2013
+ * @version 1.1 03 Dec 2013
  * @author Tommy Griese
  */
 public class RoomMap {
@@ -50,6 +50,8 @@ public class RoomMap {
 	 * @param xTo the end value for the room map in x
 	 * @param yFrom the start value for the room map in y
 	 * @param yTo the end value for the room map in y
+	 * @param granularity the granularity of the room map
+	 * @param pathToImage the path to the image
 	 */
 	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, double granularity, String pathToImage) {
 		super();
@@ -143,14 +145,7 @@ public class RoomMap {
 	}
 	
 	/**
-	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}), depending on the given parameters.
-	 *
-	 * @param xFrom the start value for the room map in x
-	 * @param xTo the end value for the room map in x
-	 * @param yFrom the start value for the room map in y
-	 * @param yTo the end value for the room map in y
-	 * @param granularity the granularity of the room map
-	 * @return an array list that represents the weighted room map 
+	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}).
 	 */
 	public void initialize() {
 		this.pointsRoomMap = new ArrayList<PointRoomMap>();
@@ -161,14 +156,20 @@ public class RoomMap {
 		}
 	}
 	
+	/**
+	 * Gets the room map points.
+	 *
+	 * @return the room map points
+	 */
 	public ArrayList<PointRoomMap> getRoomMapPoints() {
 		return this.pointsRoomMap;
 	}
 	
-	public void setRoomMapPoints(ArrayList<PointRoomMap> roomMap) {
-		this.pointsRoomMap = roomMap;
-	}
-	
+	/**
+	 * Gets the granularity.
+	 *
+	 * @return the granularity
+	 */
 	public double getGranularity() {
 		return this.granularity;
 	}
