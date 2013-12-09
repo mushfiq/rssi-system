@@ -1,6 +1,7 @@
 package data;
 
 import java.util.ArrayList;
+
 import java.util.logging.Logger;
 
 import utilities.Utilities;
@@ -15,7 +16,7 @@ public class Reading {
 
 	/** The logger. */
 	private Logger logger;
-	
+
 	/** The receiver id. */
 	private int receiverId;
 	
@@ -32,7 +33,7 @@ public class Reading {
 	private double rssiDbm = 0;
 	
 	private boolean empty;
-	
+
 	/**
 	 * Instantiates a new reading.
 	 */
@@ -41,6 +42,9 @@ public class Reading {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		signalStrengths = new ArrayList<Double>();
 		this.empty = true;
+
+		signalStrengths = new ArrayList<Double>();
+
 	}
 
 	/**
@@ -110,6 +114,7 @@ public class Reading {
 		this.receiverId = receiverId;
 		this.watchId = watchId;
 		this.signalStrengths = signalStrengths;
+
 		
 		double average = Utilities.calculateReadingAverage(this);
 		this.setAverageStrengthValue(average);
@@ -178,6 +183,7 @@ public class Reading {
 		this.rssiDbm = rssiDbm;
 	}
 
+
 	public boolean isEmpty() {
 		return empty;
 	}
@@ -185,4 +191,6 @@ public class Reading {
 	public void setEmpty(boolean value) {
 		this.empty = value;
 	}
+
+
 }

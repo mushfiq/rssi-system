@@ -5,16 +5,20 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import data.Reading;
 
+
+// TODO: Auto-generated Javadoc
 
 /**
  * Class with helper methods for various tasks.
@@ -32,6 +36,7 @@ public final class Utilities {
 	/** The Constant RADIX. */
 	private static final int RADIX = 16;
 	
+
 	/** The Constant SIZE_OF_LOG_FILE. */
 	private static final int SIZE_OF_LOG_FILE = 10485760;  // 10MB
 	
@@ -47,6 +52,7 @@ public final class Utilities {
 	/** The logger. */
 	private static Logger utilitiesLogger;
 	
+
 	/**
 	 *  All helper methods are static so there is no need for
 	 *  instantiation of this class. Therefore, the constructor is private. 
@@ -133,7 +139,9 @@ public final class Utilities {
 		int receiverId = 0;
 		double averageStrengthValue = 0;
 		ArrayList<Integer> watchIds = new ArrayList<Integer>(); 
-		if (batch == null) {
+
+		if(batch == null) {
+
 			System.out.println("it is null");
 		}
 		// populate the three-dimensional HashMap with data 
@@ -183,6 +191,7 @@ public final class Utilities {
 		return averagedAllData;
 	}
 	
+
 	/**
 	 * Initializes logger for other classes. Loggers from all the classes
 	 * should write into single file and in common format. 
@@ -228,7 +237,6 @@ public final class Utilities {
 	    // Return the buffered image
 	    return bimage;
 	}
-	
 	
 	/**
 	 * Helper method that calculates average value of signal strengths in the list.
@@ -330,6 +338,7 @@ public final class Utilities {
 		return reading;
 	}
 	
+
 	/**
 	 * 
 	 * Returns the file handler for log file. File handler
@@ -549,4 +558,5 @@ public final class Utilities {
     /*
 	 *   End of methods that rotate an image
 	 * */
+
 }

@@ -7,9 +7,10 @@ import data.DataProcessor;
 import data.DataReader;
 import data.FileDataReader;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class ReadingFromFileTest.
+ *  For ease of testing, application may read from a file instead of from COM port.
+ *  This class performs a test using a file.
  */
 public final class ReadingFromFileTest {
 

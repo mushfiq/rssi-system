@@ -23,9 +23,9 @@ import dao.MapDAO;
 import dao.ReceiverDAO;
 import data.Controller;
 
-// TODO: Auto-generated Javadoc
+
 /**
- *  This is the starting point of the RSSI reader. It contains information
+ *  This is the starting point of the java application. It contains information
  *  about receivers, room map and parameters. It is implemented as a Singleton.
  */
 public final class Application {
@@ -47,7 +47,7 @@ public final class Application {
 	
 	/** The algorithm. */
 	private PositionLocalizationAlgorithm algorithm;
-	
+
 	/** The logger. */
 	private Logger logger;
 	
@@ -60,6 +60,7 @@ public final class Application {
 	private MapDAO mapDAO;
 	
 	private ReceiverDAO receiverDAO;
+
 	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
@@ -82,8 +83,9 @@ public final class Application {
 	 * Initialize gui.
 	 */
 	private void initializeGUI() {
-	
+		
 		mainFrame = new MainFrame();
+		
 	}
 
 	/**
@@ -109,9 +111,6 @@ public final class Application {
 //		Receiver r1 = new Receiver(0, 8.0, 8.0, 45.0);
 //        Receiver r2 = new Receiver(3, 10.0, 8.0, 135.0);
 //        Receiver r3 = new Receiver(6, 10.0, 10.0, 225.0);
-		Receiver r1 = new Receiver(0, -1.5, -1.5, 45.0);
-        Receiver r2 = new Receiver(3, -1.5, 1.5, 315.0);
-        Receiver r3 = new Receiver(6, 1.5, 1.5, 225.0);
 //        Receiver r4 = new Receiver(9, 1.5, -1.5, 135.0);
 //		Receiver r1 = new Receiver(3, 0.0, 0.0, 0.0);
 //		Receiver r2 = new Receiver(0, 1.0, 0.0, 0.0);
@@ -125,9 +124,10 @@ public final class Application {
 
         receivers = new ArrayList<Receiver>();
         
-        receivers.add(r1);
-        receivers.add(r2);
-        receivers.add(r3);
+        Receiver r1 = new Receiver(4, 0.0, 0.0, 0.0);
+        Receiver r2 = new Receiver(3, 5.0, 0.0, 0.0);
+        Receiver r3 = new Receiver(9, 0.0, 10.0, 0.0);
+        Receiver r4 = new Receiver(2, 5.0, 10.0, 0.0);
 //        receivers.add(r4);
 //        receivers.add(r5);
 //        receivers.add(r6);
@@ -136,7 +136,7 @@ public final class Application {
 //        receivers.add(r9);
         
 //        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
-        roomMap = new RoomMap(-10.0, 10.0, -10.0, 10.0);
+        roomMap = new RoomMap(-1.0, 6.0, -1.0, 11.0, "");
 		
 	}
 
@@ -182,7 +182,7 @@ public final class Application {
 	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
 		this.algorithm = algorithm;
 	}
-	
+
 	public MainFrame getMainFrame() {
 		return mainFrame;
 	}
@@ -215,5 +215,7 @@ public final class Application {
 	public ReceiverDAO getReceiverDAO() {
 		return receiverDAO;
 	}
+
+	
 }
 
