@@ -14,16 +14,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import main.Application;
-
-import org.apache.log4j.Level;
-
+import utilities.Utilities;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
+
 import components.Receiver;
 import components.RoomMap;
 
@@ -62,6 +62,8 @@ public class GrayscaleImages {
 	/** Counts each grayscale picture, so that a new picture gets a new number. */
 	private int counter;
 	
+	/** The logger. */
+	private Logger logger;
 	
 	/**
 	 * Instantiates a new GrayscaleImages.
@@ -70,6 +72,7 @@ public class GrayscaleImages {
 	 */
 	public GrayscaleImages(String path) {
 		super();
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		setPath(path);
 	}
 	
@@ -334,7 +337,7 @@ public class GrayscaleImages {
 			ImageIO.write(theImage, "png", outputfile);
 			this.counter++;
 		} catch (IOException e) {
-			Application.getApplication().getLogger().log(Level.ERROR, "[ProbabilityBasedAlgorithm - writeImage( ... )] Can't write debug image into file " + outputfile.getPath());
+			logger.log(Level.SEVERE, "[ProbabilityBasedAlgorithm - writeImage( ... )] Can't write debug image into file " + outputfile.getPath());
 		}
 	}
 	
