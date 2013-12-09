@@ -3,22 +3,25 @@
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 					Yentran Tran
+ * 20 Nov 2013		Tommy Griese		Added hashcode and equals method
+ * 30 Nov 2013		Tommy Griese		Added function norm2
+ * 03 Dec 2013		Tommy Griese		class inherits from java class Point2D.Double now (therefore unnecessary methods could be removed)
  */
 package algorithm.helper;
 
-/**
- * The class Point represents a point in a 2-Dimensional space.
- *
- * @version 1.0 08 Nov 2013
- * @author Yentran Tran, Tommy Griese
- */
-public class Point {
+import java.awt.geom.Point2D;
 
-    /** The position on the x-axis (abscissa). */
-    private double x;
-    
-    /** The position on the y-axis (axis of ordinates). */
-    private double y;
+/**
+ * The class Point represents a point in a 2-Dimensional space. This class is inherited by the java class Point2D.Double
+ *
+ * @version 1.1 03 Dec 2013
+ * @author Tommy Griese
+ * @see java.awt.geom.Point2D.Double
+ */
+public class Point extends Point2D.Double {
+
+    /** UID of this class. */
+	private static final long serialVersionUID = 2141258328792556002L;
 
     /**
      * Instantiates a new point.
@@ -27,51 +30,14 @@ public class Point {
      * @param y the position on the y-axis
      */
     public Point(double x, double y) {
-        this.x = x;
-        this.y = y;
-    }
-    
-    /**
-     * Gets the position on the x-axis.
-     *
-     * @return the position on the x-axis
-     */
-    public double getX() {
-    	return this.x;
-    }
-    
-    /**
-     * Gets the position on the y-axis.
-     *
-     * @return the position on the y-axis
-     */
-    public double getY() {
-    	return this.y;
-    }
-    
-    /**
-     * Sets the position on the x-axis.
-     *
-     * @param x the new position in x
-     */
-    public void setX(double x) {
-    	this.x = x;
-    }
-    
-    /**
-     * Sets the position on the y-axis.
-     *
-     * @param y the new position in y
-     */
-    public void setY(double y) {
-    	this.y = y;
+    	super(x, y);
     }
     
     /**
      * Addition of a point.
      *
      * @param p the point to be added
-     * @return a new point
+     * @return a new instance of the point
      */
     public Point add(Point p) {
         return new Point(x + p.x, y + p.y);
@@ -80,61 +46,30 @@ public class Point {
     /**
      * Negation of the point.
      *
-     * @return the negated point
+     * @return a new instance of the point
      */
     public Point neg() {
-        return new Point(-x, -y);
+    	return new Point(-x, -y);
     }
 
     /**
      * Subtraction of a point.
      *
      * @param p the point to be subtracted
-     * @return a new point
+     * @return a new instance of the point
      */
     public Point sub(Point p) {
         return add(p.neg());
     }
-
+    
     /**
-     * Cross product (outer product).
-     *
-     * @param p the second point for the cross product
-     * @return the result of the cross product
-     */
-    public double cross(Point p) {
-        return x * p.y - y * p.x;
-    }
-
-    // TODO make comment (look what this function is doing in detail when time is available)!!!
-    /**
-     * 
-     * 
-     * @param p0 the p0
-     * @param p1 the p1
-     * @return the double
-     */
-    public double area2(Point p0, Point p1) {
-        return sub(p0).cross(sub(p1));
-    }
-
-    /**
-     * Checks if the point is located on the right side of the given line.
-     *
-     * @param g the line for the test 
-     * @return true, if the point is located on the right side, false otherwise
-     */
-    public boolean isRightOf(Line g) {
-        return area2(g.getStartPoint(), g.getEndPoint()) < 0;
-    }
-
-    /**
-     * A string that represents the point.
-     * 
-     * @return string of the point
-     */
+	 * Represents a string of this point.
+	 *
+	 * @return a string
+	 */
+    @Override
     public String toString() {
-        return "[" + x + ";" + y + "]";
+        return "[" + this.getX() + ";" + this.getY() + "]";
     }
 }
 

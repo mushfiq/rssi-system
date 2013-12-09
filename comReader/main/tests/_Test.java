@@ -33,7 +33,7 @@ public class _Test {
 		receivers.add(r3);
 		receivers.add(r4);
 		
-		RoomMap roommap = new RoomMap(0.0, 25.0, 0.0, 25.0);
+		RoomMap roommap = new RoomMap(0.0, 25.0, 0.0, 25.0, "");
 		//RoomMap roommap = new RoomMap(-25.0, 25.0, -25.0, 25.0);
 		
 		PositionLocalizationAlgorithm algo = new ProbabilityBasedAlgorithm(roommap, receivers);
