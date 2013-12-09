@@ -1,9 +1,5 @@
 package tests;
 
-import org.apache.log4j.Level;
-
-import main.Application;
-
 public class LoggerTest {
 
 	public LoggerTest() {
@@ -13,8 +9,7 @@ public class LoggerTest {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		Application.getApplication().getLogger().log(Level.WARN, "This is a warning message");
-		Application.getApplication().getLogger().warn("Another warning message, with different method call");
+		
 	}
 
 }

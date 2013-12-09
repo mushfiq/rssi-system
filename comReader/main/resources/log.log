@@ -20433,3 +20433,125 @@ Something something
 2013-11-11 15:13:16,535 INFO [main.Application] - End calculation, calculated position: [-0.6602941176470588;0.27205882352941174]
 2013-11-11 15:13:16,548 INFO [main.Application] - Start calculation
 2013-11-11 15:13:16,569 INFO [main.Application] - End calculation, calculated position: [-1.5;1.0676229508196722]
+дец 09, 2013 10:27:39 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 09, 2013 10:27:40 AM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 09, 2013 10:27:40 AM main.Application <init>
+INFO: Application started.
+дец 09, 2013 10:28:46 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 09, 2013 10:28:47 AM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 09, 2013 10:28:47 AM main.Application <init>
+INFO: Application started.
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.3549618320610687;1.202290076335878]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.4807692307692308;0.5961538461538461]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.6875;0.6875]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [1.25;1.5]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [1.25;1.5]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-1.4591280653950953;1.491825613079019]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [1.25;1.5]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [1.25;1.5]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-1.4142857142857144;1.4142857142857144]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.4802955665024631;1.3078817733990147]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.2863247863247863;0.6025641025641025]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-1.1167400881057268;-1.050660792951542]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.5;-0.46551724137931033]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.5;-0.46551724137931033]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.5;-0.46551724137931033]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.66;-0.62]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.5;-0.4523809523809524]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.82;-0.78]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.98;-0.78]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.08158995815899582;0.08158995815899582]
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:47 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-1.3615384615384616;1.176923076923077]
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.0;0.0]
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.7570093457943925;0.7570093457943925]
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [-0.1;0.15625]
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.26515151515151514;1.2878787878787878]
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: Start calculation
+дец 09, 2013 10:28:48 AM algorithm.ProbabilityBasedAlgorithm calculate
+INFO: End calculation, calculated position: [0.2708333333333333;1.4791666666666667]
+дец 09, 2013 10:33:56 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+дец 09, 2013 10:33:57 AM gui.MainFrame <init>
+INFO: GUI initialized.
+дец 09, 2013 10:33:57 AM main.Application <init>
+INFO: Application started.

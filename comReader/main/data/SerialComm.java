@@ -19,14 +19,14 @@ public class SerialComm implements gnu.io.SerialPortEventListener{
 
 		CommPortIdentifier portId;
 		while (portList.hasMoreElements()) {
-			portId = (CommPortIdentifier) portList.nextElement();
+			portId = portList.nextElement();
 			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
 				portVect.add(portId.getName());
 			}
 		}
 		System.out.println(portVect.size() + " found Ports:");
 		for (int i = 0; i < portVect.size(); i++) {
-			System.out.println(i + "  : " + (String) portVect.elementAt(i));
+			System.out.println(i + "  : " + portVect.elementAt(i));
 		}
 		
 		return portVect;
@@ -78,6 +78,7 @@ public class SerialComm implements gnu.io.SerialPortEventListener{
 
 	}
 
+	@Override
 	public void serialEvent(SerialPortEvent event) {
 
 		switch (event.getEventType()) {

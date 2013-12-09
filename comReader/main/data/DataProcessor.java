@@ -1,17 +1,25 @@
 package data;
 
-// TODO: Auto-generated Javadoc
+import java.util.logging.Logger;
+
+import utilities.Utilities;
+
 /**
  * DataProcessor takes batches of signal strengths from the batchSignalQueue and performs 
  * algorithm calculations on them. 
  */
 public class DataProcessor {
 
+	/** The logger. */
+	private Logger logger;
+	
+	private DataProcessorRunnable runnable;
+	
 	/**
 	 * Instantiates a new data processor.
 	 */
 	public DataProcessor() {
-		// TODO Auto-generated constructor stub
+		logger = Utilities.initializeLogger(this.getClass().getName());
 	}
 
 	/**
@@ -19,8 +27,12 @@ public class DataProcessor {
 	 */
 	public void processData() {
 		
-		DataProcessorRunnable runnable = new DataProcessorRunnable();
+		runnable = new DataProcessorRunnable();
 		Thread thread = new Thread(runnable);
 		thread.start();
+	}
+	
+	public void stopReading() {
+		runnable.terminate();
 	}
 }

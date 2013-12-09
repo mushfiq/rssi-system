@@ -13,13 +13,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
 
-import main.Application;
-
-import org.apache.log4j.Level;
-
+import utilities.Utilities;
 import algorithm.helper.FastConvexHull;
 import algorithm.helper.Line;
 import algorithm.helper.Point;
@@ -117,7 +116,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private HashMap<Integer, ArrayList<PointProbabilityMap>> pointsProbabilityMaps;
 	// --- End --- misc variables
 	
-	
+	/** The logger. */
+	private Logger logger;
 	
 	/**
 	 * Instantiates a new probability based algorithm.
@@ -127,6 +127,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		
 		grayscaleImagePicCounter = 0;
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
@@ -204,7 +206,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	@Override
 	public Point calculate(HashMap<Integer, Double> readings) {
-		Application.getApplication().getLogger().log(Level.INFO, "Start calculation");
+		logger.log(Level.INFO, "Start calculation");
 		
 		// creates a new room map (each point gets the weight 1)
 		this.pointsRoomMap = createRoomMap(this.roommap.getXFrom(), this.roommap.getXTo(),
@@ -217,14 +219,14 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// find the right probability map for the receiver in hashmap
 			ArrayList<PointProbabilityMap> pointsProbabilityMap = pointsProbabilityMaps.get(e.getKey());
 			if (pointsProbabilityMap == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in points_probabilityMaps (HashMap)");
+				logger.log(Level.SEVERE, "The receiver id couldn't be found in points_probabilityMaps (HashMap)");
 				return null;
 			}
 			
 			// find the points in the probability map where the rssi value is below the given value
 			ArrayList<PointProbabilityMap> newPointsProbabilityMap = findValuesAboveRssi(pointsProbabilityMap, e.getValue());
 			if (newPointsProbabilityMap.size() <= 2) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The are less than two values below the rssi in points_probabilityMap (ArrayList)");
+				logger.log(Level.SEVERE, "The are less than two values below the rssi in points_probabilityMap (ArrayList)");
 				return null;
 			}
 			
@@ -235,7 +237,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// look for the right receiver
 			Receiver receiver = getReceiver(receivers, e.getKey());
 			if (receiver == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, "The receiver id couldn't be found in receivers (ArrayList)");
+				logger.log(Level.SEVERE, "The receiver id couldn't be found in receivers (ArrayList)");
 				return null;
 			}
 			
@@ -255,7 +257,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
-		Application.getApplication().getLogger().log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
+		logger.log(Level.INFO, "End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 //		System.out.println("[" + p.getX() + ";" + p.getY() + "]");
 		
 		if (grayscaleDebugInformation) {
@@ -588,7 +590,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	    try {
 			ImageIO.write(theImage, "png", outputfile);
 		} catch (IOException e) {
-			Application.getApplication().getLogger().log(Level.ERROR, "Can't write debug image into file " + imageName + ".png");
+			logger.log(Level.SEVERE, "Can't write debug image into file " + imageName + ".png");
 		}
 	}
 	

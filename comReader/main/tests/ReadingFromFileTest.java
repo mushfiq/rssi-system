@@ -53,7 +53,7 @@ public final class ReadingFromFileTest {
 		
 		DataReader reader = new FileDataReader(new File("comReader"
 				+ File.separator + "main" + File.separator + "resources"
-				+ File.separator + "bigdata2.txt"));
+				+ File.separator + "data.txt"));
 		reader.readData();
 
 		/*
