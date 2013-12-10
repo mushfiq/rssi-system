@@ -7,7 +7,9 @@
  */
 package components;
 
+import java.awt.Image;
 import java.util.ArrayList;
+import java.util.List;
 
 import algorithm.helper.PointRoomMap;
 
@@ -21,6 +23,8 @@ public class RoomMap {
 	
 	/** The default granularity constant for the roommap. */
 	public static final double GRANULARITY_DEFAULT = 0.25;
+	
+	private static final double DEFAULT_SCALING = 100.0; // pixel to meter ratio
 	
 	/** The actual granularity for the roommap. */
 	private double granularity;
@@ -38,10 +42,16 @@ public class RoomMap {
 	private double yTo;
 	
 	/** The path to the image of the room map. */
-	private String pathToImage;
+	private Image image;
 	
 	/** Each point of this list contains a weighted point in a room ({@link algorithm.helper.PointRoomMap}). */
 	private ArrayList<PointRoomMap> pointsRoomMap;
+	
+	private double zeroOffsetXInMeters;
+	private double zeroOffsetYInMeters;
+	private String title;
+	private List<Receiver> receivers;
+	private double scaling;
 	
 	/**
 	 * Instantiates a new room map.
@@ -53,16 +63,16 @@ public class RoomMap {
 	 * @param granularity the granularity of the room map
 	 * @param pathToImage the path to the image
 	 */
-	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, double granularity, String pathToImage) {
+	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, double granularity, Image image) {
 		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
-		this.pathToImage = pathToImage;
-		
+		this.image = image;
 		this.granularity = granularity;
+		
 		
 		initialize();
 	}
@@ -76,20 +86,31 @@ public class RoomMap {
 	 * @param yTo the end value for the room map in y
 	 * @param pathToImage the path to the image of the room map
 	 */
-	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, String pathToImage) {
+	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, Image image) {
 		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
-		this.pathToImage = pathToImage;
+		this.image = image;
 		
 		this.granularity = RoomMap.GRANULARITY_DEFAULT;
 		
 		initialize();
 	}
 	
+	public RoomMap(Image image, double zeroOffsetXInMeters,
+			double zeroOffsetYInMeters, String title, List<Receiver> receivers) {
+		super();
+		this.image = image;
+		this.zeroOffsetXInMeters = zeroOffsetXInMeters;
+		this.zeroOffsetYInMeters = zeroOffsetYInMeters;
+		this.title = title;
+		this.receivers = receivers;
+		this.scaling = 1;
+	}
+
 	/**
 	 * Gets the start value for the room map in x.
 	 *
@@ -127,27 +148,28 @@ public class RoomMap {
 	}
 	
 	/**
-	 * Gets the path to the image.
+	 * Gets the image.
 	 *
-	 * @return the path to the image
+	 * @return image Image object
 	 */
-	public String getPathToImage() {
-		return pathToImage;
+	public Image getImage() {
+		return image;
 	}
 
 	/**
-	 * Sets the path to the image.
+	 * Sets the image.
 	 *
-	 * @param pathToImage the new path to the image
+	 * @param image Image object
 	 */
-	public void setPathToImage(String pathToImage) {
-		this.pathToImage = pathToImage;
+	public void setPathToImage(Image image) {
+		this.image = image;
 	}
 	
 	/**
 	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}).
 	 */
 	public void initialize() {
+
 		this.pointsRoomMap = new ArrayList<PointRoomMap>();
 		for (double i = this.xFrom; i <= this.xTo; i += this.granularity) { // x-Axe
 			for (double j = this.yFrom; j <= this.yTo; j += this.granularity) { // y-Axe
@@ -173,4 +195,15 @@ public class RoomMap {
 	public double getGranularity() {
 		return this.granularity;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public List<Receiver> getReceivers() {
+		return receivers;
+	}
+	
+	
+	
 }
