@@ -21,5 +21,6 @@
     <string name="watchUserTab">Watch User</string>
     <string name="showLast">Draw path of last</string>
     <string name="Positions">position(s)</string>
+     <string name="drawPath">Draw Path of </string>
 
 </resources>
