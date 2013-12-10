@@ -43,7 +43,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 	public DatabaseDataWriterRunnable() {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
-		
+		this.running = true;
 		try {
 			mongo = new Mongo("127.0.0.1");
 		} catch (UnknownHostException e1) {
@@ -63,7 +63,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		
 		BlockingQueue<WatchPositionData> calculatedPositionsQueue = Application.getApplication().getController().getCalculatedPositionsQueue();
 		
-		while (true) { //always
+		while (running) { 
 			
 			if(calculatedPositionsQueue.isEmpty()) { 
 				
