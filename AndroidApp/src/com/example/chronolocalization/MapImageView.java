@@ -1,6 +1,7 @@
 package com.example.chronolocalization;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
@@ -22,6 +23,13 @@ public class MapImageView extends ImageView {
 
     private float mPosX;
     private float mPosY;
+    
+    private int positionsToDraw = 1;
+    
+    public void setPositionsToDraw(int positionsToDraw)
+    {
+    	this.positionsToDraw = positionsToDraw;
+    }
 
     private float mLastTouchX;
     private float mLastTouchY;
@@ -60,16 +68,6 @@ public class MapImageView extends ImageView {
                 }
                 break;
             }
-           /** case MotionEvent.ACTION_POINTER_1_DOWN: {
-                if (mScaleDetector.isInProgress()) {
-                    final float gx = mScaleDetector.getFocusX();
-                    final float gy = mScaleDetector.getFocusY();
-                    mLastGestureX = gx;
-                    mLastGestureY = gy;
-                }
-                break;
-            }
-            */
             case MotionEvent.ACTION_MOVE: {
 
                 // Only move if the ScaleGestureDetector isn't processing a gesture.
@@ -162,7 +160,12 @@ public class MapImageView extends ImageView {
     	{
     		watchToPositions.put(watchID, new ArrayList<Point>());
     	}    	
-    	watchToPositions.get(watchID).add(position);
+    	ArrayList<Point> watchPositions = watchToPositions.get(watchID);
+    	if( watchPositions.size() > 1000 && !watchPositions.isEmpty() )
+    	{
+    		watchPositions.remove(0);
+    	}
+    	watchPositions.add(position);
     }
     public void clearWatchPositions(String watchID)
     {
@@ -226,14 +229,24 @@ public class MapImageView extends ImageView {
         //Draw all points of the watches we want to visualize
         for (String watchID : watchesToDraw )
 		{
-        	ArrayList<Point> points = watchToPositions.get(watchID);
-        	if( points != null )
+        	List<Point> allPointsOfWatch = watchToPositions.get(watchID);
+        	List<Point> pointsOfWatchToDraw = null;
+        	if(allPointsOfWatch.size() > positionsToDraw )
+        	{	
+        		pointsOfWatchToDraw = allPointsOfWatch.subList(allPointsOfWatch.size() - positionsToDraw, allPointsOfWatch.size());
+        	}
+        	else
+        	{
+        		pointsOfWatchToDraw = allPointsOfWatch;
+        	}
+        	
+        	if( pointsOfWatchToDraw != null )
         	{
         		if( drawPath )
         		{
-	        		for(int index = 0; index < points.size() - 1; ++index )
+	        		for(int index = 0; index < pointsOfWatchToDraw.size() - 1; ++index )
 	        		{
-	        			Point point = points.get(index);
+	        			Point point = pointsOfWatchToDraw.get(index);
 	        			
 	        			p.setColor(Color.GREEN);
 	        			if( watchID.equals("watch2"))
@@ -252,11 +265,11 @@ public class MapImageView extends ImageView {
 	        			
 	                	p.setStrokeWidth(2);
 	                	canvas.drawCircle(point.getX(), point.getY(), 10, p );
-	                	Point nextPoint = points.get(index+1);
+	                	Point nextPoint = pointsOfWatchToDraw.get(index+1);
 	                	canvas.drawLine(point.getX(), point.getY(), nextPoint.getX(), nextPoint.getY(), p);
 	           		}
 	        		
-	        		Point point = points.get(points.size() - 1);
+	        		Point point = pointsOfWatchToDraw.get(pointsOfWatchToDraw.size() - 1);
 	        		p.setColor(Color.GREEN);
         			if( watchID.equals("watch2"))
 		    		{
@@ -275,9 +288,9 @@ public class MapImageView extends ImageView {
         		}
         		else
         		{
-        			for(int index = 0; index < points.size(); ++index )
+        			for(int index = 0; index < pointsOfWatchToDraw.size(); ++index )
 	        		{
-	        			Point point = points.get(index);
+	        			Point point = pointsOfWatchToDraw.get(index);
 	        			p.setColor(Color.GREEN);
 	        			if( watchID.equals("watch2"))
 			    		{

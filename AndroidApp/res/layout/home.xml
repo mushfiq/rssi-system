@@ -61,7 +61,7 @@
 			    
     </LinearLayout>
     
-       <com.example.chronolocalization.DrawableImage
+       <com.example.chronolocalization.MapImageView
                 android:id="@+id/mapImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
