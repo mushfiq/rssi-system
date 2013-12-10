@@ -34,10 +34,10 @@ public class ReceiverView extends JComponent {
 	private Receiver receiver;
 	
 	/** The x. */
-	private int x;
+	private int xInMeters;
 	
 	/** The y. */
-	private int y;
+	private int yInMeters;
 	
 	/** The image. */
 	private BufferedImage image;
@@ -52,7 +52,7 @@ public class ReceiverView extends JComponent {
 	private static final int LABEL_X_POSITION = 10;
 	
 	/** The Constant LABEL_Y_POSITION. */
-	private static final int LABEL_Y_POSITION = 15;
+	private static final int LABEL_Y_POSITION = 20;
 	
 	/** Parent object of type MapPreviewPanel. */
 	private MapPreviewPanel parent;
@@ -83,14 +83,7 @@ public class ReceiverView extends JComponent {
 		addComponentListener(new ReceiverViewComponentListener());
 		setDoubleBuffered(true); 
 		
-		BufferedImage myPicture = null;
-		try {
-			String path = this.getClass().getResource("images/receiverView.png").getPath();
-			myPicture = ImageIO.read(new File(path));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/receiverView0.png");
 		
 		image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
 		setOpaque(true);
@@ -115,9 +108,22 @@ public class ReceiverView extends JComponent {
 		
 	}
 
-	private void rotate(int angle) {
+	public void rotate(double angle) {
 		
-			this.image = (BufferedImage)Utilities.rotate(this.image, angle);
+			receiver.setAngle(receiver.getAngle() + angle);
+			
+			BufferedImage myPicture = null;
+			try {
+				String path = Utilities.class.getResource("images/receiverView" + (int) receiver.getAngle() + ".png").getPath();
+				myPicture = ImageIO.read(new File(path));
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
+			
+			this.repaint();
 	}
 	
 	/**
@@ -185,7 +191,8 @@ public class ReceiverView extends JComponent {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO: set focus on this receiver
+			
+			parent.focusReceiverView(receiverView);
 		}
 
 		@Override
