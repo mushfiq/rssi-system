@@ -3,7 +3,7 @@
  * Date				Author				Changes
  * 09 Nov 2013		Tommy Griese		create version 1.0
  * 22 Nov 2013		Tommy Griese		added an extended debug information (showing each step of calculation)
- * ?? Nov 2013		Yentran Tran		adding kalman-filter //TODO add date
+ * 27 Nov 2013		Yentran Tran		adding kalman-filter
  * 30 Nov 2013		Tommy Griese		started to implement a more complicated room map weight function
  * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
  * 03 Dec 2013		Tommy Griese		complex (room map) weight function can be applied for elliptical prob map now
@@ -30,7 +30,7 @@ import algorithm.images.GrayscaleImages;
 import algorithm.probabilityMap.ProbabilityMap;
 import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
 import algorithm.weightFunction.WeightFunction;
-import algorithm.weightFunction.WeightFunctionSimple;
+import algorithm.weightFunction.WeightFunctionExtended;
 
 import components.Receiver;
 import components.RoomMap;
@@ -53,7 +53,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private GrayscaleImages grayscaledimage;
 	
 	/** The default flag (value = false) to disable the writing of grayscale images (for debugging purpose). */
-	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = false;
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = true;
 	
 	/** The default flag (value = false) to disable the writing of grayscale images. With this flag each step will be showed 
 	 * (for debugging purpose). */
@@ -113,7 +113,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	// --- Start --- Filter
 	/** A default flag to enable/disable a filter. */
-	public static final boolean ENABLE_FILTER = false;
+	public static final boolean ENABLE_FILTER = true;
 	
 	/** The current applied status (enable/disable) of the filtering. */
 	private boolean enableFilter;
@@ -124,7 +124,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/**
 	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
-	 * initialized as ProbabilityMap as well as the WeightFunctionSimple and the kalman filter. These values 
+	 * initialized as ProbabilityMap as well as the WeightFunctionExtended and the kalman filter. These values 
 	 * can be changed with the corresponding methods. 
 	 * <br><br>
 	 * In addition to that the debugging and image settings for the grayscale images
@@ -143,7 +143,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		super(roommap, receivers);
 		
 		this.probabilityMap = new ProbabilityMapPathLossCircle();
-		this.weightFunction = new WeightFunctionSimple();
+//		this.weightFunction = new WeightFunctionSimple();
+		this.weightFunction = new WeightFunctionExtended();
 		this.filter = new KalmanFilterOneDim();
 		
 		setUpConstructor();
@@ -184,8 +185,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * Help function to setting up the constructor.
 	 */
 	private void setUpConstructor() {		
-		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
-//		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
+//		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
+		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
 		
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT);
@@ -449,7 +450,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		Point p = getPosition(highestPointsRoomMap);
 		if (this.enableFilter) {
 			p = this.filter.applyFilter(p);
+			
 		}
+		
 		
 		Application.getApplication().getLogger().log(Level.INFO, 
 				"[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
@@ -459,6 +462,12 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					   							   convexhulls, this.grayscaleDebugInformationConvexhulls,
 					   							   receivers, this.grayscaleDebugInformationReceivers,
 					   							   p, this.grayscaleDebugInformationPoint);
+		}
+		
+		if(Double.isNaN(p.x) || Double.isNaN(p.y)) {
+			Application.getApplication().getLogger().log(Level.ERROR, 
+					"[ProbabilityBasedAlgorithm - calculate( ... )] calculated position: [" + p.getX() + ";" + p.getY() + "]");
+			return null;
 		}
 		return p;
 	}
@@ -533,6 +542,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		ArrayList<PointRoomMap> maxWeightedValue = new ArrayList<PointRoomMap>();
 		double maxValue = roomMapPoints.get(0).getWeightValue();
+		maxWeightedValue.add(roomMapPoints.get(0));
 		
 		for (int i = 1; i < roomMapPoints.size(); i++) {
 			if (roomMapPoints.get(i).getWeightValue() > maxValue) {
@@ -542,7 +552,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 				
 			} else if (roomMapPoints.get(i).getWeightValue() == maxValue) {
 				maxWeightedValue.add(roomMapPoints.get(i));
-			}		
+			}
 		}
 		return maxWeightedValue;
 	}
