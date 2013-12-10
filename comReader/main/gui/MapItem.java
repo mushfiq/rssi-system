@@ -4,13 +4,18 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import components.RoomMap;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -32,11 +37,15 @@ public class MapItem extends JPanel {
 	/** The map title. */
 	private String mapTitle;
 	
+	private RoomMap map;
+	
 	/** The Constant MAP_ITEM_WIDTH. */
 	public static final int MAP_ITEM_WIDTH = 150;
 	
 	/** The Constant MAP_ITEM_HEIGHT. */
 	public static final int MAP_ITEM_HEIGHT = 210;
+	
+	private MapsPanel mapsPanel;
 	
 	/**
 	 * Instantiates a new map item.
@@ -53,9 +62,22 @@ public class MapItem extends JPanel {
 	 *
 	 * @param mapTitle the map title
 	 */
-	public MapItem(String mapTitle) {
+	public MapItem(String mapTitle, MapsPanel mapsPanel) {
 		
-		this.mapTitle = mapTitle;
+		if(mapTitle != null && mapTitle != ""){
+			this.mapTitle = mapTitle;
+		} else {
+			this.mapTitle = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
+		}
+		
+		this.mapsPanel = mapsPanel;
+		initialize();
+	}
+	
+	public MapItem(RoomMap map, MapsPanel mapsPanel) {
+		
+		this.map = map;
+		this.mapsPanel = mapsPanel;
 		initialize();
 	}
 	
@@ -85,6 +107,7 @@ public class MapItem extends JPanel {
 		
 		// Edit button
 		editButton = new JButton("Edit");
+		editButton.addActionListener(new EditButtonListener());
 		
 		GridBagConstraints gbc1 = new GridBagConstraints();
 		gbc1.gridx = 0;
@@ -96,6 +119,7 @@ public class MapItem extends JPanel {
 		
 		// Delete button
 		deleteButton = new JButton("Delete");
+		deleteButton.addActionListener(new DeleteButtonListener(this));
 		
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		gbc2.gridx = 1;
@@ -107,5 +131,37 @@ public class MapItem extends JPanel {
 		this.add(editAndDeleteButtonsPanel);
 		
 	}
+	
+	
+	private class EditButtonListener implements ActionListener {
 
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			new AddMapDialog(map);
+		}
+	}
+	
+	private class DeleteButtonListener implements ActionListener {
+
+		private MapItem parent;
+		
+		public DeleteButtonListener(MapItem parent) {
+			this.parent = parent;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO ask the user to confirm deletion. Delete or discard window on close.
+			
+			int dialogResult = JOptionPane.showConfirmDialog (mapsPanel, "Are you sure you want to delete the map from the system? This action cannot be undone.");
+			if(dialogResult == JOptionPane.YES_OPTION){
+					
+			// TODO try to delete map from the server. On success, remove this MapItem from the MapsPanel
+			mapsPanel.remove(parent);
+			mapsPanel.revalidate();
+			} 
+		}
+	}
+	
 }
