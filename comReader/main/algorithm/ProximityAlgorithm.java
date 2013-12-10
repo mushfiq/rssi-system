@@ -27,7 +27,8 @@ public class ProximityAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	private Point giveStrongestSignal (HashMap<Integer, Double> readings) {
-		double strongestSignalValue = 0;
+		Map.Entry<Integer, Double> firstValue = readings.entrySet().iterator().next();
+		double strongestSignalValue = firstValue.getValue();
 		
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
 			if (e.getValue() >= strongestSignalValue) {

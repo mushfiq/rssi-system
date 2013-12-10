@@ -1,5 +1,6 @@
 package dao;
 
+
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class HardcodedMapDAO implements MapDAO {
 		if(allMaps == null) {
 			allMaps = new ArrayList<RoomMap>();
 		}
-		
+
 		// add sample maps
 		RoomMap map = null;
 		BufferedImage image = null;
@@ -115,7 +116,6 @@ public class HardcodedMapDAO implements MapDAO {
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 				
-		
 		return allMaps;
 	}
 

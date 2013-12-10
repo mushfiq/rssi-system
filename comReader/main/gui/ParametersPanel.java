@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.logging.Logger;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,10 +17,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
-
 import algorithm.PositionLocalizationAlgorithm;
 import main.Application;
 import utilities.Utilities;
+
 
 public class ParametersPanel extends JPanel{
 
@@ -200,7 +199,8 @@ public class ParametersPanel extends JPanel{
 	        } else {
 	            
 	        	logger.severe("Couldn't open the image.");
-	        }
+	         
+	        } 
 			
 		}
 			
@@ -240,6 +240,7 @@ public class ParametersPanel extends JPanel{
 			
 	}
 	
+
 	private class RotateButtonsListener implements ActionListener {
 
 		@Override
@@ -328,5 +329,6 @@ public class ParametersPanel extends JPanel{
 		}
 		
 	}
+
 
 }

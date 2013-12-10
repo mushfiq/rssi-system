@@ -115,6 +115,7 @@ private boolean onMap;
 		this.yPos = yPos;
 	}
 
+
 	public void setAngle(double angle) {
 		
 		if(angle >= 360) {

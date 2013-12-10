@@ -1,3 +1,4 @@
+
 /*
  * File: RoomMap.java
  * Date				Author				Changes
@@ -203,7 +204,5 @@ public class RoomMap {
 	public List<Receiver> getReceivers() {
 		return receivers;
 	}
-	
-	
-	
+
 }

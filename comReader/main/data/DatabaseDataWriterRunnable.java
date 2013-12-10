@@ -44,6 +44,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.running = true;
+
 		try {
 			mongo = new Mongo("127.0.0.1");
 		} catch (UnknownHostException e1) {

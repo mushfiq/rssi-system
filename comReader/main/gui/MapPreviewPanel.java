@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -18,7 +17,6 @@ import utilities.ComponentMover;
 import utilities.Utilities;
 import components.Receiver;
 import components.RoomMap;
-
 
 /**
  * Displays an image of the map when adding new map to the system 
@@ -68,7 +66,7 @@ public class MapPreviewPanel extends JPanel {
 	
 	/** The Constant NO_IMAGE_STRING_TOP_PADDING. */
 	private static final int NO_IMAGE_STRING_TOP_PADDING = 2;
-	
+
 	/** The receiver views. */
 	private List<ReceiverView> receiverViews;
 	
@@ -80,9 +78,11 @@ public class MapPreviewPanel extends JPanel {
 	/** Helper object that handles moving JComponents around a panel. */
 	private ComponentMover componentMover;
 	
+
 	private ReceiverView receiverViewInFocus;
 	
 	private CoordinateZeroView coordinateZeroView;
+
 	
 	/**
 	 * Instantiates a new map preview panel.
@@ -124,7 +124,7 @@ public class MapPreviewPanel extends JPanel {
 		setBackground(new Color(230, 230, 230));
 		setLayout(null); // in order to position ReceiverViews absolutely
 		
-		
+
 		// register all receiver views to the ComponentMover
 		componentMover = new ComponentMover();
 		
@@ -179,6 +179,7 @@ public class MapPreviewPanel extends JPanel {
 		if (backgroundImage == null) { // if there is no image, draw message string
 			
 			g.drawString(NO_IMAGE_STRING, PANEL_WIDTH / NO_IMAGE_STRING_LEFT_PADDING, PANEL_HEIGHT / NO_IMAGE_STRING_TOP_PADDING);
+
 			this.scalingRatioToFitContainer = 1;
 			
 			return;
@@ -275,5 +276,6 @@ public class MapPreviewPanel extends JPanel {
 			revalidate();
 		}
 	}
+
 	
 }

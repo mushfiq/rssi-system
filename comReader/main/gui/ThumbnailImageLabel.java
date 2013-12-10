@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -14,10 +15,12 @@ public class ThumbnailImageLabel extends JLabel {
 
 	public ThumbnailImageLabel() {
 		
+
 		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/sampleMap.png");
 		
 		BufferedImage scaledImage = Utilities.scaleImageToFitContainer(myPicture, THUMBNAIL_IMAGE_WIDTH, THUMBNAIL_IMAGE_HEIGHT);
 		this.setIcon(new ImageIcon(scaledImage));
+
 	}
 	
 

@@ -4,7 +4,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.logging.Logger;
-
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
@@ -88,7 +90,20 @@ public class ReceiverButton extends JButton {
 		
 	}
 
-	
+	private Image loadImage(String relativePath) {
+		
+		String path = this.getClass().getResource(relativePath)
+				.getPath();
+		Image myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			
+			logger.warning("Image for button could not be loaded. Please check path to image.");
+		}
+		
+		return myPicture;
+	}
 	
 	
 	private class ReceiverButtonListener implements ActionListener {

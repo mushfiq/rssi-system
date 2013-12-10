@@ -4,18 +4,22 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import components.RoomMap;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,6 +51,7 @@ public class MapItem extends JPanel {
 	
 	private MapsPanel mapsPanel;
 	
+
 	/**
 	 * Instantiates a new map item.
 	 */
@@ -78,7 +83,7 @@ public class MapItem extends JPanel {
 		
 		this.map = map;
 		this.mapsPanel = mapsPanel;
-		initialize();
+
 	}
 	
 	
@@ -131,6 +136,7 @@ public class MapItem extends JPanel {
 		this.add(editAndDeleteButtonsPanel);
 		
 	}
+
 	
 	
 	private class EditButtonListener implements ActionListener {
@@ -164,4 +170,5 @@ public class MapItem extends JPanel {
 		}
 	}
 	
+
 }

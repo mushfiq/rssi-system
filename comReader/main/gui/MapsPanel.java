@@ -21,7 +21,6 @@ public class MapsPanel extends JPanel{
 		
 		// TODO: obtain all maps using MapDAO, iterate over them and add MapItems
 		
-		
 		// add sample map item
 		MapItem item1 = new MapItem("Room 433", this);
 		this.add(item1);
@@ -41,6 +40,9 @@ public class MapsPanel extends JPanel{
 		// add sample map item
 		MapItem item5 = new MapItem("", this);
 		this.add(item5);
+		// TODO: obtain all maps, iterate over them and add MapItems
+		
+		
 		
 	}
 

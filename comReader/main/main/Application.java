@@ -136,7 +136,9 @@ public final class Application {
 //        receivers.add(r9);
         
 //        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
+
         roomMap = new RoomMap(-1.0, 6.0, -1.0, 11.0, null);
+
 		
 	}
 

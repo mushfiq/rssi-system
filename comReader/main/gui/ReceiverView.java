@@ -38,6 +38,11 @@ public class ReceiverView extends JComponent {
 	
 	/** The y. */
 	private int yInMeters;
+
+	private int x;
+	
+	/** The y. */
+	private int y;
 	
 	/** The image. */
 	private BufferedImage image;
@@ -124,6 +129,7 @@ public class ReceiverView extends JComponent {
 			image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
 			
 			this.repaint();
+
 	}
 	
 	/**
@@ -191,8 +197,9 @@ public class ReceiverView extends JComponent {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			
+
 			parent.focusReceiverView(receiverView);
+			
 		}
 
 		@Override

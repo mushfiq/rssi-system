@@ -1,5 +1,6 @@
 package gui;
 
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -76,5 +77,4 @@ public class CoordinateZeroView extends JComponent {
 
 		g.drawImage(this.image, 0, 0, this);
 	}
-	
 }

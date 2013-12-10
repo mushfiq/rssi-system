@@ -18,7 +18,9 @@ import components.RoomMap;
  * Dialog window used for editing an existing map or adding a new one.
  * 
  */
+
 public class AddMapDialog extends JDialog {
+
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -43,9 +45,9 @@ public class AddMapDialog extends JDialog {
 	
 	/** The all receivers. */
 	private List<Receiver> allReceivers;
-	
+
 	private AddMapDialogMode openningMode;
-	
+
 	/**
 	 * Instantiates a new adds the map dialog.
 	 */
@@ -62,6 +64,7 @@ public class AddMapDialog extends JDialog {
 	
 	public AddMapDialog(RoomMap map) {
 		
+
 		openningMode = AddMapDialogMode.EDIT;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
 		List<Receiver> receiversOnMap = Application.getApplication().getReceiverDAO().getAllReceiversForMap(map);
@@ -79,6 +82,7 @@ public class AddMapDialog extends JDialog {
 		setLayout(new GridBagLayout());
 		setBackground(new Color(247, 247, 247));
 		setTitle( (openningMode == AddMapDialogMode.ADD) ? "Add map" : "Edit map");
+
 		
 		// Add MapPreviewPanel
 		GridBagConstraints gbc2 = new GridBagConstraints();
@@ -178,5 +182,6 @@ public class AddMapDialog extends JDialog {
 		mapPreviewPanel.addCoordinateZeroViewToMap();
 		
 	}
+
 	
 }

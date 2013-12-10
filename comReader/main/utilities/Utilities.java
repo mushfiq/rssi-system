@@ -12,9 +12,7 @@ import java.util.StringTokenizer;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
 import javax.imageio.ImageIO;
-
 import data.Reading;
 
 
@@ -486,7 +484,6 @@ public final class Utilities {
 		return resizeRatio;
 	}
 	
-	
 	public static Image loadImage(String relativePath) {
 		
 		String path = Utilities.class.getResource(relativePath)
@@ -501,7 +498,6 @@ public final class Utilities {
 		
 		return myPicture;
 	}
-	
 	
 	/*
 	 *   Methods that rotate an image
