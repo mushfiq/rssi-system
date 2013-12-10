@@ -1,10 +1,11 @@
 package data;
 
 import java.net.UnknownHostException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import utilities.Utilities;
 import main.Application;
 
 import com.mongodb.BasicDBObject;
@@ -13,15 +14,35 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 
+/**
+ *  Thread that is run from DatabaseDataWriter object. It reads 
+ *  calculated watch positions queue and writes them into the database one
+ *  by one. If the queue is empty, It sleeps MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY milliseconds.  
+ */
 public class DatabaseDataWriterRunnable implements Runnable {
 
+	private Logger logger;
+	
+	private volatile boolean running = true;
+	
+	/** The Constant MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY. */
 	private static final int MILLIS_TO_SLEEP_IF_QUEUE_IS_EMPTY = 10;
+	
+	/** The mongo. */
 	private Mongo mongo;
+	
+	/** The database. */
 	private DB db;
+	
+	/** The sample data. */
 	private DBCollection sampleData;
 	
+	/**
+	 * Instantiates a new database data writer runnable.
+	 */
 	public DatabaseDataWriterRunnable() {
-		// TODO Auto-generated constructor stub
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		
 		try {
 			mongo = new Mongo("127.0.0.1");
@@ -29,15 +50,16 @@ public class DatabaseDataWriterRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
         db = mongo.getDB("javaTest");
         sampleData = db.getCollection("sampleData");
-//        db = mongo.getDB("rssiSystem");
-//        sampleData = db.getCollection("watch_records");
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
 		
 		BlockingQueue<WatchPositionData> calculatedPositionsQueue = Application.getApplication().getController().getCalculatedPositionsQueue();
 		
@@ -54,36 +76,30 @@ public class DatabaseDataWriterRunnable implements Runnable {
 				
 			} else { // queue is not empty, take WatchPositionData object and write it into the database
 				
-				
 				// we take watchPositionData object from the queue by calling method 'poll()' on the queue
 				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
 				
-				// WRITE HERE THE watchPositionData TO MONGODB
-				// TODO write watchPositionData object into the database
+				System.out.println(watchPositionData);
 				
 			    try {
 		        	DBObject documentDetail = new BasicDBObject();
-		        	
-		        	documentDetail.put("_cls", "watchRecords"); // for mongoEngine ORM users
-		        	
 		        	documentDetail.put("x", watchPositionData.getPosition().getX());
 		        	documentDetail.put("y", watchPositionData.getPosition().getY());
-		        	
-		        	long time = watchPositionData.getTime();
-		        	SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		        	String strDate = simpledateformat.format(new Date(time));
-		        	documentDetail.put("insertedAt", strDate);
-		        	
-		        	documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
+		        	documentDetail.put("insertedAt", watchPositionData.getTime());
+		        	documentDetail.put("mapId", 1);
 		        	documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
-		        	
 		        	sampleData.insert(documentDetail);
-//		        	System.out.println(documentDetail);
 
 		        } catch (Exception e) {
-		        	System.out.print(e);
-		        }
+		        	System.err.print(e);
+		        }	
 			}
 		}
-	}
+	} // end run
+	
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");
+    }
+
 }

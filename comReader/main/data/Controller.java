@@ -3,12 +3,15 @@ package data;
 import java.util.HashMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
-// TODO: Auto-generated Javadoc
+import utilities.Utilities;
+
 /**
  * Controller contains queues for readings obtained from COM port, 
  * for averaged signal strength batches and for calculated watch positions.
  * This class transfers data from queues and to queues.
+ * 
  */
 public final class Controller {
 
@@ -18,17 +21,18 @@ public final class Controller {
 	/** Batches of signal that have to be passed to the algorithm. */
 	private BlockingQueue<HashMap<Integer, HashMap<Integer, Double>>> batchSignalQueue;
 	
-	
 	/** After the algorithm calculates the actual position, it puts the value in this queue. */
 	private BlockingQueue<WatchPositionData> calculatedPositionsQueue;
 	
-	
+	/** The logger. */
+	private Logger logger;
 	
 	/**
 	 * Instantiates a new controller.
 	 */
 	public Controller() {
-		// TODO Auto-generated constructor stub
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		readings = new LinkedBlockingQueue<Reading>();
         batchSignalQueue = new LinkedBlockingQueue<HashMap<Integer, HashMap<Integer, Double>>>();
         calculatedPositionsQueue = new LinkedBlockingQueue<WatchPositionData>();
@@ -38,7 +42,7 @@ public final class Controller {
 	/**
 	 * Gets the data queue.
 	 *
-	 * @return the data queue
+	 * @return the data queue - readings from COM port
 	 */
 	public BlockingQueue<Reading> getDataQueue() {
 		return readings;
@@ -67,7 +71,8 @@ public final class Controller {
 	/**
 	 * Gets the batch signal queue.
 	 *
-	 * @return the batch signal queue
+	 * @return the batch signal queue - contains batches of signal that have to be passed
+	 * to the algorithm
 	 */
 	public BlockingQueue<HashMap<Integer, HashMap<Integer, Double>>> getBatchSignalQueue() {
 		return batchSignalQueue;

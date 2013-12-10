@@ -3,16 +3,27 @@
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 					Yentran Tran
+ * 03 Dec 2013		Tommy Griese		Code refactoring
  */
 package components;
+
+import java.util.ArrayList;
+
+import algorithm.helper.PointRoomMap;
 
 /**
  * The class RoomMap represents the map of a room.
  * 
- * @version 1.0 08 Nov 2013
+ * @version 1.1 03 Dec 2013
  * @author Tommy Griese
  */
 public class RoomMap {
+	
+	/** The default granularity constant for the roommap. */
+	public static final double GRANULARITY_DEFAULT = 0.25;
+	
+	/** The actual granularity for the roommap. */
+	private double granularity;
 	
 	/** The start value for the room map in x. */
 	private double xFrom;
@@ -29,6 +40,9 @@ public class RoomMap {
 	/** The path to the image of the room map. */
 	private String pathToImage;
 	
+	/** Each point of this list contains a weighted point in a room ({@link algorithm.helper.PointRoomMap}). */
+	private ArrayList<PointRoomMap> pointsRoomMap;
+	
 	/**
 	 * Instantiates a new room map.
 	 *
@@ -36,13 +50,21 @@ public class RoomMap {
 	 * @param xTo the end value for the room map in x
 	 * @param yFrom the start value for the room map in y
 	 * @param yTo the end value for the room map in y
+	 * @param granularity the granularity of the room map
+	 * @param pathToImage the path to the image
 	 */
-	public RoomMap(double xFrom, double xTo, double yFrom, double yTo) {
+	public RoomMap(double xFrom, double xTo, double yFrom, double yTo, double granularity, String pathToImage) {
+		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
 		
 		this.yFrom = yFrom;
 		this.yTo = yTo;
+		this.pathToImage = pathToImage;
+		
+		this.granularity = granularity;
+		
+		initialize();
 	}
 	
 	/**
@@ -62,6 +84,10 @@ public class RoomMap {
 		this.yFrom = yFrom;
 		this.yTo = yTo;
 		this.pathToImage = pathToImage;
+		
+		this.granularity = RoomMap.GRANULARITY_DEFAULT;
+		
+		initialize();
 	}
 	
 	/**
@@ -116,5 +142,35 @@ public class RoomMap {
 	 */
 	public void setPathToImage(String pathToImage) {
 		this.pathToImage = pathToImage;
+	}
+	
+	/**
+	 * Creates an array list of the room map with weighted points ({@link algorithm.helper.PointRoomMap}).
+	 */
+	public void initialize() {
+		this.pointsRoomMap = new ArrayList<PointRoomMap>();
+		for (double i = this.xFrom; i <= this.xTo; i += this.granularity) { // x-Axe
+			for (double j = this.yFrom; j <= this.yTo; j += this.granularity) { // y-Axe
+				this.pointsRoomMap.add(new PointRoomMap(i, j));
+			}
+		}
+	}
+	
+	/**
+	 * Gets the room map points.
+	 *
+	 * @return the room map points
+	 */
+	public ArrayList<PointRoomMap> getRoomMapPoints() {
+		return this.pointsRoomMap;
+	}
+	
+	/**
+	 * Gets the granularity.
+	 *
+	 * @return the granularity
+	 */
+	public double getGranularity() {
+		return this.granularity;
 	}
 }

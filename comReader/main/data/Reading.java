@@ -2,11 +2,20 @@ package data;
 
 import java.util.ArrayList;
 
-// TODO: Auto-generated Javadoc
+import java.util.logging.Logger;
+
+import utilities.Utilities;
+
+
 /**
- * The Class Reading.
+ * Reading represents a single set of data obtained from one line from COM port, i.e. it
+ * contains information obtained from one receiver. This data includes: watchId, receiverId and
+ * four signal strengths.
  */
 public class Reading {
+
+	/** The logger. */
+	private Logger logger;
 
 	/** The receiver id. */
 	private int receiverId;
@@ -23,11 +32,19 @@ public class Reading {
 	/** The rssi dbm. */
 	private double rssiDbm = 0;
 	
+	private boolean empty;
+
 	/**
 	 * Instantiates a new reading.
 	 */
 	public Reading() {
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		signalStrengths = new ArrayList<Double>();
+		this.empty = true;
+
+		signalStrengths = new ArrayList<Double>();
+
 	}
 
 	/**
@@ -97,6 +114,12 @@ public class Reading {
 		this.receiverId = receiverId;
 		this.watchId = watchId;
 		this.signalStrengths = signalStrengths;
+
+		
+		double average = Utilities.calculateReadingAverage(this);
+		this.setAverageStrengthValue(average);
+		this.setRssiDbm(average);
+		this.setEmpty(false);
 	}
 	
 	/**
@@ -159,7 +182,15 @@ public class Reading {
 	public void setRssiDbm(double rssiDbm) {
 		this.rssiDbm = rssiDbm;
 	}
-	
-	
+
+
+	public boolean isEmpty() {
+		return empty;
+	}
+
+	public void setEmpty(boolean value) {
+		this.empty = value;
+	}
+
 
 }
