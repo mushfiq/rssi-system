@@ -29,6 +29,7 @@ public class FileDataReader extends DataReader {
 	public FileDataReader(File newFile) {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
+
 		this.file = newFile;
 	}
 	

@@ -3,10 +3,9 @@ package gui;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Logger;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Logger;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -41,8 +40,8 @@ public class ReceiverButton extends JButton {
 		ReceiverButtonState buttonState = (receiver.isOnMap()) ? ReceiverButtonState.REMOVE
 				: ReceiverButtonState.ADD;
 		addActionListener(new ReceiverButtonListener());
-		addReceiverToMapImage 	   = loadImage(PLUS_IMAGE);
-		removeReceiverFromMapImage = loadImage(MINUS_IMAGE);
+		addReceiverToMapImage 	   = Utilities.loadImage(PLUS_IMAGE);
+		removeReceiverFromMapImage = Utilities.loadImage(MINUS_IMAGE);
 		setState(buttonState);
 	}
 

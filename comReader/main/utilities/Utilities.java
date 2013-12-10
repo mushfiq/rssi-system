@@ -5,16 +5,14 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
-
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
-
+import javax.imageio.ImageIO;
 import data.Reading;
 
 
@@ -484,6 +482,21 @@ public final class Utilities {
 		} 
 		
 		return resizeRatio;
+	}
+	
+	public static Image loadImage(String relativePath) {
+		
+		String path = Utilities.class.getResource(relativePath)
+				.getPath();
+		Image myPicture = null;
+		try {
+			myPicture = ImageIO.read(new File(path));
+		} catch (IOException e) {
+			
+			utilitiesLogger.warning("Image could not be loaded. Please check path to image.");
+		}
+		
+		return myPicture;
 	}
 	
 	/*

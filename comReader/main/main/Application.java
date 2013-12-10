@@ -136,7 +136,9 @@ public final class Application {
 //        receivers.add(r9);
         
 //        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
-        roomMap = new RoomMap(-1.0, 6.0, -1.0, 11.0, "");
+
+        roomMap = new RoomMap(-1.0, 6.0, -1.0, 11.0, null);
+
 		
 	}
 
@@ -180,7 +182,16 @@ public final class Application {
 	}
 
 	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
-		this.algorithm = algorithm;
+		
+		// XXX this check should be removed in final version
+		if(algorithm == null) {
+			return;
+		}
+		
+		if (algorithm.getClass() != this.algorithm.getClass()) { // in order to avoid possibly expensive instantiation
+			this.algorithm = algorithm;
+		}
+		
 	}
 
 	public MainFrame getMainFrame() {
