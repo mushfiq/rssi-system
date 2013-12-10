@@ -106,10 +106,11 @@ public class MainActivity extends Activity
 		
 
 		int pos_a = 10;
-		int pos_b = 350;
+		int pos_b = 255;
 		imageView.addReceiver("Receiver1", new Point(pos_a,pos_a));
 		imageView.addReceiver("Receiver2", new Point(pos_a,pos_b));
 		imageView.addReceiver("Receiver3", new Point(pos_b,pos_a));
+		imageView.addReceiver("Receiver4", new Point(pos_b,pos_b));
 		//imageView.addReceiver("Receiver4", new Point(pos_b,pos_b));
 		
 		/*
@@ -213,15 +214,15 @@ public class MainActivity extends Activity
 							    	int width = imageView.getWidth();
 							    	int height = imageView.getHeight();
 							    	
-							    	float x_inPixel = x / 3.0f * (width-20);
-							    	float y_inPixel = y / 3.0f * (height-20);
+							    	float x_inPixel = x / 5.0f * (width-20);
+							    	float y_inPixel = y / 10.0f * (height-20);
 							    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
 							    	 
 							    	// Needed for the coordinate transformation of accessed position and the imageview
 								    Point oldZero = new Point(0,0);
 								    Point newZero = new Point((width)/2,-((height)/2));
 								    
-								    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
+								    //positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
 								    
 							    	//imageView.addWatchPosition(watchID, lastPosition);
 							    	imageView.addWatchPosition(watchID, positionInPixel);
@@ -404,13 +405,13 @@ public class MainActivity extends Activity
 					    	int width = imageView.getWidth();
 					    	int height = imageView.getHeight();
 					    	
-					    	float x_inPixel = x / 3.0f * (width-20);
-					    	float y_inPixel = y / 3.0f * (height-20);
+					    	float x_inPixel = x / 5.0f * (width-20);
+					    	float y_inPixel = y / 10.0f * (height-20);
 					    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
 					    	 
 					    	// Needed for the coordinate transformation of accessed position and the imageview
 						    Point oldZero = new Point(0,0);
-						    Point newZero = new Point((width)/2,-((height)/2));
+						    Point newZero = new Point(0,-height);
 						    
 						    positionInPixel = dataManager.transformPosition(oldZero, newZero, positionInPixel);
 						    
@@ -425,7 +426,7 @@ public class MainActivity extends Activity
 			    		String direction = Utilities.getDirection(currentLocation);
 //			    		Log.d("********",""+direction);
 			    		Thread.sleep(2000);
-			    		tts.speak(direction, TextToSpeech.QUEUE_FLUSH, null);
+			    		//tts.speak(direction, TextToSpeech.QUEUE_FLUSH, null);
 			    		imageView.invalidate();
 			    		
 			    		
