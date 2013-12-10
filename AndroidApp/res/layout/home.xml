@@ -43,6 +43,7 @@
 	    <ImageView
 	        android:id="@+id/startImg"
 	        android:layout_width="101dp"
+	        android:layout_marginRight="-30dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical|center_horizontal"
 	        android:gravity="right|center_horizontal|center_vertical"
@@ -52,6 +53,7 @@
 	    <ImageView
 	        android:id="@+id/stopImg"
 	        android:layout_width="101dp"
+	        	        android:layout_marginRight="-30dp"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_vertical|center_horizontal"
 	        android:gravity="right|center_horizontal|center_vertical"
@@ -61,12 +63,19 @@
 			    
     </LinearLayout>
     
+    
+    	<ProgressBar android:id="@+id/progressBar1"
+    	            android:layout_width="56dp"
+  			android:layout_height="56dp"
+ 			android:layout_alignParentTop="true" 
+ 			android:visibility="gone"/>
+    	
        <com.example.chronolocalization.DrawableImage
                 android:id="@+id/mapImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                 />
+                android:layout_marginTop="2dp"/>
+            <!--      android:src="@drawable/test_room_fifth_floor" />-->
 
             <TextView
                 android:id="@+id/PositionText"
