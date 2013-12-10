@@ -10,7 +10,6 @@ import java.util.List;
 import javax.swing.JDialog;
 
 import main.Application;
-
 import components.Receiver;
 import components.RoomMap;
 
@@ -19,7 +18,7 @@ import components.RoomMap;
  * Dialog window used for editing an existing map or adding a new one.
  * 
  */
-public class AddMapDialog extends JDialog{
+public class AddMapDialog extends JDialog {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -45,27 +44,31 @@ public class AddMapDialog extends JDialog{
 	/** The all receivers. */
 	private List<Receiver> allReceivers;
 	
+	private AddMapDialogMode openningMode;
+	
 	/**
 	 * Instantiates a new adds the map dialog.
 	 */
 	public AddMapDialog() {
 		
+		openningMode = AddMapDialogMode.ADD;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
 		mapPreviewPanel = new MapPreviewPanel();
 		receiversPanel = new ReceiversPanel(this, allReceivers);
 		statusPanel = new StatusPanel();
-		parametersPanel = new ParametersPanel(this);
+		parametersPanel = new ParametersPanel(this, openningMode);
 		initializeGui();
 	}
 	
 	public AddMapDialog(RoomMap map) {
 		
+		openningMode = AddMapDialogMode.EDIT;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
 		List<Receiver> receiversOnMap = Application.getApplication().getReceiverDAO().getAllReceiversForMap(map);
 		mapPreviewPanel = new MapPreviewPanel(receiversOnMap, map);
 		receiversPanel = new ReceiversPanel(this, allReceivers);
 		statusPanel = new StatusPanel();
-		parametersPanel = new ParametersPanel(this);
+		parametersPanel = new ParametersPanel(this, openningMode);
 		initializeGui();
 	}
 	
@@ -75,6 +78,7 @@ public class AddMapDialog extends JDialog{
 		setPreferredSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setLayout(new GridBagLayout());
 		setBackground(new Color(247, 247, 247));
+		setTitle( (openningMode == AddMapDialogMode.ADD) ? "Add map" : "Edit map");
 		
 		// Add MapPreviewPanel
 		GridBagConstraints gbc2 = new GridBagConstraints();
@@ -165,6 +169,14 @@ public class AddMapDialog extends JDialog{
 		mapPreviewPanel.removeReceiverViewFromMap(receiver);
 	}
 
+	public AddMapDialogMode getOpenningMode() {
+		return openningMode;
+	}
 
+	public void addCoordinateZeroView() {
+		
+		mapPreviewPanel.addCoordinateZeroViewToMap();
+		
+	}
 	
 }
