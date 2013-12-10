@@ -11,16 +11,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import utilities.ComponentMover;
 import utilities.Utilities;
-
 import components.Receiver;
 import components.RoomMap;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * Displays an image of the map when adding new map to the system 
  * or when editing an existing one. 
@@ -65,10 +64,10 @@ public class MapPreviewPanel extends JPanel {
 	private static final String NO_IMAGE_STRING = "Click on 'Upload' button on the right side to show a new map.";
 	
 	/** The Constant NO_IMAGE_STRING_LEFT_PADDING. */
-	private static final int NO_IMAGE_STRING_LEFT_PADDING = 2;
+	private static final int NO_IMAGE_STRING_LEFT_PADDING = 3;
 	
 	/** The Constant NO_IMAGE_STRING_TOP_PADDING. */
-	private static final int NO_IMAGE_STRING_TOP_PADDING = 3;
+	private static final int NO_IMAGE_STRING_TOP_PADDING = 2;
 	
 	/** The receiver views. */
 	private List<ReceiverView> receiverViews;
@@ -81,6 +80,9 @@ public class MapPreviewPanel extends JPanel {
 	/** Helper object that handles moving JComponents around a panel. */
 	private ComponentMover componentMover;
 	
+	private ReceiverView receiverViewInFocus;
+	
+	private CoordinateZeroView coordinateZeroView;
 	
 	/**
 	 * Instantiates a new map preview panel.
@@ -121,6 +123,7 @@ public class MapPreviewPanel extends JPanel {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(new Color(230, 230, 230));
 		setLayout(null); // in order to position ReceiverViews absolutely
+		
 		
 		// register all receiver views to the ComponentMover
 		componentMover = new ComponentMover();
@@ -175,7 +178,7 @@ public class MapPreviewPanel extends JPanel {
 		
 		if (backgroundImage == null) { // if there is no image, draw message string
 			
-			g.drawString(NO_IMAGE_STRING, PANEL_HEIGHT / NO_IMAGE_STRING_TOP_PADDING, PANEL_WIDTH / NO_IMAGE_STRING_LEFT_PADDING);
+			g.drawString(NO_IMAGE_STRING, PANEL_WIDTH / NO_IMAGE_STRING_LEFT_PADDING, PANEL_HEIGHT / NO_IMAGE_STRING_TOP_PADDING);
 			this.scalingRatioToFitContainer = 1;
 			
 			return;
@@ -234,7 +237,43 @@ public class MapPreviewPanel extends JPanel {
 	public BufferedImage getBackgroundImage() {
 		return backgroundImage;
 	}
+
+	public void focusReceiverView(ReceiverView receiverViewInFocus) {
+		
+		this.receiverViewInFocus = receiverViewInFocus;
+		
+		for (ReceiverView receiverView : receiverViews) {
+			receiverView.setBorder(BorderFactory.createLineBorder(Color.black, 0)); // remove border from all reciverViews
+			receiverView.repaint();
+			if(receiverView.equals(receiverViewInFocus)) {
+				receiverView.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+				receiverView.repaint();
+			}
+		}
+	}
 	
-	
+	public void rotateReceiverViewInFocus(double rotateAmount) {
+		
+		if (receiverViewInFocus == null) {
+			return;
+		} else {
+			receiverViewInFocus.rotate(rotateAmount);
+		}
+		
+	}
+
+	public void addCoordinateZeroViewToMap() {
+		
+		if (coordinateZeroView == null) {
+			coordinateZeroView = new CoordinateZeroView();
+			add(coordinateZeroView);
+			componentMover.registerComponent(coordinateZeroView);
+		} else {
+			
+			// don't add the second zero coordinate view, just repaint the old one
+			coordinateZeroView.repaint();
+			revalidate();
+		}
+	}
 	
 }
