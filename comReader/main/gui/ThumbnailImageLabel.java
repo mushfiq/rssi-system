@@ -1,10 +1,6 @@
 package gui;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -18,19 +14,10 @@ public class ThumbnailImageLabel extends JLabel {
 
 	public ThumbnailImageLabel() {
 		
-		BufferedImage myPicture = null;
-		try {
-			String path = this.getClass().getResource("images/sampleMap.png").getPath();
-			myPicture = ImageIO.read(new File(path));
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/sampleMap.png");
 		
 		BufferedImage scaledImage = Utilities.scaleImageToFitContainer(myPicture, THUMBNAIL_IMAGE_WIDTH, THUMBNAIL_IMAGE_HEIGHT);
 		this.setIcon(new ImageIcon(scaledImage));
-		
-		// TODO: add onclick listener to open new window with controls for starting and stopping the readings/writings
 	}
 	
 
