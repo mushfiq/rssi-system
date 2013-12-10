@@ -7,29 +7,38 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import main.Application;
 import utilities.Utilities;
 
-// TODO: Auto-generated Javadoc
+
 /**
- * The Class FileReaderRunnable.
+ * Thread that reads the data from a file. This class is used for testing purposes. It reads 
+ * several lines from the file, determined by NUM_OF_LINES_TO_READ_BEFORE_SLEEPING, and then
+ * sleeps for NUM_OF_MILLIS_TO_SLEEP_AFTER_READING milliseconds. After reading a batch of signals,
+ * it calls Controler's addBatchSignalToQueue method to add the batch to the queue for further processing.
  *
  * @author Danilo
  */
 public class FileDataReaderRunnable implements Runnable {
 
-	/** The file. */
+	private Logger logger;
+	
+	private volatile boolean running = true;
+	
+	/** The file to read from. */
 	private File file;
 	
-	/** The num of millis to sleep after reading. */
+	/** The number of milliseconds to sleep after reading. */
 	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 10; // milliseconds
 	
-	/** The num of lines to read before sleeping. */
+	/** The number of lines to read before sleeping. */
 	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 10;
 	
 	/** The sampling rate. */
-	private static int SAMPLING_RATE = 3; // milliseconds
+	private static int SAMPLING_RATE = 30; // milliseconds
 	
 	/** The current batch. */
 	private ArrayList<Reading> currentBatch;
@@ -41,8 +50,10 @@ public class FileDataReaderRunnable implements Runnable {
 	 */
 	public FileDataReaderRunnable(File newFile) {
 		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.file = newFile;
 		currentBatch = new ArrayList<Reading>();
+		running = true;
 	}
 	
 	/* (non-Javadoc)
@@ -81,16 +92,16 @@ public class FileDataReaderRunnable implements Runnable {
 					startTime = currentTime;
 				}
 				
-//				numberOfLinesRead++;
-//				if (numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING) {
-//					try {
-//						numberOfLinesRead = 0;
-//						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
-//					} catch (InterruptedException e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				}
+				numberOfLinesRead++;
+				if (numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING) {
+					try {
+						numberOfLinesRead = 0;
+						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				
 			 }
 			
@@ -100,8 +111,11 @@ public class FileDataReaderRunnable implements Runnable {
 		} finally {
 			
 		}
-		 
-		
-	}
+	} // end run
 
+	public void terminate() {
+        running = false;
+        logger.log(Level.INFO, "ComPortDataReaderRunnable has been terminated.");
+    }
+	
 }

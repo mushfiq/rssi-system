@@ -72,4 +72,3 @@ public class Point extends Point2D.Double {
         return "[" + this.getX() + ";" + this.getY() + "]";
     }
 }
-

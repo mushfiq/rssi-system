@@ -15,11 +15,10 @@ package algorithm;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import main.Application;
-
-import org.apache.log4j.Level;
-
+import utilities.Utilities;
 import algorithm.filter.Filter;
 import algorithm.filter.KalmanFilterOneDim;
 import algorithm.helper.FastConvexHull;
@@ -122,6 +121,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private Filter filter;
 	// --- End --- Filter
 	
+	/** The logger. */
+    private Logger logger;
+	
 	/**
 	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
 	 * initialized as ProbabilityMap as well as the WeightFunctionExtended and the kalman filter. These values 
@@ -142,6 +144,9 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName());
+        
 		this.probabilityMap = new ProbabilityMapPathLossCircle();
 //		this.weightFunction = new WeightFunctionSimple();
 		this.weightFunction = new WeightFunctionExtended();
@@ -372,7 +377,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		HashMap<Integer, ArrayList<PointProbabilityMap>> convexhulls = new HashMap<Integer, ArrayList<PointProbabilityMap>>();
 		int counter = 0;
 		
-		Application.getApplication().getLogger().log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
+		this.logger.log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
 		this.roommap.initialize();
 		
@@ -388,14 +393,14 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// It could happen that we get a signal for a receiver that is not configured...
 			ProbabilityMap probMap = this.probabilityMaps.get(e.getKey());
 			if (probMap == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, 
+				this.logger.log(Level.SEVERE, 
 						"[ProbabilityBasedAlgorithm - calculate( ... )] The receiver id couldn't be found in probabilityMaps (HashMap)");
 				continue;
 			}
 			// find the right probability map for the receiver in hashmap
 			ArrayList<PointProbabilityMap> pointsProbabilityMap = probMap.getProbabilityMap();
 			if (pointsProbabilityMap == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, 
+				this.logger.log(Level.SEVERE, 
 						"[ProbabilityBasedAlgorithm - calculate( ... )] Empty probability map for receiver " + e.getKey());
 				continue;
 			}
@@ -403,7 +408,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// find the points in the probability map where the rssi value is above the given value
 			ArrayList<PointProbabilityMap> newPointsProbabilityMap = findValuesAboveRssi(pointsProbabilityMap, e.getValue());
 			if (newPointsProbabilityMap.size() <= 2) {
-				Application.getApplication().getLogger().log(Level.ERROR, 
+				this.logger.log(Level.SEVERE, 
 						"[ProbabilityBasedAlgorithm - calculate( ... )] The are less than two values above the rssi in pointsProbabilityMap (ArrayList)");
 				continue;
 			}
@@ -415,7 +420,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			// look for the right receiver
 			Receiver receiver = getReceiver(this.receivers, e.getKey());
 			if (receiver == null) {
-				Application.getApplication().getLogger().log(Level.ERROR, 
+				this.logger.log(Level.SEVERE, 
 						"[ProbabilityBasedAlgorithm - calculate( ... )] The receiver id couldn't be found in receivers (ArrayList)");
 				continue;
 			}
@@ -454,7 +459,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 		
 		
-		Application.getApplication().getLogger().log(Level.INFO, 
+		this.logger.log(Level.INFO, 
 				"[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 		
 		if (this.grayscaleDebugInformation) {
@@ -465,7 +470,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 		
 		if(Double.isNaN(p.x) || Double.isNaN(p.y)) {
-			Application.getApplication().getLogger().log(Level.ERROR, 
+			this.logger.log(Level.SEVERE, 
 					"[ProbabilityBasedAlgorithm - calculate( ... )] calculated position: [" + p.getX() + ";" + p.getY() + "]");
 			return null;
 		}

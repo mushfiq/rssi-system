@@ -1,6 +1,9 @@
 package data;
 
 import java.io.File;
+import java.util.logging.Logger;
+
+import utilities.Utilities;
 
 
 /**
@@ -10,6 +13,11 @@ import java.io.File;
  */
 public class FileDataReader extends DataReader {
 
+	/** The logger. */
+	private Logger logger;
+	
+	private FileDataReaderRunnable runnable;
+	
 	/** The file. */
 	private File file;
 	
@@ -19,7 +27,8 @@ public class FileDataReader extends DataReader {
 	 * @param newFile the new file
 	 */
 	public FileDataReader(File newFile) {
-		// TODO Auto-generated constructor stub
+		
+		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.file = newFile;
 	}
 	
@@ -29,9 +38,12 @@ public class FileDataReader extends DataReader {
 	@Override
 	public void readData() {
 		
-		Runnable runnable = new FileDataReaderRunnable(file);
+		runnable = new FileDataReaderRunnable(file);
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
 
+	public void stopReading() {
+		runnable.terminate();
+	}
 }

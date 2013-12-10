@@ -1,26 +1,31 @@
 package main;
 
+import gui.MainFrame;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-
+import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
 
 import components.Receiver;
 import components.RoomMap;
 
+import dao.HardcodedMapDAO;
+import dao.HardcodedReceiverDAO;
+import dao.MapDAO;
+import dao.ReceiverDAO;
 import data.Controller;
 
-// TODO: Auto-generated Javadoc
+
 /**
- *  This is the starting point of the RSSI reader. It contains information
+ *  This is the starting point of the java application. It contains information
  *  about receivers, room map and parameters. It is implemented as a Singleton.
  */
 public final class Application {
@@ -42,9 +47,20 @@ public final class Application {
 	
 	/** The algorithm. */
 	private PositionLocalizationAlgorithm algorithm;
-	
+
 	/** The logger. */
 	private Logger logger;
+	
+	/** Main frame of the application. Shown when application is started. */
+	private MainFrame mainFrame;
+
+	/** The configuration file. */
+	private Properties configurationFile;
+	
+	private MapDAO mapDAO;
+	
+	private ReceiverDAO receiverDAO;
+
 	
 	/**
 	 * Private constructor of Singleton class. To instantiate an object
@@ -52,39 +68,23 @@ public final class Application {
 	 */
 	private Application() {
 		
-		initializeLogger();
+		logger = Utilities.initializeLogger(this.getClass().getName());
         pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
+        receiverDAO = new HardcodedReceiverDAO();
+        mapDAO 		= new HardcodedMapDAO();
         readConfigurationFile();
         controller = new Controller();
         initializeGUI();
+        logger.info("Application started.");
         algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
-	}
-	
-	/**
-	 * Initialize logger.
-	 */
-	private void initializeLogger() {
-	
-		logger = Logger.getLogger(Application.class);
-//		logger = Logger.getLogger(Thread.currentThread().getStackTrace()[2].getClass().getCanonicalName());
-		
-		PatternLayout layout = new PatternLayout();
-		layout.setConversionPattern("%d %p [%c] - %m%n");
-	      FileAppender appender = null;
-		try {
-			appender = new FileAppender(layout,"comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "log.log", true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}    
-	      logger.addAppender(appender);
 	}
 
 	/**
 	 * Initialize gui.
 	 */
 	private void initializeGUI() {
-		// TODO Auto-generated method stub
+		
+		mainFrame = new MainFrame();
 		
 	}
 
@@ -92,55 +92,51 @@ public final class Application {
 	 * Read configuration file.
 	 */
 	private void readConfigurationFile() {
-		// TODO Auto-generated method stub
-		Properties properties = new Properties();
+		
+		configurationFile = new Properties();
 		try {
-			properties.load(new FileInputStream(pathToConfigurationFile));
+			configurationFile.load(new FileInputStream(pathToConfigurationFile));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			logger.log(Level.SEVERE, "Couldn't open configuration file.\n" + e.getMessage());
 		}
 		
 		// iterating over properties file
-		for(String key : properties.stringPropertyNames()) {
+		for(String key : configurationFile.stringPropertyNames()) {
 			  @SuppressWarnings("unused")
-			String value = properties.getProperty(key);
+			String value = configurationFile.getProperty(key);
 			}
 		
 		// This initialization will be done from the configuration file
-//		Receiver r1 = new Receiver(3, 0.0, 0.0, 0.0);
 //		Receiver r1 = new Receiver(0, 8.0, 8.0, 45.0);
 //        Receiver r2 = new Receiver(3, 10.0, 8.0, 135.0);
 //        Receiver r3 = new Receiver(6, 10.0, 10.0, 225.0);
-//		Receiver r1 = new Receiver(0, -1.5, -1.5, 45.0);
-//        Receiver r2 = new Receiver(3, -1.5, 1.5, 315.0);
-//        Receiver r3 = new Receiver(6, 1.5, 1.5, 225.0);
 //        Receiver r4 = new Receiver(9, 1.5, -1.5, 135.0);
-		Receiver r1 = new Receiver(4, 0.0, 0.0, 0.0);
-		Receiver r2 = new Receiver(3, 5.0, 0.0, 0.0);
-		Receiver r3 = new Receiver(9, 0.0, 10.0, 0.0);
-		Receiver r4 = new Receiver(2, 5.0, 10.0, 0.0);
-//		Receiver r5 = new Receiver(9, 10.0, 5.0, 0.0);
-//		Receiver r6 = new Receiver(4, 0.0, 5.0, 0.0);
+//		Receiver r1 = new Receiver(3, 0.0, 0.0, 0.0);
+//		Receiver r2 = new Receiver(0, 1.0, 0.0, 0.0);
+//		Receiver r3 = new Receiver(0, 2.0, 0.0, 0.0);
+//		Receiver r4 = new Receiver(0, 3.0, 0.0, 0.0);
+//		Receiver r5 = new Receiver(0, 4.0, 0.0, 0.0);
+//		Receiver r6 = new Receiver(0, 5.0, 0.0, 0.0);
 //		Receiver r7 = new Receiver(0, 6.0, 0.0, 0.0);
 //		Receiver r8 = new Receiver(0, 7.0, 0.0, 0.0);
 //		Receiver r9 = new Receiver(0, 8.0, 0.0, 0.0);
 
         receivers = new ArrayList<Receiver>();
         
-        receivers.add(r1);
-        receivers.add(r2);
-        receivers.add(r3);
-        receivers.add(r4);
+        Receiver r1 = new Receiver(4, 0.0, 0.0, 0.0);
+        Receiver r2 = new Receiver(3, 5.0, 0.0, 0.0);
+        Receiver r3 = new Receiver(9, 0.0, 10.0, 0.0);
+        Receiver r4 = new Receiver(2, 5.0, 10.0, 0.0);
+//        receivers.add(r4);
 //        receivers.add(r5);
 //        receivers.add(r6);
 //        receivers.add(r7);
 //        receivers.add(r8);
 //        receivers.add(r9);
         
+//        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
         roomMap = new RoomMap(-1.0, 6.0, -1.0, 11.0, "");
-//        roomMap = new RoomMap(-10.0, 10.0, -10.0, 10.0);
-//        roomMap = new RoomMap(-1.5, 1.5, -1.5, 1.5);
 		
 	}
 
@@ -187,15 +183,39 @@ public final class Application {
 		this.algorithm = algorithm;
 	}
 
-	public Logger getLogger() {
-		
-		if(logger == null) {
-			initializeLogger();
-		}
-		
-		return logger;
+	public MainFrame getMainFrame() {
+		return mainFrame;
 	}
 	
+	
+	/**
+	 * Helper method that returns the value from 'config.ini'
+	 * file for a given parameter.
+	 *
+	 * @param parameter
+	 * @return value for given parameter
+	 */
+	public String getConfigurationValue(String key) {
+		
+		String configurationValue = this.configurationFile.getProperty(key);
+		
+		return (configurationValue != null) ? configurationValue : "";
+	}
+	
+	public void setConfigurationValue(String key, String value) {
+		
+		this.configurationFile.setProperty(key, value);
+		
+	}
+
+	public MapDAO getMapDAO() {
+		return mapDAO;
+	}
+
+	public ReceiverDAO getReceiverDAO() {
+		return receiverDAO;
+	}
+
 	
 }
 
