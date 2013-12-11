@@ -32,7 +32,6 @@ public class HardcodedMapDAO implements MapDAO {
 		double zeroOffsetYInMeters = 0;
 		String title = "";
 		ArrayList<Receiver> receivers = null;
-		Receiver receiver = null;
 		
 		// add sample map
 		image = (BufferedImage) Utilities.loadImage("images/map1.png");
@@ -50,6 +49,9 @@ public class HardcodedMapDAO implements MapDAO {
 		zeroOffsetYInMeters = 2;
 		title = "Room 501";
 		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(1, 40, 50, 90, true));
+		receivers.add(new Receiver(2, 10, 20, 180, true));
+		receivers.add(new Receiver(5, 100, 50, 315, true));
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 		
@@ -59,6 +61,9 @@ public class HardcodedMapDAO implements MapDAO {
 		zeroOffsetYInMeters = 1;
 		title = "Room 433";
 		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(1, 40, 50, 90, true));
+		receivers.add(new Receiver(2, 40, 50, 90, true));
+		receivers.add(new Receiver(4, 40, 50, 90, true));
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 		
@@ -86,6 +91,10 @@ public class HardcodedMapDAO implements MapDAO {
 		zeroOffsetYInMeters = 0;
 		title = "Room 012";
 		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(1, 40, 50, 90, true));
+		receivers.add(new Receiver(2, 40, 50, 90, true));
+		receivers.add(new Receiver(3, 40, 50, 90, true));
+		receivers.add(new Receiver(4, 40, 50, 90, true));
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 		
@@ -95,6 +104,10 @@ public class HardcodedMapDAO implements MapDAO {
 		zeroOffsetYInMeters = 2;
 		title = "Laboratory";
 		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(4, 40, 50, 90, true));
+		receivers.add(new Receiver(2, 40, 50, 90, true));
+		receivers.add(new Receiver(1, 40, 50, 90, true));
+		receivers.add(new Receiver(5, 40, 50, 90, true));
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 		
@@ -102,8 +115,11 @@ public class HardcodedMapDAO implements MapDAO {
 		image = (BufferedImage) Utilities.loadImage("images/map9.png");
 		zeroOffsetXInMeters = 3;
 		zeroOffsetYInMeters = 3;
-		title = "";
+		title = "Room 210";
 		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(1, 40, 50, 90, true));
+		receivers.add(new Receiver(2, 40, 50, 90, true));
+		receivers.add(new Receiver(3, 40, 50, 90, true));
 		map = new RoomMap(image, zeroOffsetXInMeters, zeroOffsetYInMeters, title, receivers);
 		allMaps.add(map);
 		
