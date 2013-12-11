@@ -18,6 +18,7 @@ import utilities.Utilities;
 import components.Receiver;
 import components.RoomMap;
 
+// TODO: Auto-generated Javadoc
 /**
  * Displays an image of the map when adding new map to the system 
  * or when editing an existing one. 
@@ -73,38 +74,46 @@ public class MapPreviewPanel extends JPanel {
 	/** The receivers. */
 	private List<Receiver> receivers;
 	
+	/** The map. */
 	private RoomMap map;
 	
 	/** Helper object that handles moving JComponents around a panel. */
 	private ComponentMover componentMover;
 	
 
+	/** The receiver view in focus. */
 	private ReceiverView receiverViewInFocus;
 	
+	/** The coordinate zero view. */
 	private CoordinateZeroView coordinateZeroView;
 
 	
 	/**
 	 * Instantiates a new map preview panel.
 	 *
-	 * @param receiversOnMap List of receivers that are already put on the map.
+	 * @param map the map
 	 */
-	public MapPreviewPanel(List<Receiver> receiversOnMap, RoomMap map) {
+	public MapPreviewPanel(RoomMap map) {
 		
 		receiverViews = new ArrayList<ReceiverView>();
 		scalingRatioToFitContainer = 1.0;
 		
 		this.map = map;
+		this.originalBackgroundImage = (BufferedImage) map.getImage();
+		this.backgroundImage = (BufferedImage) map.getImage();
 		
-		if (receiversOnMap == null) {
+		if (map.getReceivers() == null) {
 			this.receivers = new ArrayList<Receiver>();
 		} else {
-			this.receivers = receiversOnMap;
+			this.receivers = map.getReceivers();
 		}
 		
 		initializeGui();
 	}
 	
+	/**
+	 * Instantiates a new map preview panel.
+	 */
 	public MapPreviewPanel() {
 		
 		receiverViews = new ArrayList<ReceiverView>();
@@ -123,7 +132,7 @@ public class MapPreviewPanel extends JPanel {
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setBackground(new Color(230, 230, 230));
 		setLayout(null); // in order to position ReceiverViews absolutely
-		
+		refreshPreviewImage();
 
 		// register all receiver views to the ComponentMover
 		componentMover = new ComponentMover();
@@ -159,8 +168,20 @@ public class MapPreviewPanel extends JPanel {
 			
 		} catch (IOException e) {
 			logger.severe("Reading of the image failed.\n" + e.getMessage());
-		}
+		}	
+	}
+	
+	
+	/**
+	 * Refresh preview image.
+	 */
+	private void refreshPreviewImage() {
 		
+		if( originalBackgroundImage != null) {
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
+			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
+			this.repaint();
+		} 
 	}
 	
 	/** 
@@ -179,9 +200,7 @@ public class MapPreviewPanel extends JPanel {
 		if (backgroundImage == null) { // if there is no image, draw message string
 			
 			g.drawString(NO_IMAGE_STRING, PANEL_WIDTH / NO_IMAGE_STRING_LEFT_PADDING, PANEL_HEIGHT / NO_IMAGE_STRING_TOP_PADDING);
-
 			this.scalingRatioToFitContainer = 1;
-			
 			return;
 		}
 		
@@ -235,10 +254,20 @@ public class MapPreviewPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Gets the background image.
+	 *
+	 * @return the background image
+	 */
 	public BufferedImage getBackgroundImage() {
 		return backgroundImage;
 	}
 
+	/**
+	 * Focus receiver view.
+	 *
+	 * @param receiverViewInFocus the receiver view in focus
+	 */
 	public void focusReceiverView(ReceiverView receiverViewInFocus) {
 		
 		this.receiverViewInFocus = receiverViewInFocus;
@@ -253,6 +282,11 @@ public class MapPreviewPanel extends JPanel {
 		}
 	}
 	
+	/**
+	 * Rotate receiver view in focus.
+	 *
+	 * @param rotateAmount the rotate amount
+	 */
 	public void rotateReceiverViewInFocus(double rotateAmount) {
 		
 		if (receiverViewInFocus == null) {
@@ -263,6 +297,9 @@ public class MapPreviewPanel extends JPanel {
 		
 	}
 
+	/**
+	 * Adds the coordinate zero view to map.
+	 */
 	public void addCoordinateZeroViewToMap() {
 		
 		if (coordinateZeroView == null) {
