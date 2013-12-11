@@ -74,7 +74,6 @@ public final class Application {
         mapDAO 		= new HardcodedMapDAO();
         readConfigurationFile();
         controller = new Controller();
-        initializeGUI();
         logger.info("Application started.");
         algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 	}
@@ -82,7 +81,7 @@ public final class Application {
 	/**
 	 * Initialize gui.
 	 */
-	private void initializeGUI() {
+	public void initializeGUI() {
 		
 		mainFrame = new MainFrame();
 		
