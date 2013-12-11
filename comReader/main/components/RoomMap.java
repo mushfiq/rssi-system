@@ -9,7 +9,9 @@
 package components;
 
 import java.awt.Image;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import algorithm.helper.PointRoomMap;
@@ -107,7 +109,13 @@ public class RoomMap {
 		this.image = image;
 		this.zeroOffsetXInMeters = zeroOffsetXInMeters;
 		this.zeroOffsetYInMeters = zeroOffsetYInMeters;
-		this.title = title;
+		
+		if (title == null || title =="") {
+			this.title = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
+		} else {
+			this.title = title;
+		}
+		
 		this.receivers = receivers;
 		this.scaling = 1;
 	}
