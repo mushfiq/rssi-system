@@ -5,11 +5,13 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
 
 import main.Application;
+
 import components.Receiver;
 import components.RoomMap;
 
@@ -20,7 +22,6 @@ import components.RoomMap;
  */
 
 public class AddMapDialog extends JDialog {
-
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -43,45 +44,58 @@ public class AddMapDialog extends JDialog {
 	/** The receivers panel. */
 	private ReceiversPanel receiversPanel;
 	
-	/** The all receivers. */
+	/** All receivers available in the system. */
 	private List<Receiver> allReceivers;
 
-	private AddMapDialogMode openningMode;
+	/** Opening mode of the window. It can be 'ADD' or 'EDIT'. */
+	private AddMapDialogMode openingMode;
+	
+	private static final int DARKER_GRAY_COLOUR = 247;
 
 	/**
-	 * Instantiates a new adds the map dialog.
+	 * Constructor used when opening the dialog window in 'ADD' mode. 
 	 */
 	public AddMapDialog() {
 		
-		openningMode = AddMapDialogMode.ADD;
+		openingMode = AddMapDialogMode.ADD;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
+		/* In 'ADD' mode, initially there are no receivers on the map,
+		 * therefore we create an empty list to pass to receiversPanel.  
+		 */
+		List<Receiver> receiversOnMap = new ArrayList<Receiver>(); 
 		mapPreviewPanel = new MapPreviewPanel();
-		receiversPanel = new ReceiversPanel(this, allReceivers);
+		receiversPanel = new ReceiversPanel(this, allReceivers, receiversOnMap);
 		statusPanel = new StatusPanel();
-		parametersPanel = new ParametersPanel(this, openningMode);
+		parametersPanel = new ParametersPanel(this, openingMode);
 		initializeGui();
 	}
 	
+	/**
+	 * Constructor used when opening the dialog window in 'EDIT' mode.
+	 *
+	 * @param map RoomMap instance
+	 */
 	public AddMapDialog(RoomMap map) {
 		
-
-		openningMode = AddMapDialogMode.EDIT;
+		openingMode = AddMapDialogMode.EDIT;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
-		List<Receiver> receiversOnMap = Application.getApplication().getReceiverDAO().getAllReceiversForMap(map);
-		mapPreviewPanel = new MapPreviewPanel(receiversOnMap, map);
-		receiversPanel = new ReceiversPanel(this, allReceivers);
+		mapPreviewPanel = new MapPreviewPanel(map);
+		receiversPanel = new ReceiversPanel(this, allReceivers, map.getReceivers());
 		statusPanel = new StatusPanel();
-		parametersPanel = new ParametersPanel(this, openningMode);
+		parametersPanel = new ParametersPanel(this, openingMode);
 		initializeGui();
 	}
 	
+	/**
+	 * Initialize gui.
+	 */
 	private void initializeGui() {
 		
 		setSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setPreferredSize(new Dimension(ADD_MAP_WINDOW_WIDTH, ADD_MAP_WINDOW_HEIGHT));
 		setLayout(new GridBagLayout());
-		setBackground(new Color(247, 247, 247));
-		setTitle( (openningMode == AddMapDialogMode.ADD) ? "Add map" : "Edit map");
+		setBackground(new Color(DARKER_GRAY_COLOUR, DARKER_GRAY_COLOUR, DARKER_GRAY_COLOUR));
+		setTitle((openingMode == AddMapDialogMode.ADD) ? "Add map" : "Edit map");
 
 		
 		// Add MapPreviewPanel
@@ -139,20 +153,29 @@ public class AddMapDialog extends JDialog {
 		setVisible(true);
 	}
 	
+	/**
+	 * Sets the preview image.
+	 *
+	 * @param file the new preview image
+	 */
 	public void setPreviewImage(File file) {
 		
 		mapPreviewPanel.setPreviewImage(file);
 		mapPreviewPanel.repaint();
 	}
 
-	// package visibility
+	/**
+	 * Gets the map preview panel.
+	 *	Visibility of this method is 'package'
+	 * @return the map preview panel
+	 */
 	MapPreviewPanel getMapPreviewPanel() {
 		return mapPreviewPanel;
 	}
 
 
 	/**
-	 * Adds the receiver to map.
+	 * Adds the receiver to map. 
 	 *
 	 * @param receiver the receiver
 	 */
@@ -173,10 +196,18 @@ public class AddMapDialog extends JDialog {
 		mapPreviewPanel.removeReceiverViewFromMap(receiver);
 	}
 
+	/**
+	 * Gets the openning mode.
+	 *
+	 * @return the openning mode
+	 */
 	public AddMapDialogMode getOpenningMode() {
-		return openningMode;
+		return openingMode;
 	}
 
+	/**
+	 * Adds the coordinate zero view.
+	 */
 	public void addCoordinateZeroView() {
 		
 		mapPreviewPanel.addCoordinateZeroViewToMap();
