@@ -85,10 +85,10 @@ public class ReceiverView extends JComponent {
 		setPreferredSize(new Dimension(RECEIVER_ITEM_WIDTH, RECEIVER_ITEM_HEIGHT));
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addMouseListener(new ReceiverViewMouseListener(this));
-		addComponentListener(new ReceiverViewComponentListener());
+		addComponentListener(new ReceiverViewComponentListener(this));
 		setDoubleBuffered(true); 
 		
-		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/receiverView0.png");
+		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/receiverView" + (int) receiver.getAngle() +".png");
 		
 		image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
 		setOpaque(true);
@@ -145,7 +145,13 @@ public class ReceiverView extends JComponent {
 	 */
 	private class ReceiverViewComponentListener implements ComponentListener {
 
+		/** The receiver view. */
+		private ReceiverView receiverView;
 
+		public ReceiverViewComponentListener(ReceiverView receiverView) {
+			this.receiverView = receiverView;
+		}
+		
 		@Override
 		public void componentResized(ComponentEvent e) {
 			
@@ -155,7 +161,7 @@ public class ReceiverView extends JComponent {
 		public void componentMoved(ComponentEvent e) {
 			
 			// TODO: update values when position is changed (maybe unnecessary)
-			
+			parent.focusReceiverView(receiverView);
 		}
 
 		@Override
