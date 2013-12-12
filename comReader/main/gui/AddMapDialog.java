@@ -63,7 +63,7 @@ public class AddMapDialog extends JDialog {
 		 * therefore we create an empty list to pass to receiversPanel.  
 		 */
 		List<Receiver> receiversOnMap = new ArrayList<Receiver>(); 
-		mapPreviewPanel = new MapPreviewPanel();
+		mapPreviewPanel = new MapPreviewPanel(this);
 		receiversPanel = new ReceiversPanel(this, allReceivers, receiversOnMap);
 		statusPanel = new StatusPanel();
 		parametersPanel = new ParametersPanel(this, openingMode);
@@ -79,7 +79,7 @@ public class AddMapDialog extends JDialog {
 		
 		openingMode = AddMapDialogMode.EDIT;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
-		mapPreviewPanel = new MapPreviewPanel(map);
+		mapPreviewPanel = new MapPreviewPanel(map, this);
 		receiversPanel = new ReceiversPanel(this, allReceivers, map.getReceivers());
 		statusPanel = new StatusPanel();
 		parametersPanel = new ParametersPanel(this, openingMode);
@@ -210,9 +210,11 @@ public class AddMapDialog extends JDialog {
 	 */
 	public void addCoordinateZeroView() {
 		
-		mapPreviewPanel.addCoordinateZeroViewToMap();
+		mapPreviewPanel.addCoordinateZeroMarkerViewsToMap();
 		
 	}
 
-	
+	public void setStatus(String message) {
+		this.statusPanel.setMessage(message);
+	}
 }
