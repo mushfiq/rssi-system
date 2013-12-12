@@ -18,7 +18,7 @@ import utilities.Utilities;
 import components.Receiver;
 import components.RoomMap;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * Displays an image of the map when adding new map to the system 
  * or when editing an existing one. 
@@ -80,20 +80,19 @@ public class MapPreviewPanel extends JPanel {
 	/** Helper object that handles moving JComponents around a panel. */
 	private ComponentMover componentMover;
 	
-
 	/** The receiver view in focus. */
 	private ReceiverView receiverViewInFocus;
 	
-	/** The coordinate zero view. */
-	private CoordinateZeroView coordinateZeroView;
-
+	private CoordinateZeroMarkerView lowerLeftMarker;
+	private CoordinateZeroMarkerView upperRightMarker;
+	private AddMapDialog parent;
 	
 	/**
 	 * Instantiates a new map preview panel.
 	 *
 	 * @param map the map
 	 */
-	public MapPreviewPanel(RoomMap map) {
+	public MapPreviewPanel(RoomMap map, AddMapDialog parent) {
 		
 		receiverViews = new ArrayList<ReceiverView>();
 		scalingRatioToFitContainer = 1.0;
@@ -101,6 +100,7 @@ public class MapPreviewPanel extends JPanel {
 		this.map = map;
 		this.originalBackgroundImage = (BufferedImage) map.getImage();
 		this.backgroundImage = (BufferedImage) map.getImage();
+		this.parent = parent;
 		
 		if (map.getReceivers() == null) {
 			this.receivers = new ArrayList<Receiver>();
@@ -114,8 +114,8 @@ public class MapPreviewPanel extends JPanel {
 	/**
 	 * Instantiates a new map preview panel.
 	 */
-	public MapPreviewPanel() {
-		
+	public MapPreviewPanel(AddMapDialog parent) {
+		this.parent = parent;
 		receiverViews = new ArrayList<ReceiverView>();
 		receivers = new ArrayList<Receiver>();
 		initializeGui();
@@ -148,7 +148,10 @@ public class MapPreviewPanel extends JPanel {
 				componentMover.registerComponent(receiverView);
 			}	
 		}
+		// add zero coordinate marker views
+		addCoordinateZeroMarkerViewsToMap();
 	}
+	
 	
 	/**
 	 * Changes the panel image. When changed, any receivers placed on the map
@@ -294,25 +297,31 @@ public class MapPreviewPanel extends JPanel {
 		} else {
 			receiverViewInFocus.rotate(rotateAmount);
 		}
-		
 	}
 
 	/**
-	 * Adds the coordinate zero view to map.
+	 * Adds coordinate zero marker views to map.
 	 */
-	public void addCoordinateZeroViewToMap() {
+	public void addCoordinateZeroMarkerViewsToMap() {
 		
-		if (coordinateZeroView == null) {
-			coordinateZeroView = new CoordinateZeroView();
-			add(coordinateZeroView);
-			componentMover.registerComponent(coordinateZeroView);
-		} else {
+		if( (lowerLeftMarker == null) || (upperRightMarker == null) ) {
 			
+			lowerLeftMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.LOWER_LEFT, this);
+			upperRightMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.UPPER_RIGHT, this);
+			add(lowerLeftMarker);
+			add(upperRightMarker);
+			componentMover.registerComponent(lowerLeftMarker);
+			componentMover.registerComponent(upperRightMarker);
+		} else {
 			// don't add the second zero coordinate view, just repaint the old one
-			coordinateZeroView.repaint();
+			lowerLeftMarker.repaint();
+			upperRightMarker.repaint();
 			revalidate();
 		}
 	}
 
-	
+	public void setStatus(String message){
+		// delegate call to AddMapDialog instance
+		parent.setStatus(message);
+	}
 }
