@@ -244,6 +244,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformation(true);
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
+        algorithm.enableFilter(false);
 		 
 		algorithm.setGrayscaleImagePath(FOLDER_ONERECEIVER);
 		
@@ -296,7 +297,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_0, -80.0);
      	
-     	pExpected = new Point(-21.12399, 21.12399);
+     	pExpected = new Point(-21.57505, 21.57505);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test06 --
@@ -305,7 +306,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_2, -60.0);
      	
-     	pExpected = new Point(-24.21875, -24.21875);
+     	pExpected = new Point(-24.69403, -24.69403);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test07 --
@@ -314,7 +315,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_10, -85.5);
      	
-     	pExpected = new Point(19.06142, 19.06142);
+     	pExpected = new Point(19.50922, 19.50922);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test08 --
@@ -323,7 +324,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_12, -72.5);
      	
-     	pExpected = new Point(22.84349, -22.84349);
+     	pExpected = new Point(23.30092, -23.30092);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test09 --
@@ -332,7 +333,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_5, -60.0);
      	
-     	pExpected = new Point(0.0, 24.22596);
+     	pExpected = new Point(0.0, 24.72222);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test10 --
@@ -341,7 +342,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_1, -60.0);
      	
-     	pExpected = new Point(-24.22596, 0.0);
+     	pExpected = new Point(-24.72222, 0.0);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test11 --
@@ -350,7 +351,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_7, -60.0);
      	
-     	pExpected = new Point(0.0, -24.22596);
+     	pExpected = new Point(0.0, -24.72222);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test12 --
@@ -359,7 +360,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings = new HashMap<Integer, Double>();
      	readings.put(RECEIVERID_11, -60.0);
      	
-     	pExpected = new Point(24.22596, 0.0);
+     	pExpected = new Point(24.72222, 0.0);
      	pCalculated = algorithm.calculate(readings);
      	assertTrue(testPoints(pCalculated, pExpected, DELTA));
      	// -- ende test13 --
@@ -382,6 +383,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_TWORECEIVER);
+		algorithm.enableFilter(false);
 		
 		// -- start test01 --
 		readings = new HashMap<Integer, Double>();
@@ -438,7 +440,7 @@ public class ProbabilityBasedAlgorithmTest {
  	 	readings.put(RECEIVERID_1, -86.50);
  	 	readings.put(RECEIVERID_3, -76.00);
  	 	
- 	 	pExpected = new Point(-10.88170, 3.61830);
+ 	 	pExpected = new Point(-10.87168, 3.58850);
  	 	pCalculated = algorithm.calculate(readings);
  	 	assertTrue(testPoints(pCalculated, pExpected, DELTA));
 	 	// -- ende test06 --
@@ -458,7 +460,7 @@ public class ProbabilityBasedAlgorithmTest {
  	 	readings.put(RECEIVERID_7, -86.50);
  	 	readings.put(RECEIVERID_12, -86.50);
  	 	
- 	 	pExpected = new Point(12.5, -21.72543);
+ 	 	pExpected = new Point(12.5, -22.28635);
  	 	pCalculated = algorithm.calculate(readings);
  	 	assertTrue(testPoints(pCalculated, pExpected, DELTA));
 	 	// -- ende test08 --
@@ -481,6 +483,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_THREERECEIVER);
+		algorithm.enableFilter(false);
 		
 		// -- start test01 --
 		readings = new HashMap<Integer, Double>();
@@ -510,7 +513,7 @@ public class ProbabilityBasedAlgorithmTest {
         readings.put(RECEIVERID_8, -82.00);
         readings.put(RECEIVERID_4, -75.00);
 
-        pExpected = new Point(-4.42307, 1.03846);
+        pExpected = new Point(-4.42308, 1.03846);
         pCalculated = algorithm.calculate(readings);
         assertTrue(testPoints(pCalculated, pExpected, DELTA));
         // -- ende test03 --
@@ -577,6 +580,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_FOURRECEIVER);
+		algorithm.enableFilter(false);
 		
 		// -- start test01 --
 		readings = new HashMap<Integer, Double>();
@@ -626,6 +630,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_WEIGHTFUNCTION);
+		algorithm.enableFilter(false);
 
 		
 		algorithm.setWeightFunctionForOneReceiver(getReceiver(RECEIVERID_4), weightFunctionExtended);
@@ -757,6 +762,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_CONVEXHULLTRANSFORMATION);
+		algorithm.enableFilter(false);
 
 		// -- start test01 --
         pExpected = new Point(-4.45455, 1.65909);
@@ -784,6 +790,7 @@ public class ProbabilityBasedAlgorithmTest {
         algorithm.setGrayscaleDebugInformationExtended(true);
         algorithm.setGrayscaleDebugImageSettings(true, true, true, true);
 		algorithm.setGrayscaleImagePath(FOLDER_BEHAVIORCALCULATION);
+		algorithm.enableFilter(false);
 
 		// -- start test01 --
         pExpected = null;
