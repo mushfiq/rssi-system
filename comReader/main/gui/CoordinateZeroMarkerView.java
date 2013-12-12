@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
+
 import javax.swing.JComponent;
 
 import utilities.Utilities;
@@ -18,10 +19,10 @@ public class CoordinateZeroMarkerView extends JComponent {
 	private BufferedImage image;
 
 	/** The Constant RECEIVER_ITEM_WIDTH. */
-	public static final int ZERO_COORDINATE_WIDTH = 20;
+	public static final int ZERO_COORDINATE_MARKER_VIEW_WIDTH = 20;
 
 	/** The Constant RECEIVER_ITEM_HEIGHT. */
-	public static final int ZERO_COORDINATE_HEIGHT = 20;
+	public static final int ZERO_COORDINATE_MARKER_VIEW_HEIGHT = 20;
 
 	private static final String LOWER_LEFT_IMAGE_PATH = "images/lowerLeftMarker.png";
 	private static final String UPPER_RIGHT_IMAGE_PATH = "images/upperRightMarker.png";
@@ -29,16 +30,18 @@ public class CoordinateZeroMarkerView extends JComponent {
 	private double xInMeters;
 	private double yInMeters;
 	private CoordinateZeroMarkerViewType type;
+	private MapPreviewPanel parent;
 
-	public CoordinateZeroMarkerView(CoordinateZeroMarkerViewType type) {
+	public CoordinateZeroMarkerView(CoordinateZeroMarkerViewType type, MapPreviewPanel parent) {
 
-		setSize(ZERO_COORDINATE_WIDTH, ZERO_COORDINATE_HEIGHT);
-		setPreferredSize(new Dimension(ZERO_COORDINATE_WIDTH,
-				ZERO_COORDINATE_HEIGHT));
+		setSize(ZERO_COORDINATE_MARKER_VIEW_WIDTH, ZERO_COORDINATE_MARKER_VIEW_HEIGHT);
+		setPreferredSize(new Dimension(ZERO_COORDINATE_MARKER_VIEW_WIDTH,
+				ZERO_COORDINATE_MARKER_VIEW_HEIGHT));
 		setCursor(new Cursor(Cursor.HAND_CURSOR));
 		addComponentListener(new CoordinateZeroMarkerListener());
 		setDoubleBuffered(true);
 		this.type = type;
+		this.parent = parent;
 
 		String pathToImage = (type == CoordinateZeroMarkerViewType.LOWER_LEFT) ? LOWER_LEFT_IMAGE_PATH
 				: UPPER_RIGHT_IMAGE_PATH;
@@ -46,7 +49,7 @@ public class CoordinateZeroMarkerView extends JComponent {
 				.loadImage(pathToImage);
 
 		image = Utilities.scaleImageToFitContainer(myPicture,
-				ZERO_COORDINATE_WIDTH, ZERO_COORDINATE_HEIGHT);
+				ZERO_COORDINATE_MARKER_VIEW_WIDTH, ZERO_COORDINATE_MARKER_VIEW_HEIGHT);
 		setOpaque(true);
 	}
 
@@ -61,7 +64,8 @@ public class CoordinateZeroMarkerView extends JComponent {
 		@Override
 		public void componentMoved(ComponentEvent e) {
 			// TODO update the zero coordinate position in meters
-
+			CoordinateZeroMarkerView view = (CoordinateZeroMarkerView) e.getSource();
+			parent.setStatus(view.getLocation().toString());
 		}
 
 		@Override
