@@ -132,9 +132,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
     /** Extended room map for this algorithm. */
     private RoomMap extendedRoomMap;
     
-    /** Parameter that extends the room map. */
+    /** Default parameter that extends the room map. */
     private static final double ROOM_MAP_EXTENSION = 1.0;
     
+    /** The current applied extension for the room map. */
     private double roommapExtension;
     // --- End --- room map
     
@@ -171,7 +172,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
         this.logger = Utilities.initializeLogger(this.getClass().getName());
         
 		this.probabilityMap = new ProbabilityMapPathLossCircle();
-//		this.weightFunction = new WeightFunctionSimple();
 		this.weightFunction = new WeightFunctionExtended();
 		this.filter = new KalmanFilterOneDim();
 		
@@ -361,10 +361,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public void setRoomMap(RoomMap roommap) {
 		this.roommap = roommap;
 		
-		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-										   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-										   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-										   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+										   (roommap.getXTo() + this.roommapExtension), 
+										   (roommap.getYFrom() - this.roommapExtension), 
+										   (roommap.getYTo() + this.roommapExtension), 
 										    roommap.getGranularity(), 
 										    roommap.getImage());
 	}
