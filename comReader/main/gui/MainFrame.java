@@ -159,5 +159,7 @@ public class MainFrame extends JFrame {
 	    }
 	}
 		
-
+	public void setStatusMessage(String message){
+		statusPanel.setMessage(message);
+	}
 }
