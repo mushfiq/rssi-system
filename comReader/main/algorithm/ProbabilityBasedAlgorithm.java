@@ -379,12 +379,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		this.logger.log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
-		this.roommap.initialize();
-		
 		// test if some readings are given
 		if (readings.isEmpty()) {
 			return null;
 		}
+				
+		this.roommap.initialize();
+
 		
 		// go through each receiver and calculate a weighted map
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
