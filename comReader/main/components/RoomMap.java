@@ -55,6 +55,12 @@ public class RoomMap {
 	private String title;
 	private List<Receiver> receivers;
 	private double scaling;
+	private int lowerLeftMarkerOffsetXInPixels;
+	private int lowerLeftMarkerOffsetYInPixels;
+	private int upperRightMarkerOffsetXInPixels;
+	private int upperRightMarkerOffsetYInPixels;
+	private double ratioWidth;
+	private double ratioHeight;
 	
 	/**
 	 * Instantiates a new room map.
