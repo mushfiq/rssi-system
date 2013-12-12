@@ -12,7 +12,7 @@ import algorithm.helper.Point;
  * It defines a method to apply a filtering to some points.
  * 
  * @version 1.0 08 Dec 2013
- * @author Tommy Griese
+ * @author Yentran Tran
  */
 public abstract class Filter {
 
