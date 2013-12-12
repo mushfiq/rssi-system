@@ -19,16 +19,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
+import algorithm.ProbabilityBasedAlgorithm;
 import algorithm.filter.KalmanFilterOneDim;
 import algorithm.helper.Point;
+import algorithm.probabilityMap.ProbabilityMap;
 import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
 import algorithm.probabilityMap.ProbabilityMapPathLossElliptic;
 import algorithm.weightFunction.WeightFunction;
 import algorithm.weightFunction.WeightFunctionExtended;
 import algorithm.weightFunction.WeightFunctionSimple;
-
 import components.Receiver;
 import components.RoomMap;
 
@@ -194,7 +196,7 @@ public class ProbabilityBasedAlgorithmTest {
         receivers.add(r11);
         receivers.add(r12);
         
-        roommap = new RoomMap(ROOMMAP_XFROM, ROOMMAP_XTO, ROOMMAP_YFROM, ROOMMAP_YTO, "");
+        roommap = new RoomMap(ROOMMAP_XFROM, ROOMMAP_XTO, ROOMMAP_YFROM, ROOMMAP_YTO, null);
         
         probMapCircle = new ProbabilityMapPathLossCircle(
         		PROBMAP_SIGNALPROPAGATIONCONSTANT, PROBMAP_SIGNALSTRENGTHONEMETER,
@@ -807,6 +809,72 @@ public class ProbabilityBasedAlgorithmTest {
         pCalculated = algorithm.calculate(readings);
         assertTrue(testPoints(pCalculated, pExpected, DELTA));
         // -- ende test03 --
+	}
+	
+	/**
+	 * This test is testing the results of the method 
+	 * {@link ProbabilityBasedAlgorithm#checkIfPointIsInRoom(Point)}. 
+	 */
+//	@Ignore
+	@Test
+	public void testIfPointIsOutsideRoom() {
+		Point pExpected;
+		Point pCalculated;
+		 
+		ProbabilityBasedAlgorithm algorithm = 
+				new ProbabilityBasedAlgorithm(roommap, receivers, probMapCircle, weightFunctionSimple, filterKalman);
+		
+		pExpected = new Point(0.0, ROOMMAP_XTO);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(0.0, ROOMMAP_XTO));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XFROM, ROOMMAP_YFROM);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XFROM, ROOMMAP_YFROM));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XFROM, ROOMMAP_YTO);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XFROM, ROOMMAP_YTO));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(5.0, 4.0);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(5.0, 4.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(-15.0, 20.0);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(-15.0, 20.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XFROM, 0.0);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XFROM - 1.0, 0.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XFROM, ROOMMAP_YFROM);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XFROM - 1.0, ROOMMAP_XFROM - 5.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(1.0, ROOMMAP_YFROM);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(1.0, ROOMMAP_XFROM - 15.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XTO, ROOMMAP_YFROM);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XTO + 5.0, ROOMMAP_XFROM - 1.0));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XTO, 2.5);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XTO + 5.5, 2.5));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XTO, ROOMMAP_YTO);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XTO + 5.5, ROOMMAP_YTO + 2.5));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(24.9, ROOMMAP_YTO);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(24.9, ROOMMAP_YTO + 2.5));
+		assertTrue(testPoints(pCalculated, pExpected));
+		
+		pExpected = new Point(ROOMMAP_XFROM, ROOMMAP_YTO);
+		pCalculated = algorithm.checkIfPointIsInRoom(new Point(ROOMMAP_XFROM - 0.01, ROOMMAP_YTO + 0.1));
+		assertTrue(testPoints(pCalculated, pExpected));
 	}
 		
 	/**
