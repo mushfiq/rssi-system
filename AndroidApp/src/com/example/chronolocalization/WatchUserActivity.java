@@ -17,6 +17,7 @@ import dataobjects.WatchPositionRecord;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +49,8 @@ public class WatchUserActivity extends Activity
 	ImageView start;
 	ImageView stop;
 	
+	public static ProgressDialog dialog;
+
 	@Override
 	protected void onPause() {
 		// TODO Auto-generated method stub
@@ -147,6 +150,12 @@ public void startApplication(View view){
 	protected void onStart() {
 	    super.onStart();
 	    
+        dialog = new ProgressDialog(WatchUserActivity.this);
+        dialog.setMessage("Loading Map Please wait...");
+        dialog.setIndeterminate(true);
+        dialog.setCancelable(false);
+        dialog.show();
+        
 	    RestMapService resService = new RestMapService(WatchUserActivity.this);
 		watchID = spinnerChooseWatch.getSelectedItem().toString();
 		resService.new GetMapRecordTask().execute(); 
