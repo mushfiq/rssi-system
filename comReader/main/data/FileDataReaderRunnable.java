@@ -31,14 +31,9 @@ public class FileDataReaderRunnable implements Runnable {
 	/** The file to read from. */
 	private File file;
 	
-	/** The number of milliseconds to sleep after reading. */
-	private static int NUM_OF_MILLIS_TO_SLEEP_AFTER_READING = 10; // milliseconds
-	
 	/** The number of lines to read before sleeping. */
-	private static int NUM_OF_LINES_TO_READ_BEFORE_SLEEPING = 10;
+	private static final int SAMPLING_RATE = 15;
 	
-	/** The sampling rate. */
-	private static int SAMPLING_RATE = 30; // milliseconds
 	
 	/** The current batch. */
 	private ArrayList<Reading> currentBatch;
@@ -73,7 +68,6 @@ public class FileDataReaderRunnable implements Runnable {
 		 BufferedReader br = new BufferedReader(fileReader);
 		 String line = null;
 		 int numberOfLinesRead = 0;
-		 long startTime = System.currentTimeMillis();
 		 
 		 try {
 			while ((line = br.readLine()) != null) {
@@ -82,29 +76,15 @@ public class FileDataReaderRunnable implements Runnable {
 					Reading reading = Utilities.createReading(line);
 					currentBatch.add(reading);
 				}
-
-				long currentTime = System.currentTimeMillis();
+				numberOfLinesRead++;
 				
-				if (currentTime - startTime >= SAMPLING_RATE) {
+				if (numberOfLinesRead >= SAMPLING_RATE) {
 					HashMap<Integer, HashMap<Integer, Double>> batchSignal = Utilities.calculateBatchSignalAverages(currentBatch);
 					Application.getApplication().getController().addBatchSignalToQueue(batchSignal);
 					currentBatch.clear();
-					startTime = currentTime;
+					numberOfLinesRead = 0;
 				}
-				
-				numberOfLinesRead++;
-				if (numberOfLinesRead >= NUM_OF_LINES_TO_READ_BEFORE_SLEEPING) {
-					try {
-						numberOfLinesRead = 0;
-						Thread.sleep(NUM_OF_MILLIS_TO_SLEEP_AFTER_READING);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
 			 }
-			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
