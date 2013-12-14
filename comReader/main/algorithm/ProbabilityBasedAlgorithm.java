@@ -30,7 +30,6 @@ import algorithm.probabilityMap.ProbabilityMap;
 import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
 import algorithm.weightFunction.WeightFunction;
 import algorithm.weightFunction.WeightFunctionExtended;
-
 import components.Receiver;
 import components.RoomMap;
 
@@ -182,7 +181,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		this.probabilityMap = probabilityMap;
 		this.weightFunction = weightFunction;
 		this.filter = filter;
-		
 		setUpConstructor();
 	}
 	

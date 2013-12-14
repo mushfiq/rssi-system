@@ -3,47 +3,58 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import main.Application;
+import components.RoomMap;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class MapsPanel.
+ */
 public class MapsPanel extends JPanel{
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant MAPS_PANEL_WIDTH. */
 	private static final int MAPS_PANEL_WIDTH  = 620;
+	
+	/** The Constant MAPS_PANEL_HEIGHT. */
 	private static final int MAPS_PANEL_HEIGHT = 500;
 	
+	/** The Constant WRAP_LAYOUT_FIX_HEIGHT. */
+	private static final int WRAP_LAYOUT_FIX_HEIGHT = 1;
+	
+	/**
+	 * Instantiates a new maps panel.
+	 */
 	public MapsPanel() {
 		
-		setSize(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT);
-		setPreferredSize(new Dimension(MAPS_PANEL_WIDTH, MAPS_PANEL_HEIGHT));
 		setBackground(new Color(230, 230, 230));
-		setLayout(new FlowLayout(FlowLayout.LEADING));
-		
+		setLayout(new WrapLayout(FlowLayout.LEADING));
+		this.setSize(new Dimension(MAPS_PANEL_WIDTH, WRAP_LAYOUT_FIX_HEIGHT));
 		// TODO: obtain all maps using MapDAO, iterate over them and add MapItems
+		List<RoomMap> allMaps = Application.getApplication().getMapDAO().getAllMaps();
 		
-		// add sample map item
-		MapItem item1 = new MapItem("Room 433", this);
-		this.add(item1);
+		for (RoomMap roomMap : allMaps) {
+			MapItem item = new MapItem(roomMap, this);
+			this.add(item);
+		}
+		this.revalidate();
+	}
+
+	public void refreshMapItems() {
 		
-		// add sample map item
-		MapItem item2 = new MapItem("Room 438", this);
-		this.add(item2);
-				
-		// add sample map item
-		MapItem item3 = new MapItem("Room 501", this);
-		this.add(item3);
-		
-		// add sample map item
-		MapItem item4 = new MapItem("Room 401", this);
-		this.add(item4);
-		
-		// add sample map item
-		MapItem item5 = new MapItem("", this);
-		this.add(item5);
-		// TODO: obtain all maps, iterate over them and add MapItems
-		
-		
-		
+		removeAll();
+		List<RoomMap> allMaps = Application.getApplication().getMapDAO().getAllMaps();
+		for (RoomMap roomMap : allMaps) {
+			MapItem item = new MapItem(roomMap, this);
+			this.add(item);
+		}
+		revalidate();
 	}
 
 }

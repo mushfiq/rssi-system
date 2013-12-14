@@ -12,7 +12,7 @@ public interface MapDAO {
 	
 	abstract void refreshMaps();
 	
-	abstract void uploadMap(RoomMap newMap);
+	abstract void saveMap(RoomMap newMap);
 	
 	abstract void deleteMap(RoomMap mapToDelete);
 	
