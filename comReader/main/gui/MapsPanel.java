@@ -46,4 +46,15 @@ public class MapsPanel extends JPanel{
 		this.revalidate();
 	}
 
+	public void refreshMapItems() {
+		
+		removeAll();
+		List<RoomMap> allMaps = Application.getApplication().getMapDAO().getAllMaps();
+		for (RoomMap roomMap : allMaps) {
+			MapItem item = new MapItem(roomMap, this);
+			this.add(item);
+		}
+		revalidate();
+	}
+
 }
