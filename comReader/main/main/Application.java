@@ -2,12 +2,7 @@ package main;
 
 import gui.MainFrame;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import utilities.Utilities;
@@ -33,8 +28,7 @@ public final class Application {
 	/** Application singleton instance. */
 	private static Application application;
 	
-	/** The configuration file. */
-	private String pathToConfigurationFile;
+	
 
 	/** List of receivers. */
 	private ArrayList<Receiver> receivers;  
@@ -53,9 +47,6 @@ public final class Application {
 	
 	/** Main frame of the application. Shown when application is started. */
 	private MainFrame mainFrame;
-
-	/** The configuration file. */
-	private Properties configurationFile;
 	
 	private MapDAO mapDAO;
 	
@@ -69,7 +60,6 @@ public final class Application {
 	private Application() {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
-        pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator + "resources" + File.separator + "config.ini";
         receiverDAO = new HardcodedReceiverDAO();
         mapDAO 		= new HardcodedMapDAO();
         readConfigurationFile();
@@ -92,19 +82,7 @@ public final class Application {
 	 */
 	private void readConfigurationFile() {
 		
-		configurationFile = new Properties();
-		try {
-			configurationFile.load(new FileInputStream(pathToConfigurationFile));
-		} catch (IOException e) {
-			
-			logger.log(Level.SEVERE, "Couldn't open configuration file.\n" + e.getMessage());
-		}
-		
-		// iterating over properties file
-		for(String key : configurationFile.stringPropertyNames()) {
-			  @SuppressWarnings("unused")
-			String value = configurationFile.getProperty(key);
-			}
+	   
 		
 		// This initialization will be done from the configuration file
 //		Receiver r1 = new Receiver(0, 8.0, 8.0, 45.0);
@@ -198,25 +176,7 @@ public final class Application {
 	}
 	
 	
-	/**
-	 * Helper method that returns the value from 'config.ini'
-	 * file for a given parameter.
-	 *
-	 * @param parameter
-	 * @return value for given parameter
-	 */
-	public String getConfigurationValue(String key) {
-		
-		String configurationValue = this.configurationFile.getProperty(key);
-		
-		return (configurationValue != null) ? configurationValue : "";
-	}
 	
-	public void setConfigurationValue(String key, String value) {
-		
-		this.configurationFile.setProperty(key, value);
-		
-	}
 
 	public MapDAO getMapDAO() {
 		return mapDAO;
