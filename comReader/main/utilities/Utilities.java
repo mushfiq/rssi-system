@@ -572,4 +572,50 @@ public final class Utilities {
 	 *   End of methods that rotate an image
 	 * */
 
+    public static BufferedImage createThumbnailImageForContainer(BufferedImage image, int containerWidth, int containerHeight) {
+    	
+    	// original image dimensions in pixels
+		double imageWidthInPixels = image.getWidth();
+		double imageHeightInPixels = image.getHeight();
+		
+		// scaling ratios, if needed. Resize ratio is the smaller value between widthRatio and heightRatio
+		double widthRatio = 0;
+		double heightRatio = 0;
+		double resizeRatio = 0;
+		
+		// if image is resized, these will be its new dimensions
+		double newImageWidthInPixels = 0;
+		double newImageHeightInPixels = 0;
+		
+		BufferedImage resultImage = image;
+		
+		if (imageWidthInPixels >= imageHeightInPixels) {
+		
+			 // resizing iz required
+			widthRatio = containerWidth / imageWidthInPixels;
+			heightRatio = containerHeight / imageHeightInPixels;	
+			
+			
+		} else { // imageWidthInPixels < imageHeightInPixels
+				
+				widthRatio = containerWidth / imageWidthInPixels;
+		        heightRatio = containerHeight / imageHeightInPixels;
+		}
+		
+		if (widthRatio != 0 || heightRatio != 0) { // image should be resized
+			
+			resizeRatio = Math.min(widthRatio, heightRatio);
+			
+		    newImageHeightInPixels = imageHeightInPixels * resizeRatio;
+		    newImageWidthInPixels = imageWidthInPixels * resizeRatio;
+		    
+		    resultImage = Utilities.convertImagetoBufferedImage(
+					image.getScaledInstance((int) newImageWidthInPixels, 
+					(int) newImageHeightInPixels, 
+					Image.SCALE_SMOOTH));
+		} 
+		
+		return resultImage;
+    }
+    
 }

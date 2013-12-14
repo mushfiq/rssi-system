@@ -96,7 +96,7 @@ public class MainFrame extends JFrame {
 		JScrollPane mapsScrollPane = new JScrollPane(mapsPanel);
 		mapsScrollPane.setPreferredSize(new Dimension(SCROLL_PANE_WIDTH, SCROLL_PANE_HEIGHT));
 		mapsScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-		mapsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mapsScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		
 		GridBagConstraints gbc2 = new GridBagConstraints();
 		gbc2.gridx = 0;
@@ -159,5 +159,7 @@ public class MainFrame extends JFrame {
 	    }
 	}
 		
-
+	public void setStatusMessage(String message){
+		statusPanel.setMessage(message);
+	}
 }
