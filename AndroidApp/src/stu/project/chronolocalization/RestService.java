@@ -28,6 +28,7 @@ import org.apache.http.protocol.HttpContext;
 import com.example.chronolocalization.DrawableImage;
 import com.example.chronolocalization.MainActivity;
 import com.example.chronolocalization.R;
+import com.example.chronolocalization.WatchUserActivity;
 
 import dataobjects.MapRecord;
 import dataobjects.Point;
@@ -151,7 +152,7 @@ public RestService(Activity _activity){
 	    	Log.d("********progress","");
 //	    	MainActivity.progressBar.setVisibility(View.GONE);
 	    	
-            MainActivity.dialog.dismiss();
+            WatchUserActivity.dialog.dismiss();
 
 			ImageView imageView = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImage);
 	        
