@@ -81,7 +81,7 @@ public class MainActivity extends Activity
 		start = (ImageView)findViewById(R.id.startImg);
 		stop = (ImageView)findViewById(R.id.stopImg);
 
-		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
+//		progressBar = (ProgressBar) findViewById(R.id.progressBar1);
 		Utilities util =new Utilities();
 		//		setContentView(R.layout.activity_main);
 		
@@ -314,6 +314,8 @@ public class MainActivity extends Activity
 //		   progressBar.setVisibility(View.VISIBLE);
 //		   dialog.setTitle("Loading...");
 		dialog.setMessage("Loading Image Please wait...");
+
+dialog.setIndeterminateDrawable(getResources().getDrawable(R.anim.progress_dialog_anim));
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.show();

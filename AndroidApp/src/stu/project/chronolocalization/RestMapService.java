@@ -7,6 +7,8 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,7 +16,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+
+import com.example.chronolocalization.DrawableImage;
+import com.example.chronolocalization.MapImageView;
+import com.example.chronolocalization.R;
+import com.example.chronolocalization.WatchUserActivity;
+
 import dataobjects.MapRecord;
+import dataobjects.Point;
 import dataobjects.ResponseParser;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -26,6 +35,8 @@ public class RestMapService {
 	
 public Activity activity;
 public static MapRecord[] mapRecord = null;
+public ArrayList<ReceiverRecord> receiverRecord;
+
 
 	public RestMapService(Activity _activity){
 		this.activity = _activity;
@@ -99,6 +110,15 @@ public static MapRecord[] mapRecord = null;
 	    			
 	    			String mapid = record.getMapId();
 	    		    String image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+mapid;
+	    		    
+	    		    //for temporary implemetation
+	    		    mapid="0";
+	    		    
+	    		    String receiver_url = "http://shironambd.com/api/v1/receiver/?access_key=529a2d308333d14178f5c54d&mapId="+mapid+"&format=json";
+
+	    		    receiverRecord = downloadReceiverInformation(receiver_url);
+	    		    
+
 	    		    map = downloadImage(image_url);
 	    			
 	    		}
@@ -109,6 +129,9 @@ public static MapRecord[] mapRecord = null;
 	    // Sets the Bitmap returned by doInBackground
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
+	    	
+          WatchUserActivity.dialog.dismiss();
+
 			ImageView imageView = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImage);
 	        
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -142,7 +165,26 @@ public static MapRecord[] mapRecord = null;
             Bitmap resizedbitmap =  BitmapFactory.decodeStream(is, null, o2);
 	    
 		    imageView.setImageBitmap(resizedbitmap);
+		    MapImageView drawableImage = (MapImageView)this.getActivity().findViewById(R.id.mapImage);
 
+		    //temporary Implementation
+		    int pos_a = 10; 
+	        int pos_b = 255; 
+	        drawableImage.addReceiver("Receiver1", new Point(pos_a,pos_a)); 
+	        drawableImage.addReceiver("Receiver2", new Point(pos_a,pos_b)); 
+	        drawableImage.addReceiver("Receiver3", new Point(pos_b,pos_a)); 
+	        drawableImage.addReceiver("Receiver4", new Point(pos_b,pos_b)); 
+
+	        //Correct Implementation
+	        /*if( !receiverRecord.isEmpty() )
+	    	{
+	    		for (ReceiverRecord record : receiverRecord)
+				{	
+	    	        drawableImage.addReceiver(record.getReceiverId(), new Point(record.getX(),record.getY())); 
+
+				}
+	    	}	
+*/
 	    }
 
 	    // Creates Bitmap from InputStream and returns it
@@ -188,6 +230,40 @@ public static MapRecord[] mapRecord = null;
 	        return stream;
 	    }
 	}
+
+	private ArrayList<ReceiverRecord> downloadReceiverInformation(String url){
+		   
+        InputStream stream = null;
+    	String result = "";
+    	ArrayList<ReceiverRecord> receiverRecords = null;
+        try {
+        	
+        	HttpClient httpClient = new DefaultHttpClient();
+			 HttpContext localContext = new BasicHttpContext();
+             HttpGet httpGet = new HttpGet(url);
+             String text = null;
+             StringBuffer out;
+            
+                   HttpResponse response = httpClient.execute(httpGet, localContext);
+                   HttpEntity entity = response.getEntity();
+                   InputStream in = entity.getContent();
+			          out = new StringBuffer();
+			         int n = 1;
+			         while (n>0) {
+			             byte[] b = new byte[4096];
+			             n =  in.read(b);
+			             if (n>0) out.append(new String(b, 0, n));
+			         }
+            		    	receiverRecords = ResponseParser.parseReceiverRecord(out.toString());
+
+            return receiverRecords;
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+
+        return receiverRecords;
+
+    }
 
 }
 

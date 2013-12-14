@@ -152,6 +152,8 @@ public void startApplication(View view){
 	    
         dialog = new ProgressDialog(WatchUserActivity.this);
         dialog.setMessage("Loading Map Please wait...");
+        dialog.setIndeterminateDrawable(getResources().getDrawable(R.anim.progress_dialog_anim));
+
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.show();

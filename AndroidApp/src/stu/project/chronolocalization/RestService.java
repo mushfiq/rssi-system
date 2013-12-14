@@ -150,10 +150,9 @@ public RestService(Activity _activity){
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
 	    	Log.d("********progress","");
-//	    	MainActivity.progressBar.setVisibility(View.GONE);
 	    	
-            WatchUserActivity.dialog.dismiss();
-
+//            WatchUserActivity.dialog.dismiss();
+            MainActivity.dialog.dismiss();
 			ImageView imageView = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImage);
 	        
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -202,10 +201,10 @@ public RestService(Activity _activity){
 		     
 		     Bitmap bmSrc1 = ((BitmapDrawable)drawableImage.getDrawable()).getBitmap();
 
-		     ImageView copyImage = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImageFromDB);;
+		   /*  ImageView copyImage = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImageFromDB);;
 
 		     copyImage.setImageBitmap(bmSrc1);
-/*
+*//*
 		     Bitmap bitmap=BitmapFactory.decodeFile(this.getActivity().getResources(), drawableImage);
 		     ByteArrayOutputStream stream=new ByteArrayOutputStream();
 		     bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);

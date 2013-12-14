@@ -63,12 +63,6 @@
 			    
     </LinearLayout>
     
-    
-    	<ProgressBar android:id="@+id/progressBar1"
-    	            android:layout_width="56dp"
-  			android:layout_height="56dp"
- 			android:layout_alignParentTop="true" 
- 			android:visibility="gone"/>
     	
        <com.example.chronolocalization.DrawableImage
                 android:id="@+id/mapImage"
@@ -76,12 +70,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"/>
             <!--      android:src="@drawable/test_room_fifth_floor" />-->
-<ImageView
-	        android:id="@+id/mapImageFromDB"
-	         android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-	        />
 		
             <TextView
                 android:id="@+id/PositionText"
