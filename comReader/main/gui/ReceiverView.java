@@ -1,5 +1,8 @@
 package gui;
 
+import gui.observer.Observable;
+import gui.observer.Observer;
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,12 +13,13 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
 import utilities.Utilities;
-
 import components.Receiver;
 
 
@@ -25,7 +29,7 @@ import components.Receiver;
  * to the MapPreviewPanel when opening the AddMapDialog window (if a map
  * already has receivers placed on it) and on the press of a button (ReceiverButton).
  */
-public class ReceiverView extends JComponent {
+public class ReceiverView extends JComponent implements Observable {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -62,6 +66,7 @@ public class ReceiverView extends JComponent {
 	/** Parent object of type MapPreviewPanel. */
 	private MapPreviewPanel parent;
 	 
+	private List<Observer> observers;
 	
 	/**
 	 * Instantiates a new receiver view.
@@ -73,6 +78,8 @@ public class ReceiverView extends JComponent {
 		
 		this.receiver = receiver;
 		this.parent = parent;
+		observers = new ArrayList<Observer>();
+		observers.add(parent);
 		initializeGui();
 	}
 	
@@ -87,9 +94,7 @@ public class ReceiverView extends JComponent {
 		addMouseListener(new ReceiverViewMouseListener(this));
 		addComponentListener(new ReceiverViewComponentListener(this));
 		setDoubleBuffered(true); 
-		
 		BufferedImage myPicture = (BufferedImage) Utilities.loadImage("images/receiverView" + (int) receiver.getAngle() +".png");
-		
 		image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
 		setOpaque(true);
 	}
@@ -129,7 +134,6 @@ public class ReceiverView extends JComponent {
 			image = Utilities.scaleImageToFitContainer(myPicture, ReceiverView.RECEIVER_ITEM_WIDTH, ReceiverView.RECEIVER_ITEM_HEIGHT);
 			
 			this.repaint();
-
 	}
 	
 	/**
@@ -162,6 +166,7 @@ public class ReceiverView extends JComponent {
 			
 			// TODO: update values when position is changed (maybe unnecessary)
 			parent.focusReceiverView(receiverView);
+			notifyObservers(receiverView);
 		}
 
 		@Override
@@ -228,8 +233,28 @@ public class ReceiverView extends JComponent {
 			
 		}		
 	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+
+		observers.add(observer);
+	}
+
+	@Override
+	public void deregisterObserver(Observer observer) {
+		
+		if(observers.contains(observer)) {
+			observers.remove(observer);
+		}
+	}
 	
-	
+	@Override
+	public void notifyObservers(Observable observable) {
+	    
+	    for (Observer observer : observers) {
+		observer.update(observable);
+	    }
+	}
 
 	
 }
