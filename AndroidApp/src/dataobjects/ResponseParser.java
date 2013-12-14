@@ -9,6 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
+import stu.project.chronolocalization.ReceiverRecord;
+
 
 
 public class ResponseParser {
@@ -123,4 +127,43 @@ public static MapRecord parseMapRecord(String results) {
 		}
 		return null;
 	}
+
+public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
+
+	ArrayList<ReceiverRecord> receiverInformation = new ArrayList<ReceiverRecord>();
+	if (results!=null) {
+		
+        try {
+        	
+        	JSONObject obj = new JSONObject(results);
+        	JSONArray  responseObject = obj.getJSONArray("objects");
+
+        	for(int i = 0 ; i < responseObject.length() ; i++){
+        		
+        		ReceiverRecord receiverRecord = new ReceiverRecord();
+        		
+                JSONObject jsonObj = (JSONObject)responseObject.get(i);
+
+                receiverRecord.setReceiverId(jsonObj.getString("receiverId").toString());
+
+                
+                String x = jsonObj.getString("x").toString();
+                Float parseX = Float.parseFloat(x);
+                receiverRecord.setX(parseX);      
+                
+                String y = jsonObj.getString("y").toString();
+                Float parseY = Float.parseFloat(y);
+                receiverRecord.setX(parseY);      
+
+                                
+                receiverInformation.add(receiverRecord);
+            }
+        	return receiverInformation;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	return null;
+}
 }

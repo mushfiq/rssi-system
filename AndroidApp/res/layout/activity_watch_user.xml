@@ -29,32 +29,34 @@
                     android:layout_height="30dp"
                     android:entries="@array/watches"
                     android:textSize="12sp" />
+                
+                <ImageView
+                    android:id="@+id/startImg"
+                    android:layout_width="39dp"
+                    android:layout_height="39dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:gravity="right|center_horizontal|center_vertical"
+                    android:onClick="startApplication"
+                    android:src="@drawable/start_final" />
+		
+			    <ImageView
+			        android:id="@+id/stopImg"
+			        android:layout_width="39dp"
+			        android:layout_height="39dp"
+			        android:layout_gravity="center_vertical|center_horizontal"
+			        android:gravity="right|center_horizontal|center_vertical"
+			        android:src="@drawable/stop_final"
+			        android:visibility="gone" 
+			        android:onClick="stopApplication"/>
 
             </LinearLayout>
-                <ScrollView
-                    android:id="@+id/scrollView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="258dp"
-                     >
-
-                    <HorizontalScrollView
-                        android:id="@+id/horizontalScrollView1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
-
-                            <com.example.chronolocalization.DrawableImage
-                                android:id="@+id/mapImage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/room_big" />
-                        </LinearLayout>
-                    </HorizontalScrollView>
-                </ScrollView>
+            
+            <com.example.chronolocalization.MapImageView
+                android:id="@+id/mapImage"
+                android:layout_width="fill_parent"
+                android:layout_height="280dp"
+                android:src="@drawable/test_room_fifth_floor" />
+               
             <TextView
                 android:id="@+id/PositionText"
                 android:layout_width="wrap_content"
@@ -68,25 +70,17 @@
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
                 android:text="@string/unknown" />
-
-            <Button
-                android:id="@+id/displayPosition"
-                android:layout_width="wrap_content"
-                android:layout_height="33dp"
-                android:text="@string/Display_Position"
-                android:textSize="12sp" />
 			<LinearLayout
 			    android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
 
-				<TextView
-				    android:id="@+id/textView2"
+				<CheckBox
+				    android:id="@+id/checkBoxDrawPath"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
 				    android:layout_weight="2"
-				    android:text="@string/showLast"
-				    android:textAppearance="?android:attr/textAppearanceSmall" />
+				    android:text="@string/drawPath" />
 
 	            <EditText
 	                android:id="@+id/editNumberOfSteps"
@@ -96,22 +90,14 @@
 	                android:text="5"
 	                android:inputType="number" 
 	                />
-	
+
 	            <TextView
 	                android:id="@+id/textView1"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:layout_weight="2"
 	                android:text="@string/Positions"
-	                android:textAppearance="?android:attr/textAppearanceSmall" />
-	
-	            <Button
-	                android:id="@+id/trackPosition"
-	                style="?android:attr/buttonStyleSmall"
-					android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_weight="2"
-	                android:text="@string/show" />
+	                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             </LinearLayout>
 

@@ -15,11 +15,11 @@
         android:icon="@drawable/logo_k"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <activity
+       <!--  <activity
             
             android:name="stu.project.chronolocalization.TabLayoutActivity"
-            android:label="@string/app_name" >
-            
+            android:label="@string/app_name" > 
+          
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,7 +28,7 @@
         </activity>
         <activity android:name="com.example.chronolocalization.MainActivity"></activity>
         <activity android:name="stu.project.chronolocalization.DeviceInformationActivity"></activity>
-        
+        -->
         <activity
             android:name="com.example.chronolocalization.WatchUserActivity"
             android:label="@string/app_name" >
