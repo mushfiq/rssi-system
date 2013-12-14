@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /bigdata2.txt
 /bigsample.txt
 /onemeter.txt
@@ -6,3 +7,15 @@
 /testdata2.txt
 /log.log
 /log4j.xml
+=======
+/bigdata2.txt
+/bigsample.txt
+/onemeter.txt
+/onemeter2.txt
+/testdata.txt
+/testdata2.txt
+/log.log.1
+/log4j.xml
+/log.log
+/log.log.2
+>>>>>>> 41cfa82fad66ce3a2bb11a5059812ffa0be90ef0

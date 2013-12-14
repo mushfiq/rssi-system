@@ -1,17 +1,23 @@
 package gui;
 
+import gui.enumeration.CoordinateZeroMarkerViewType;
+import gui.observer.Observable;
+import gui.observer.Observer;
+
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JComponent;
 
 import utilities.Utilities;
 
-public class CoordinateZeroMarkerView extends JComponent {
+public class CoordinateZeroMarkerView extends JComponent implements Observable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -31,6 +37,7 @@ public class CoordinateZeroMarkerView extends JComponent {
 	private double yInMeters;
 	private CoordinateZeroMarkerViewType type;
 	private MapPreviewPanel parent;
+	private List<Observer> observers;
 
 	public CoordinateZeroMarkerView(CoordinateZeroMarkerViewType type, MapPreviewPanel parent) {
 
@@ -42,6 +49,8 @@ public class CoordinateZeroMarkerView extends JComponent {
 		setDoubleBuffered(true);
 		this.type = type;
 		this.parent = parent;
+		observers = new ArrayList<Observer>();
+		observers.add(parent);
 
 		String pathToImage = (type == CoordinateZeroMarkerViewType.LOWER_LEFT) ? LOWER_LEFT_IMAGE_PATH
 				: UPPER_RIGHT_IMAGE_PATH;
@@ -57,29 +66,31 @@ public class CoordinateZeroMarkerView extends JComponent {
 
 		@Override
 		public void componentResized(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
+			
+		    	/* There is no need to react to resizing of component,
+		    	 * but the method from super type must be overridden. 
+			 * */
 		}
 
 		@Override
 		public void componentMoved(ComponentEvent e) {
-			// TODO update the zero coordinate position in meters
-			CoordinateZeroMarkerView view = (CoordinateZeroMarkerView) e.getSource();
-			parent.setStatus(view.getLocation().toString());
+		    	CoordinateZeroMarkerView view = (CoordinateZeroMarkerView) e.getSource();
+		    	notifyObservers(view);
 		}
 
 		@Override
 		public void componentShown(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
+		    	/* There is no need to react to showing of component,
+		    	 * but the method from super type must be overridden. 
+			 * */
 		}
 
 		@Override
 		public void componentHidden(ComponentEvent e) {
-			// TODO Auto-generated method stub
-
+		    	/* There is no need to react when component is hidden,
+		    	 * but the method from super type must be overridden. 
+			 * */
 		}
-
 	}
 
 	@Override
@@ -88,5 +99,27 @@ public class CoordinateZeroMarkerView extends JComponent {
 		super.paintComponent(g);
 
 		g.drawImage(this.image, 0, 0, this);
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		
+		observers.add(observer);
+	}
+
+	@Override
+	public void deregisterObserver(Observer observer) {
+		
+		if(observers.contains(observer)) {
+			observers.remove(observer);
+		}
+	}
+
+	@Override
+	public void notifyObservers(Observable observable) {
+	    
+	    for (Observer observer : observers) {
+		observer.update(observable);
+	    }
 	}
 }

@@ -1,5 +1,7 @@
 package gui;
 
+import gui.enumeration.AddMapDialogMode;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 import main.Application;
 
@@ -216,5 +219,37 @@ public class AddMapDialog extends JDialog {
 
 	public void setStatus(String message) {
 		this.statusPanel.setMessage(message);
+	}
+
+	public void saveMap() {
+		// TODO Check if map is valid. On success, call the appropriate method of MapDAO to store the map
+		// If there are validation errors, display error message to the user
+		ArrayList<String> messages = (ArrayList<String>) mapPreviewPanel.getValidationErrorMessages();
+		
+		if (!messages.isEmpty()) {
+			StringBuilder builder = new StringBuilder();
+			for (String string : messages) {
+				builder.append(string + "\n");
+			}
+			JOptionPane.showMessageDialog(this, builder.toString() , "Validation errors",
+			    JOptionPane.WARNING_MESSAGE);
+		} else { // map has passed validation
+
+			RoomMap map = mapPreviewPanel.getMap();
+			// TODO call HardcodedMapDAO object's method to store the map in the system
+			// On success, refresh the MapsPanel in MainFrame, otherwise notify user that saving failed
+			Application.getApplication().getMapDAO().saveMap(map);
+			Application.getApplication().getMainFrame().refreshMapsPanel();
+		}
+	}
+
+	public double getRoomWidthInMeters() {
+		// delegate the call to parameters panel
+		return parametersPanel.getRoomWidthInMeters();
+	}
+	
+	public double getRoomHeightInMeters() {
+		// delegate the call to parameters panel
+		return parametersPanel.getRoomHeightInMeters();
 	}
 }

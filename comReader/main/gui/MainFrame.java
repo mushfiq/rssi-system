@@ -64,7 +64,6 @@ public class MainFrame extends JFrame {
 		
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		initialize();
-		addListenersForComponents();
 		logger.log(Level.INFO, "GUI initialized.");
 	}
 
@@ -126,14 +125,6 @@ public class MainFrame extends JFrame {
 	}
 	
 	/**
-	 * Adds the listeners for components.
-	 */
-	private void addListenersForComponents() {
-		
-		// TODO: add other listeners
-	}
-	
-	/**
 	 * Sets the look and feel. If the prefered look and feel cannot
 	 * be found, default one is used.
 	 */
@@ -161,5 +152,10 @@ public class MainFrame extends JFrame {
 		
 	public void setStatusMessage(String message){
 		statusPanel.setMessage(message);
+	}
+
+	public void refreshMapsPanel() {
+		// Delegate the call to maps panel
+		mapsPanel.refreshMapItems();
 	}
 }
