@@ -769,6 +769,24 @@ public class ProbabilityBasedAlgorithmTest {
         pCalculated = algorithm.calculate(readings);
         assertTrue(testPoints(pCalculated, pExpected, DELTA));
         // -- ende test01 --
+        
+        // -- start test02 --
+        rec.clear();
+        r4 = new Receiver(RECEIVERID_4, RECEIVERPOSITION_MINUS5, RECEIVERPOSITION_MINUS5, RECEIVERANGLE_ZERO);
+        rec.add(r4);
+        
+        HashMap<Integer, Double> readings2 = new HashMap<Integer, Double>();
+        readings2.put(RECEIVERID_4, -82.00);
+        
+        algorithm.setGrayscaleDebugInformationExtended(false);
+        for(int i = 0; i <= 360; i+=10) {
+        	r4.setAngle(i);
+            
+        	pExpected = new Point(RECEIVERPOSITION_MINUS5, RECEIVERPOSITION_MINUS5);
+            pCalculated = algorithm.calculate(readings);
+            assertTrue(testPoints(pCalculated, pExpected));
+        }
+        // -- ende test02 --
 	}
 	
 	/**
