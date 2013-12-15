@@ -2,40 +2,57 @@
  * File: WeightFunctionExtended.java
  * Date				Author				Changes
  * 08 Dec 2013		Tommy Griese		create version 1.0
+ * 14 Dec 2013 		Tommy Griese		Adapted code: class reads the needed parameters from the configuration file now
+ * 										(Utilities.getConfigurationValue and Utilities.getBooleanConfigurationValue)
+ * 										Adapted JavaDoc comments
  */
 package algorithm.weightFunction;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import utilities.Utilities;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
 import algorithm.helper.PointRoomMap;
+
 import components.Receiver;
 import components.RoomMap;
 
 /**
  * The class WeightFunctionExtended. This class weights the room map in a more complex way (see method weight(...)).
  *
- * @version 1.0 08 Dec 2013
+ * @version 1.1 14 Dec 2013
  * @author Tommy Griese
  */
 public class WeightFunctionExtended extends WeightFunction {
 
-	/** Default percentage step size of the weighting. */
+	/** Default percentage step size (value = 0.10) of the weighting. */
 	public static final double PERCENTAGE_STEPS_DEFAULT = 0.10;
 	
 	/** Current applied percentage step size. */
 	private double percentageSteps;
 	
+	/** The logger. */
+    private Logger logger;
+	
 	
 	/**
-	 * Instantiates a new WeightFunctionExtended with default 'percentage step size'.
+	 * Instantiates a new WeightFunctionExtended. The WeightFunctionExtended will be initialized regarding the configuration
+	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. Following parameters will be 
+	 * read from the file:<br>
+	 * <br>
+	 * weight_function_extended.percentage_steps (default value is {@link WeightFunctionExtended#PERCENTAGE_STEPS_DEFAULT})<br>
 	 */
 	public WeightFunctionExtended() {
 		super();
 		
-		this.percentageSteps = WeightFunctionExtended.PERCENTAGE_STEPS_DEFAULT;
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
+		readConfigParameters();
 	}
 	
 	/**
@@ -46,6 +63,9 @@ public class WeightFunctionExtended extends WeightFunction {
 	public WeightFunctionExtended(double percentageSteps) {
 		super();
 		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
 		this.percentageSteps = percentageSteps;
 	}
 
@@ -121,5 +141,24 @@ public class WeightFunctionExtended extends WeightFunction {
 	private double calcDistanceBtwReceiverAndPoint(Receiver receiver, Point p) {
 		Point vectorReceiverPoint = new Point(p.x - receiver.getXPos(), p.y - receiver.getYPos());
 		return Math.sqrt(vectorReceiverPoint.x * vectorReceiverPoint.x + vectorReceiverPoint.y * vectorReceiverPoint.y);
+	}
+	
+	/**
+	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
+	 * <br>
+	 * weight_function_extended.percentage_steps (default value is {@link WeightFunctionExtended#PERCENTAGE_STEPS_DEFAULT})<br>
+	 * <br>
+	 * If there are any invalid parameters, these will be initialized with default values. 
+	 */
+	private void readConfigParameters() {
+		String res = "";
+		double value = WeightFunctionExtended.PERCENTAGE_STEPS_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("weight_function_extended.percentage_steps");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading weight_function_extended.percentage_steps failed, default value was set.");
+		}
+		this.percentageSteps = value;
 	}
 }
