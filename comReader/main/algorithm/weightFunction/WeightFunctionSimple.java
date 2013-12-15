@@ -100,7 +100,7 @@ public class WeightFunctionSimple extends WeightFunction {
 		try {
 			res = Utilities.getConfigurationValue("weight_function_simple.factor_roommap_weighting");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading weight_function_simple.factor_roommap_weighting failed, default value was set.");
 		}
 		this.factor = value;

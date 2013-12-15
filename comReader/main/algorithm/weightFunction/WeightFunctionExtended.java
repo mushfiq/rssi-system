@@ -156,7 +156,7 @@ public class WeightFunctionExtended extends WeightFunction {
 		try {
 			res = Utilities.getConfigurationValue("weight_function_extended.percentage_steps");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading weight_function_extended.percentage_steps failed, default value was set.");
 		}
 		this.percentageSteps = value;

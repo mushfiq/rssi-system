@@ -175,7 +175,7 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.signal_propagation_constant");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.signal_propagation_constant failed, default value was set.");
 		}
 		this.signalPropagationConstant = value;
@@ -185,7 +185,7 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.signal_strength_one_meter");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.signal_strength_one_meter failed, default value was set.");
 		}
 		this.signalStrengthOneMeter = value;
@@ -194,7 +194,7 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.length_half_axis_x");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.length_half_axis_x failed, default value was set.");
 		}
 		this.lengthHalfAxisX = value;
@@ -203,7 +203,7 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.length_half_axis_y");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.length_half_axis_y failed, default value was set.");
 		}
 		this.lengthHalfAxisY = value;

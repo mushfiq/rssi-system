@@ -157,7 +157,7 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_circle.signal_propagation_constant");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.");
 		}
 		this.signalPropagationConstant = value;
@@ -167,7 +167,7 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map_path_loss_circle.signal_strength_one_meter");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.");
 		}
 		this.signalStrengthOneMeter = value;

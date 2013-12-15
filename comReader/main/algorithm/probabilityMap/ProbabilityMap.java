@@ -132,7 +132,7 @@ public abstract class ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map.granularity");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map.granularity failed, default value was set.");
 		}
 		this.granularity = value;
@@ -142,7 +142,7 @@ public abstract class ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map.x_from");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map.x_from failed, default value was set.");
 		}
 		this.xFrom = value;
@@ -151,7 +151,7 @@ public abstract class ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map.x_to");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map.x_to failed, default value was set.");
 		}
 		this.xTo = value;
@@ -160,7 +160,7 @@ public abstract class ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map.y_from");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map.y_from failed, default value was set.");
 		}
 		this.yFrom = value;
@@ -169,7 +169,7 @@ public abstract class ProbabilityMap {
 		try {
 			res = Utilities.getConfigurationValue("probability_map.y_to");
 			value = Double.parseDouble(res);
-		} catch(NumberFormatException e) {
+		} catch (NumberFormatException e) {
 			this.logger.log(Level.WARNING, "Reading probability_map.y_to failed, default value was set.");
 		}
 		this.yTo = value;

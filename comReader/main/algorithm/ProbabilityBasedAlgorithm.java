@@ -154,16 +154,25 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * probability_based_algorithm.filter (default value is {@link KalmanFilterOneDim})<br>
 	 * probability_based_algorithm.weight_function (default value is {@link WeightFunctionExtended})<br>
 	 * <br>
-	 * probability_based_algorithm.grayscale_debug_information_path (default value is 'System.getProperty("java.io.tmpdir")')<br>
-	 * probability_based_algorithm.grayscale_debug_information (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_extended (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_roommap (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_convexhull (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_receiver (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_point (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is 'System.getProperty("java.io.tmpdir")')<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
 	 * <br>
-	 * probability_based_algorithm.roommap_extension (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
-	 * probability_based_algorithm.enable_filter (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm should take into account
@@ -193,16 +202,25 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. All parameters
 	 * can also be set by corresponding methods afterwards. Following parameters will be read from the file:<br>
 	 * <br>
-	 * probability_based_algorithm.grayscale_debug_information_path (default value is System.getProperty("java.io.tmpdir"))<br>
-	 * probability_based_algorithm.grayscale_debug_information (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_extended (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_roommap (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_convexhull (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_receiver (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_point (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is System.getProperty("java.io.tmpdir"))<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
 	 * <br>
-	 * probability_based_algorithm.roommap_extension (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
-	 * probability_based_algorithm.enable_filter (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm shall take into account
@@ -260,10 +278,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	private void readSpecialAlgoParameters() {		
 		String res = Utilities.getConfigurationValue("probability_based_algorithm.probability_map");
-		if(res.equals("probability_map_path_loss_circle")) {
+		if (res.equals("probability_map_path_loss_circle")) {
 			this.probabilityMap = new ProbabilityMapPathLossCircle();
 			
-		} else if(res.equals("probability_map_path_loss_elliptic")) {
+		} else if (res.equals("probability_map_path_loss_elliptic")) {
 			this.probabilityMap = new ProbabilityMapPathLossElliptic();
 			
 		} else {
@@ -272,7 +290,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 		
 		res = Utilities.getConfigurationValue("probability_based_algorithm.filter");
-		if(res.equals("kalman_filter")) {
+		if (res.equals("kalman_filter")) {
 			this.filter = new KalmanFilterOneDim();
 			
 		} else {
@@ -281,10 +299,10 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		}
 		
 		res = Utilities.getConfigurationValue("probability_based_algorithm.weight_function");
-		if(res.equals("weight_function_simple")) {
+		if (res.equals("weight_function_simple")) {
 			this.weightFunction = new WeightFunctionSimple();
 			
-		} else if(res.equals("weight_function_extended")) {
+		} else if (res.equals("weight_function_extended")) {
 			this.weightFunction = new WeightFunctionExtended();
 			
 		} else {
@@ -296,24 +314,33 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
 	 * <br>
-	 * probability_based_algorithm.grayscale_debug_information_path (default value is System.getProperty("java.io.tmpdir"))<br>
-	 * probability_based_algorithm.grayscale_debug_information (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_extended (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_roommap (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_convexhull (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_receiver (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
-	 * probability_based_algorithm.grayscale_debug_information_point (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is System.getProperty("java.io.tmpdir"))<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
 	 * <br>
-	 * probability_based_algorithm.roommap_extension (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
-	 * probability_based_algorithm.enable_filter (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
 	 * <br>
 	 * If there are any invalid parameters, these will be initialized with default values. 
 	 */
 	private void readConfigParameters() {		
 		String path = System.getProperty("java.io.tmpdir");
 		String res = Utilities.getConfigurationValue("probability_based_algorithm.grayscale_debug_information_path");
-		if(!res.equals("")) {
-			if((new File(res)).exists()) {
+		if (!res.equals("")) {
+			if ((new File(res)).exists()) {
 				path = res;
 			} else {
 				this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_path failed, default value was set.");
@@ -326,7 +353,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information");
 			value = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information failed, default value was set.");
 		}
 		setGrayscaleDebugInformation(value);
@@ -337,7 +364,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_extended");
 			value = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_extended failed, default value was set.");
 		}
 		setGrayscaleDebugInformationExtended(value);
@@ -348,7 +375,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_roommap");
 			valueS1 = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_roommap failed, default value was set.");
 		}
 		
@@ -356,7 +383,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_convexhull");
 			valueS2 = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_convexhull failed, default value was set.");
 		}
 		
@@ -364,7 +391,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_receiver");
 			valueS3 = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_receiver failed, default value was set.");
 		}
 		
@@ -372,7 +399,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_point");
 			valueS4 = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_point failed, default value was set.");
 		}
 		setGrayscaleDebugImageSettings(valueS1, valueS2, valueS3, valueS4);
@@ -383,7 +410,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getConfigurationValue("probability_based_algorithm.roommap_extension");
 			ext = Double.parseDouble(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.roommap_extension failed, default value was set.");
 		}
 		setRoomMapExtension(ext);
@@ -393,7 +420,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		try {
 			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.enable_filter");
 			value = Boolean.parseBoolean(res);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.enable_filter failed, default value was set.");
 		}
 		enableFilter(value);
@@ -665,7 +692,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 					   							   p, this.grayscaleDebugInformationPoint);
 		}
 		
-		if(Double.isNaN(p.x) || Double.isNaN(p.y)) {
+		if (Double.isNaN(p.x) || Double.isNaN(p.y)) {
 			this.logger.log(Level.SEVERE, 
 					"[ProbabilityBasedAlgorithm - calculate( ... )] calculated position: [" + p.getX() + ";" + p.getY() + "]");
 			return null;
@@ -832,7 +859,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		Point newPoint = null;
 		
 		// point is located inside the room map
-		if(point.x >= this.roommap.getXFrom() && point.x <= this.roommap.getXTo() 
+		if (point.x >= this.roommap.getXFrom() && point.x <= this.roommap.getXTo() 
 			&& point.y >= this.roommap.getYFrom() && point.y <= this.roommap.getYTo()) {
 			newPoint = new Point(point.x, point.y);
 			
@@ -850,21 +877,21 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			}
 			
 			// test if point is located above from the upper border of the room
-			if(Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYTo(), 
+			if (Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYTo(), 
 					 					 this.roommap.getXTo(), this.roommap.getYTo(), 
 					 					 point.x, point.y) == -1) {
 				y = this.roommap.getYTo();
 			} 
 			
 			// test if point is located right from the right border of the room
-			if(Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYTo(), 
+			if (Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYTo(), 
 					 					 this.roommap.getXTo(), this.roommap.getYFrom(), 
 					 					 point.x, point.y) == -1) {
 				x = this.roommap.getXTo();
 			} 
 			
 			// test if point is located beyond from the under border of the room
-			if(Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYFrom(), 
+			if (Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYFrom(), 
 					 					 this.roommap.getXFrom(), this.roommap.getYFrom(), 
 					 					 point.x, point.y) == -1) {
 				y = this.roommap.getYFrom();
