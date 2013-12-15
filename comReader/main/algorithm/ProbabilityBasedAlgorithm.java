@@ -40,6 +40,7 @@ import algorithm.probabilityMap.ProbabilityMapPathLossElliptic;
 import algorithm.weightFunction.WeightFunction;
 import algorithm.weightFunction.WeightFunctionExtended;
 import algorithm.weightFunction.WeightFunctionSimple;
+
 import components.Receiver;
 import components.RoomMap;
 
