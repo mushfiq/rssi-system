@@ -4,11 +4,17 @@
  * 28 Nov 2013		Tommy Griese		initialized file
  * 30 Nov 2013		Yentran Tran		adapted the method getProbabilityMap to create elliptical maps
  * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
+ * 14 Dec 2013		Tommy Griese		Adapted code: class reads the needed parameters from the configuration file now
+ * 										(Utilities.getConfigurationValue and Utilities.getBooleanConfigurationValue)
+ * 										Adapted JavaDoc comments
  */
 package algorithm.probabilityMap;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import utilities.Utilities;
 import algorithm.helper.PointProbabilityMap;
 
 /**
@@ -17,28 +23,28 @@ import algorithm.helper.PointProbabilityMap;
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
  * 
- * @version 1.1 01 Dec 2013
+ * @version 1.2 14 Dec 2013
  * @author Yentran Tran, Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
 public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	
-	/** The default propagation constant for the probability map. */
+	/** The default propagation constant (value = 4.0) for the probability map. */
 	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
 	/** The current applied propagation constant for the probability map. */
 	private double signalPropagationConstant;
 	
-	/** The default signal strength constant at a distance of one meter for the probability map. */
+	/** The default signal strength constant at a distance of one meter (value = 51.0) for the probability map. */
 	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
 	
 	/** The current applied signal strength constant at a distance of one meter for the probability map. */
 	private double signalStrengthOneMeter;
 	
-	/** The default length of the half axis in x. */
+	/** The default length (value = 1.0) of the half axis in x. */
 	public static final double LENGTH_HALFAXIS_X_DEFAULT = 1.0;
 	
-	/** The default length of the half axis in y. */
+	/** The default length (value = 0.75) of the half axis in y. */
 	public static final double LENGTH_HALFAXIS_Y_DEFAULT = 0.75;
 	
 	/** The length of the half-axis in direction x. */
@@ -53,19 +59,28 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	/** A list of PointProbabilityMap that represents the ProbabilityMapPathLossElliptic. */
 	private ArrayList<PointProbabilityMap> pMap;
 	
+	/** The logger. */
+    private Logger logger;	
 	
 	/**
-	 * Instantiates a new ProbabilityMapPathLossElliptic with default 'propagation constant', 'signal strength constant'
-	 * and 'length of the elliptical half axis' parameters. Moreover it also creates the map depending on theses values.
+	 * Instantiates a new ProbabilityMapPathLossElliptic. The ProbabilityMapPathLossElliptic will be initialized regarding the configuration
+	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. Following parameters will be 
+	 * read from the file:<br>
+	 * <br>
+	 * probability_map_path_loss_elliptic.signal_propagation_constant (default value is {@link ProbabilityMapPathLossElliptic#SIGNAL_PROPAGATION_CONSTANT_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.signal_strength_one_meter (default value is {@link ProbabilityMapPathLossElliptic#SIGNAL_STRENGTH_ONE_METER_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.length_half_axis_x (default value is {@link ProbabilityMapPathLossElliptic#LENGTH_HALFAXIS_X_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.length_half_axis_y (default value is {@link ProbabilityMapPathLossElliptic#LENGTH_HALFAXIS_Y_DEFAULT})<br>
+	 * <br>
+	 * Moreover it also creates the map depending on theses values.
 	 */
 	public ProbabilityMapPathLossElliptic() {
 		super();
 		
-		this.signalPropagationConstant = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
-		this.signalStrengthOneMeter = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
-		
-		this.lengthHalfAxisX = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_X_DEFAULT;
-		this.lengthHalfAxisY = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_Y_DEFAULT;
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
+		readConfigParameters();
 		
 		initialize();
 	}
@@ -91,6 +106,9 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 								  		  double lengthHalfAxisX, double lengthHalfAxisY) {
 		super(xFrom, xTo, yFrom, yTo, granularity);
 		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
 		this.signalPropagationConstant = signalPropagationConstant;
 		this.signalStrengthOneMeter = signalStrengthOneMeter;
 		
@@ -139,5 +157,55 @@ public class ProbabilityMapPathLossElliptic extends ProbabilityMap {
 	public double distanceToRSSI(double distance) {
 		double rssi = -(ProbabilityMapPathLossElliptic.PRPAGATION_CONSTANT * this.signalPropagationConstant * Math.log10(distance) + this.signalStrengthOneMeter);
 		return rssi;
+	}
+	
+	/**
+	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
+	 * <br>
+	 * probability_map_path_loss_elliptic.signal_propagation_constant (default value is {@link ProbabilityMapPathLossElliptic#SIGNAL_PROPAGATION_CONSTANT_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.signal_strength_one_meter (default value is {@link ProbabilityMapPathLossElliptic#SIGNAL_STRENGTH_ONE_METER_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.length_half_axis_x (default value is {@link ProbabilityMapPathLossElliptic#LENGTH_HALFAXIS_X_DEFAULT})<br>
+	 * probability_map_path_loss_elliptic.length_half_axis_y (default value is {@link ProbabilityMapPathLossElliptic#LENGTH_HALFAXIS_Y_DEFAULT})<br>
+	 * <br>
+	 * If there are any invalid parameters, these will be initialized with default values. 
+	 */
+	private void readConfigParameters() {		
+		String res = "";
+		double value = ProbabilityMapPathLossElliptic.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.signal_propagation_constant");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.signal_propagation_constant failed, default value was set.");
+		}
+		this.signalPropagationConstant = value;
+		
+		
+		value = ProbabilityMapPathLossElliptic.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.signal_strength_one_meter");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.signal_strength_one_meter failed, default value was set.");
+		}
+		this.signalStrengthOneMeter = value;
+		
+		value = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_X_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.length_half_axis_x");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.length_half_axis_x failed, default value was set.");
+		}
+		this.lengthHalfAxisX = value;
+		
+		value = ProbabilityMapPathLossElliptic.LENGTH_HALFAXIS_Y_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_elliptic.length_half_axis_y");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_elliptic.length_half_axis_y failed, default value was set.");
+		}
+		this.lengthHalfAxisY = value;
 	}
 }

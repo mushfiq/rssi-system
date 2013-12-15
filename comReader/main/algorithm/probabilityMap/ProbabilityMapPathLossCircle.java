@@ -3,15 +3,21 @@
  * Date				Author				Changes
  * 08 Nov 2013		Tommy Griese		create version 1.0
  * 01 Dec 2013		Tommy Griese		general code refactoring and improvements
+ * 14 Dec 2013		Tommy Griese		Adapted code: class reads the needed parameters from the configuration file now
+ * 										(Utilities.getConfigurationValue and Utilities.getBooleanConfigurationValue)
+ * 										Adapted JavaDoc comments
  */
 package algorithm.probabilityMap;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import utilities.Utilities;
 import algorithm.helper.PointProbabilityMap;
 
 /**
- * The class ProbabilityMapPathLoss represents a probability map created with the path loss formula
+ * The class ProbabilityMapPathLossCircle represents a probability map created with the path loss formula
  * <br>
  * RSSI = -(10 * n * log(d) + A)
  * <br>
@@ -21,19 +27,19 @@ import algorithm.helper.PointProbabilityMap;
  * <br>
  * (this class is inherited by class {@link algorithm.probabilityMap.ProbabilityMap}).
  * 
- * @version 1.1 01 Dec 2013
+ * @version 1.2 14 Dec 2013
  * @author Tommy Griese
  * @see algorithm.helper.PointProbabilityMap
  */
 public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	
-	/** The default propagation constant for the probability map. */
+	/** The default propagation constant (value = 4.0) for the probability map. */
 	public static final double SIGNAL_PROPAGATION_CONSTANT_DEFAULT = 4.0;
 	
 	/** The current applied propagation constant for the probability map. */
 	private double signalPropagationConstant;
 	
-	/** The default signal strength constant at a distance of one meter for the probability map. */
+	/** The default signal strength constant at a distance of one meter (value = 51.0) for the probability map. */
 	public static final double SIGNAL_STRENGTH_ONE_METER_DEFAULT = 51.0;
 	
 	/** The current applied signal strength constant at a distance of one meter for the probability map. */
@@ -45,15 +51,26 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	/** Default path loss parameter for the path loss formula. */
 	private static final double PROPAGATION_CONSTANT = 10.0;
 	
+	/** The logger. */
+    private Logger logger;
+	
 	/**
-	 * Instantiates a new ProbabilityMapPathLossCircle with default 'propagation constant' and 'signal strength constant'
-	 * parameters. Moreover it also creates the map depending on theses values.
+	 * Instantiates a new ProbabilityMapPathLossCircle. The ProbabilityMapPathLossCircle will be initialized regarding the configuration
+	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. Following parameters will be 
+	 * read from the file:<br>
+	 * <br>
+	 * probability_map_path_loss_circle.signal_propagation_constant (default value is {@link ProbabilityMapPathLossCircle#SIGNAL_PROPAGATION_CONSTANT_DEFAULT})<br>
+	 * probability_map_path_loss_circle.signal_strength_one_meter (default value is {@link ProbabilityMapPathLossCircle#SIGNAL_STRENGTH_ONE_METER_DEFAULT})<br>
+	 * <br>
+	 * Moreover it also creates the map depending on theses values.
 	 */
 	public ProbabilityMapPathLossCircle() {
 		super();
 		
-		this.signalPropagationConstant = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
-		this.signalStrengthOneMeter = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
+		readConfigParameters();
 		
 		initialize();
 	}
@@ -76,6 +93,9 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 								  		double granularity) {
 		super(xFrom, xTo, yFrom, yTo, granularity);
 		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
 		this.signalPropagationConstant = signalPropagationConstant;
 		this.signalStrengthOneMeter = signalStrengthOneMeter;
 		
@@ -121,5 +141,35 @@ public class ProbabilityMapPathLossCircle extends ProbabilityMap {
 	public double distanceToRSSI(double distance) {
 		double rssi = -(ProbabilityMapPathLossCircle.PROPAGATION_CONSTANT * this.signalPropagationConstant * Math.log10(distance) + this.signalStrengthOneMeter);
 		return rssi;
+	}
+	
+	/**
+	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
+	 * <br>
+	 * probability_map_path_loss_circle.signal_propagation_constant (default value is {@link ProbabilityMapPathLossCircle#SIGNAL_PROPAGATION_CONSTANT_DEFAULT})<br>
+	 * probability_map_path_loss_circle.signal_strength_one_meter (default value is {@link ProbabilityMapPathLossCircle#SIGNAL_STRENGTH_ONE_METER_DEFAULT})<br>
+	 * <br>
+	 * If there are any invalid parameters, these will be initialized with default values. 
+	 */
+	private void readConfigParameters() {		
+		String res = "";
+		double value = ProbabilityMapPathLossCircle.SIGNAL_PROPAGATION_CONSTANT_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_circle.signal_propagation_constant");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.");
+		}
+		this.signalPropagationConstant = value;
+		
+		
+		value = ProbabilityMapPathLossCircle.SIGNAL_STRENGTH_ONE_METER_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("probability_map_path_loss_circle.signal_strength_one_meter");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.");
+		}
+		this.signalStrengthOneMeter = value;
 	}
 }
