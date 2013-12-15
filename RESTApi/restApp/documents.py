@@ -1,5 +1,7 @@
 from mongoengine import Document, EmbeddedDocument, StringField, FloatField, DateTimeField,\
                     IntField, FileField, ReferenceField, ListField, EmbeddedDocumentField
+                    
+
 
 class InheritableDocument(Document):
     meta = {
@@ -27,7 +29,8 @@ class mapRecords(InheritableDocument):
     image = FileField()
     width = IntField()
     height = IntField()
-    scaling = FloatField()
+    scalingX = FloatField()
+    scalingY = FloatField()
     offsetX = IntField()
     offsetY = IntField()
     updateTime = DateTimeField()
