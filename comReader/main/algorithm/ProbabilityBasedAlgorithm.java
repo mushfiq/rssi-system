@@ -10,8 +10,12 @@
  * 										Bug fix in method calculate (method returns null when invalid values)
  * 										Added missing JavaDoc comments
  * 06 Dec 2013		Tommy Griese		Refactoring the grayscaled image part (separate class)
+ * 12 Dec 2013		Tommy Griese		Added a method to test if point is located inside the room map or at least on
+ * 										its borders. If not, a new point is created so that the point is located on
+ * 										the border at least.
  */
 package algorithm;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,7 +116,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	// --- Start --- Filter
 	/** A default flag to enable/disable a filter. */
-	public static final boolean ENABLE_FILTER = true;
+	public static final boolean ENABLE_FILTER = false;
 	
 	/** The current applied status (enable/disable) of the filtering. */
 	private boolean enableFilter;
@@ -123,6 +127,19 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/** The logger. */
     private Logger logger;
+    
+    // --- Start --- room map
+    /** Extended room map for this algorithm. */
+    private RoomMap extendedRoomMap;
+    
+    /** Default parameter that extends the room map. */
+    private static final double ROOM_MAP_EXTENSION = 1.0;
+    
+    /** The current applied extension for the room map. */
+    private double roommapExtension;
+    // --- End --- room map
+    
+    
 	
 	/**
 	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
@@ -144,11 +161,17 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+										   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	    roommap.getGranularity(), 
+									  	    roommap.getImage());
+		
 		// instantiate logger
         this.logger = Utilities.initializeLogger(this.getClass().getName());
         
 		this.probabilityMap = new ProbabilityMapPathLossCircle();
-//		this.weightFunction = new WeightFunctionSimple();
 		this.weightFunction = new WeightFunctionExtended();
 		this.filter = new KalmanFilterOneDim();
 		
@@ -179,6 +202,16 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 									 ProbabilityMap probabilityMap, WeightFunction weightFunction, Filter filter) {
 		super(roommap, receivers);
 		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
+		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName());
+		
 		this.probabilityMap = probabilityMap;
 		this.weightFunction = weightFunction;
 		this.filter = filter;
@@ -190,8 +223,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * Help function to setting up the constructor.
 	 */
 	private void setUpConstructor() {		
-//		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
-		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
+		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
+//		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
 		
 		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
 		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT);
@@ -199,6 +232,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT,
 								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT,
 								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT);
+		
+		setRoomMapExtension(ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION);
 				
 		enableFilter(ProbabilityBasedAlgorithm.ENABLE_FILTER);
 		
@@ -325,6 +360,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public void setRoomMap(RoomMap roommap) {
 		this.roommap = roommap;
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+										   (roommap.getXTo() + this.roommapExtension), 
+										   (roommap.getYFrom() - this.roommapExtension), 
+										   (roommap.getYTo() + this.roommapExtension), 
+										    roommap.getGranularity(), 
+										    roommap.getImage());
 	}
 	
 	/**
@@ -379,12 +421,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		this.logger.log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
-		this.roommap.initialize();
-		
 		// test if some readings are given
 		if (readings.isEmpty()) {
 			return null;
 		}
+				
+		this.extendedRoomMap.initialize();
+
 		
 		// go through each receiver and calculate a weighted map
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
@@ -437,7 +480,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			if (this.grayscaleDebugInformationExtended) {
 				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue();
 				Point p = getPosition(highestPointsRoomMap);
-				this.grayscaledimage.newGrayScaleImage(roommap, this.grayscaleDebugInformationRoommap,
+				this.grayscaledimage.newGrayScaleImage(this.extendedRoomMap, this.grayscaleDebugInformationRoommap,
 													   convexhulls, this.grayscaleDebugInformationConvexhulls,
 													   receivers, this.grayscaleDebugInformationReceivers,
 													   p, this.grayscaleDebugInformationPoint);
@@ -454,16 +497,18 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
 		if (this.enableFilter) {
-			p = this.filter.applyFilter(p);
-			
+			p = this.filter.applyFilter(p);	
 		}
 		
+		// checks if the point is inside the boundaries, if not the point will be set to the 
+		// nearest boundary
+		p = checkIfPointIsInRoom(p);
 		
 		this.logger.log(Level.INFO, 
 				"[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 		
 		if (this.grayscaleDebugInformation) {
-			this.grayscaledimage.newGrayScaleImage(roommap, this.grayscaleDebugInformationRoommap,
+			this.grayscaledimage.newGrayScaleImage(this.extendedRoomMap, this.grayscaleDebugInformationRoommap,
 					   							   convexhulls, this.grayscaleDebugInformationConvexhulls,
 					   							   receivers, this.grayscaleDebugInformationReceivers,
 					   							   p, this.grayscaleDebugInformationPoint);
@@ -534,7 +579,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param convexHull the points of the convex hull regarding the given receiver
 	 */
 	private void weightRoomMap(Receiver receiver, ArrayList<PointProbabilityMap> convexHull) {
-		this.weightFunctions.get(receiver.getID()).weight(this.roommap, receiver, convexHull);
+		this.weightFunctions.get(receiver.getID()).weight(this.extendedRoomMap, receiver, convexHull);
 	}
 
 	/**
@@ -543,7 +588,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @return a array list with the highest weighted points
 	 */
 	private ArrayList<PointRoomMap> giveMaxWeightedValue() {
-		ArrayList<PointRoomMap> roomMapPoints = this.roommap.getRoomMapPoints();
+		ArrayList<PointRoomMap> roomMapPoints = this.extendedRoomMap.getRoomMapPoints();
 		
 		ArrayList<PointRoomMap> maxWeightedValue = new ArrayList<PointRoomMap>();
 		double maxValue = roomMapPoints.get(0).getWeightValue();
@@ -612,5 +657,69 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public void setGrayscaleImagePath(String path) {
 		this.grayscaledimage.setPath(path);
+	}
+	
+	/**
+	 * With this method it is possible to extend the room map with the given parameter.
+	 * It is just an imaginary extension for the calculation of the position. The point
+	 * still is located inside the room map or at least on its border.
+	 * 
+	 * @param extension the value to extend the room map with
+	 */
+	public void setRoomMapExtension(double extension) {
+		this.roommapExtension = extension;
+	}
+	
+	/**
+	 * This method checks if the point is inside the room boundaries. If not, 
+	 * a new point will be calculated (to the nearest border of the room map).
+	 * 
+	 * @param point the point to be tested
+	 * @return a new point
+	 */
+	public Point checkIfPointIsInRoom(Point point) {
+		Point newPoint = null;
+		
+		// point is located inside the room map
+		if(point.x >= this.roommap.getXFrom() && point.x <= this.roommap.getXTo() 
+			&& point.y >= this.roommap.getYFrom() && point.y <= this.roommap.getYTo()) {
+			newPoint = new Point(point.x, point.y);
+			
+		// point is located outside the room map
+		} else {
+			
+			double x = point.getX();
+			double y = point.getY();
+			
+			// test if point is located left from the left border of the room
+			if (Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYFrom(), 
+								   this.roommap.getXFrom(), this.roommap.getYTo(), 
+								   point.x, point.y) == -1) {
+				x = this.roommap.getXFrom();
+			}
+			
+			// test if point is located above from the upper border of the room
+			if(Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYTo(), 
+					 					 this.roommap.getXTo(), this.roommap.getYTo(), 
+					 					 point.x, point.y) == -1) {
+				y = this.roommap.getYTo();
+			} 
+			
+			// test if point is located right from the right border of the room
+			if(Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYTo(), 
+					 					 this.roommap.getXTo(), this.roommap.getYFrom(), 
+					 					 point.x, point.y) == -1) {
+				x = this.roommap.getXTo();
+			} 
+			
+			// test if point is located beyond from the under border of the room
+			if(Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYFrom(), 
+					 					 this.roommap.getXFrom(), this.roommap.getYFrom(), 
+					 					 point.x, point.y) == -1) {
+				y = this.roommap.getYFrom();
+			}
+			newPoint = new Point(x, y);			
+		}
+		return newPoint;
 	}
 }
