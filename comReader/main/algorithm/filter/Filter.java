@@ -1,7 +1,7 @@
 /*
  * File: Filter.java
  * Date				Author				Changes
- * 08 Dec 2013		Tommy Griese		create version 1.0
+ * 08 Dec 2013		Yentran Tran 		create version 1.0
  */
 package algorithm.filter;
 
