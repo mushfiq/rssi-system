@@ -15,6 +15,8 @@ randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
 dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime)  or isinstance(obj, datetime.date) else None
 
 	
+reciversData = [(20, 13), (130, 235), (285, 305), (410, 405)]
+
 class GenerateData(object):
     
     def insert_maps(self):
@@ -118,11 +120,37 @@ class GenerateData(object):
             
         print "Total %d maps updated!", len(maps)
         
+    def update_receiver_data(self):
+        all_receivers = receiverRecords.objects.all()
+        for index,receiver in enumerate(all_receivers[:4]):
+            # print index, receiver
+            receiver.x = reciversData[index][0]
+            receiver.y = reciversData[index][1]
+            receiver.save()
+            print "reciverid", receiver.id
+        print "updated!!"
+            
+    def delete_extra_receivers(self):
+        all_receivers = receiverRecords.objects.all()
+        total_receivers = len(all_receivers)
+        # print "taoal receivers"
+        print "deletetng ...", len(all_receivers)-4 , "receivers"
+        delete_total = len(all_receivers)-4
+        for i in range(delete_total):
+            all_receivers[i].delete()
+            
+        print "deleted successfully!"
+            
+            
+        
 if __name__ == '__main__':
     dataGen = GenerateData()
+    # dataGen.update_receiver_data()
+    dataGen.delete_extra_receivers()
+    dataGen.update_receiver_data()
     # dataGen.delete_maps()
     # dataGen.generate_save_map(6)
-    dataGen.update_old_maps()
+    # dataGen.update_old_maps()
     # dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
     # dataGen.delete_watches()
