@@ -43,7 +43,8 @@ class GenerateData(object):
             m.receiverId = randint(0, 5)
             m.width = randint(0, 200)
             m.height = randint(0, 200)
-            m.scaling = random()*10
+            m.scalingX = random()*10
+            m.scalingY = random()*10
             m.offsetX = randint(0, total)
             m.offsetY = randint(0, total)
             m.updateTime = datetime.datetime.now()
@@ -106,15 +107,24 @@ class GenerateData(object):
         all_recievers.delete()
         print "All receivers deleted!"
         return 
-
-    
+        
+    def update_old_maps(self):
+        maps = mapRecords.objects.all()
+        for m in maps:
+            m.scaling = None
+            m.scalingX = random()*10
+            m.scalingY = random()*10
+            m.save()
+            
+        print "Total %d maps updated!", len(maps)
         
 if __name__ == '__main__':
     dataGen = GenerateData()
-    dataGen.generate_save_map(6)
+    # dataGen.delete_maps()
+    # dataGen.generate_save_map(6)
+    dataGen.update_old_maps()
     # dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
-    # dataGen.delete_maps()
     # dataGen.delete_watches()
     # dataGen.delete_receivers()
 
