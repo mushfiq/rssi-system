@@ -159,10 +159,13 @@ public class GrayscaleImages {
 		
 		BufferedImage theImage = new BufferedImage(imageLenghtX + 1, imageLenghtY + 1, BufferedImage.TYPE_BYTE_GRAY); // +1, because there is the need of "0"
 	    
-	    if(showRoommap) {
+	    if (showRoommap) {
 	    	for (int i = 0; i < roomMapPoints.size(); i++) {
 		    	
-		    	int value = (int) linearInterpolation(roomMapPoints.get(i).getWeightValue(), smallestWeightedValue, highestWeightedValue, GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
+		    	int value = (int) linearInterpolation(roomMapPoints.get(i).getWeightValue(), 
+		    										  smallestWeightedValue, 
+		    										  highestWeightedValue, 
+		    										  GRAYSCALE_IMAGE_START, GRAYSCALE_IMAGE_END);
 		    	Color c = new Color(value, value, value);
 		    	
 		    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
@@ -172,14 +175,14 @@ public class GrayscaleImages {
 		    	// rounding is needed because of the "rounding effects" by double calculation
 		    	x = (int) Math.round(positionPointInImage.getX());
 		    	y = (int) Math.round(positionPointInImage.getY());
-		    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+		    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 		    		theImage.setRGB(x, y, c.getRGB());
 		    	}
 		    }
 	    }
 	    
-		if(showConvexhulls) {
-			for(Map.Entry<Integer, ArrayList<PointProbabilityMap>> e : convexhulls.entrySet()) {
+		if (showConvexhulls) {
+			for (Map.Entry<Integer, ArrayList<PointProbabilityMap>> e : convexhulls.entrySet()) {
 				for (int i = 0; i < e.getValue().size(); i++) {
 					pointAsWholeNumber = new Point((e.getValue().get(i).getX() - smallestX) * factor, (e.getValue().get(i).getY() - smallestY) * factor);
 			    	positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
@@ -187,14 +190,14 @@ public class GrayscaleImages {
 			    	// rounding is needed because of the "rounding effects" by double calculation
 			    	x = (int) Math.round(positionPointInImage.getX());
 			    	y = (int) Math.round(positionPointInImage.getY());
-			    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+			    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 			    		theImage.setRGB(x, y, cWhite.getRGB());
 			    	}
 			    }
 			}
 		}
 		
-		if(showReceivers) {
+		if (showReceivers) {
 			// the position of the receivers will be displayed as a black pixel in the image
 		    for (int i = 0; i < receivers.size(); i++) {
 		    	// an image (px) has no floating point number. Therefore a calculated integer has to determined (this is where the factor comes in action)
@@ -205,19 +208,19 @@ public class GrayscaleImages {
 		    	// rounding is needed because of the "rounding effects" by double calculation
 		    	x = (int) Math.round(positionPointInImage.getX());
 		    	y = (int) Math.round(positionPointInImage.getY());
-		    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+		    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 		    		theImage.setRGB(x, y, cBlack.getRGB());
 		    	}
 		    }
 		}
 		   
-		if(showPoint) {
+		if (showPoint) {
 		    // The determined position found by the algorithm will be displayed in black
 		    pointAsWholeNumber = new Point((pointCalculatedPosition.getX() - smallestX) * factor, (pointCalculatedPosition.getY() - smallestY) * factor);
 	    	positionPointInImage = pointToImageTransformation(pointAsWholeNumber, pointOfOriginNewCoordinateSystem);
 	    	x = (int) Math.round(positionPointInImage.getX());
 	    	y = (int) Math.round(positionPointInImage.getY());
-	    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+	    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 	    		theImage.setRGB(x, y, cWhite.getRGB());
 	    	}
 		}
@@ -294,7 +297,7 @@ public class GrayscaleImages {
 	    	// rounding is needed because of the "rounding effects" by double calculation
 	    	x = (int) Math.round(positionPointInImage.getX());
 	    	y = (int) Math.round(positionPointInImage.getY());
-	    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+	    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 	    		theImage.setRGB(x, y, cGray.getRGB());
 	    	}
 	    }
@@ -308,7 +311,7 @@ public class GrayscaleImages {
 	    	// rounding is needed because of the "rounding effects" by double calculation
 	    	x = (int) Math.round(positionPointInImage.getX());
 	    	y = (int) Math.round(positionPointInImage.getY());
-	    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
+	    	if (x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
 	    		theImage.setRGB(x, y, cWhite.getRGB());
 	    	}
 	    }
@@ -358,9 +361,9 @@ public class GrayscaleImages {
 	 */
 	private double linearInterpolation(double value, double intervalA0, double intervalA1, double intervalB0, double intervalB1) {
 		// Check borders
-		if(value == intervalA0) {
+		if (value == intervalA0) {
 			return intervalB0;
-		} else if(value == intervalA1) {
+		} else if (value == intervalA1) {
 			return intervalB1;
 		}
 		double r = (intervalB0 - intervalB1) / (intervalA0 - intervalA1);

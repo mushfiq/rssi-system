@@ -54,9 +54,9 @@ public class DataProcessorRunnable implements Runnable {
 
 		    Point position = Application.getApplication().getAlgorithm().calculate(entry.getValue());
 		    if (position == null) {
-		    	System.out.println("position is null");
+		    	//System.out.println("position is null");
 		    } else {
-		    	System.out.println(position);
+		    	//System.out.println(position);
 		    	int watchId = entry.getKey();
 			    long currentTime = System.currentTimeMillis() / 1000L; // Tommy: changed it by dividing 1000L to get
 										   // UNIX timestamp
