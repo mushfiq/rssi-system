@@ -14,10 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import utilities.Utilities;
-import algorithm.ProbabilityBasedAlgorithm;
-import algorithm.filter.KalmanFilterOneDim;
 import algorithm.helper.PointProbabilityMap;
-import algorithm.weightFunction.WeightFunctionExtended;
 
 /**
  * The class ProbabilityMap. This abstract class should be inherited by all implemented probability map classes.
