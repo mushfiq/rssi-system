@@ -27,5 +27,6 @@ v1_api.register(ReceiverResource())
 urlpatterns = patterns('',
 	url(r'^index$', 'restApp.views.index'),
 	url(r'^api/v1/image/', 'restApp.views.getImage'),
+    url(r'^api/v1/authenticate/', 'restApp.views.authenticate'),
     url(r'^api/', include(v1_api.urls)),
 )
