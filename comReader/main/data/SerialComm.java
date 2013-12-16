@@ -1,3 +1,7 @@
+/*
+ * Helper file obtained from third party.
+ * 
+ * */
 package data;
 
 import gnu.io.*;
@@ -5,6 +9,11 @@ import gnu.io.*;
 import java.io.*;
 import java.util.*;
 
+/**
+ * 
+ * 
+ * 
+ * */
 public class SerialComm implements gnu.io.SerialPortEventListener{
 	
 	SerialPort serialPort; 
