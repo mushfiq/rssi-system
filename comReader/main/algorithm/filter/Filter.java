@@ -1,7 +1,7 @@
 /*
  * File: Filter.java
  * Date				Author				Changes
- * 08 Dec 2013		Tommy Griese		create version 1.0
+ * 08 Dec 2013		Yentran Tran 		create version 1.0
  */
 package algorithm.filter;
 
@@ -12,7 +12,7 @@ import algorithm.helper.Point;
  * It defines a method to apply a filtering to some points.
  * 
  * @version 1.0 08 Dec 2013
- * @author Tommy Griese
+ * @author Yentran Tran
  */
 public abstract class Filter {
 

@@ -615,6 +615,24 @@ public final class Utilities {
 
 		return (configurationValue != null) ? configurationValue : "";
 	}
+	
+	/**
+	 * Helper method that returns the value from 'config.ini' file for a given parameter. It also
+	 * checks if this value can be parsed into a boolean. If not it throws an exception.
+	 *
+	 * @param key the key
+	 * @return value for given parameter
+	 */
+	public static String getBooleanConfigurationValue(String key) throws Exception {
+		loadConfigurationFile();
+
+		String configurationValue = configurationFile.getProperty(key);
+		if(!configurationValue.equals("true") && !configurationValue.equals("false")) {
+			throw new Exception();
+		}
+
+		return configurationValue;
+	}
 
 	/**
 	 * Sets the configuration value.

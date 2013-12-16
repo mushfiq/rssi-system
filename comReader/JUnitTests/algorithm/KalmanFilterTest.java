@@ -45,7 +45,7 @@ public class KalmanFilterTest {
 	@Test
 	public void testOutputGrayscaleImage() {
 		KalmanFilterOneDim kf = new KalmanFilterOneDim();
-		RoomMap rm = new RoomMap(0.0, 5.0, 0.0, 5.0, "");
+		RoomMap rm = new RoomMap(0.0, 5.0, 0.0, 5.0, null);
 		
 		ArrayList<Point> rawPoints = new ArrayList<Point>();
 		rawPoints.add(new Point(0.0, 0.0));

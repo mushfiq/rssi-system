@@ -1,6 +1,10 @@
 
 package algorithm.filter;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import utilities.Utilities;
 import algorithm.helper.Point;
 /**
  * 
@@ -29,24 +33,30 @@ public class KalmanFilterOneDim extends Filter {
 	 * 
 	 */
 	private Point priorEstimate, estimate, rawValue;
-	private static double priorErrorVariance, errorCovariance;
-	private static double kalmanGain;
+	private static double priorErrorVariance, errorCovariance; // why static
+	private static double kalmanGain; // why static
 	private boolean firstTimeRunning = true;
-	private static boolean firstTimeRun = true;
-	private static double covariance, statevariance;
+	private static boolean firstTimeRun = true; // why static
+	private static double covariance, statevariance; // why static
 
-
+	/** The logger. */
+    private Logger logger;
 	
 	public KalmanFilterOneDim() {
 		super();
 		
-		this.covariance = KalmanFilterOneDim.COVARIANCE_DEFAULT;
-		this.statevariance = KalmanFilterOneDim.STATEVARIANCE_DEFAULT;
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
+        readConfigParameters();
 	}
 	
 	public KalmanFilterOneDim (double covariance, double statevariance){
 		super();
 		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+        
 		this.covariance = covariance;
 		this.statevariance = statevariance;
 	}
@@ -126,5 +136,26 @@ public class KalmanFilterOneDim extends Filter {
 		rssi = estimateRSSI + statevariance;   //posistion is the variable I want to update which will be lastPosition next time
 		
 		return rssi;	
+	}
+	
+	private void readConfigParameters() {
+		String res = "";
+		double value = KalmanFilterOneDim.COVARIANCE_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("kalman_filter.covariance");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading kalman_filter.covariance failed, default value was set.");
+		}
+		this.covariance = value;
+		
+		value = KalmanFilterOneDim.STATEVARIANCE_DEFAULT;
+		try {
+			res = Utilities.getConfigurationValue("kalman_filter.statevariance");
+			value = Double.parseDouble(res);
+		} catch(NumberFormatException e) {
+			this.logger.log(Level.WARNING, "Reading kalman_filter.statevariance failed, default value was set.");
+		}
+		this.statevariance = value;
 	}
 }

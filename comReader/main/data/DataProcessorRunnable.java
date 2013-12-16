@@ -13,22 +13,19 @@ import main.Application;
 import algorithm.helper.Point;
 
 /**
- * Implementation of <code>Runnable</code>. <code>DataProcessorRunnable</code> checks if the batchSignalQueue is empty.
+ * Implementation of <code>Runnable</code>. <code>DataProcessorRunnable</code> checks if the <code>batchSignalQueue</code> is empty.
  * If it is not empty, it takes a batch of signal strengths and performs algorithm calculations on them. After that, it
- * puts calculated values into the calculatedPositionsQueue. If the queue is empty, thread sleeps for constant number of
+ * puts calculated values into the <code>calculatedPositionsQueue</code>. If the queue is empty, thread sleeps for constant number of
  * milliseconds, before checking if a new batch has arrived into the batchSignalQueue.
  * 
  * @see data.DataProcessor
+ * @author Danilo
  */
 public class DataProcessorRunnable implements Runnable {
 
 	/** Time in milliseconds to put the thread to sleep before checking again is the queue empty. */
 	private static final int TIME_TO_SLEEP_IF_QUEUE_EMPTY = 25;
-
-	/** <code>Logger</code> object. */
 	private Logger logger;
-
-	/** Flag that denotes if the thread is running. */
 	private volatile boolean running = true;
 
 	/**
