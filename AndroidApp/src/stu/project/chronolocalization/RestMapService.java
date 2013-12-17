@@ -29,6 +29,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class RestMapService {
@@ -167,13 +168,46 @@ public ArrayList<ReceiverRecord> receiverRecord;
 		    imageView.setImageBitmap(resizedbitmap);
 		    MapImageView drawableImage = (MapImageView)this.getActivity().findViewById(R.id.mapImage);
 
-		    //temporary Implementation
-		    int pos_a = 10; 
-	        int pos_b = 255; 
-	        drawableImage.addReceiver("Receiver1", new Point(pos_a,pos_a)); 
-	        drawableImage.addReceiver("Receiver2", new Point(pos_a,pos_b)); 
-	        drawableImage.addReceiver("Receiver3", new Point(pos_b,pos_a)); 
-	        drawableImage.addReceiver("Receiver4", new Point(pos_b,pos_b)); 
+		    int count = 1;
+		     float[] x = new float[6];
+		     float[] y= new float[6];
+		    
+	     if( !receiverRecord.isEmpty() )
+	    	{
+	    		for (ReceiverRecord record : receiverRecord)
+				{	
+	    			x[count] = record.getX();
+	    			y[count] = record.getY();
+	    			count++;
+//	    	        drawableImage.addReceiver(record.getReceiverId(), new Point(record.getX(),record.getY()));
+				}
+	    	}	
+	     
+	     int x1 = 20;
+			int x2 = 130;
+			int x3 = 285;
+			int x4 = 410;
+			int y1 = 13;
+			int y2 = 235;
+			int y3 = 305;
+			int y4 = 405;
+			drawableImage.addReceiver("Receiver1", new Point(x1,y1));
+			drawableImage.addReceiver("Receiver2", new Point(x2,y1));
+			drawableImage.addReceiver("Receiver3", new Point(x4,y1));
+			drawableImage.addReceiver("Receiver4", new Point(x1,y2));
+			drawableImage.addReceiver("Receiver5", new Point(x4,y2));
+			drawableImage.addReceiver("Receiver6", new Point(x3,y3));
+			drawableImage.addReceiver("Receiver7", new Point(x4,y4));
+		
+	     /* drawableImage.addReceiver("Receiver1", new Point(x[1],y[1]));
+	     drawableImage.addReceiver("Receiver2", new Point(x[2],y[1]));
+	     drawableImage.addReceiver("Receiver3", new Point(x[4],y[1]));
+	     drawableImage.addReceiver("Receiver4", new Point(x[1],y[2]));
+	     drawableImage.addReceiver("Receiver5", new Point(x[4],y[2]));
+	     drawableImage.addReceiver("Receiver6", new Point(x[3],y[3]));
+	     drawableImage.addReceiver("Receiver7", new Point(x[4],y[4]));
+		
+	    */ 
 
 	        //Correct Implementation
 	        /*if( !receiverRecord.isEmpty() )

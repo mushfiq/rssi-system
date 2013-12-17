@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
 <item android:drawable="@drawable/androidprocessdialog" android:duration="400" />
 <item android:drawable="@drawable/androidprocessdialog" android:duration="300" />
-</animation-list>
+</animation-list> -->
+
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+  android:drawable="@drawable/androidprocessdialog"
+  android:pivotX="50%"
+  android:pivotY="50%"
+  android:fromDegrees="0"
+  android:toDegrees="360" />

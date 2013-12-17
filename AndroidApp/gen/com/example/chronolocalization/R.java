@@ -57,8 +57,8 @@ public final class R {
         public static final int PositionText=0x7f0b0010;
         public static final int SelectWatch=0x7f0b000b;
         public static final int WatchSpinner=0x7f0b000c;
-        public static final int action_setting=0x7f0b001a;
-        public static final int addbutton=0x7f0b0019;
+        public static final int action_setting=0x7f0b0019;
+        public static final int addbutton=0x7f0b0018;
         public static final int button1=0x7f0b0008;
         public static final int checkBoxDrawPath=0x7f0b0012;
         public static final int editNumberOfSteps=0x7f0b0013;
@@ -66,21 +66,20 @@ public final class R {
         public static final int editText2=0x7f0b0007;
         public static final int editText_pixel_meter_ratio=0x7f0b0003;
         public static final int editText_url=0x7f0b0001;
-        public static final int isVoiceEnabled=0x7f0b001b;
+        public static final int isVoiceEnabled=0x7f0b001a;
         public static final int linearLayout1=0x7f0b0009;
         public static final int mapImage=0x7f0b000f;
         public static final int startImg=0x7f0b000d;
         public static final int stopImg=0x7f0b000e;
         public static final int tabConfiguration=0x7f0b0000;
         public static final int tabWatchUser=0x7f0b000a;
-        public static final int tabsLayout=0x7f0b0015;
-        public static final int tabsText=0x7f0b0016;
-        public static final int text=0x7f0b0018;
+        public static final int tabsLayout=0x7f0b0014;
+        public static final int tabsText=0x7f0b0015;
+        public static final int text=0x7f0b0017;
         public static final int textView1=0x7f0b0004;
         public static final int textView2=0x7f0b0006;
         public static final int textView_pixel_meter_ratio=0x7f0b0002;
-        public static final int toast_layout_id=0x7f0b0017;
-        public static final int trackPosition=0x7f0b0014;
+        public static final int toast_layout_id=0x7f0b0016;
     }
     public static final class layout {
         public static final int activity_configuration=0x7f030000;

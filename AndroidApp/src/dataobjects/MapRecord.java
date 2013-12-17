@@ -17,10 +17,24 @@ public class MapRecord {
 	float offsetY;
 	
 	int receiverId;
-	String resource_uri;
 	
-	float sclaing;
+	float sclaingX;
+	float sclaingY;
+	
 	Date updateTime;
+	
+	public float getSclaingX() {
+		return sclaingX;
+	}
+	public void setSclaingX(float sclaingX) {
+		this.sclaingX = sclaingX;
+	}
+	public float getSclaingY() {
+		return sclaingY;
+	}
+	public void setSclaingY(float sclaingY) {
+		this.sclaingY = sclaingY;
+	}
 	
 	public String getMapId() {
 		return mapId;
@@ -63,18 +77,6 @@ public class MapRecord {
 	}
 	public void setReceiverId(int receiverId) {
 		this.receiverId = receiverId;
-	}
-	public String getResource_uri() {
-		return resource_uri;
-	}
-	public void setResource_uri(String resource_uri) {
-		this.resource_uri = resource_uri;
-	}
-	public float getSclaing() {
-		return sclaing;
-	}
-	public void setSclaing(float sclaing) {
-		this.sclaing = sclaing;
 	}
 	public Date getUpdateTime() {
 		return updateTime;

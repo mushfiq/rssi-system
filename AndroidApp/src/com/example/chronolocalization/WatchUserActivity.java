@@ -74,7 +74,7 @@ public class WatchUserActivity extends Activity
 		//Positions of Receiver hard coded in pixel
 		//for the test_room_fifth_floor to fit the real environment
 		
-		int x1 = 20;
+		/*int x1 = 20;
 		int x2 = 130;
 		int x3 = 285;
 		int x4 = 410;
@@ -89,7 +89,7 @@ public class WatchUserActivity extends Activity
 		imageView.addReceiver("Receiver5", new Point(x4,y2));
 		imageView.addReceiver("Receiver6", new Point(x3,y3));
 		imageView.addReceiver("Receiver7", new Point(x4,y4));
-	
+	*/
 		
 		spinnerChooseWatch = (Spinner) findViewById(R.id.WatchSpinner);
 		spinnerChooseWatch.requestFocus();
@@ -136,6 +136,17 @@ public void startApplication(View view){
 	}
 	
 	public void stopApplication(View view){
+		LayoutInflater inflater = getLayoutInflater();
+        View layout = inflater.inflate(R.layout.toast,(ViewGroup) findViewById(R.id.toast_layout_id));
+        // set a message
+        TextView text = (TextView) layout.findViewById(R.id.text);
+        text.setText("Application is stopped");
+        // Toast configuration
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.TOP, 200, 150);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
 
 		stop.setVisibility(View.GONE);
 		start.setVisibility(View.VISIBLE);
@@ -153,7 +164,6 @@ public void startApplication(View view){
         dialog = new ProgressDialog(WatchUserActivity.this);
         dialog.setMessage("Loading Map Please wait...");
         dialog.setIndeterminateDrawable(getResources().getDrawable(R.anim.progress_dialog_anim));
-
         dialog.setIndeterminate(true);
         dialog.setCancelable(false);
         dialog.show();
@@ -276,7 +286,6 @@ public void startApplication(View view){
 						    Point newZero = new Point(0,-height);
 						    
 						    positionInPixel = HelperFunctions.transformPosition(oldZero, newZero, positionInPixel);
-						    
 					    	imageView.addWatchPosition(watchID, positionInPixel);
 					    	
 

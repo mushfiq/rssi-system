@@ -92,9 +92,13 @@ public static MapRecord parseMapRecord(String results) {
                     Float parsewidth =  Float.parseFloat(width);
                     mapRecord.setWidth(parsewidth);
                     
-                    String scaling = jsonObj.getString("scaling").toString();
-                    Float parseScaling =  Float.parseFloat(scaling);
-                    mapRecord.setSclaing(parseScaling);
+                    String scalingX = jsonObj.getString("scalingX").toString();
+                    Float parseScalingX =  Float.parseFloat(scalingX);
+                    mapRecord.setSclaingX(parseScalingX);
+                    
+                    String scalingY = jsonObj.getString("scalingY").toString();
+                    Float parseScalingY =  Float.parseFloat(scalingY);
+                    mapRecord.setSclaingX(parseScalingY);
                     
                     String offsetX = jsonObj.getString("offsetX").toString();
                     Float parseOffsetX =  Float.parseFloat(offsetX);
@@ -148,12 +152,15 @@ public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
 
                 
                 String x = jsonObj.getString("x").toString();
+
                 Float parseX = Float.parseFloat(x);
                 receiverRecord.setX(parseX);      
-                
+                Log.d("**parser*x****",""+receiverRecord.getX());
+
                 String y = jsonObj.getString("y").toString();
                 Float parseY = Float.parseFloat(y);
-                receiverRecord.setX(parseY);      
+                receiverRecord.setY(parseY);      
+                Log.d("**parser*y****",""+receiverRecord.getY());
 
                                 
                 receiverInformation.add(receiverRecord);
