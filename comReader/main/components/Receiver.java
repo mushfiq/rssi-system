@@ -16,7 +16,7 @@ public class Receiver {
 
 	/** The angle of the receiver. */
 	private double angle;
-	
+
 	/** The x-coordinate of the receiver. */
 	private double xPos;
 	

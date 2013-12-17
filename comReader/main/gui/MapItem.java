@@ -8,9 +8,6 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -20,8 +17,6 @@ import javax.swing.JPanel;
 
 import components.RoomMap;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class MapItem.
  */
@@ -31,16 +26,15 @@ public class MapItem extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/** The thumbnail image label. */
-	private ThumbnailImageLabel thumbnailImageLabel;
+	private ThumbnailImagePanel thumbnailImagePanel;
 	
 	/** The edit button. */
 	private JButton editButton;
 	
+	/** The delete button. */
 	private JButton deleteButton;
 	
-	/** The map title. */
-	private String mapTitle;
-	
+	/** The map. */
 	private RoomMap map;
 	
 	/** The Constant MAP_ITEM_WIDTH. */
@@ -49,6 +43,7 @@ public class MapItem extends JPanel {
 	/** The Constant MAP_ITEM_HEIGHT. */
 	public static final int MAP_ITEM_HEIGHT = 210;
 	
+	/** The maps panel. */
 	private MapsPanel mapsPanel;
 	
 
@@ -57,8 +52,6 @@ public class MapItem extends JPanel {
 	 */
 	public MapItem() {
 		super();
-		
-		mapTitle = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
 		initialize();
 	}
 	
@@ -66,24 +59,25 @@ public class MapItem extends JPanel {
 	 * Instantiates a new map item.
 	 *
 	 * @param mapTitle the map title
+	 * @param mapsPanel the maps panel
 	 */
 	public MapItem(String mapTitle, MapsPanel mapsPanel) {
-		
-		if(mapTitle != null && mapTitle != ""){
-			this.mapTitle = mapTitle;
-		} else {
-			this.mapTitle = new SimpleDateFormat("dd.MM.yyyy, HH:ss").format(new Date());
-		}
 		
 		this.mapsPanel = mapsPanel;
 		initialize();
 	}
 	
+	/**
+	 * Instantiates a new map item.
+	 *
+	 * @param map the map
+	 * @param mapsPanel the maps panel
+	 */
 	public MapItem(RoomMap map, MapsPanel mapsPanel) {
 		
 		this.map = map;
 		this.mapsPanel = mapsPanel;
-
+		initialize();
 	}
 	
 	
@@ -97,14 +91,14 @@ public class MapItem extends JPanel {
 		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		// Map title
-		JLabel mapTitleLabel = new JLabel(this.mapTitle);
+		JLabel mapTitleLabel = new JLabel(map.getTitle());
 		mapTitleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		this.add(mapTitleLabel);
 		
 		// Thumbnail image panel
-		thumbnailImageLabel = new ThumbnailImageLabel();
-		thumbnailImageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		this.add(thumbnailImageLabel);  // add first panel to the main container
+		thumbnailImagePanel = new ThumbnailImagePanel(map.getImage());
+		thumbnailImagePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		this.add(thumbnailImagePanel);  // add first panel to the main container
 		
 		// Panel for 'Delete' button
 		JPanel editAndDeleteButtonsPanel = new JPanel();
@@ -134,13 +128,24 @@ public class MapItem extends JPanel {
 		editAndDeleteButtonsPanel.add(deleteButton, gbc2);
 		
 		this.add(editAndDeleteButtonsPanel);
-		
 	}
 
 	
 	
+	/**
+	 * The listener interface for receiving editButton events.
+	 * The class that is interested in processing a editButton
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addEditButtonListener</code> method. When
+	 * the editButton event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see EditButtonEvent
+	 */
 	private class EditButtonListener implements ActionListener {
 
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			
@@ -148,24 +153,39 @@ public class MapItem extends JPanel {
 		}
 	}
 	
+	/**
+	 * The listener interface for receiving deleteButton events.
+	 * The class that is interested in processing a deleteButton
+	 * event implements this interface, and the object created
+	 * with that class is registered with a component using the
+	 * component's <code>addDeleteButtonListener</code> method. When
+	 * the deleteButton event occurs, that object's appropriate
+	 * method is invoked.
+	 *
+	 * @see DeleteButtonEvent
+	 */
 	private class DeleteButtonListener implements ActionListener {
 
+		/** The parent. */
 		private MapItem parent;
 		
+		/**
+		 * Instantiates a new delete button listener.
+		 *
+		 * @param parent the parent
+		 */
 		public DeleteButtonListener(MapItem parent) {
 			this.parent = parent;
 		}
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO ask the user to confirm deletion. Delete or discard window on close.
 			
-			int dialogResult = JOptionPane.showConfirmDialog (mapsPanel, "Are you sure you want to delete the map from the system? This action cannot be undone.");
-			if(dialogResult == JOptionPane.YES_OPTION){
-					
-			// TODO try to delete map from the server. On success, remove this MapItem from the MapsPanel
-			mapsPanel.remove(parent);
-			mapsPanel.revalidate();
+			int dialogResult = JOptionPane.showConfirmDialog(mapsPanel, "Are you sure you want to delete the map from the system? This action cannot be undone.");
+			if (dialogResult == JOptionPane.YES_OPTION) {
+				// TODO try to delete map from the server. On success, remove this MapItem from the MapsPanel
+				mapsPanel.remove(parent);
+				mapsPanel.revalidate();
 			} 
 		}
 	}

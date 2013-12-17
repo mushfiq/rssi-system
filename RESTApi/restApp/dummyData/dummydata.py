@@ -15,6 +15,8 @@ randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
 dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime)  or isinstance(obj, datetime.date) else None
 
 	
+reciversData = [(20, 13), (130, 235), (285, 305), (410, 405)]
+
 class GenerateData(object):
     
     def insert_maps(self):
@@ -43,7 +45,8 @@ class GenerateData(object):
             m.receiverId = randint(0, 5)
             m.width = randint(0, 200)
             m.height = randint(0, 200)
-            m.scaling = random()*10
+            m.scalingX = random()*10
+            m.scalingY = random()*10
             m.offsetX = randint(0, total)
             m.offsetY = randint(0, total)
             m.updateTime = datetime.datetime.now()
@@ -106,15 +109,50 @@ class GenerateData(object):
         all_recievers.delete()
         print "All receivers deleted!"
         return 
-
-    
+        
+    def update_old_maps(self):
+        maps = mapRecords.objects.all()
+        for m in maps:
+            m.scaling = None
+            m.scalingX = random()*10
+            m.scalingY = random()*10
+            m.save()
+            
+        print "Total %d maps updated!", len(maps)
+        
+    def update_receiver_data(self):
+        all_receivers = receiverRecords.objects.all()
+        for index,receiver in enumerate(all_receivers[:4]):
+            # print index, receiver
+            receiver.x = reciversData[index][0]
+            receiver.y = reciversData[index][1]
+            receiver.save()
+            print "reciverid", receiver.id
+        print "updated!!"
+            
+    def delete_extra_receivers(self):
+        all_receivers = receiverRecords.objects.all()
+        total_receivers = len(all_receivers)
+        # print "taoal receivers"
+        print "deletetng ...", len(all_receivers)-4 , "receivers"
+        delete_total = len(all_receivers)-4
+        for i in range(delete_total):
+            all_receivers[i].delete()
+            
+        print "deleted successfully!"
+            
+            
         
 if __name__ == '__main__':
     dataGen = GenerateData()
-    dataGen.generate_save_map(6)
+    # dataGen.update_receiver_data()
+    dataGen.delete_extra_receivers()
+    dataGen.update_receiver_data()
+    # dataGen.delete_maps()
+    # dataGen.generate_save_map(6)
+    # dataGen.update_old_maps()
     # dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
-    # dataGen.delete_maps()
     # dataGen.delete_watches()
     # dataGen.delete_receivers()
 

@@ -38,3 +38,6 @@ def rssi_deploy():
     run('cd  %s && tar -xzf %s.tgz' % (env.site_root, env.site_name))
     run('rm -rf %s/%s.tgz' % (env.site_path,env.site_name))
     local('rm -rf %s.tgz' % (env.site_name))
+
+def install_dependecies():
+    local('pip install -r requirements.txt')

@@ -1,4 +1,4 @@
-package gui;
+package gui.enumeration;
 
 public enum StartStopButtonState {
 

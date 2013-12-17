@@ -10,8 +10,16 @@
  * 										Bug fix in method calculate (method returns null when invalid values)
  * 										Added missing JavaDoc comments
  * 06 Dec 2013		Tommy Griese		Refactoring the grayscaled image part (separate class)
+ * 12 Dec 2013		Tommy Griese		Added a method to test if point is located inside the room map or at least on
+ * 										its borders. If not, a new point is created so that the point is located on
+ * 										the border at least.
+ * 14 Dec 2013		Tommy Griese		Adapted code: class reads the needed parameters from the configuration file now
+ * 										(Utilities.getConfigurationValue and Utilities.getBooleanConfigurationValue)
+ * 										Adapted JavaDoc comments
  */
 package algorithm;
+import java.awt.geom.Line2D;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,8 +36,10 @@ import algorithm.helper.PointRoomMap;
 import algorithm.images.GrayscaleImages;
 import algorithm.probabilityMap.ProbabilityMap;
 import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
+import algorithm.probabilityMap.ProbabilityMapPathLossElliptic;
 import algorithm.weightFunction.WeightFunction;
 import algorithm.weightFunction.WeightFunctionExtended;
+import algorithm.weightFunction.WeightFunctionSimple;
 
 import components.Receiver;
 import components.RoomMap;
@@ -43,7 +53,7 @@ import components.RoomMap;
  * by S. Knauth, D. Geisler, G. Ruzicka from Faculty Computer Science, Mathematics and Geomatics by University 
  * of Applied Sciences Stuttgart.
  * 
- * @version 1.2 06 Dec 2013
+ * @version 1.3 14 Dec 2013
  * @author Tommy Griese, Yentran Tran
  */
 public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
@@ -52,7 +62,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	private GrayscaleImages grayscaledimage;
 	
 	/** The default flag (value = false) to disable the writing of grayscale images (for debugging purpose). */
-	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = true;
+	public static final boolean GRAYSCALE_DEBUG_INFORMATION_DEFAULT = false;
 	
 	/** The default flag (value = false) to disable the writing of grayscale images. With this flag each step will be showed 
 	 * (for debugging purpose). */
@@ -111,8 +121,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	// --- End --- variables for probability map
 	
 	// --- Start --- Filter
-	/** A default flag to enable/disable a filter. */
-	public static final boolean ENABLE_FILTER = true;
+	/** A default flag (value = false) to enable/disable a filter. */
+	public static final boolean ENABLE_FILTER = false;
 	
 	/** The current applied status (enable/disable) of the filtering. */
 	private boolean enableFilter;
@@ -123,20 +133,46 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/** The logger. */
     private Logger logger;
-	
+    
+    // --- Start --- room map
+    /** Extended room map for this algorithm. */
+    private RoomMap extendedRoomMap;
+    
+    /** A default parameter (value = 1.0) that extends the room map. */
+    private static final double ROOM_MAP_EXTENSION = 1.0;
+    
+    /** The current applied extension for the room map. */
+    private double roommapExtension;
+    // --- End --- room map
+    
 	/**
-	 * Instantiates a new probability based algorithm. As default the ProbabilityMapPathLossCircle will be 
-	 * initialized as ProbabilityMap as well as the WeightFunctionExtended and the kalman filter. These values 
-	 * can be changed with the corresponding methods. 
-	 * <br><br>
-	 * In addition to that the debugging and image settings for the grayscale images
-	 * get following default values:<br>
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT}
+	 * Instantiates a new probability based algorithm. The algorithm will be initialized regarding the configuration
+	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. All parameters
+	 * can also be set by corresponding methods afterwards. Following parameters will be read from the file:<br>
+	 * <br>
+	 * probability_based_algorithm.probability_map (default value is {@link ProbabilityMapPathLossCircle})<br>
+	 * probability_based_algorithm.filter (default value is {@link KalmanFilterOneDim})<br>
+	 * probability_based_algorithm.weight_function (default value is {@link WeightFunctionExtended})<br>
+	 * <br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is 'System.getProperty("java.io.tmpdir")')<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * <br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm should take into account
@@ -144,30 +180,47 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+										   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+									  	    roommap.getGranularity(), 
+									  	    roommap.getImage());
+		
 		// instantiate logger
-        this.logger = Utilities.initializeLogger(this.getClass().getName());
-        
-		this.probabilityMap = new ProbabilityMapPathLossCircle();
-//		this.weightFunction = new WeightFunctionSimple();
-		this.weightFunction = new WeightFunctionExtended();
-		this.filter = new KalmanFilterOneDim();
+        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
+		
+		readSpecialAlgoParameters();
 		
 		setUpConstructor();
 	}
 	
 	/**
-	 * Instantiates a new probability based algorithm. The 'probability map', 'weight function' and
-	 * 'filter' will be set by the given parameter. These values can be changed with the corresponding 
-	 * methods.
-	 * <br><br>
-	 * In addition to that the debugging and image settings for the grayscale images
-	 * get following default values:<br>
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT}
-	 * {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT}
+	 * Instantiates a new probability based algorithm. The 'probability map', 'weight function' and 'filter' 
+	 * will be set by the given parameters. These values can also be changed with the corresponding methods
+	 * afterwards. The other needed parameters for the algorithm will be initialized regarding the configuration
+	 * file 'config.ini'. If there are any invalid parameters, these parameters will get default values. All parameters
+	 * can also be set by corresponding methods afterwards. Following parameters will be read from the file:<br>
+	 * <br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is System.getProperty("java.io.tmpdir"))<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * <br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
 	 *
 	 * @param roommap defines the room map dimensions (is needed to create a list of weighted room map points)
 	 * @param receivers a list of receivers that the algorithm shall take into account
@@ -179,7 +232,17 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 									 ProbabilityMap probabilityMap, WeightFunction weightFunction, Filter filter) {
 		super(roommap, receivers);
 		
-		this.probabilityMap = probabilityMap;
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
+		
+		// instantiate logger
+        this.logger = Utilities.initializeLogger(this.getClass().getName());
+		
+        this.probabilityMap = probabilityMap;
 		this.weightFunction = weightFunction;
 		this.filter = filter;
 		
@@ -189,18 +252,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	/**
 	 * Help function to setting up the constructor.
 	 */
-	private void setUpConstructor() {		
-//		this.grayscaledimage = new GrayscaleImages(System.getProperty("java.io.tmpdir"));
-		this.grayscaledimage = new GrayscaleImages("Z:\\Studium\\Master\\23_workspace\\workspace_SP\\rssi-system-comReader-tommy\\img");
-		
-		setGrayscaleDebugInformation(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT);
-		setGrayscaleDebugInformationExtended(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT);
-		setGrayscaleDebugImageSettings(ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT,
-								  	   ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT);
-				
-		enableFilter(ProbabilityBasedAlgorithm.ENABLE_FILTER);
+	private void setUpConstructor() {
+		readConfigParameters();
 		
 		// calculate for each receiver (id) its probability map and store it in the hashmap
 		this.probabilityMaps = new HashMap<Integer, ProbabilityMap>();
@@ -212,6 +265,165 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			this.probabilityMaps.put(this.receivers.get(i).getID(), this.probabilityMap);
 			this.weightFunctions.put(this.receivers.get(i).getID(), this.weightFunction); 
 		}
+	}
+	
+	/**
+	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
+	 * <br>
+	 * probability_based_algorithm.probability_map (default value is {@link ProbabilityMapPathLossCircle})<br>
+	 * probability_based_algorithm.filter (default value is {@link KalmanFilterOneDim})<br>
+	 * probability_based_algorithm.weight_function (default value is {@link WeightFunctionExtended})<br>
+	 * <br>
+	 * If there are any invalid parameters, these will be initialized with default values. 
+	 */
+	private void readSpecialAlgoParameters() {		
+		String res = Utilities.getConfigurationValue("probability_based_algorithm.probability_map");
+		if (res.equals("probability_map_path_loss_circle")) {
+			this.probabilityMap = new ProbabilityMapPathLossCircle();
+			
+		} else if (res.equals("probability_map_path_loss_elliptic")) {
+			this.probabilityMap = new ProbabilityMapPathLossElliptic();
+			
+		} else {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.probability_map failed, default value was set.");
+			this.probabilityMap = new ProbabilityMapPathLossCircle();
+		}
+		
+		res = Utilities.getConfigurationValue("probability_based_algorithm.filter");
+		if (res.equals("kalman_filter")) {
+			this.filter = new KalmanFilterOneDim();
+			
+		} else {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.filter failed, default value was set.");
+			this.filter = new KalmanFilterOneDim();
+		}
+		
+		res = Utilities.getConfigurationValue("probability_based_algorithm.weight_function");
+		if (res.equals("weight_function_simple")) {
+			this.weightFunction = new WeightFunctionSimple();
+			
+		} else if (res.equals("weight_function_extended")) {
+			this.weightFunction = new WeightFunctionExtended();
+			
+		} else {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.weight_function failed, default value was set.");
+			this.weightFunction = new WeightFunctionExtended();
+		}
+	}
+	
+	/**
+	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
+	 * <br>
+	 * probability_based_algorithm.grayscale_debug_information_path 
+	 * (default value is System.getProperty("java.io.tmpdir"))<br>
+	 * probability_based_algorithm.grayscale_debug_information 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_extended 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_roommap 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_convexhull 
+	 * (default value is {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_receiver 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT})<br>
+	 * probability_based_algorithm.grayscale_debug_information_point 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT})<br>
+	 * <br>
+	 * probability_based_algorithm.roommap_extension 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ROOM_MAP_EXTENSION})<br>
+	 * probability_based_algorithm.enable_filter 
+	 * (default value is false {@link ProbabilityBasedAlgorithm#ENABLE_FILTER})<br>
+	 * <br>
+	 * If there are any invalid parameters, these will be initialized with default values. 
+	 */
+	private void readConfigParameters() {		
+		String path = System.getProperty("java.io.tmpdir");
+		String res = Utilities.getConfigurationValue("probability_based_algorithm.grayscale_debug_information_path");
+		if (!res.equals("")) {
+			if ((new File(res)).exists()) {
+				path = res;
+			} else {
+				this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_path failed, default value was set.");
+			}
+		}
+		this.grayscaledimage = new GrayscaleImages(path);
+		
+		
+		boolean value = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information");
+			value = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information failed, default value was set.");
+		}
+		setGrayscaleDebugInformation(value);
+		
+		
+		
+		value = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_EXTENDED_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_extended");
+			value = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_extended failed, default value was set.");
+		}
+		setGrayscaleDebugInformationExtended(value);
+		
+
+		
+		boolean valueS1 = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_ROOMMAP_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_roommap");
+			valueS1 = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_roommap failed, default value was set.");
+		}
+		
+		boolean valueS2 = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_CONVEXHULLS_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_convexhull");
+			valueS2 = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_convexhull failed, default value was set.");
+		}
+		
+		boolean valueS3 = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_RECEIVERS_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_receiver");
+			valueS3 = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_receiver failed, default value was set.");
+		}
+		
+		boolean valueS4 = ProbabilityBasedAlgorithm.GRAYSCALE_DEBUG_INFORMATION_POINT_DEFAULT;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.grayscale_debug_information_point");
+			valueS4 = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.grayscale_debug_information_point failed, default value was set.");
+		}
+		setGrayscaleDebugImageSettings(valueS1, valueS2, valueS3, valueS4);
+		
+		
+		
+		double ext = ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION;
+		try {
+			res = Utilities.getConfigurationValue("probability_based_algorithm.roommap_extension");
+			ext = Double.parseDouble(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.roommap_extension failed, default value was set.");
+		}
+		setRoomMapExtension(ext);
+		
+				
+		value = ProbabilityBasedAlgorithm.ENABLE_FILTER;
+		try {
+			res = Utilities.getBooleanConfigurationValue("probability_based_algorithm.enable_filter");
+			value = Boolean.parseBoolean(res);
+		} catch (Exception e) {
+			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.enable_filter failed, default value was set.");
+		}
+		enableFilter(value);
 	}
 	
 	/**
@@ -247,7 +459,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/**
 	 * With this method it is possible to define a special new probability map for one receiver. If the given 
-	 * receiver in the parameter list already exists it gets the given probability map. If the given receiver 
+	 * receiver already exists in the configuration it gets the given probability map. If the given receiver 
 	 * doesn't exist nothing will happen.
 	 *
 	 * @param receiver an existing receiver that shall get a new probability map
@@ -265,7 +477,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	
 	/**
 	 * With this method it is possible to define a special (room map) weight function for one receiver. If the given 
-	 * receiver in the parameter list already exists it gets the given weight function. If the given receiver doesn't 
+	 * receiver already exists in the configuration it gets the given weight function. If the given receiver doesn't 
 	 * exist nothing will happen.
 	 *
 	 * @param receiver an existing receiver that shall get a new (room map) weight function
@@ -282,8 +494,8 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	/**
-	 * Adds a new receiver to the configuration. The receiver gets a default 'probability map' and a
-	 * 'weight function' (depending on which constructor was chosen).
+	 * Adds a new receiver to the configuration. The receiver will be connected with a standard 
+	 * 'probability map' and 'weight function' (depending on which constructor was chosen).
 	 *
 	 * @param receiver the new receiver
 	 * @return true if the receiver was added to the configuration, false otherwise
@@ -302,19 +514,20 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	}
 	
 	/**
-	 * Adds a new receiver to the configuration.
+	 * Adds a new receiver to the configuration. The receiver will be connected with the given 
+	 * 'probability map' and 'weight function'
 	 *
 	 * @param receiver the new receiver
 	 * @param probabilityMap the probability map for the receiver
-	 * @param weightFunction the value the (room map) weight function for the receiver
+	 * @param weightFunction the (room map) weight function for the receiver
 	 */
 	public void addNewReceiver(Receiver receiver, ProbabilityMap probabilityMap, WeightFunction weightFunction) {
 		if (getReceiver(this.receivers, receiver.getID()) == null 
 			 && !this.probabilityMaps.containsKey(receiver.getID()) 
 			 && !this.weightFunctions.containsKey(receiver.getID())) {
 			this.receivers.add(receiver);
-			setProbabilityMapForOneReceiver(receiver, probabilityMap);
-			setWeightFunctionForOneReceiver(receiver, weightFunction);
+			this.probabilityMaps.put(receiver.getID(), probabilityMap);
+			this.weightFunctions.put(receiver.getID(), weightFunction);
 		}	
 	}
 	
@@ -325,6 +538,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public void setRoomMap(RoomMap roommap) {
 		this.roommap = roommap;
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+										   (roommap.getXTo() + this.roommapExtension), 
+										   (roommap.getYFrom() - this.roommapExtension), 
+										   (roommap.getYTo() + this.roommapExtension), 
+										    roommap.getGranularity(), 
+										    roommap.getImage());
 	}
 	
 	/**
@@ -379,12 +599,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		this.logger.log(Level.INFO, "[ProbabilityBasedAlgorithm - calculate( ... )] Start calculation");
 		
-		this.roommap.initialize();
-		
 		// test if some readings are given
 		if (readings.isEmpty()) {
 			return null;
 		}
+				
+		this.extendedRoomMap.initialize();
+
 		
 		// go through each receiver and calculate a weighted map
 		for (Map.Entry<Integer, Double> e : readings.entrySet()) {
@@ -437,7 +658,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 			if (this.grayscaleDebugInformationExtended) {
 				ArrayList<PointRoomMap> highestPointsRoomMap = giveMaxWeightedValue();
 				Point p = getPosition(highestPointsRoomMap);
-				this.grayscaledimage.newGrayScaleImage(roommap, this.grayscaleDebugInformationRoommap,
+				this.grayscaledimage.newGrayScaleImage(this.extendedRoomMap, this.grayscaleDebugInformationRoommap,
 													   convexhulls, this.grayscaleDebugInformationConvexhulls,
 													   receivers, this.grayscaleDebugInformationReceivers,
 													   p, this.grayscaleDebugInformationPoint);
@@ -454,22 +675,24 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		// calculate point
 		Point p = getPosition(highestPointsRoomMap);
 		if (this.enableFilter) {
-			p = this.filter.applyFilter(p);
-			
+			p = this.filter.applyFilter(p);	
 		}
 		
+		// checks if the point is inside the boundaries, if not the point will be set to the 
+		// nearest boundary
+		p = checkIfPointIsInRoom(p);
 		
 		this.logger.log(Level.INFO, 
 				"[ProbabilityBasedAlgorithm - calculate( ... )] End calculation, calculated position: [" + p.getX() + ";" + p.getY() + "]");
 		
 		if (this.grayscaleDebugInformation) {
-			this.grayscaledimage.newGrayScaleImage(roommap, this.grayscaleDebugInformationRoommap,
+			this.grayscaledimage.newGrayScaleImage(this.extendedRoomMap, this.grayscaleDebugInformationRoommap,
 					   							   convexhulls, this.grayscaleDebugInformationConvexhulls,
 					   							   receivers, this.grayscaleDebugInformationReceivers,
 					   							   p, this.grayscaleDebugInformationPoint);
 		}
 		
-		if(Double.isNaN(p.x) || Double.isNaN(p.y)) {
+		if (Double.isNaN(p.x) || Double.isNaN(p.y)) {
 			this.logger.log(Level.SEVERE, 
 					"[ProbabilityBasedAlgorithm - calculate( ... )] calculated position: [" + p.getX() + ";" + p.getY() + "]");
 			return null;
@@ -534,7 +757,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @param convexHull the points of the convex hull regarding the given receiver
 	 */
 	private void weightRoomMap(Receiver receiver, ArrayList<PointProbabilityMap> convexHull) {
-		this.weightFunctions.get(receiver.getID()).weight(this.roommap, receiver, convexHull);
+		this.weightFunctions.get(receiver.getID()).weight(this.extendedRoomMap, receiver, convexHull);
 	}
 
 	/**
@@ -543,7 +766,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * @return a array list with the highest weighted points
 	 */
 	private ArrayList<PointRoomMap> giveMaxWeightedValue() {
-		ArrayList<PointRoomMap> roomMapPoints = this.roommap.getRoomMapPoints();
+		ArrayList<PointRoomMap> roomMapPoints = this.extendedRoomMap.getRoomMapPoints();
 		
 		ArrayList<PointRoomMap> maxWeightedValue = new ArrayList<PointRoomMap>();
 		double maxValue = roomMapPoints.get(0).getWeightValue();
@@ -612,5 +835,69 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 */
 	public void setGrayscaleImagePath(String path) {
 		this.grayscaledimage.setPath(path);
+	}
+	
+	/**
+	 * With this method it is possible to extend the room map with the given parameter.
+	 * It is just an imaginary extension for the calculation of the position. The point
+	 * still is located inside the room map or at least on its border.
+	 * 
+	 * @param extension the value to extend the room map with
+	 */
+	public void setRoomMapExtension(double extension) {
+		this.roommapExtension = extension;
+	}
+	
+	/**
+	 * This method checks if the point is inside the room boundaries. If not, 
+	 * a new point will be calculated (to the nearest border of the room map).
+	 * 
+	 * @param point the point to be tested
+	 * @return a new point
+	 */
+	public Point checkIfPointIsInRoom(Point point) {
+		Point newPoint = null;
+		
+		// point is located inside the room map
+		if (point.x >= this.roommap.getXFrom() && point.x <= this.roommap.getXTo() 
+			&& point.y >= this.roommap.getYFrom() && point.y <= this.roommap.getYTo()) {
+			newPoint = new Point(point.x, point.y);
+			
+		// point is located outside the room map
+		} else {
+			
+			double x = point.getX();
+			double y = point.getY();
+			
+			// test if point is located left from the left border of the room
+			if (Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYFrom(), 
+								   this.roommap.getXFrom(), this.roommap.getYTo(), 
+								   point.x, point.y) == -1) {
+				x = this.roommap.getXFrom();
+			}
+			
+			// test if point is located above from the upper border of the room
+			if (Line2D.relativeCCW(this.roommap.getXFrom(), this.roommap.getYTo(), 
+					 					 this.roommap.getXTo(), this.roommap.getYTo(), 
+					 					 point.x, point.y) == -1) {
+				y = this.roommap.getYTo();
+			} 
+			
+			// test if point is located right from the right border of the room
+			if (Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYTo(), 
+					 					 this.roommap.getXTo(), this.roommap.getYFrom(), 
+					 					 point.x, point.y) == -1) {
+				x = this.roommap.getXTo();
+			} 
+			
+			// test if point is located beyond from the under border of the room
+			if (Line2D.relativeCCW(this.roommap.getXTo(), this.roommap.getYFrom(), 
+					 					 this.roommap.getXFrom(), this.roommap.getYFrom(), 
+					 					 point.x, point.y) == -1) {
+				y = this.roommap.getYFrom();
+			}
+			newPoint = new Point(x, y);			
+		}
+		return newPoint;
 	}
 }
