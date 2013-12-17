@@ -10,17 +10,27 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-
-public class ResponseParser {
-	
-	public static ArrayList<WatchPositionRecord> getParsedResponse(String results) {
+/**
+ * This class provides different parse functions which parse a string in JSON format to the needed objects
+ * @author Silvio
+ *
+ */
+public class ResponseParser
+{
+	/**
+	 * This method parse the given string (which should be valid JSON) to a list of WatchPositionRecords
+	 * @author Silvio
+	 * @param jsonString The string which represent the JSON Object
+	 * @return The List of WatchPositionRecords
+	 */
+	public static ArrayList<WatchPositionRecord> getParsedResponse(String jsonString) {
 		
 		ArrayList<WatchPositionRecord> deviceInformation = new ArrayList<WatchPositionRecord>();
-		if (results!=null) {
+		if (jsonString!=null) {
 			
             try {
             	
-            	JSONObject obj = new JSONObject(results);
+            	JSONObject obj = new JSONObject(jsonString);
             	JSONArray  responseObject = obj.getJSONArray("objects");
 
             	for(int i = 0 ; i < responseObject.length() ; i++){
@@ -63,19 +73,25 @@ public class ResponseParser {
 	}
 
 
-public static MapRecord parseMapRecord(String results) {
-	
-	MapRecord mapRecord = null;
-		if (results!=null) {
-			
-            try {
-            	
-            	JSONObject obj = new JSONObject(results);
+	/**
+	 * This method parse the given string (which should be valid JSON) to a MapRecord
+	 * @author Maheswari
+	 * @param jsonString The string which represent the JSON Object
+	 * @return The MapRecord which represents the jsonString
+	 */
+	public static MapRecord parseMapRecord(String jsonString)
+	{	
+		MapRecord mapRecord = null;
+		if (jsonString!=null) 
+		{
+	        try
+	        {	            	
+            	JSONObject obj = new JSONObject(jsonString);
             	JSONArray  responseObject = obj.getJSONArray("objects");
 
-            	for(int i = 0 ; i < responseObject.length() ; i++){
-            		
-            		 mapRecord = new MapRecord();
+            	for(int i = 0 ; i < responseObject.length() ; i++)
+            	{
+            		mapRecord = new MapRecord();
             		
                     JSONObject jsonObj = (JSONObject)responseObject.get(i);
                     mapRecord.setMapId(jsonObj.getString("id").toString());
@@ -88,9 +104,13 @@ public static MapRecord parseMapRecord(String results) {
                     Float parsewidth =  Float.parseFloat(width);
                     mapRecord.setWidth(parsewidth);
                     
-                    String scaling = jsonObj.getString("scaling").toString();
-                    Float parseScaling =  Float.parseFloat(scaling);
-                    mapRecord.setScaling(parseScaling);
+                    String scalingStringX = jsonObj.getString("scalingX").toString();
+                    Float scalingX =  Float.parseFloat(scalingStringX);
+                    mapRecord.setScalingX(scalingX);
+                    
+                    String scalingStringY = jsonObj.getString("scalingX").toString();
+                    Float scalingY =  Float.parseFloat(scalingStringY);
+                    mapRecord.setScalingY(scalingY);                    
                     
                     String offsetX = jsonObj.getString("offsetX").toString();
                     Float parseOffsetX =  Float.parseFloat(offsetX);
@@ -99,8 +119,6 @@ public static MapRecord parseMapRecord(String results) {
                     String offsetY = jsonObj.getString("offsetY").toString();
                     Float parseOffsetY =  Float.parseFloat(offsetY);
                     mapRecord.setOffsetY(parseOffsetY);
-                    
-                    
                     
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
                     try
@@ -111,12 +129,13 @@ public static MapRecord parseMapRecord(String results) {
 					{
 						e.printStackTrace();
 					}
-                    
-//                    mapInformation.add(mapRecord);
                 }
             	
             	return mapRecord;
-			} catch (JSONException e) {
+            	
+			}
+	        catch (JSONException e)
+	        {
 				e.printStackTrace();
 			}
 
