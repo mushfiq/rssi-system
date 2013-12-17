@@ -58,8 +58,7 @@ public class DataProcessorRunnable implements Runnable {
 		    } else {
 		    	//System.out.println(position);
 		    	int watchId = entry.getKey();
-			    long currentTime = System.currentTimeMillis() / 1000L; // Tommy: changed it by dividing 1000L to get
-										   // UNIX timestamp
+			    long currentTime = System.currentTimeMillis(); // TODO: Be aware that this has to be like this: long currentTime = System.currentTimeMillis();
 			    int mapId = 0; // TODO: get actual room map id instead of supplying zero every time
 			    WatchPositionData newData = new WatchPositionData(watchId, currentTime, position);
 			    Application.getApplication().getController().getCalculatedPositionsQueue().add(newData);
