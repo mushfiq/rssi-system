@@ -16,7 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import algorithm.filter.KalmanFilterOneDim;
+import algorithm.filter.KalmanFilter;
 import algorithm.helper.Point;
 import algorithm.images.GrayscaleImages;
 import components.RoomMap;
@@ -44,7 +44,7 @@ public class KalmanFilterTest {
 	
 	@Test
 	public void testOutputGrayscaleImage() {
-		KalmanFilterOneDim kf = new KalmanFilterOneDim();
+		KalmanFilter kf = new KalmanFilter();
 		RoomMap rm = new RoomMap(0.0, 5.0, 0.0, 5.0, null);
 		
 		ArrayList<Point> rawPoints = new ArrayList<Point>();

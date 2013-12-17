@@ -23,7 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import algorithm.ProbabilityBasedAlgorithm;
-import algorithm.filter.KalmanFilterOneDim;
+import algorithm.filter.KalmanFilter;
 import algorithm.helper.Point;
 import algorithm.probabilityMap.ProbabilityMap;
 import algorithm.probabilityMap.ProbabilityMapPathLossCircle;
@@ -130,7 +130,7 @@ public class ProbabilityBasedAlgorithmTest {
 	private static WeightFunction weightFunctionExtended;
 	
 	/** A kalman filter used for this test. */
-	private static KalmanFilterOneDim filterKalman;
+	private static KalmanFilter filterKalman;
 	
 	private static final double RECEIVERPOSITION_MINUS25 = -25.0;
 	private static final double RECEIVERPOSITION_PLUS25 = +25.0;
@@ -213,7 +213,7 @@ public class ProbabilityBasedAlgorithmTest {
         weightFunctionSimple = new WeightFunctionSimple();
         weightFunctionExtended = new WeightFunctionExtended();
         
-        filterKalman = new KalmanFilterOneDim();     
+        filterKalman = new KalmanFilter();     
         
         
         deleteDirectory(new File(FOLDER_PROBABILITYBASED));
