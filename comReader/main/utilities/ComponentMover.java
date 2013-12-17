@@ -1,3 +1,7 @@
+/*
+ * This file was obtained by a third party.
+ * 
+ * */
 package utilities;
 import java.awt.Component;
 import java.awt.Cursor;

@@ -1,3 +1,7 @@
+/*
+ * This file was obtained by a third party.
+ * 
+ */
 package gui;
 import java.awt.*;
 import javax.swing.JScrollPane;
@@ -8,6 +12,11 @@ import javax.swing.SwingUtilities;
  */
 public class WrapLayout extends FlowLayout
 {
+	
+	/** The Constant serialVersionUID. */
+	private static final long serialVersionUID = 1L;
+	
+	/** The preferred layout size. */
 	private Dimension preferredLayoutSize;
 
 	/**
@@ -168,6 +177,13 @@ public class WrapLayout extends FlowLayout
 	 *  @param dim update the width and height when appropriate
 	 *  @param rowWidth the width of the row to add
 	 *  @param rowHeight the height of the row to add
+	 */
+	/**
+	 * Adds the row.
+	 *
+	 * @param dim the dim
+	 * @param rowWidth the row width
+	 * @param rowHeight the row height
 	 */
 	private void addRow(Dimension dim, int rowWidth, int rowHeight)
 	{
