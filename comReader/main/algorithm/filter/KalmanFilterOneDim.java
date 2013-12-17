@@ -1,3 +1,4 @@
+
 package algorithm.filter;
 
 import algorithm.helper.Point;
@@ -11,9 +12,10 @@ import algorithm.helper.Point;
  *
  */	
 public class KalmanFilterOneDim extends Filter {
+	private static final double COVARIANCE_DEFAULT = 0.4;
+	private static final double STATEVARIANCE_DEFAULT = 0.05;
 	
-	private static final double COVARIANCE_DEFAULT = 0.6;
-	private static final double STATEVARIANCE_DEFAULT = 0.07;
+	
 	/**
 	 * prioreEstimate is the prior Point which we get from the variable estimate
 	 * estimate is the new Point that is calculated 
@@ -27,11 +29,14 @@ public class KalmanFilterOneDim extends Filter {
 	 * 
 	 */
 	private Point priorEstimate, estimate, rawValue;
-	private double priorErrorVariance, errorCovariance, kalmanGain;
+	private static double priorErrorVariance, errorCovariance;
+	private static double kalmanGain;
 	private boolean firstTimeRunning = true;
-	private static double covariance, statevariance; //TODO Yenni, warum static?
+	private static boolean firstTimeRun = true;
+	private static double covariance, statevariance;
 
 
+	
 	public KalmanFilterOneDim() {
 		super();
 		
@@ -66,7 +71,7 @@ public class KalmanFilterOneDim extends Filter {
 		
 	    else {
 	    	priorEstimate = estimate;              	//estimate is the old one here
-	     	priorErrorVariance = errorCovariance;  	//errorCovariance is the old one
+	     	priorErrorVariance = errorCovarRSSI;  	//errorCovariance is the old one
 	    }
 		//Correction Part
 		
@@ -74,10 +79,52 @@ public class KalmanFilterOneDim extends Filter {
 		rawValue = lastPosition;          				//lastPosition is the newest Position recieved
 		kalmanGain = priorErrorVariance / (priorErrorVariance + covariance);
 		estimate = new Point (priorEstimate.getX() + (kalmanGain * (rawValue.getX() - priorEstimate.getX())),priorEstimate.getY() + (kalmanGain * (rawValue.getY() - priorEstimate.getY())));
-		errorCovariance = (1 - kalmanGain) * priorErrorVariance + statevariance;
+		errorCovarRSSI = (1 - kalmanGain) * priorErrorVariance + statevariance;
 		
 		lastPosition = new Point (estimate.getX() + statevariance,estimate.getY() + statevariance);   //posistion is the variable I want to update which will be lastPosition next time
 		
 		return lastPosition;	
+	}
+	
+	
+	private double priorRSSI;
+	private double estimateRSSI;
+	private double rawRSSI;
+	private double priorErrorVarRSSI;
+	private double errorCovarRSSI;
+
+	
+	/**
+	 * 
+	 * @param lastPosition is the position we want to estimate better
+	 * @return A new point that represents the position of the watch
+	 */
+	public double updateRSSI (double rssi) {
+		
+		if(firstTimeRun) {
+			priorRSSI = rssi;          		//estimate is the old one here
+			priorErrorVarRSSI = 1.2;        		//errorCovariance is the old one
+		    firstTimeRun = false;
+		}
+		
+		//Prediction Part
+		
+		
+	    else {
+	    	priorRSSI = estimateRSSI;              	//estimate is the old one here
+	     	priorErrorVarRSSI = errorCovarRSSI;  	//errorCovariance is the old one
+	    }
+		//Correction Part
+		
+		
+		rawRSSI = rssi;          				//lastPosition is the newest Position recieved
+		kalmanGain = priorErrorVarRSSI / (priorErrorVarRSSI + covariance);
+		estimateRSSI = priorRSSI + (kalmanGain * (rawRSSI - priorRSSI));
+		errorCovarRSSI = (1 - kalmanGain) * priorErrorVarRSSI + covariance;
+		
+		
+		rssi = estimateRSSI + statevariance;   //posistion is the variable I want to update which will be lastPosition next time
+		
+		return rssi;	
 	}
 }

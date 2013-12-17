@@ -37,10 +37,16 @@ public class MapRecord
     	 return width;
      }
      
-     float scaling = 0.0f;
-     public void setScaling(float scaling)
+     float scalingX = 0.0f;
+     public void setScalingX(float scaling)
      {
-    	 this.scaling = scaling;
+    	 this.scalingX = scaling;
+     }
+     
+     float scalingY = 0.0f;
+     public void setScalingY(float scaling)
+     {
+    	 this.scalingY = scaling;
      }
      
      float offsetX = 0.0f;

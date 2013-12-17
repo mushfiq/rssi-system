@@ -218,7 +218,7 @@ public class GrayscaleImages {
 	    	x = (int) Math.round(positionPointInImage.getX());
 	    	y = (int) Math.round(positionPointInImage.getY());
 	    	if(x >= 0 && x <= imageLenghtX && y >= 0 && y <= imageLenghtY) {
-	    		theImage.setRGB(x, y, cBlack.getRGB());
+	    		theImage.setRGB(x, y, cWhite.getRGB());
 	    	}
 		}
     		    
