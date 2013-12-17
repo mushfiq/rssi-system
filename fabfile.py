@@ -17,20 +17,28 @@ def server():
 
 #next two tasks shows access log and error log
 def show_access_log():
+    ''' shows access log of remote server'''
+    
 	run('sudo tail -n 10 /var/log/apache2/shironambd-custom.log')
 	
 def show_error_log():
+    ''' shows error log of remote server'''
+    
 	run('sudo tail -n 10 /var/log/apache2/shironambd-error.log')
 	
 def restart_apache():
+    ''' restrart server apache '''
+    
 	run('sudo service apache2 restart')
 
-'''
-	this task deploy the code to server 
-	paths need to fixed before real prod use
-'''
 def rssi_deploy():
-    env.site_name = 'RESTApi'
+    '''
+    	this task deploy the code to server 
+    	paths need to fixed before real prod use
+        rename site_name, site_path accordingly to server
+    '''
+    
+    env.site_name = 'RESTApi' 
     env.site_path    = '/var/www/rssi'
     run('sudo rm -rf %s/%s' % (env.site_path,env.site_name))
     local('tar --exclude="*.pyc" -czf %s.tgz %s/' % (env.site_name, env.site_name))
@@ -40,4 +48,10 @@ def rssi_deploy():
     local('rm -rf %s.tgz' % (env.site_name))
 
 def install_dependecies():
-    local('pip install -r requirements.txt')
+    '''
+        this method install required depencies
+    '''
+    
+    env.site_name = 'RESTApi' 
+    env.site_path    = '/var/www/rssi'
+    run('pip install -r requirements.txt')
