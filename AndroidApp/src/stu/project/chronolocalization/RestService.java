@@ -99,21 +99,25 @@ public RestService(Activity _activity){
 				}	
 				
 				protected void onPostExecute(String results) {					
-
+					Log.e("Map Information ----",""+results);
 					MapRecord records = ResponseParser.parseMapRecord(results);
-//					Log.d("Map Information ----",""+records);
 					try
 					{	
 								
 						if( records != null)
 				    	{
-							stu.project.chonolocalization.imageloader.ImageLoader imgLoader = new stu.project.chonolocalization.imageloader.ImageLoader(this.getActivity().getApplicationContext(),this.getActivity());
-
-			    	        String mapid = records.getMapId();
-			    		    String image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+mapid;
-//			    	        imgLoader.DisplayImage(image_url, 0, null,records);
-//			    	        MapImageView drawableImage = (MapImageView)activity.findViewById(R.id.mapImage);
-			    	         new BitmapTask().execute(records);
+							/*MapImageView image = (MapImageView)this.getActivity().findViewById(R.id.mapImage);
+					        
+					        // Image url
+							String mapid = records.getMapId();
+							Log.d("******mapid*******", ""+mapid);
+			    		     String image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+mapid;
+			    		    					        // ImageLoader class instance
+					        stu.project.chonolocalization.imageloader.ImageLoader imgLoader = new stu.project.chonolocalization.imageloader.ImageLoader(this.getActivity().getApplicationContext(),this.getActivity());
+					        
+					        imgLoader.DisplayImage(image_url, 0, image,records);*/
+							
+			                new BitmapTask().execute(records);
 				    	}
 					}catch(Exception e)
 					{
@@ -141,6 +145,7 @@ public RestService(Activity _activity){
 	    			
 	    			String mapid = record.getMapId();
 	    		     image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+mapid;
+	    		     Log.d("", "image_url"+image_url);
 	    		    //for temporary implemetation
 	    		    mapid="0";
 	    		    
@@ -152,6 +157,7 @@ public RestService(Activity _activity){
 //	    			String image_url = "http://www.housing.uic.edu/halls/cmw/map-cmsw-double-room.jpg";
 		            map = downloadImage(image_url);
 	    			
+		            
 	    		    
 	    		}
 	    		
@@ -163,7 +169,6 @@ public RestService(Activity _activity){
 	    // Sets the Bitmap returned by doInBackground
 	    @Override
 	    protected void onPostExecute(Bitmap result) {
-	    	Log.d("********progress","");
 	    	
 //            WatchUserActivity.dialog.dismiss();
             MainActivity.dialog.dismiss();
@@ -203,33 +208,6 @@ public RestService(Activity _activity){
 		    
 		    
 			MapImageView drawableImage = (MapImageView)this.getActivity().findViewById(R.id.mapImage);
-
-		    /*int pos_a = 10; 
-	        int pos_b = 255; 
-	        drawableImage.addReceiver("Receiver1", new Point(pos_a,pos_a)); 
-	        drawableImage.addReceiver("Receiver2", new Point(pos_a,pos_b)); 
-	        drawableImage.addReceiver("Receiver3", new Point(pos_b,pos_a)); 
-	        drawableImage.addReceiver("Receiver4", new Point(pos_b,pos_b)); 
-		     Log.d("********drawableImage", ""+drawableImage);
-		    */ 
-		     
-		     Bitmap bmSrc1 = ((BitmapDrawable)drawableImage.getDrawable()).getBitmap();
-
-		   /*  ImageView copyImage = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImageFromDB);;
-
-		     copyImage.setImageBitmap(bmSrc1);
-*//*
-		     Bitmap bitmap=BitmapFactory.decodeFile(this.getActivity().getResources(), drawableImage);
-		     ByteArrayOutputStream stream=new ByteArrayOutputStream();
-		     bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
-		     byte[] image=stream.toByteArray();
-*/		     /*
-	     ImageView copyImage = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImageFromDB);;
-	     copyImage = drawableImage;
-	     
-	     Log.d("********copyImage", ""+copyImage);*/
-//	     copyImage.setImageDrawable(Drawable(drawableImage);
-	     
 		     
 		     int count = 1;
 		     float[] x = new float[6];
@@ -241,15 +219,7 @@ public RestService(Activity _activity){
 				{	
 	    			x[count] = record.getX();
 	    			y[count] = record.getY();
-	    			
-	    			Log.d("***record*X******","**********"+record.getX());
-	    			Log.d("***record*Y******","**********"+record.getY());
-
-	    			Log.d("****X******","**********"+x[count]);
-	    			Log.d("****Y******","**********"+y[count]);
-
 	    			count++;
-	    			
 	    			
 //	    	        drawableImage.addReceiver(record.getReceiverId(), new Point(record.getX(),record.getY()));
 	    			
@@ -257,31 +227,31 @@ public RestService(Activity _activity){
 				}
 	    	}	
 	     
-	     int x1 = 20;
-			int x2 = 130;
-			int x3 = 285;
-			int x4 = 410;
-			int y1 = 13;
-			int y2 = 235;
-			int y3 = 305;
-			int y4 = 405;
-			drawableImage.addReceiver("Receiver1", new Point(x1,y1));
-			drawableImage.addReceiver("Receiver2", new Point(x2,y1));
-			drawableImage.addReceiver("Receiver3", new Point(x4,y1));
-			drawableImage.addReceiver("Receiver4", new Point(x1,y2));
-			drawableImage.addReceiver("Receiver5", new Point(x4,y2));
-			drawableImage.addReceiver("Receiver6", new Point(x3,y3));
-			drawableImage.addReceiver("Receiver7", new Point(x4,y4));
-		
-	     /* drawableImage.addReceiver("Receiver1", new Point(x[1],y[1]));
+	     /*drawableImage.addReceiver("Receiver1", new Point(x[1],y[1]));
 	     drawableImage.addReceiver("Receiver2", new Point(x[2],y[1]));
 	     drawableImage.addReceiver("Receiver3", new Point(x[4],y[1]));
 	     drawableImage.addReceiver("Receiver4", new Point(x[1],y[2]));
 	     drawableImage.addReceiver("Receiver5", new Point(x[4],y[2]));
 	     drawableImage.addReceiver("Receiver6", new Point(x[3],y[3]));
 	     drawableImage.addReceiver("Receiver7", new Point(x[4],y[4]));
-		
-	    */ 
+		*/
+	     
+	     int x1 = 40;
+ 		int x2 = 155;
+ 		int x3 = 310;
+ 		int x4 = 435;
+ 		int y1 = 13;
+ 		int y2 = 235;
+ 		int y3 = 305;
+ 		int y4 = 405;
+	drawableImage.addReceiver("Receiver1", new Point(x1,y1));
+			drawableImage.addReceiver("Receiver2", new Point(x2,y1));
+			drawableImage.addReceiver("Receiver3", new Point(x4,y1));
+			drawableImage.addReceiver("Receiver4", new Point(x1,y2));
+			drawableImage.addReceiver("Receiver5", new Point(x4,y2));
+			drawableImage.addReceiver("Receiver6", new Point(x3,y3));
+			drawableImage.addReceiver("Receiver7", new Point(x4,y4));
+	     
 	    }
 	    
 	    // Creates Bitmap from InputStream and returns it
