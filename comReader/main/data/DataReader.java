@@ -1,26 +1,14 @@
 package data;
 
-import java.util.logging.Logger;
-import utilities.Utilities;
-
 /**
- * Contains the thread that reads and parses data from COM port.
+ * Interface used for reading data from a data source.
+ * 
+ * @author Danilo
  */
-public abstract class DataReader {
-
-	/** The logger. */
-	private Logger logger;
-	
-	/**
-	 * Instantiates a new data reader.
-	 */
-	public DataReader() {
-		
-		logger = Utilities.initializeLogger(this.getClass().getName());
-	}
+public interface DataReader {
 
 	/**
-	 * Read data.
+	 * Reads the data.
 	 */
-	public abstract void readData();
+	void readData();
 }

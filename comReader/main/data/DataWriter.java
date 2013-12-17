@@ -1,14 +1,16 @@
 package data;
 
-
 /**
- * The Interface DataWriter. Contains a thread that writes the readings to the database.
+ * The Interface DataWriter. Contains a thread that writes <code>WatchPositionData</code> objects to the database.
+ * 
+ * @author Danilo
+ * @see data.WatchPositionData
  */
 public interface DataWriter {
 
 	/**
-	 * Write data.
+	 * Writes data.
 	 */
-	public void writeData();
+	void writeData();
 
 }

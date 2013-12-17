@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package gui;
 
 import gui.enumeration.AddMapDialogMode;
@@ -22,17 +26,22 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatter;
+
+import components.RoomMap;
 
 import main.Application;
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class ParametersPanel.
+ * Contains buttons, labels, combo boxes, spinners and text fields used to set <code>RoomMap</code> properties.
+ * 
+ * @author Danilo
+ * @see RoomMap
  */
 public class ParametersPanel extends JPanel {
 
@@ -75,8 +84,20 @@ public class ParametersPanel extends JPanel {
 	/** The Constant SPINNER_STEP. */
 	private static final double SPINNER_STEP = 0.1; // 10cm
 
+	/** The Constant GRAY_COULOUR. */
+	private static final int GRAY_COULOUR = 230;
+
+	/** The upload button. */
+	private JButton uploadButton;
+
+	/** The save button. */
+	private JButton saveButton;
+
 	/** The cancel button. */
-	private JButton uploadButton, saveButton, cancelButton;
+	private JButton cancelButton;
+
+	/** The start stop button. */
+	private StartStopButton startStopButton;
 
 	/** The add map dialog. */
 	private AddMapDialog addMapDialog;
@@ -87,16 +108,14 @@ public class ParametersPanel extends JPanel {
 	/** The rotate receiver counter clockwise button. */
 	private JButton rotateReceiverCounterClockwiseButton;
 
-	/** The start stop button. */
-	private StartStopButton startStopButton;
-
 	/** The algorithm combo box. */
 	private JComboBox<PositionLocalizationAlgorithmType> algorithmComboBox;
+
 	/** The logger. */
 	private Logger logger;
 
-	/** The openning mode. */
-	private AddMapDialogMode openningMode;
+	/** The opening mode. */
+	private AddMapDialogMode openingMode;
 
 	/** The room width in meters spinner. */
 	private JSpinner roomWidthInMetersSpinner;
@@ -104,32 +123,37 @@ public class ParametersPanel extends JPanel {
 	/** The room height in meters spinner. */
 	private JSpinner roomHeightInMetersSpinner;
 
+	/** The title text field. */
+	private JTextField titleTextField;
+
 	/**
-	 * Instantiates a new parameters panel.
+	 * Instantiates a new <code>ParametersPanel</code>.
 	 * 
 	 * @param parentDialog
-	 *            the parent dialog
-	 * @param openningMode
-	 *            the openning mode
+	 *            <code>AddMapDialog</code> parent component
 	 */
-	public ParametersPanel(AddMapDialog parentDialog, AddMapDialogMode openningMode) {
+	public ParametersPanel(AddMapDialog parentDialog) {
 
 		logger = Utilities.initializeLogger(this.getClass().getName());
-		this.openningMode = openningMode;
+		this.openingMode = parentDialog.getOpeningMode();
 		this.addMapDialog = parentDialog;
 		initialize();
 		addListenersToComponents();
 	}
 
 	/**
-	 * Initialize.
+	 * Initializes <code>ParametersPanel</code>. Depending on the value of <code>AddMapDialogMode</code> field in
+	 * <code>parentDialog</code> object, some components may not be shown. For example, if the
+	 * <code>AddMapDialogMode</code> is set to <code>AddMapDialogMode.ADD</code>, there will not be a button for
+	 * starting/stopping readings and writings.
+	 * 
 	 */
 	private void initialize() {
 
 		setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		this.setLayout(new GridBagLayout());
-		setBackground(new Color(230, 230, 230));
+		setBackground(new Color(GRAY_COULOUR, GRAY_COULOUR, GRAY_COULOUR));
 
 		// Receiver view rotation label
 		JLabel rotationlabel = new JLabel("Rotate receiver:");
@@ -174,11 +198,38 @@ public class ParametersPanel extends JPanel {
 
 		this.add(rotateReceiverClockwiseButton, gbc3);
 
+		// Add map title label
+		JLabel mapTitleLabel = new JLabel("Title:");
+		GridBagConstraints gbc15 = new GridBagConstraints();
+		gbc15.gridx = 0;
+		gbc15.gridy = 2;
+		gbc15.gridwidth = 2;
+		gbc15.gridheight = 1;
+		gbc15.weightx = 1;
+		gbc15.weighty = 2;
+		gbc15.anchor = GridBagConstraints.LINE_START;
+
+		this.add(mapTitleLabel, gbc15);
+
+		// Add map title text field
+		titleTextField = new JTextField("", 40);
+		GridBagConstraints gbc16 = new GridBagConstraints();
+		gbc16.gridx = 0;
+		gbc16.gridy = 3;
+		gbc16.gridwidth = 2;
+		gbc16.gridheight = 1;
+		gbc16.weightx = 3;
+		gbc16.weighty = 2;
+		gbc16.fill = GridBagConstraints.HORIZONTAL;
+		gbc16.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		this.add(titleTextField, gbc16);
+
 		// Add algorithm label
 		JLabel algorithmlabel = new JLabel("Algorithm:");
 		GridBagConstraints gbc4 = new GridBagConstraints();
 		gbc4.gridx = 0;
-		gbc4.gridy = 2;
+		gbc4.gridy = 4;
 		gbc4.gridwidth = 1;
 		gbc4.gridheight = 1;
 		gbc4.weightx = 1;
@@ -193,7 +244,7 @@ public class ParametersPanel extends JPanel {
 		algorithmComboBox.addItem(PositionLocalizationAlgorithmType.PROXIMITY);
 		GridBagConstraints gbc5 = new GridBagConstraints();
 		gbc5.gridx = 0;
-		gbc5.gridy = 3;
+		gbc5.gridy = 5;
 		gbc5.gridwidth = 2;
 		gbc5.gridheight = 1;
 		gbc5.weightx = 1;
@@ -201,13 +252,13 @@ public class ParametersPanel extends JPanel {
 		gbc5.anchor = GridBagConstraints.FIRST_LINE_START;
 
 		this.add(algorithmComboBox, gbc5);
-		algorithmComboBox.setVisible((openningMode == AddMapDialogMode.EDIT) ? true : false);
+		algorithmComboBox.setVisible((openingMode == AddMapDialogMode.EDIT) ? true : false);
 
 		// add room height label
 		JLabel roomHeightLabel = new JLabel("Room height (m):");
 		GridBagConstraints gbc6 = new GridBagConstraints();
 		gbc6.gridx = 0;
-		gbc6.gridy = 4;
+		gbc6.gridy = 6;
 		gbc6.gridwidth = 1;
 		gbc6.gridheight = 1;
 		gbc6.weightx = 1;
@@ -225,7 +276,7 @@ public class ParametersPanel extends JPanel {
 				.getFormatter()).setAllowsInvalid(false);
 		GridBagConstraints gbc7 = new GridBagConstraints();
 		gbc7.gridx = 1;
-		gbc7.gridy = 4;
+		gbc7.gridy = 6;
 		gbc7.gridwidth = 1;
 		gbc7.gridheight = 1;
 		gbc7.weightx = 1;
@@ -238,7 +289,7 @@ public class ParametersPanel extends JPanel {
 		JLabel roomWidthLabel = new JLabel("Room width (m):");
 		GridBagConstraints gbc8 = new GridBagConstraints();
 		gbc8.gridx = 0;
-		gbc8.gridy = 5;
+		gbc8.gridy = 7;
 		gbc8.gridwidth = 1;
 		gbc8.gridheight = 1;
 		gbc8.weightx = 1;
@@ -256,7 +307,7 @@ public class ParametersPanel extends JPanel {
 				.getFormatter()).setAllowsInvalid(false);
 		GridBagConstraints gbc9 = new GridBagConstraints();
 		gbc9.gridx = 1;
-		gbc9.gridy = 5;
+		gbc9.gridy = 7;
 		gbc9.gridwidth = 1;
 		gbc9.gridheight = 1;
 		gbc9.weightx = 1;
@@ -269,7 +320,7 @@ public class ParametersPanel extends JPanel {
 		JLabel startStopLabel = new JLabel("Start/Stop readings:");
 		GridBagConstraints gbc10 = new GridBagConstraints();
 		gbc10.gridx = 0;
-		gbc10.gridy = 6;
+		gbc10.gridy = 8;
 		gbc10.gridwidth = 2;
 		gbc10.gridheight = 1;
 		gbc10.weightx = 1;
@@ -282,7 +333,7 @@ public class ParametersPanel extends JPanel {
 		startStopButton = new StartStopButton();
 		GridBagConstraints gbc11 = new GridBagConstraints();
 		gbc11.gridx = 0;
-		gbc11.gridy = 7;
+		gbc11.gridy = 9;
 		gbc11.gridwidth = 1;
 		gbc11.gridheight = 1;
 		gbc11.weightx = 1;
@@ -290,13 +341,13 @@ public class ParametersPanel extends JPanel {
 		gbc11.anchor = GridBagConstraints.FIRST_LINE_START;
 
 		this.add(startStopButton, gbc11);
-		startStopButton.setVisible((openningMode == AddMapDialogMode.ADD) ? false : true);
+		startStopButton.setVisible((openingMode == AddMapDialogMode.ADD) ? false : true);
 
 		// Add 'Upload' button
 		uploadButton = new JButton("Upload");
 		GridBagConstraints gbc12 = new GridBagConstraints();
 		gbc12.gridx = 0;
-		gbc12.gridy = 8;
+		gbc12.gridy = 10;
 		gbc12.gridwidth = 2;
 		gbc12.gridheight = 1;
 		gbc12.weightx = 1;
@@ -309,7 +360,7 @@ public class ParametersPanel extends JPanel {
 		saveButton = new JButton("Save");
 		GridBagConstraints gbc13 = new GridBagConstraints();
 		gbc13.gridx = 0;
-		gbc13.gridy = 9;
+		gbc13.gridy = 11;
 		gbc13.gridwidth = 1;
 		gbc13.gridheight = 1;
 		gbc13.weightx = 1;
@@ -322,7 +373,7 @@ public class ParametersPanel extends JPanel {
 		cancelButton = new JButton("Cancel");
 		GridBagConstraints gbc14 = new GridBagConstraints();
 		gbc14.gridx = 1;
-		gbc14.gridy = 9;
+		gbc14.gridy = 11;
 		gbc14.gridwidth = 1;
 		gbc14.gridheight = 1;
 		gbc14.weightx = 1;
@@ -359,7 +410,7 @@ public class ParametersPanel extends JPanel {
 		 * Instantiates a new upload button listener.
 		 * 
 		 * @param observable
-		 *            the observable
+		 *            observable
 		 */
 		public UploadButtonListener(JDialog observable) {
 
@@ -464,6 +515,11 @@ public class ParametersPanel extends JPanel {
 	 */
 	private class RotateButtonsListener implements ActionListener {
 
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
@@ -476,7 +532,7 @@ public class ParametersPanel extends JPanel {
 	}
 
 	/**
-	 * The Class StartStopButton.
+	 * This class is used for starting and stopping readings using current <code>RoomMap</code> object's properties.
 	 */
 	private class StartStopButton extends JButton implements ActionListener {
 
@@ -493,29 +549,32 @@ public class ParametersPanel extends JPanel {
 		private ImageIcon stopIcon = new ImageIcon(Utilities.loadImage(STOP_ICON_IMAGE_PATH));
 
 		/**
-		 * Instantiates a new start stop button.
+		 * Instantiates a new <code>StartStopButton</code>.
 		 */
 		public StartStopButton() {
-			this.state = StartStopButtonState.STARTED;
+			this.state = StartStopButtonState.STOPPED;
 			this.setIcon(startIcon);
 			this.addActionListener(this);
 		}
 
 		/**
-		 * Toggle.
+		 * Toggles the button's state. Since we are using one button for two actions, we toggle
+		 * between the two states.
+		 * 
+		 * @see StartStopButtonState
 		 */
 		private void toggle() {
 
-			if (state == StartStopButtonState.STOPPED) {
-
-				state = StartStopButtonState.STARTED;
+			if (state == StartStopButtonState.STARTED) {
+				state = StartStopButtonState.STOPPED;
 				this.setIcon(startIcon);
 				this.repaint();
+				// TODO stop readings and writings
 			} else {
-
-				state = StartStopButtonState.STOPPED;
+				state = StartStopButtonState.STARTED;
 				this.setIcon(stopIcon);
 				this.repaint();
+				// TODO start readings and writings
 			}
 		}
 
@@ -532,8 +591,8 @@ public class ParametersPanel extends JPanel {
 	}
 
 	/*
-	 * XXX listener works fine, but it is most likely not going to be used this way. Code is left just in case needed.
-	 * Should be removed later if found unnecessary.
+	 * XXX listener works fine, but it is most likely not going to be used this way. Code is left just in case. Should
+	 * be removed later if found unnecessary.
 	 */
 	/**
 	 * The listener interface for receiving algorithmComboBoxAction events. The class that is interested in processing a
@@ -591,12 +650,55 @@ public class ParametersPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * Gets the room width in meters.
+	 * 
+	 * @return <code>double</code> room width in meters
+	 */
 	public double getRoomWidthInMeters() {
 
 		return Double.parseDouble(roomWidthInMetersSpinner.getValue().toString());
 	}
-	
+
+	/**
+	 * Gets the room height in meters.
+	 * 
+	 * @return <code>double</code> room height in meters
+	 */
 	public double getRoomHeightInMeters() {
 		return Double.parseDouble(roomHeightInMetersSpinner.getValue().toString());
+	}
+
+	/**
+	 * Sets the room width and height in meters spinners.
+	 * 
+	 * @param width
+	 *            <code>double</code> width
+	 * @param height
+	 *            <code>double</code> height
+	 */
+	public void setRoomWidthAndHeightInMetersSpinners(double width, double height) {
+
+		this.roomWidthInMetersSpinner.setValue(width);
+		this.roomHeightInMetersSpinner.setValue(height);
+	}
+
+	/**
+	 * Sets the room title.
+	 * 
+	 * @param title
+	 *            <code>String</code> new room title
+	 */
+	public void setRoomTitle(String title) {
+		titleTextField.setText(title);
+	}
+
+	/**
+	 * Gets the room title.
+	 * 
+	 * @return <code>String</code> room title
+	 */
+	public String getRoomTitle() {
+		return titleTextField.getText();
 	}
 }

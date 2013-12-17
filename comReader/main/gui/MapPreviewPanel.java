@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package gui;
 
 import gui.enumeration.CoordinateZeroMarkerViewType;
@@ -7,6 +11,7 @@ import gui.observer.Observer;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.LayoutManager;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,18 +30,19 @@ import components.Receiver;
 import components.RoomMap;
 
 /**
- * Displays an image of the map when adding new map to the system or when editing an existing one.
+ * Displays an image of the map when adding new map to the data source or when editing an existing one.<br>
+ * <br>
  * 
- * It contains ReceiverView items.
- * 
- * CoordinateZeroView item is also added to this panel.
+ * It contains <code>ReceiverView</code> items. <code>CoordinateZeroView</code> item is also added to this panel. <br>
+ * <br>
  * 
  * If the image is larger than the panel itself, it will be scaled to fit the panel, maintaining original aspect ratio.
+ * 
+ * @author Danilo
+ * @see ReceiverView
+ * @see CoordinateZeroMarkerView
  */
 public class MapPreviewPanel extends JPanel implements Observer {
-
-	/** The logger. */
-	private Logger logger;
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
@@ -47,17 +53,6 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	/** The Constant PANEL_HEIGHT. */
 	private static final int PANEL_HEIGHT = 550;
 
-	/** Image of a map drawn as a panel background. */
-	private BufferedImage backgroundImage;
-
-	/** The original background image. */
-	private BufferedImage originalBackgroundImage;
-
-	/**
-	 * The scaling ratio of image (if necessary) to fit container. Initially it is 1.
-	 */
-	private double scalingRatioToFitContainer;
-
 	/** The Constant NO_IMAGE_STRING. */
 	private static final String NO_IMAGE_STRING = "Click on 'Upload' button on the right side to show a new map.";
 
@@ -67,9 +62,31 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	/** The Constant NO_IMAGE_STRING_TOP_PADDING. */
 	private static final int NO_IMAGE_STRING_TOP_PADDING = 2;
 
+	/** The Constant NO_IMAGE_ERROR_MESSAGE. */
 	private static final String NO_IMAGE_ERROR_MESSAGE = "Map must have an image.";
+
+	/** The Constant INVALID_POSITION_OF_MARKERS_ERROR_MESSAGE. */
 	private static final String INVALID_POSITION_OF_MARKERS_ERROR_MESSAGE = "Map markers are placed incorrectly.";
+
+	/** The Constant RECEIVERS_OUT_OF_MAP_ERROR_MESSAGE. */
 	private static final String RECEIVERS_OUT_OF_MAP_ERROR_MESSAGE = "Receivers cannot be placed outside the map.";
+
+	/** The Constant GRAY_COLOUR. */
+	private static final int GRAY_COLOUR = 230;
+
+	/**
+	 * The scaling ratio of image (if necessary) to fit container. Initially it is 1.
+	 */
+	private double scalingRatioToFitContainer;
+
+	/** <code>Logger</code> object. */
+	private Logger logger;
+
+	/** Image of a map drawn as a panel background. */
+	private BufferedImage backgroundImage;
+
+	/** The original background image. */
+	private BufferedImage originalBackgroundImage;
 
 	/** The receiver views. */
 	private List<ReceiverView> receiverViews;
@@ -83,15 +100,25 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	/** The receiver view in focus. */
 	private ReceiverView receiverViewInFocus;
 
+	/** The lower left marker. */
 	private CoordinateZeroMarkerView lowerLeftMarker;
+
+	/** The upper right marker. */
 	private CoordinateZeroMarkerView upperRightMarker;
+
+	/** The parent. */
 	private AddMapDialog parent;
 
 	/**
-	 * Instantiates a new map preview panel.
+	 * Instantiates a new <code>MapPreviewPanel</code>. This constructor is used when we open <code>AddMapDialog</code>
+	 * in <code>AddMapDialogMode.EDIT</code> mode.
 	 * 
 	 * @param map
-	 *            the map
+	 *            <code>RoomMap</code> object
+	 * @param parent
+	 *            <code>AddMapDialog</code> parent object
+	 * @see AddMapDialog
+	 * @see gui.enumeration.AddMapDialogMode
 	 */
 	public MapPreviewPanel(RoomMap map, AddMapDialog parent) {
 
@@ -106,59 +133,87 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	}
 
 	/**
-	 * Instantiates a new map preview panel.
+	 * Instantiates a new <code>MapPreviewPanel</code>. This constructor is used when we open <code>AddMapDialog</code>
+	 * in <code>AddMapDialogMode.ADD</code> mode.
+	 * 
+	 * @param parent
+	 *            <code>AddMapDialog</code> parent object
 	 */
 	public MapPreviewPanel(AddMapDialog parent) {
 		this.parent = parent;
+		this.map = new RoomMap();
 		receiverViews = new ArrayList<ReceiverView>();
 		initializeGui();
 	}
 
 	/**
-	 * Initializes GUI. Layout is set to null (no LayoutManager) so that ReceiverView items can be positioned
-	 * absolutely.
+	 * Initializes graphical user interface. Layout of this panel is set to <code>null</code> (no
+	 * <code>LayoutManager</code>) so that <code>ReceiverView</code> items can be positioned absolutely.
+	 * 
+	 * @see ReceiverView
+	 * @see LayoutManager
 	 */
 	private void initializeGui() {
 
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		setSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
 		setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
-		setBackground(new Color(230, 230, 230));
+		setBackground(new Color(GRAY_COLOUR, GRAY_COLOUR, GRAY_COLOUR));
 		setLayout(null); // in order to position ReceiverViews absolutely
 		refreshPreviewImage();
 
 		// register all receiver views to the ComponentMover
 		componentMover = new ComponentMover();
+		// add zero coordinate marker views
+		addCoordinateZeroMarkerViewsToMap();
 
 		for (Receiver receiver : map.getReceivers()) {
 
 			ReceiverView receiverView = new ReceiverView(receiver, this);
+			System.out.println("Initial position of receiver number " + receiver.getID() + " is: " + receiver.getXPos()
+					+ ", " + receiver.getYPos());
 			receiverViews.add(receiverView);
 			this.add(receiverView);
 			// TODO: location should be calculated with offsets for scaling
 			// the image and pixel/meter scaling
-			receiverView.setLocation((int) receiver.getXPos() * 100, (int) receiver.getYPos() * 100);
+
+			double receiverPositionInMetersX = receiver.getXPos();
+			double receiverPositionInMetersY = receiver.getYPos();
+			double mapRatioWidth = map.getRatioWidth();
+			double mapRatioHeight = map.getRatioHeight();
+			int lowerLeftMarkerOffsetXInPixels = map.getLowerLeftMarkerOffsetXInPixels();
+			int lowerLeftMarkerOffsetYInPixels = map.getLowerLeftMarkerOffsetYInPixels();
+
+			int receiverPositionInPixelsX = calculateReceiverPositionInPixelsX(	receiverPositionInMetersX,
+																				lowerLeftMarkerOffsetXInPixels,
+																				mapRatioWidth);
+			int receiverPositionInPixelsY = calculateReceiverPositionInPixelsY(	receiverPositionInMetersY,
+																				lowerLeftMarkerOffsetYInPixels,
+																				mapRatioHeight);
+
+			receiverView.setLocation(receiverPositionInPixelsX, receiverPositionInPixelsY);
+			System.out.println("Receiver position x (px): " + receiverPositionInPixelsX
+					+ "\nReceiver position y (px): " + receiverPositionInPixelsY);
 			componentMover.registerComponent(receiverView);
 		}
-		// add zero coordinate marker views
-		addCoordinateZeroMarkerViewsToMap();
+
 	}
 
 	/**
-	 * Changes the panel image. When changed, any receivers placed on the map will be removed and a (0,0) offset point
-	 * of the map will be reset to the (0,0) offset point of the picture.
+	 * Changes the panel image. When changed, any <code>ReceiverView</code>s placed on the map will be removed and
+	 * <code>CoordinateZeroMarkerView</code>'s will be set to (0,0) position.
 	 * 
 	 * @param file
-	 *            File image
-	 * 
+	 *            <code>File</code> Image file
+	 * @see <code>ReceiverView</code>
 	 * */
 	public void setPreviewImage(File file) {
 
 		try {
 			this.backgroundImage = ImageIO.read(file);
 			this.originalBackgroundImage = ImageIO.read(file);
-			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage,
-					PANEL_WIDTH, PANEL_HEIGHT);
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(	this.originalBackgroundImage,
+																						PANEL_WIDTH, PANEL_HEIGHT);
 			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
 
 		} catch (IOException e) {
@@ -167,13 +222,13 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	}
 
 	/**
-	 * Refresh preview image.
+	 * Refreshes preview image.
 	 */
 	private void refreshPreviewImage() {
 
 		if (originalBackgroundImage != null) {
-			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage,
-					PANEL_WIDTH, PANEL_HEIGHT);
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(	this.originalBackgroundImage,
+																						PANEL_WIDTH, PANEL_HEIGHT);
 			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
 			this.repaint();
 		}
@@ -181,11 +236,11 @@ public class MapPreviewPanel extends JPanel implements Observer {
 
 	/**
 	 * Overridden method in order to display image as a panel background. If the image is larger than the panel,
-	 * determined by PANEL_WIDTH and PANEL_HEIGHT, it will be resized to fit the panel, maintaining the original aspect
-	 * ratio.
+	 * determined by <code>PANEL_WIDTH</code> and <code>PANEL_HEIGHT</code>, it will be resized to fit the panel,
+	 * maintaining the original aspect ratio.
 	 * 
 	 * @param g
-	 *            Graphics object
+	 *            <code>Graphics</code> object
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -202,14 +257,14 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			// Draw the background image.
 			g.drawImage(this.backgroundImage, 0, 0, this);
 		}
-
 	}
 
 	/**
-	 * Creates a ReceiverView object from Receiver object and adds it to the MapPreviewPanel.
+	 * Creates a <code>ReceiverView</code> object from <code>Receiver</code> object and adds it to the
+	 * <code>MapPreviewPanel</code>.
 	 * 
 	 * @param receiver
-	 *            Receiver object
+	 *            <code>Receiver</code> object
 	 */
 	public void addReceiverViewToMap(Receiver receiver) {
 
@@ -222,10 +277,10 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	}
 
 	/**
-	 * Removes the ReceiverView object from map.
+	 * Removes the <code>ReceiverView</code> object from <code>RoomMap</code>.
 	 * 
 	 * @param receiver
-	 *            Receiver object
+	 *            <code>Receiver</code> object
 	 */
 	public void removeReceiverViewFromMap(Receiver receiver) {
 
@@ -254,17 +309,21 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	/**
 	 * Gets the background image.
 	 * 
-	 * @return the background image
+	 * @return <code>BufferedImage</code> background image
 	 */
 	public BufferedImage getBackgroundImage() {
 		return backgroundImage;
 	}
 
 	/**
-	 * Focus receiver view.
+	 * Sets one of the <code>ReceiverView</code>s in focus. <code>ReceiverView</code> in focus is denoted by black
+	 * border around itself (<code>ReceiverView</code>s that are not in focus don't have this border). When focused,
+	 * <code>ReceiverView</code>'s <code>angle</code> property can be changed through <code>ParametersPanel</code>.
 	 * 
 	 * @param receiverViewInFocus
-	 *            the receiver view in focus
+	 *            <code>ReceiverView</code> object in focus
+	 * @see ReceiverView
+	 * @see ParametersPanel
 	 */
 	public void focusReceiverView(ReceiverView receiverViewInFocus) {
 
@@ -282,10 +341,10 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	}
 
 	/**
-	 * Rotate receiver view in focus.
+	 * Rotates <code>ReceiverView</code> in focus.
 	 * 
 	 * @param rotateAmount
-	 *            the rotate amount
+	 *            <code>double</code> rotate amount
 	 */
 	public void rotateReceiverViewInFocus(double rotateAmount) {
 
@@ -297,32 +356,62 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	}
 
 	/**
-	 * Adds coordinate zero marker views to map.
+	 * Adds <code>CoordinateZeroMarkerView</code>s to <code>RoomMap</code>.
 	 */
 	public void addCoordinateZeroMarkerViewsToMap() {
 
-		if ((lowerLeftMarker == null) || (upperRightMarker == null)) {
-
+		if (lowerLeftMarker == null || upperRightMarker == null) {
 			lowerLeftMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.LOWER_LEFT, this);
 			upperRightMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.UPPER_RIGHT, this);
+
+			if (map.getLowerLeftMarkerOffsetXInPixels() != 0 && map.getLowerLeftMarkerOffsetYInPixels() != 0) {
+				lowerLeftMarker
+						.setLocation(	(int) (map.getLowerLeftMarkerOffsetXInPixels() * scalingRatioToFitContainer),
+										(int) ((map.getLowerLeftMarkerOffsetYInPixels() * scalingRatioToFitContainer) - (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT * scalingRatioToFitContainer)));
+			}
+
+			if (map.getUpperRightMarkerOffsetXInPixels() != 0 && map.getUpperRightMarkerOffsetYInPixels() != 0) {
+				upperRightMarker
+						.setLocation(	(int) (map.getUpperRightMarkerOffsetXInPixels() * scalingRatioToFitContainer)
+												- ((int) (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH * scalingRatioToFitContainer)),
+										(int) (map.getUpperRightMarkerOffsetYInPixels() * scalingRatioToFitContainer));
+			}
+
 			add(lowerLeftMarker);
 			add(upperRightMarker);
+			lowerLeftMarker.repaint();
+			upperRightMarker.repaint();
+			revalidate();
 			componentMover.registerComponent(lowerLeftMarker);
 			componentMover.registerComponent(upperRightMarker);
 		} else {
-			// don't add the second zero coordinate view, just repaint the old one
+			// don't add another pair of zero coordinate map marker views, just set position to zero and repaint the old
+			// ones
+			lowerLeftMarker.setLocation(0, 0);
 			lowerLeftMarker.repaint();
+			upperRightMarker.setLocation(0, 0);
 			upperRightMarker.repaint();
 			revalidate();
 		}
 	}
 
+	/**
+	 * Sets the status message. Call is delegated to <code>AddMapDialog</code>.
+	 * 
+	 * @param message
+	 *            <code>String</code> new status message
+	 * @see AddMapDialog
+	 */
 	public void setStatus(String message) {
 		// delegate call to AddMapDialog instance
-		String updateMessage = message;
-		parent.setStatus(updateMessage);
+		parent.setStatus(message);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see gui.observer.Observer#update(gui.observer.Observable)
+	 */
 	@Override
 	public void update(Observable observable) {
 
@@ -334,16 +423,17 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			String actualPositionMessage = "Actual position (px): ";
 			actualPositionMessage += "x = " + (int) (component.getLocation().x / scalingRatioToFitContainer) + ", y = "
 					+ (int) (component.getLocation().y / scalingRatioToFitContainer) + ".";
+			String messageToDisplay = scaledPositionMessage + " " + actualPositionMessage;
 
-			// TODO calculate position in meters
-			String positionInMetersMessage = "Position in meters: ";
-			positionInMetersMessage += "x = ";
-
-			String messageToDisplay = scaledPositionMessage + " " + actualPositionMessage + positionInMetersMessage;
 			parent.setStatus(messageToDisplay);
 		}
 	}
 
+	/**
+	 * Gets the validation error messages.
+	 * 
+	 * @return <code>List</code> of validation error messages
+	 */
 	public List<String> getValidationErrorMessages() {
 
 		ArrayList<String> validationErrors = new ArrayList<>();
@@ -388,9 +478,16 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		return validationErrors;
 	}
 
+	/**
+	 * Getter for <code>RoomMap</code> object with all its properties, including <code>Receiver</code>s and
+	 * <code>CoordinateZeroMarkerView</code>s .
+	 * 
+	 * @return the map
+	 * @see Receiver
+	 * @see ReceiverView
+	 * @see CoordinateZeroMarkerView
+	 */
 	public RoomMap getMap() {
-
-		// TODO set all map properties and return the map object
 
 		// set zero coordinate marker positions
 		int lowerLeftMarkerOffsetXInPixels = (int) (lowerLeftMarker.getLocation().getX() / scalingRatioToFitContainer);
@@ -422,6 +519,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		map.setRatioHeight(mapHeightRatio);
 
 		// set receiver positions in meters
+		map.getReceivers().clear(); // first we remove all present receivers
 		for (ReceiverView receiverView : receiverViews) {
 
 			int receiverViewXInPixels = ((int) (receiverView.getLocation().getX() / scalingRatioToFitContainer))
@@ -429,10 +527,12 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			int receiverViewYInPixels = ((int) (receiverView.getLocation().getY() / scalingRatioToFitContainer))
 					+ (ReceiverView.RECEIVER_ITEM_HEIGHT / 2);
 
-			double receiverPositionInMetersX = calculateReceiverPositionInMetersX(lowerLeftMarkerOffsetXInPixels,
-					receiverViewXInPixels, mapWidthRatio);
-			double receiverPositionInMetersY = calculateReceiverPositionInMetersY(lowerLeftMarkerOffsetYInPixels,
-					receiverViewYInPixels, mapHeightRatio);
+			double receiverPositionInMetersX = calculateReceiverPositionInMetersX(	lowerLeftMarkerOffsetXInPixels,
+																					receiverViewXInPixels,
+																					mapWidthRatio);
+			double receiverPositionInMetersY = calculateReceiverPositionInMetersY(	lowerLeftMarkerOffsetYInPixels,
+																					receiverViewYInPixels,
+																					mapHeightRatio);
 
 			receiverView.getReceiver().setxPos(receiverPositionInMetersX);
 			receiverView.getReceiver().setyPos(receiverPositionInMetersY);
@@ -441,10 +541,26 @@ public class MapPreviewPanel extends JPanel implements Observer {
 					+ receiverPositionInMetersX + "\nReceiver position y (m): " + receiverPositionInMetersY);
 		}
 
+		// set map title
+		String titleFromInput = parent.getRoomTitle();
+		map.setTitle(titleFromInput.equals("") ? "Unkown" : titleFromInput);
+
 		System.out.println(map);
 		return map;
 	}
 
+	/**
+	 * Calculates <code>Receiver</code>'s <b>X</b> coordinate in meters, for given position in pixels, zero coordinate
+	 * point and map width ratio.
+	 * 
+	 * @param zeroPointLowerLeftX
+	 *            <code>int</code> zero point lower left <b>X</b> coordinate
+	 * @param receiverViewXInPixels
+	 *            <code>int</code> receiver view <b>X</b> in pixels
+	 * @param mapWidthRatio
+	 *            <code>double</code> map width ratio
+	 * @return the double
+	 */
 	private double calculateReceiverPositionInMetersX(int zeroPointLowerLeftX, int receiverViewXInPixels,
 			double mapWidthRatio) {
 
@@ -452,6 +568,18 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		return result;
 	}
 
+	/**
+	 * Calculates <code>Receiver</code>'s <b>Y</b> coordinate in meters, for given position in pixels, zero coordinate
+	 * point and map width ratio.
+	 * 
+	 * @param zeroPointLowerLeftY
+	 *            <code>int</code> zero point lower left <b>Y</b> coordinate
+	 * @param receiverViewYInPixels
+	 *            <code>int</code> receiver view <b>Y</b> in pixels
+	 * @param mapHeightRatio
+	 *            <code>double</code> map height ratio
+	 * @return the double
+	 */
 	private double calculateReceiverPositionInMetersY(int zeroPointLowerLeftY, int receiverViewYInPixels,
 			double mapHeightRatio) {
 
@@ -459,4 +587,58 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		return result;
 	}
 
+	/**
+	 * Calculates <code>Receiver</code>'s <b>X</b> coordinate in pixels, for given <code>Receiver</code> position in
+	 * meters, zero coordinate point in pixels and map width ratio.
+	 * 
+	 * @param receiverPositionInMetersX
+	 *            <code>double</code> receiver position in meters x
+	 * @param lowerLeftMarkerOffsetXInPixels
+	 *            <code>int</code> lower left marker offset x in pixels
+	 * @param mapRatioWidth
+	 *            <code>double</code> map width ratio 
+	 * @return the int
+	 */
+	private int calculateReceiverPositionInPixelsX(double receiverPositionInMetersX,
+			int lowerLeftMarkerOffsetXInPixels, double mapRatioWidth) {
+
+		// calculate offset position in pixels
+		int offsetReceiverPositionInPixelsX = ((int) (receiverPositionInMetersX * mapRatioWidth))
+				+ lowerLeftMarkerOffsetXInPixels;
+
+		// calculate position in pixels without the offset, taking into account that ReceiverView has a center-point
+		int positionFromTopLeftPoint = offsetReceiverPositionInPixelsX - (ReceiverView.RECEIVER_ITEM_WIDTH / 2);
+
+		// calculate scaled position in pixels
+		int scaledPositionFromTopLeftPoint = (int) (positionFromTopLeftPoint * scalingRatioToFitContainer);
+
+		return scaledPositionFromTopLeftPoint;
+	}
+
+	/**
+	 * Calculates <code>Receiver</code>'s <b>Y</b> coordinate in pixels, for given <code>Receiver</code> position in
+	 * meters, zero coordinate point in pixels and map width ratio.
+	 * 
+	 * @param receiverPositionInMetersY
+	 *            <code>double</code> receiver position in meters y
+	 * @param lowerLeftMarkerOffsetYInPixels
+	 *            <code>int</code> lower left marker offset y in pixels
+	 * @param mapRatioHeight
+	 *            <code>double</code> map height ratio
+	 * @return the int
+	 */
+	private int calculateReceiverPositionInPixelsY(double receiverPositionInMetersY,
+			int lowerLeftMarkerOffsetYInPixels, double mapRatioHeight) {
+
+		// calculate offset position in pixels
+		int offsetReceiverPositionInPixelsY = ((lowerLeftMarkerOffsetYInPixels - (int) (receiverPositionInMetersY * mapRatioHeight)));
+
+		// calculate position in pixels without the offset, taking into account that ReceiverView has a center-point
+		int positionFromTopLeftPoint = offsetReceiverPositionInPixelsY - (ReceiverView.RECEIVER_ITEM_HEIGHT / 2);
+
+		// calculate scaled position in pixels
+		int scaledPositionFromTopLeftPoint = (int) (positionFromTopLeftPoint * scalingRatioToFitContainer);
+
+		return scaledPositionFromTopLeftPoint;
+	}
 }
