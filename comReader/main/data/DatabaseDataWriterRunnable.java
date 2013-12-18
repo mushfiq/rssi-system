@@ -4,7 +4,6 @@
  */
 package data;
 
-import java.net.UnknownHostException;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
@@ -52,14 +51,14 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.running = true;
 
-		try {
+		/*try {
 			mongo = new Mongo("127.0.0.1");
 		} catch (UnknownHostException e) {
 			logger.severe("Connecting to mongo database failed. " + e.getMessage());
 		}
 
 		database = mongo.getDB("javaTest");
-		sampleData = database.getCollection("sampleData");
+		sampleData = database.getCollection("sampleData");*/
 	}
 
 	/*
