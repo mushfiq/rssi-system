@@ -18,8 +18,9 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import components.RoomMap;
 import utilities.Utilities;
+
+import components.RoomMap;
 
 /**
  * Main window of the graphical user interface. When the application is started, it shows the <code>RoomMap</code>s that
@@ -43,11 +44,9 @@ public class MainFrame extends JFrame {
 	/** The Constant SCROLL_PANE_WIDTH. */
 	private static final int SCROLL_PANE_WIDTH = 800; // 20px more than the content so that it will not display scroll
 														// bar by default
-
 	/** The Constant SCROLL_PANE_HEIGHT. */
 	private static final int SCROLL_PANE_HEIGHT = 520; // 20px more than the content so that it will not display scroll
 														// bar by default
-
 	/** The Constant NIMBUS_LOOK_AND_FEEL. */
 	private static final String NIMBUS_LOOK_AND_FEEL = "Nimbus";
 
@@ -62,6 +61,7 @@ public class MainFrame extends JFrame {
 
 	/** The status panel. */
 	private StatusPanel statusPanel;
+	
 
 	/**
 	 * Instantiates a new <code>MainFrame</code>.
@@ -170,4 +170,6 @@ public class MainFrame extends JFrame {
 		// Delegate the call to maps panel
 		mapsPanel.refreshMapItems();
 	}
+	
+	
 }
