@@ -13,8 +13,7 @@ public class GUITest {
 	/**
 	 * Instantiates a new GUI test.
 	 */
-	public GUITest() {
-		
+	private GUITest() {
 		
 	}
 	
