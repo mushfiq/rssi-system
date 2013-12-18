@@ -5,10 +5,13 @@
 package dao;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import main.Application;
 import utilities.Utilities;
+
 import components.Receiver;
 import components.RoomMap;
 
@@ -40,7 +43,8 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	 */
 	public HardcodedReceiverDAO() {
 		logger = Utilities.initializeLogger(this.getClass().getName());
-		isDirty = true;
+		loadReceivers(); // TODO this line should be removed later
+		// isDirty = true;
 	}
 
 	/*
@@ -50,13 +54,30 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	 */
 	@Override
 	public List<Receiver> getAllReceivers() {
+		// XXX commented code will be used in MongoDBReceiverDAO
+		/*
+		 * if (isDirty) { loadReceivers();
+		 * 
+		 * ArrayList<Receiver> newList = new ArrayList<Receiver>(allReceivers.size()); for (Receiver receiver :
+		 * allReceivers) { try { newList.add((Receiver) receiver.clone()); } catch (CloneNotSupportedException e) {
+		 * logger.severe("Cloning of Receiver object failed." + e.getMessage()); } }
+		 * 
+		 * return newList; } else {
+		 */
 
-		if (isDirty) {
-			loadReceivers();
-			return allReceivers;
+		ArrayList<Receiver> newList = new ArrayList<Receiver>(allReceivers.size());
+		for (Receiver receiver : allReceivers) {
+			try {
+				newList.add((Receiver) receiver.clone());
+			} catch (CloneNotSupportedException e) {
+				logger.severe("Cloning of Receiver object failed." + e.getMessage());
+			}
 		}
-		return allReceivers;
+		return newList;
 	}
+
+	// XXX commented code will be used in MongoDBReceiverDAO
+	/* } */
 
 	/*
 	 * (non-Javadoc)
@@ -121,6 +142,24 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	@Override
 	public void deleteReceiver(Receiver receiverToDelete) {
 
+		for (Receiver receiver : allReceivers) {
+			if (receiver.getID() == receiverToDelete.getID()) {
+				// TODO remove receiver from all maps
+				List<RoomMap> allMaps = Application.getApplication().getMapDAO().getAllMaps();
+				for (RoomMap roomMap : allMaps) {
+					for (Iterator<Receiver> iterator = roomMap.getReceivers().iterator(); iterator.hasNext();) {
+						Receiver value = iterator.next();
+						if (value.getID() == receiverToDelete.getID()) {
+							iterator.remove();
+						}
+					}
+				}
+				// remove receiver from list of receivers
+				allReceivers.remove(receiver);
+				break;
+			}
+		}
+
 		isDirty = true;
 	}
 
@@ -132,6 +171,7 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	@Override
 	public void addReceiver(Receiver newReceiver) {
 
+		allReceivers.add(newReceiver);
 		isDirty = true;
 	}
 
