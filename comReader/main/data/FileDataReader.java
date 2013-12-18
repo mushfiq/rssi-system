@@ -55,4 +55,9 @@ public class FileDataReader implements DataReader {
 		Thread thread = new Thread(runnable);
 		thread.start();
 	}
+
+	@Override
+	public void stopReading() {
+		// stopping reading from file is not needed at the moment 
+	}
 }
