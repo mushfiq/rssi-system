@@ -31,11 +31,10 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatter;
 
-import components.RoomMap;
-
 import main.Application;
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
+
 
 /**
  * Contains buttons, labels, combo boxes, spinners and text fields used to set <code>RoomMap</code> properties.
@@ -80,6 +79,12 @@ public class ParametersPanel extends JPanel {
 
 	/** The Constant ROOM_HEIGHT_IN_METERS_MAXIMUM. */
 	private static final double ROOM_HEIGHT_IN_METERS_MAXIMUM = 100.0; // 100 meters
+	
+	/** The Constant MINIMUM_ROOM_WIDTH_IN_METERS. */
+	private static final double MINIMUM_ROOM_WIDTH_IN_METERS = 1.0;
+	
+	/** The Constant MINIMUM_ROOM_HEIGHT_IN_METERS. */
+	private static final double MINIMUM_ROOM_HEIGHT_IN_METERS = 1.0;
 
 	/** The Constant SPINNER_STEP. */
 	private static final double SPINNER_STEP = 0.1; // 10cm
@@ -87,8 +92,8 @@ public class ParametersPanel extends JPanel {
 	/** The Constant GRAY_COULOUR. */
 	private static final int GRAY_COULOUR = 230;
 
-	/** The upload button. */
-	private JButton uploadButton;
+	/** Button for choosing an image that will be used as a map. */
+	private JButton chooseImageButton;
 
 	/** The save button. */
 	private JButton saveButton;
@@ -343,8 +348,8 @@ public class ParametersPanel extends JPanel {
 		this.add(startStopButton, gbc11);
 		startStopButton.setVisible((openingMode == AddMapDialogMode.ADD) ? false : true);
 
-		// Add 'Upload' button
-		uploadButton = new JButton("Upload");
+		// Add 'Choose image' button
+		chooseImageButton = new JButton("Choose image");
 		GridBagConstraints gbc12 = new GridBagConstraints();
 		gbc12.gridx = 0;
 		gbc12.gridy = 10;
@@ -354,7 +359,7 @@ public class ParametersPanel extends JPanel {
 		gbc12.weighty = 2;
 		gbc12.anchor = GridBagConstraints.LINE_START;
 
-		this.add(uploadButton, gbc12);
+		this.add(chooseImageButton, gbc12);
 
 		// Add 'Save' button
 		saveButton = new JButton("Save");
@@ -388,7 +393,7 @@ public class ParametersPanel extends JPanel {
 	 */
 	private void addListenersToComponents() {
 
-		this.uploadButton.addActionListener(new UploadButtonListener(addMapDialog));
+		this.chooseImageButton.addActionListener(new UploadButtonListener(addMapDialog));
 		this.saveButton.addActionListener(new SaveButtonListener());
 		this.cancelButton.addActionListener(new CancelButtonListener(addMapDialog));
 	}
@@ -463,8 +468,9 @@ public class ParametersPanel extends JPanel {
 			 * TODO Save map with all its details in case of successful validation, otherwise display an error message
 			 * to the user
 			 */
+			
 			addMapDialog.saveMap();
-
+			
 		}
 	}
 
@@ -569,12 +575,14 @@ public class ParametersPanel extends JPanel {
 				state = StartStopButtonState.STOPPED;
 				this.setIcon(startIcon);
 				this.repaint();
+				Application.getApplication().stopReadingsAndWritings();
 				// TODO stop readings and writings
-			} else {
+			} else { // state was StartStopButtonState.STOPPED
 				state = StartStopButtonState.STARTED;
 				this.setIcon(stopIcon);
 				this.repaint();
 				// TODO start readings and writings
+				Application.getApplication().startReadingsAndWritings();
 			}
 		}
 
@@ -679,8 +687,15 @@ public class ParametersPanel extends JPanel {
 	 */
 	public void setRoomWidthAndHeightInMetersSpinners(double width, double height) {
 
-		this.roomWidthInMetersSpinner.setValue(width);
-		this.roomHeightInMetersSpinner.setValue(height);
+		if ( (width < MINIMUM_ROOM_WIDTH_IN_METERS) || (height < MINIMUM_ROOM_HEIGHT_IN_METERS)) {
+			
+			this.roomWidthInMetersSpinner.setValue(MINIMUM_ROOM_WIDTH_IN_METERS);
+			this.roomHeightInMetersSpinner.setValue(MINIMUM_ROOM_HEIGHT_IN_METERS);
+		} else {
+			
+			this.roomWidthInMetersSpinner.setValue(width);
+			this.roomHeightInMetersSpinner.setValue(height);
+		}
 	}
 
 	/**
