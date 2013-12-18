@@ -7,6 +7,8 @@ package utilities;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -615,19 +617,20 @@ public final class Utilities {
 
 		return (configurationValue != null) ? configurationValue : "";
 	}
-	
+
 	/**
-	 * Helper method that returns the value from 'config.ini' file for a given parameter. It also
-	 * checks if this value can be parsed into a boolean. If not it throws an exception.
-	 *
-	 * @param key the key
+	 * Helper method that returns the value from 'config.ini' file for a given parameter. It also checks if this value
+	 * can be parsed into a boolean. If not it throws an exception.
+	 * 
+	 * @param key
+	 *            the key
 	 * @return value for given parameter
 	 */
 	public static String getBooleanConfigurationValue(String key) throws Exception {
 		loadConfigurationFile();
 
 		String configurationValue = configurationFile.getProperty(key);
-		if(!configurationValue.equals("true") && !configurationValue.equals("false")) {
+		if (!configurationValue.equals("true") && !configurationValue.equals("false")) {
 			throw new Exception();
 		}
 
@@ -663,4 +666,11 @@ public final class Utilities {
 		}
 	}
 
+	public static BufferedImage deepCopy(BufferedImage bi) {
+		
+		ColorModel cm = bi.getColorModel();
+		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+		WritableRaster raster = bi.copyData(null);
+		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+	}
 }
