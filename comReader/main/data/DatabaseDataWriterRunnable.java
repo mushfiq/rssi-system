@@ -48,13 +48,12 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		this.running = true;
 
 		try {
-			mongo = new Mongo("127.0.0.1");
+//			mongo = new Mongo("127.0.0.1");
+			mongo = new Mongo("50.57.78.184");
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-//        db = mongo.getDB("rssisystem");
-//        sampleData = db.getCollection("sampleData");
         db = mongo.getDB("rssiSystem");
         sampleData = db.getCollection("watch_records");
 	}
@@ -99,7 +98,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		        	documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
 		        	documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
 		        	
-		        	sampleData.insert(documentDetail);
+//		        	sampleData.insert(documentDetail);
 
 		        } catch (Exception e) {
 		        	System.err.print(e);

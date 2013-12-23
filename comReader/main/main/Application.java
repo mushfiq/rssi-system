@@ -89,23 +89,22 @@ public final class Application {
 //        Receiver r2 = new Receiver(3, 10.0, 8.0, 135.0);
 //        Receiver r3 = new Receiver(6, 10.0, 10.0, 225.0);
 //        Receiver r4 = new Receiver(9, 1.5, -1.5, 135.0);
-//		Receiver r1 = new Receiver(3, 0.0, 0.0, 0.0);
-//		Receiver r2 = new Receiver(0, 1.0, 0.0, 0.0);
-//		Receiver r3 = new Receiver(0, 2.0, 0.0, 0.0);
-//		Receiver r4 = new Receiver(0, 3.0, 0.0, 0.0);
-//		Receiver r5 = new Receiver(0, 4.0, 0.0, 0.0);
-//		Receiver r6 = new Receiver(0, 5.0, 0.0, 0.0);
-//		Receiver r7 = new Receiver(0, 6.0, 0.0, 0.0);
-//		Receiver r8 = new Receiver(0, 7.0, 0.0, 0.0);
-//		Receiver r9 = new Receiver(0, 8.0, 0.0, 0.0);
-		Receiver r1 = new Receiver(0, 6.0, 2.55, 0.0);
-        Receiver r2 = new Receiver(1, 0.0, 2.55, 0.0);
-        Receiver r3 = new Receiver(2, 0.0, 6.0, 0.0);
-        Receiver r4 = new Receiver(3, 6.0, 6.0, 0.0);
-
-		Receiver r5 = new Receiver(4, 2.0, 6.0, 0.0);
-		Receiver r6 = new Receiver(6, 6.0, 0.0, 0.0);
-		Receiver r7 = new Receiver(9, 3.70, 2.0, 0.0);
+		
+		Receiver r1 = new Receiver(0, 0.0, 0.0, 0.0);
+		Receiver r2 = new Receiver(1, 5.0, 0.0, 0.0);
+		Receiver r3 = new Receiver(2, 0.0, 5.0, 0.0);
+		Receiver r4 = new Receiver(3, 5.0, 5.0, 0.0);
+//		Receiver r5 = new Receiver(4, 2.0, 6.0, 0.0);
+//		Receiver r6 = new Receiver(6, 6.0, 0.0, 0.0);
+//		Receiver r7 = new Receiver(9, 3.70, 2.0, 0.0);
+		
+//		Receiver r1 = new Receiver(0, 6.0, 2.55, 0.0);
+//        Receiver r2 = new Receiver(1, 0.0, 2.55, 0.0);
+//        Receiver r3 = new Receiver(2, 0.0, 6.0, 0.0);
+//        Receiver r4 = new Receiver(3, 6.0, 6.0, 0.0);
+//		Receiver r5 = new Receiver(4, 2.0, 6.0, 0.0);
+//		Receiver r6 = new Receiver(6, 6.0, 0.0, 0.0);
+//		Receiver r7 = new Receiver(9, 3.70, 2.0, 0.0);
 
         receivers = new ArrayList<Receiver>();
         
@@ -113,13 +112,13 @@ public final class Application {
         receivers.add(r2);
         receivers.add(r3);
         receivers.add(r4);
-        receivers.add(r5);
-        receivers.add(r6);
-        receivers.add(r7);
+//        receivers.add(r5);
+//        receivers.add(r6);
+//        receivers.add(r7);
         
 //        roomMap = new RoomMap(0.0, 25.0, 0.0, 25.0);
 
-        roomMap = new RoomMap(0.0, 6.0, 0.0, 6.0, null);
+        roomMap = new RoomMap(0.0, 5.0, 0.0, 5.0, null);
 
 		
 	}
