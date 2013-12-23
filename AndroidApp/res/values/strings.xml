@@ -3,24 +3,16 @@
 
     <string name="app_name">ChronoLocalization</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="Display_Position">Display Position</string>
-    <string name= "Display_Last_N_Positions">Display last n positions</string>
-    <string name="Position_Text">The current position of the watch is:</string>
-    <string name= "unknown">unknown</string>
-    <string name= "show">Draw</string>
+    <string name="Position_Text">Current position of the watch: </string>
+    <string name="Unknown">unknown</string>
+    <string name="NumberOfPositions">Number of positions</string>
+    <string name="DefaultNumberOfSteps">3</string>
     <string-array name="watches">
         <item>watch1</item>
         <item>watch2</item>
         <item>watch3</item>
         <item>watch4</item>
     </string-array>
-    <string name= "selectWatch">Select Watch:</string>
-    <string name="NumberOfSteps">Steps</string>
-    <string name="configurationTab">Configuration</string>
-    <string name="watchUserTab">Watch User</string>
-    <string name="showLast">Draw path of last</string>
-    <string name="Positions">position(s)</string>
-     <string name="drawPath">Draw Path of </string>
+
 
 </resources>

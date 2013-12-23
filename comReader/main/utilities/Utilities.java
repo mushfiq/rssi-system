@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package utilities;
 
 import java.awt.Graphics2D;
@@ -19,12 +23,14 @@ import java.util.logging.SimpleFormatter;
 
 import javax.imageio.ImageIO;
 
+import algorithm.PositionLocalizationAlgorithm;
+import data.DataProcessor;
 import data.Reading;
-
-// TODO: Auto-generated Javadoc
 
 /**
  * Class with helper methods for various tasks.
+ * 
+ * @author Danilo
  */
 public final class Utilities {
 
@@ -48,7 +54,7 @@ public final class Utilities {
 	/** The Constant PATH_TO_LOG_FILE. */
 	private static final String PATH_TO_LOG_FILE = "comReader" + File.separator + "main" + File.separator + "resources"
 			+ File.separator + "log.log";
-	
+
 	/** The Constant CONFIGURATION_FILE_COMMENTS. */
 	private static final String CONFIGURATION_FILE_COMMENTS = "Configuration file";
 
@@ -61,7 +67,7 @@ public final class Utilities {
 	/** The configuration file. */
 	private static String pathToConfigurationFile = "comReader" + File.separator + "main" + File.separator
 			+ "resources" + File.separator + "config.ini";
-	
+
 	/** The configuration file. */
 	private static Properties configurationFile;
 
@@ -77,8 +83,8 @@ public final class Utilities {
 	 * Convert RSSI decimal value to RSSI dBm.
 	 * 
 	 * @param rssiDecimalValue
-	 *            rssi decimal value
-	 * @return int RSSI dBm value
+	 *            <code>double</code> rssi decimal value
+	 * @return <code>int</code> RSSI dBm value
 	 */
 	public static double convertRSSIDecToDbm(double rssiDecimalValue) {
 
@@ -94,28 +100,16 @@ public final class Utilities {
 	}
 
 	/**
-	 * Some signal strengths in the reading can be too far from the median value. These values should not be considered
-	 * for averaging. For example, in the list: 32, 33, 25, 32 - value '25' is inappropriate
+	 * Calculates average signal strength of a single <code>Reading</code>. Every receiver takes several samples of
+	 * signal strength. These values need to be averaged.<br>
+	 * <br>
+	 * 
+	 * For example, for the readings 32, 32 , 33, 32, result would be <b>32,25</b>
 	 * 
 	 * @param reading
-	 *            the reading
-	 * @return the reading
-	 */
-	public static Reading removeInappropriateValues(Reading reading) {
-
-		// TODO: remove statistically inappropriate values from the reading
-		return reading;
-	}
-
-	/**
-	 * Calculates average signal strength of a single reading. Every receiver takes several samples of signal strength.
-	 * These values need to be averaged.
-	 * 
-	 * For the reading 32, 32 , 33, 32, result will be 32,25
-	 * 
-	 * @param reading
-	 *            the reading
-	 * @return double average signal strength
+	 *            <code>Reading</code>
+	 * @return <code>double</code> average signal strength
+	 * @see Reading
 	 */
 	public static double calculateReadingAverage(Reading reading) {
 
@@ -138,12 +132,14 @@ public final class Utilities {
 
 	/**
 	 * Calculates batch signal averages. When reading from the COM port, during a single time interval (e.g. 250ms), for
-	 * every receiver, several signal strengths are obtained. These signal strengths are averaged before being passed to
-	 * the position localization algorithm (DataProcessor class).
+	 * every <code>Receiver</code>, several signal strengths are obtained. These signal strengths are averaged before
+	 * being passed to the <code>PositionLocalizationAlgorithm</code> (in <code>DataProcessor</code> class).
 	 * 
 	 * @param batch
-	 *            list of signal strengths for several watches and receivers
-	 * @return Hash map with average signal strength for every watch and every receiver
+	 *            <code>HashMap</code> of signal strengths for several watches and receivers
+	 * @return <code>HashMap</code> with average signal strength for every watch and every receiver
+	 * @see PositionLocalizationAlgorithm
+	 * @see DataProcessor
 	 */
 	public static HashMap<Integer, HashMap<Integer, Double>> calculateBatchSignalAverages(ArrayList<Reading> batch) {
 		HashMap<Integer, HashMap<Integer, ArrayList<Double>>> allData = new HashMap<Integer, HashMap<Integer, ArrayList<Double>>>();
@@ -204,12 +200,12 @@ public final class Utilities {
 	}
 
 	/**
-	 * Initializes logger for other classes. Loggers from all the classes should write into single file and in common
-	 * format.
+	 * Initializes <code>Logger</code> object for other classes. Loggers from all the classes should write into single
+	 * file and in common format.
 	 * 
 	 * @param className
-	 *            Name of the logger owner class
-	 * @return Sustomized logger instance
+	 *            <code>String</code> name of the logger owner class
+	 * @return Customized <code>Logger</code> instance
 	 */
 	public static Logger initializeLogger(String className) {
 
@@ -227,11 +223,11 @@ public final class Utilities {
 	}
 
 	/**
-	 * Converts Image to BufferedImage.
+	 * Converts <code>Image</code> to <code>BufferedImage</code>.
 	 * 
 	 * @param img
-	 *            Image to be converted
-	 * @return BufferedImage instance
+	 *            <code>Image</code> to be converted
+	 * @return <code>BufferedImage</code> instance
 	 */
 	public static BufferedImage convertImagetoBufferedImage(Image img) {
 		if (img instanceof BufferedImage) { // image is already in appropriate format
@@ -255,8 +251,8 @@ public final class Utilities {
 	 * Helper method that calculates average value of signal strengths in the list.
 	 * 
 	 * @param list
-	 *            list with signal strengths
-	 * @return average value
+	 *            <code>List</code> with signal strengths
+	 * @return <code>double</code> average value
 	 */
 	private static Double calculateArrayListAverage(ArrayList<Double> list) {
 
@@ -272,14 +268,15 @@ public final class Utilities {
 	}
 
 	/**
-	 * Creates the reading from a string obtained from COM port. It parses values from the string, converts them from
-	 * RSSI to dBm and performs averaging of signal strengths.
+	 * Creates the <code>Reading</code> from a string obtained from COM port. It parses values from the string, converts
+	 * them from RSSI to dBm and performs averaging of signal strengths. <br>
+	 * <br>
 	 * 
-	 * If there is an exception during any of the above tasks, it returns an empty reading object.
+	 * If there is an exception during any of the above tasks, it returns an empty <code>Reading</code> object.
 	 * 
 	 * @param line
-	 *            Single line from COM port
-	 * @return Reading object
+	 *            <code>String</code> single line from COM port
+	 * @return <code>Reading</code> object
 	 */
 	public static Reading createReading(String line) {
 
@@ -352,11 +349,10 @@ public final class Utilities {
 	}
 
 	/**
+	 * Returns the <code>FileHandler</code> for log file. <code>FileHandler</code> contains information about path to
+	 * log file, size of log file, number of files to write to and append flag.
 	 * 
-	 * Returns the file handler for log file. File handler contains information about path to log file, size of log
-	 * file, number of files to write to and append flag.
-	 * 
-	 * @return Configured file handler
+	 * @return Configured <code>FileHandler</code>
 	 */
 	private static FileHandler getFileHandler() {
 
@@ -377,9 +373,9 @@ public final class Utilities {
 	}
 
 	/**
-	 * Used for accessing the logger from the Utilities class.
+	 * Used for accessing the <code>Logger</code> from the <code>Utilities</code> class.
 	 * 
-	 * @return Logger instance
+	 * @return <code>Logger</code> instance
 	 */
 	private static Logger getLogger() {
 
@@ -391,15 +387,18 @@ public final class Utilities {
 	}
 
 	/**
-	 * Scale image to fit container.
-	 *
-	 * @param image the image
-	 * @param containerWidth the container width
-	 * @param containerHeight the container height
-	 * @return the buffered image
+	 * Scales <code>Image</code> to fit container.
+	 * 
+	 * @param image
+	 *            <code>BufferedImage</code> image to be scaled
+	 * @param containerWidth
+	 *            <code>int</code> container width
+	 * @param containerHeight
+	 *            <code>int</code> container height
+	 * @return <code>BufferedImage</code> scaled image
 	 */
 	public static BufferedImage scaleImageToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
-
+		// FIXME this method could probably call getScalingRatioToFitContainer() method and thus make this much shorter
 		// original image dimensions in pixels
 		double imageWidthInPixels = image.getWidth();
 		double imageHeightInPixels = image.getHeight();
@@ -448,7 +447,7 @@ public final class Utilities {
 			newImageWidthInPixels = imageWidthInPixels * resizeRatio;
 
 			resultImage = Utilities.convertImagetoBufferedImage(image.getScaledInstance((int) newImageWidthInPixels,
-					(int) newImageHeightInPixels, Image.SCALE_SMOOTH));
+				(int) newImageHeightInPixels, Image.SCALE_SMOOTH));
 		}
 
 		return resultImage;
@@ -456,11 +455,14 @@ public final class Utilities {
 
 	/**
 	 * Gets the scaling ratio to fit container.
-	 *
-	 * @param image the image
-	 * @param containerWidth the container width
-	 * @param containerHeight the container height
-	 * @return the scaling ratio to fit container
+	 * 
+	 * @param image
+	 *            <code>Image</code> image
+	 * @param containerWidth
+	 *            <code>int</code> container width
+	 * @param containerHeight
+	 *            <code>int</code> container height
+	 * @return <code>double</code> scaling ratio to fit container
 	 */
 	public static double getScalingRatioToFitContainer(BufferedImage image, int containerWidth, int containerHeight) {
 
@@ -508,10 +510,11 @@ public final class Utilities {
 	}
 
 	/**
-	 * Load image.
-	 *
-	 * @param relativePath the relative path
-	 * @return the image
+	 * Loads image from a given path.
+	 * 
+	 * @param relativePath
+	 *            <code>String</code> relative path
+	 * @return <code>Image</code> object
 	 */
 	public static Image loadImage(String relativePath) {
 
@@ -527,87 +530,16 @@ public final class Utilities {
 		return myPicture;
 	}
 
-	/*
-	 * Methods that rotate an image
-	 */
-
-	/**
-	 * Rotates an image. Actually rotates a new copy of the image.
-	 * 
-	 * @param img
-	 *            The image to be rotated
-	 * @param angle
-	 *            The angle in degrees
-	 * @return The rotated image
-	 */
-	public static Image rotate(Image img, double angle) {
-		double sin = Math.abs(Math.sin(Math.toRadians(angle))), cos = Math.abs(Math.cos(Math.toRadians(angle)));
-		int w = img.getWidth(null), h = img.getHeight(null);
-		int neww = (int) Math.floor(w * cos + h * sin), newh = (int) Math.floor(h * cos + w * sin);
-		BufferedImage bimg = toBufferedImage(getEmptyImage(neww, newh));
-		Graphics2D g = bimg.createGraphics();
-		g.translate((neww - w) / 2, (newh - h) / 2);
-		g.rotate(Math.toRadians(angle), w / 2, h / 2);
-		g.drawRenderedImage(toBufferedImage(img), null);
-		g.dispose();
-		return toImage(bimg);
-	}
-
-	/**
-	 * Creates an empty image with transparency.
-	 *
-	 * @param width The width of required image
-	 * @param height The height of required image
-	 * @return The created image
-	 */
-	private static Image getEmptyImage(int width, int height) {
-		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		return toImage(img);
-	}
-
-	/**
-	 * Converts a given BufferedImage into an Image.
-	 *
-	 * @param bimage The BufferedImage to be converted
-	 * @return The converted Image
-	 */
-	private static Image toImage(BufferedImage bimage) {
-		// Casting is enough to convert from BufferedImage to Image
-		Image img = bimage;
-		return img;
-	}
-
-	/**
-	 * Converts a given Image into a BufferedImage.
-	 *
-	 * @param img The Image to be converted
-	 * @return The converted BufferedImage
-	 */
-	private static BufferedImage toBufferedImage(Image img) {
-		if (img instanceof BufferedImage) {
-			return (BufferedImage) img;
-		}
-		// Create a buffered image with transparency
-		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-		// Draw the image on to the buffered image
-		Graphics2D bGr = bimage.createGraphics();
-		bGr.drawImage(img, 0, 0, null);
-		bGr.dispose();
-		// Return the buffered image
-		return bimage;
-	}
-
-	/*
-	 * End of methods that rotate an image
-	 */
-
 	/**
 	 * Creates the thumbnail image for container.
-	 *
-	 * @param image the image
-	 * @param containerWidth the container width
-	 * @param containerHeight the container height
-	 * @return the buffered image
+	 * 
+	 * @param image
+	 *            <code>Image</code> image to be scaled
+	 * @param containerWidth
+	 *            <code>int</code> container width
+	 * @param containerHeight
+	 *            <code>int</code> container height
+	 * @return <code>BufferedImage</code> thumbnail
 	 */
 	public static BufferedImage createThumbnailImageForContainer(BufferedImage image, int containerWidth,
 			int containerHeight) {
@@ -647,14 +579,14 @@ public final class Utilities {
 			newImageWidthInPixels = imageWidthInPixels * resizeRatio;
 
 			resultImage = Utilities.convertImagetoBufferedImage(image.getScaledInstance((int) newImageWidthInPixels,
-					(int) newImageHeightInPixels, Image.SCALE_SMOOTH));
+				(int) newImageHeightInPixels, Image.SCALE_SMOOTH));
 		}
 
 		return resultImage;
 	}
 
 	/**
-	 * Load configuration file.
+	 * Loads configuration file.
 	 */
 	private static void loadConfigurationFile() {
 		FileInputStream stream = null;
@@ -670,8 +602,9 @@ public final class Utilities {
 
 	/**
 	 * Helper method that returns the value from 'config.ini' file for a given parameter.
-	 *
-	 * @param key the key
+	 * 
+	 * @param key
+	 *            the key
 	 * @return value for given parameter
 	 */
 	public static String getConfigurationValue(String key) {
@@ -703,9 +636,11 @@ public final class Utilities {
 
 	/**
 	 * Sets the configuration value.
-	 *
-	 * @param key the key
-	 * @param value the value
+	 * 
+	 * @param key
+	 *            the key
+	 * @param value
+	 *            the value
 	 */
 	public static void setConfigurationValue(String key, String value) {
 		configurationFile.setProperty(key, value);
@@ -713,7 +648,7 @@ public final class Utilities {
 	}
 
 	/**
-	 * Store configuration file.
+	 * Stores configuration file.
 	 */
 	private static void storeConfigurationFile() {
 
