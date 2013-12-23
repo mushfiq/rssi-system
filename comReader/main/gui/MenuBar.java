@@ -74,7 +74,8 @@ public class MenuBar extends JMenuBar {
 	 * Initializes <code>MenuBar</code>.
 	 */
 	private void initialize() {
-
+		
+		// Add maps menu
 		mapsMenu = new JMenu("Maps");
 
 		// Add map menu item
