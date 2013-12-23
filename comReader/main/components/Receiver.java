@@ -28,6 +28,12 @@ public class Receiver implements Cloneable {
 
 	private boolean onMap;
 
+	
+	
+	public Receiver() {
+		super();
+	}
+
 	/**
 	 * Instantiates a new receiver.
 	 * 
@@ -133,7 +139,7 @@ public class Receiver implements Cloneable {
 	@Override
 	public String toString() {
 		
-		return "Id: " + id + "Position x: " + xPos + "\nPosition y: " + yPos + "\nAngle: " + angle + "\nOn map: " + onMap;
+		return "Id: " + id + "\nPosition x: " + xPos + "\nPosition y: " + yPos + "\nAngle: " + angle + "\nOn map: " + onMap;
 	}
 	
 	@Override
