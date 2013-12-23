@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import main.Application;
 import utilities.Utilities;
-
 import components.Receiver;
 import components.RoomMap;
 
@@ -23,7 +22,6 @@ import components.RoomMap;
 public class HardcodedReceiverDAO implements ReceiverDAO {
 
 	/** <code>Logger</code> object. */
-	@SuppressWarnings("unused")
 	private Logger logger;
 
 	/** All receivers in the data source. */
@@ -34,6 +32,7 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	 * data has been changed in the meantime, no additional calls to the data source will be made - old data will be
 	 * used instead.
 	 * */
+	@SuppressWarnings("unused")
 	private boolean isDirty; // if data has been written to the database, e.g. we have old copy of data
 
 	/**
@@ -44,7 +43,7 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 	public HardcodedReceiverDAO() {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		loadReceivers(); // TODO this line should be removed later
-		// isDirty = true;
+		// isDirty = false;
 	}
 
 	/*
@@ -196,4 +195,11 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 		return receiversOnMap;
 	}
 
+	@Override
+	public void updateReceiverForMap(Receiver receiver, RoomMap map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
