@@ -105,4 +105,6 @@ public interface ReceiverDAO {
 	 * @see components.RoomMap
 	 */
 	List<Receiver> getAllReceiversForMap(RoomMap map);
+	
+	void updateReceiverForMap(Receiver receiver, RoomMap map);
 }

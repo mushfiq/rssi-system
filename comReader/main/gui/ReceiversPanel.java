@@ -1,5 +1,7 @@
 package gui;
 
+import gui.enumeration.AddMapDialogMode;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -53,9 +55,15 @@ public class ReceiversPanel extends JPanel {
 	 */
 	public ReceiversPanel(AddMapDialog addMapDialog, List<Receiver> allReceivers, List<Receiver> receiversOnMap) {
 
+		if (addMapDialog.getOpeningMode() == AddMapDialogMode.ADD) {
+			this.receiversOnMap = new ArrayList<Receiver>();
+		} else {
+			this.receiversOnMap = receiversOnMap;
+		}
+		
 		this.addMapDialog = addMapDialog;
 		this.allReceivers = allReceivers;
-		this.receiversOnMap = receiversOnMap;
+		
 		this.receiverButtons = new ArrayList<ReceiverButton>();
 		initialize();
 	}

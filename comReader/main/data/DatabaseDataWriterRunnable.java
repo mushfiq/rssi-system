@@ -34,7 +34,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 	private Mongo mongo;
 	
 	/** The database. */
-	private DB db;
+	private DB database;
 	
 	/** The sample data. */
 	private DBCollection sampleData;
@@ -54,8 +54,8 @@ public class DatabaseDataWriterRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        db = mongo.getDB("rssiSystem");
-        sampleData = db.getCollection("watch_records");
+        database = mongo.getDB("rssiSystem");
+        sampleData = database.getCollection("watch_records");
 	}
 
 	/* (non-Javadoc)
@@ -81,28 +81,28 @@ public class DatabaseDataWriterRunnable implements Runnable {
 				
 				// we take watchPositionData object from the queue by calling method 'poll()' on the queue
 				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
-				
-			    try {
-			    	DBObject documentDetail = new BasicDBObject();
-		        	
-		        	documentDetail.put("_cls", "watchRecords"); // for mongoEngine ORM users
-		        	
-		        	documentDetail.put("x", watchPositionData.getPosition().getX());
-		        	documentDetail.put("y", watchPositionData.getPosition().getY());
-		        	
-		        	long time = watchPositionData.getTime();
-		        	SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		        	String strDate = simpledateformat.format(new Date(time));
-		        	documentDetail.put("insertedAt", strDate);
-		        	
-		        	documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
-		        	documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
-		        	
-//		        	sampleData.insert(documentDetail);
 
-		        } catch (Exception e) {
-		        	System.err.print(e);
-		        }	
+				try {
+					DBObject documentDetail = new BasicDBObject();
+
+					documentDetail.put("_cls", "watchRecords"); // for mongoEngine ORM users
+
+					documentDetail.put("x", watchPositionData.getPosition().getX());
+					documentDetail.put("y", watchPositionData.getPosition().getY());
+
+					long time = watchPositionData.getTime();
+					SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+					String strDate = simpledateformat.format(new Date(time));
+					documentDetail.put("insertedAt", strDate);
+
+					documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
+					documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
+
+					sampleData.insert(documentDetail);
+
+				} catch (Exception e) {
+					logger.warning("Couldn't send watch position data to the Mongo database");;
+				}
 			}
 		}
 	} // end run
