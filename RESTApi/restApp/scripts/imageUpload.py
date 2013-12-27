@@ -12,7 +12,6 @@ MAP_IMAGES = ['sampleMap1.jpg', 'sampleMap2.jpg']
 def get_random_map():
     random_map = MAP_IMAGES[randint(0, len(MAP_IMAGES)-1)]
     mPhoto = open(random_map, 'rb')
-    print mPhoto
     return mPhoto
 
 #curl -i -H "Content-Type: application/json" -X POST -d '{"mapId": 2, "watchId": "42", "x": 12.3, "y": 3.4}'  http://localhost:8000/api/v1/watch/
