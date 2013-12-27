@@ -49,6 +49,9 @@ class GenerateData(object):
             m.scalingY = random()*10
             m.offsetX = randint(0, total)
             m.offsetY = randint(0, total)
+            m.offset2X = randint(0, total)
+            m.offset2Y = randint(0, total)
+            m.title = "Dummy Title"+str(i)
             m.updateTime = datetime.datetime.now()
             try:
                 m.save()
@@ -97,7 +100,7 @@ class GenerateData(object):
             r.mapId = self.get_random_mapId()
             r.x = random()*10
             r.y = random()*10
-            
+            r.angle = randint(25, 120)
             try:
                 r.save()
                 pass
@@ -146,12 +149,13 @@ class GenerateData(object):
 if __name__ == '__main__':
     dataGen = GenerateData()
     # dataGen.update_receiver_data()
-    dataGen.delete_extra_receivers()
-    dataGen.update_receiver_data()
+    # dataGen.delete_extra_receivers()
+    # dataGen.update_receiver_data()
     # dataGen.delete_maps()
     # dataGen.generate_save_map(6)
     # dataGen.update_old_maps()
-    # dataGen.generate_save_receiver(7)
+    # dataGen.delete_receivers()
+    dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
     # dataGen.delete_watches()
     # dataGen.delete_receivers()
