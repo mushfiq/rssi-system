@@ -148,7 +148,7 @@ INSTALLED_APPS = (
 	'tastypie',
     'restApp',
     'tastypie_mongoengine',
-    'django_extensions',
+    # 'django_extensions',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
