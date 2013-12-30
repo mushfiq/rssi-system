@@ -24,6 +24,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import main.Application;
 import utilities.ComponentMover;
 import utilities.Utilities;
 import components.Receiver;
@@ -125,6 +126,8 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		receiverViews = new ArrayList<ReceiverView>();
 		scalingRatioToFitContainer = 1.0;
 		this.map = map;
+		// TODO: added code
+		Application.getApplication().setRoomMap(this.map);
 		this.originalBackgroundImage = Utilities.deepCopy((BufferedImage) map.getImage());
 		this.backgroundImage = Utilities.deepCopy((BufferedImage) map.getImage());
 		this.parent = parent;
@@ -544,6 +547,8 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		map.setyFrom(0);
 		map.setyTo(map.getHeightInMeters());
 
+		Application.getApplication().setRoomMap(map);
+		
 		return map;
 	}
 
