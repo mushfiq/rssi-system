@@ -11,14 +11,17 @@ import java.util.logging.Logger;
 
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
+
 import components.Receiver;
 import components.RoomMap;
+
 import dao.HardcodedMapDAO;
 import dao.HardcodedReceiverDAO;
 import dao.MapDAO;
 import dao.ReceiverDAO;
 import data.COMPortDataReader;
 import data.Controller;
+import data.DataProcessor;
 import data.DataReader;
 import data.DataWriter;
 import data.DatabaseDataWriter;
@@ -73,6 +76,7 @@ public final class Application {
 
 	private DataReader dataReader;
 	private DataWriter dataWriter;
+	private DataProcessor dataProcessor;
 	
 	/**
 	 *  Private constructor of Singleton class. To instantiate an object of type <code>Application</code>, static method
@@ -91,6 +95,7 @@ public final class Application {
 		//algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
 		dataReader = new COMPortDataReader();
 		dataWriter = new DatabaseDataWriter();
+		dataProcessor = new DataProcessor();
 	}
 
 	/**
@@ -214,15 +219,7 @@ public final class Application {
 	 */
 	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
 
-		// XXX this check should be removed in final version
-		if (this.algorithm == null) {
-			return;
-		}
-
-		if (algorithm.getClass() != this.algorithm.getClass()) { // in order to avoid possibly expensive instantiation
-			this.algorithm = algorithm;
-		}
-
+		this.algorithm = algorithm;
 	}
 
 	/**
@@ -258,6 +255,8 @@ public final class Application {
 		dataReader.readData();
 		// start writing to destination (database or console or file)
 		dataWriter.writeData();
+		
+		dataProcessor.processData();
 	}
 	
 	public void stopReadingsAndWritings() {
@@ -266,6 +265,7 @@ public final class Application {
 		dataReader.stopReading();
 		// stop writing to destination (database or console or file)
 		dataWriter.stopWriting();
+		dataProcessor.stopReading();
 	}
 
 }
