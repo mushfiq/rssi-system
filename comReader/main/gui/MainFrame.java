@@ -170,6 +170,10 @@ public class MainFrame extends JFrame {
 		// Delegate the call to maps panel
 		mapsPanel.refreshMapItems();
 	}
+
+	public MapsPanel getMapsPanel() {
+		return mapsPanel;
+	}
 	
 	
 }
