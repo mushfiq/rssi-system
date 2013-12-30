@@ -60,8 +60,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		// db = mongo.getDB("rssisystem");
-		// sampleData = db.getCollection("sampleData");
+		
 		database = mongo.getDB("rssiSystem");
 		sampleData = database.getCollection("watch_records");
 	}
