@@ -15,6 +15,7 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.swing.ComboBoxModel;
@@ -31,9 +32,12 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.text.DefaultFormatter;
 
+import components.Receiver;
 import main.Application;
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
+import algorithm.ProbabilityBasedAlgorithm;
+import algorithm.ProximityAlgorithm;
 
 
 /**
@@ -571,18 +575,18 @@ public class ParametersPanel extends JPanel {
 		 */
 		private void toggle() {
 
-			if (state == StartStopButtonState.STARTED) {
+			if (state == StartStopButtonState.STOPPED) {
+				state = StartStopButtonState.STARTED;
+				this.setIcon(stopIcon);
+				this.repaint();
+				
+				Application.getApplication().setAlgorithm(createAlgorithmInstance((PositionLocalizationAlgorithmType) algorithmComboBox.getSelectedItem()));
+				Application.getApplication().startReadingsAndWritings();
+			} else { // state was StartStopButtonState.STARTED
 				state = StartStopButtonState.STOPPED;
 				this.setIcon(startIcon);
 				this.repaint();
 				Application.getApplication().stopReadingsAndWritings();
-				// TODO stop readings and writings
-			} else { // state was StartStopButtonState.STOPPED
-				state = StartStopButtonState.STARTED;
-				this.setIcon(stopIcon);
-				this.repaint();
-				// TODO start readings and writings
-				Application.getApplication().startReadingsAndWritings();
 			}
 		}
 
@@ -646,15 +650,15 @@ public class ParametersPanel extends JPanel {
 		switch (type) {
 
 		case PROBABILITY_BASED:
-			// TODO create probability based algorithm instance and return it
-			return null;
+			
+			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
 
 		case PROXIMITY:
-			// TODO create proximity based algorithm instance and return it
-			return null;
+			
+			return new ProximityAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
 
 		default:
-			return null;
+			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
 		}
 	}
 
