@@ -5,9 +5,20 @@
 package dao;
 
 import java.awt.image.BufferedImage;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 
 import utilities.Utilities;
 import components.Receiver;
@@ -314,7 +325,65 @@ public class HardcodedMapDAO implements MapDAO {
 
 	private void uploadMapToServer(RoomMap newMap) {
 		
+		Mongo mongo = null;
+		DB database;
+		DBCollection sampleData;
 		
+		try {
+			mongo = new Mongo("127.0.0.1");
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
+		
+		database = mongo.getDB("rssiSystem");
+		sampleData = database.getCollection("map_records");
+		// remove all maps
+		//sampleData.drop();
+		
+		SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		String strDate = simpledateformat.format(new Date());
+		
+		// -------------------
+		//Load our image
+        byte[] imageBytes = null;
+		try {
+			imageBytes = Utilities.LoadImageAsBytes("images/map10.png");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+        
+        // ---------------------
+		
+		//Create GridFS object
+        GridFS fs = new GridFS( database );
+        //Save image into database
+        GridFSInputFile in = fs.createFile( imageBytes );
+        in.save();
+        Object mapIdObject = in.getId();
+        System.out.println(mapIdObject);
+		
+		try {
+			DBObject documentDetail = new BasicDBObject();
+
+			documentDetail.put("_cls", "mapRecords"); // for mongoEngine ORM users
+			documentDetail.put("image", mapIdObject);
+			documentDetail.put("mapId", newMap.getId());
+			documentDetail.put("width", newMap.getWidthInMeters());
+			documentDetail.put("height", newMap.getHeightInMeters());
+			documentDetail.put("offsetX", newMap.getLowerLeftMarkerOffsetXInPixels());
+			documentDetail.put("offsetY", newMap.getLowerLeftMarkerOffsetYInPixels());
+			documentDetail.put("offset2X", newMap.getUpperRightMarkerOffsetXInPixels());
+			documentDetail.put("offset2Y", newMap.getUpperRightMarkerOffsetYInPixels());
+			documentDetail.put("scalingX", newMap.getRatioWidth());
+			documentDetail.put("scalingY", newMap.getRatioHeight());
+			documentDetail.put("title", newMap.getTitle());
+			documentDetail.put("updateTime", strDate);
+			
+			sampleData.insert(documentDetail);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 
 	/*
