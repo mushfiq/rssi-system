@@ -39,7 +39,6 @@ import algorithm.PositionLocalizationAlgorithm;
 import algorithm.ProbabilityBasedAlgorithm;
 import algorithm.ProximityAlgorithm;
 
-
 /**
  * Contains buttons, labels, combo boxes, spinners and text fields used to set <code>RoomMap</code> properties.
  * 
@@ -83,10 +82,10 @@ public class ParametersPanel extends JPanel {
 
 	/** The Constant ROOM_HEIGHT_IN_METERS_MAXIMUM. */
 	private static final double ROOM_HEIGHT_IN_METERS_MAXIMUM = 100.0; // 100 meters
-	
+
 	/** The Constant MINIMUM_ROOM_WIDTH_IN_METERS. */
 	private static final double MINIMUM_ROOM_WIDTH_IN_METERS = 1.0;
-	
+
 	/** The Constant MINIMUM_ROOM_HEIGHT_IN_METERS. */
 	private static final double MINIMUM_ROOM_HEIGHT_IN_METERS = 1.0;
 
@@ -366,7 +365,7 @@ public class ParametersPanel extends JPanel {
 		this.add(chooseImageButton, gbc12);
 
 		// Add 'Save' button
-		saveButton = new JButton("Save");
+		saveButton = new JButton("Select/Save");
 		GridBagConstraints gbc13 = new GridBagConstraints();
 		gbc13.gridx = 0;
 		gbc13.gridy = 11;
@@ -472,9 +471,12 @@ public class ParametersPanel extends JPanel {
 			 * TODO Save map with all its details in case of successful validation, otherwise display an error message
 			 * to the user
 			 */
-			
+
 			addMapDialog.saveMap();
-			
+			if (openingMode == AddMapDialogMode.ADD) {
+				addMapDialog.dispose();
+			}
+
 		}
 	}
 
@@ -568,8 +570,7 @@ public class ParametersPanel extends JPanel {
 		}
 
 		/**
-		 * Toggles the button's state. Since we are using one button for two actions, we toggle
-		 * between the two states.
+		 * Toggles the button's state. Since we are using one button for two actions, we toggle between the two states.
 		 * 
 		 * @see StartStopButtonState
 		 */
@@ -579,8 +580,9 @@ public class ParametersPanel extends JPanel {
 				state = StartStopButtonState.STARTED;
 				this.setIcon(stopIcon);
 				this.repaint();
-				
-				Application.getApplication().setAlgorithm(createAlgorithmInstance((PositionLocalizationAlgorithmType) algorithmComboBox.getSelectedItem()));
+
+				Application.getApplication().setAlgorithm(
+					createAlgorithmInstance((PositionLocalizationAlgorithmType) algorithmComboBox.getSelectedItem()));
 				Application.getApplication().startReadingsAndWritings();
 			} else { // state was StartStopButtonState.STARTED
 				state = StartStopButtonState.STOPPED;
@@ -650,15 +652,21 @@ public class ParametersPanel extends JPanel {
 		switch (type) {
 
 		case PROBABILITY_BASED:
-			
-			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
+
+			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(),
+													(ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap()
+															.getReceivers());
 
 		case PROXIMITY:
-			
-			return new ProximityAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
+
+			return new ProximityAlgorithm(addMapDialog.getMapPreviewPanel().getMap(),
+											(ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap()
+													.getReceivers());
 
 		default:
-			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(), (ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap().getReceivers());
+			return new ProbabilityBasedAlgorithm(addMapDialog.getMapPreviewPanel().getMap(),
+													(ArrayList<Receiver>) addMapDialog.getMapPreviewPanel().getMap()
+															.getReceivers());
 		}
 	}
 
@@ -691,12 +699,12 @@ public class ParametersPanel extends JPanel {
 	 */
 	public void setRoomWidthAndHeightInMetersSpinners(double width, double height) {
 
-		if ( (width < MINIMUM_ROOM_WIDTH_IN_METERS) || (height < MINIMUM_ROOM_HEIGHT_IN_METERS)) {
-			
+		if ((width < MINIMUM_ROOM_WIDTH_IN_METERS) || (height < MINIMUM_ROOM_HEIGHT_IN_METERS)) {
+
 			this.roomWidthInMetersSpinner.setValue(MINIMUM_ROOM_WIDTH_IN_METERS);
 			this.roomHeightInMetersSpinner.setValue(MINIMUM_ROOM_HEIGHT_IN_METERS);
 		} else {
-			
+
 			this.roomWidthInMetersSpinner.setValue(width);
 			this.roomHeightInMetersSpinner.setValue(height);
 		}
