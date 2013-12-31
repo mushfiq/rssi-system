@@ -35,6 +35,8 @@ public class DirectMapUploadTest {
 		
 		database = mongo.getDB("mydb");
 		sampleData = database.getCollection("map_records");
+		// remove all maps
+		//sampleData.drop();
 		
 		// Sample map
 		RoomMap map = null;
@@ -92,7 +94,7 @@ public class DirectMapUploadTest {
 		try {
 			DBObject documentDetail = new BasicDBObject();
 
-			//documentDetail.put("_cls", "mapRecords"); // for mongoEngine ORM users
+			documentDetail.put("_cls", "mapRecords"); // for mongoEngine ORM users
 			documentDetail.put("image", in.getId());
 			documentDetail.put("mapId", map.getId());
 			documentDetail.put("width", map.getWidthInMeters());
@@ -105,7 +107,7 @@ public class DirectMapUploadTest {
 			documentDetail.put("scalingY", map.getRatioHeight());
 			documentDetail.put("title", map.getTitle());
 			documentDetail.put("updateTime", strDate);
-
+			
 			sampleData.insert(documentDetail);
 
 		} catch (Exception e) {
