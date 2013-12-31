@@ -307,6 +307,14 @@ public class HardcodedMapDAO implements MapDAO {
 				return;
 			}
 		}
+		
+		// send the single map to the server
+		uploadMapToServer(newMap);
+	}
+
+	private void uploadMapToServer(RoomMap newMap) {
+		
+		
 	}
 
 	/*
@@ -343,6 +351,9 @@ public class HardcodedMapDAO implements MapDAO {
 		newMapId = highestId + 1;
 		newMap.setId(newMapId);
 		allMaps.add(newMap);
+		
+		// send the single map to the server
+		uploadMapToServer(newMap);
 	}
 
 }
