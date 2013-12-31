@@ -44,14 +44,16 @@ public class DatabaseDataWriter implements DataWriter {
 		runnable = new DatabaseDataWriterRunnable();
 		Thread thread = new Thread(runnable);
 		thread.start();
+		logger.info("Writing data to database has been started.");
 	}
 
 	/**
 	 * Stops the writing to the database. 
 	 */
-	public void stopReading() {
+	@Override
+	public void stopWriting() {
 		runnable.terminate();
-		logger.log(Level.INFO, "Writing to the database has been stopped.");
+		logger.log(Level.INFO, "Writing to database has been stopped.");
 	}
 
 }

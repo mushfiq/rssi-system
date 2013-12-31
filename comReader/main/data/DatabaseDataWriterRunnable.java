@@ -5,11 +5,13 @@
 package data;
 
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
-import utilities.Utilities;
 import main.Application;
+import utilities.Utilities;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -54,12 +56,13 @@ public class DatabaseDataWriterRunnable implements Runnable {
 
 		try {
 			mongo = new Mongo("127.0.0.1");
-		} catch (UnknownHostException e) {
-			logger.severe("Connecting to mongo database failed. " + e.getMessage());
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-
-		database = mongo.getDB("javaTest");
-		sampleData = database.getCollection("sampleData");
+		
+		database = mongo.getDB("rssiSystem");
+		sampleData = database.getCollection("watch_records");
 	}
 
 	/*
@@ -85,17 +88,26 @@ public class DatabaseDataWriterRunnable implements Runnable {
 
 				// we take watchPositionData object from the queue by calling method 'poll()' on the queue
 				WatchPositionData watchPositionData = calculatedPositionsQueue.poll();
-				System.out.println(watchPositionData);
 				try {
 					DBObject documentDetail = new BasicDBObject();
+
+					documentDetail.put("_cls", "watchRecords"); // for mongoEngine ORM users
+
 					documentDetail.put("x", watchPositionData.getPosition().getX());
 					documentDetail.put("y", watchPositionData.getPosition().getY());
-					documentDetail.put("insertedAt", watchPositionData.getTime());
-					documentDetail.put("mapId", 1);
+
+					long time = watchPositionData.getTime();
+					SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+					String strDate = simpledateformat.format(new Date(time));
+					documentDetail.put("insertedAt", strDate);
+
+					documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
 					documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
+
 					sampleData.insert(documentDetail);
+
 				} catch (Exception e) {
-					logger.severe("Writing to mongo database failed. " + e.getMessage());
+					logger.warning("Couldn't send watch position data to the Mongo database");;
 				}
 			}
 		}

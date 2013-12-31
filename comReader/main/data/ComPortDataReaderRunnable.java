@@ -31,6 +31,8 @@ public class ComPortDataReaderRunnable implements Runnable {
 
 	/** The Constant COM_PORT_NUMBER. */
 	private static final String COM_PORT_NUMBER = "com_port_number";
+	
+	private static final int TIME_TO_SLEEP = 10; // milliseconds
 
 	/** The Constant BAUD_RATE. */
 	private static final String BAUD_RATE = "baud_rate";
@@ -120,6 +122,7 @@ public class ComPortDataReaderRunnable implements Runnable {
 
 			try {
 				while ((serializedIntegerValue = serialPortEventListener.readSio()) > -1) {
+					
 					character = (char) serializedIntegerValue;
 					line = line + character;
 					// FIXME this code may not be needed at all, doesn't seem like it has a function
@@ -154,7 +157,7 @@ public class ComPortDataReaderRunnable implements Runnable {
 				}
 			} catch (IOException e) {
 				logger.warning("An error occured while reading from COM port: " + e.getMessage());
-			}
+			} 
 		} // while always
 	} // end run
 
@@ -169,6 +172,7 @@ public class ComPortDataReaderRunnable implements Runnable {
 	 */
 	public void terminate() {
 		running = false;
+		serialPortEventListener.closeSio();
 	}
 
 }

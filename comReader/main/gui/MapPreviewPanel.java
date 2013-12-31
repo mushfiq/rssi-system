@@ -24,6 +24,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import main.Application;
 import utilities.ComponentMover;
 import utilities.Utilities;
 import components.Receiver;
@@ -54,7 +55,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	private static final int PANEL_HEIGHT = 550;
 
 	/** The Constant NO_IMAGE_STRING. */
-	private static final String NO_IMAGE_STRING = "Click on 'Upload' button on the right side to show a new map.";
+	private static final String NO_IMAGE_STRING = "Click on 'Choose image' button on the right side to show a new map.";
 
 	/** The Constant NO_IMAGE_STRING_LEFT_PADDING. */
 	private static final int NO_IMAGE_STRING_LEFT_PADDING = 3;
@@ -125,10 +126,11 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		receiverViews = new ArrayList<ReceiverView>();
 		scalingRatioToFitContainer = 1.0;
 		this.map = map;
-		this.originalBackgroundImage = (BufferedImage) map.getImage();
-		this.backgroundImage = (BufferedImage) map.getImage();
+		// TODO: added code
+		Application.getApplication().setRoomMap(this.map);
+		this.originalBackgroundImage = Utilities.deepCopy((BufferedImage) map.getImage());
+		this.backgroundImage = Utilities.deepCopy((BufferedImage) map.getImage());
 		this.parent = parent;
-
 		initializeGui();
 	}
 
@@ -140,9 +142,11 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	 *            <code>AddMapDialog</code> parent object
 	 */
 	public MapPreviewPanel(AddMapDialog parent) {
-		this.parent = parent;
-		this.map = new RoomMap();
+
 		receiverViews = new ArrayList<ReceiverView>();
+		scalingRatioToFitContainer = 1.0;
+		this.map = new RoomMap();
+		this.parent = parent;
 		initializeGui();
 	}
 
@@ -161,7 +165,6 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		setBackground(new Color(GRAY_COLOUR, GRAY_COLOUR, GRAY_COLOUR));
 		setLayout(null); // in order to position ReceiverViews absolutely
 		refreshPreviewImage();
-
 		// register all receiver views to the ComponentMover
 		componentMover = new ComponentMover();
 		// add zero coordinate marker views
@@ -170,8 +173,6 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		for (Receiver receiver : map.getReceivers()) {
 
 			ReceiverView receiverView = new ReceiverView(receiver, this);
-			System.out.println("Initial position of receiver number " + receiver.getID() + " is: " + receiver.getXPos()
-					+ ", " + receiver.getYPos());
 			receiverViews.add(receiverView);
 			this.add(receiverView);
 			// TODO: location should be calculated with offsets for scaling
@@ -184,16 +185,12 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			int lowerLeftMarkerOffsetXInPixels = map.getLowerLeftMarkerOffsetXInPixels();
 			int lowerLeftMarkerOffsetYInPixels = map.getLowerLeftMarkerOffsetYInPixels();
 
-			int receiverPositionInPixelsX = calculateReceiverPositionInPixelsX(	receiverPositionInMetersX,
-																				lowerLeftMarkerOffsetXInPixels,
-																				mapRatioWidth);
-			int receiverPositionInPixelsY = calculateReceiverPositionInPixelsY(	receiverPositionInMetersY,
-																				lowerLeftMarkerOffsetYInPixels,
-																				mapRatioHeight);
+			int receiverPositionInPixelsX = calculateReceiverPositionInPixelsX(receiverPositionInMetersX,
+				lowerLeftMarkerOffsetXInPixels, mapRatioWidth);
+			int receiverPositionInPixelsY = calculateReceiverPositionInPixelsY(receiverPositionInMetersY,
+				lowerLeftMarkerOffsetYInPixels, mapRatioHeight);
 
 			receiverView.setLocation(receiverPositionInPixelsX, receiverPositionInPixelsY);
-			System.out.println("Receiver position x (px): " + receiverPositionInPixelsX
-					+ "\nReceiver position y (px): " + receiverPositionInPixelsY);
 			componentMover.registerComponent(receiverView);
 		}
 
@@ -212,10 +209,10 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		try {
 			this.backgroundImage = ImageIO.read(file);
 			this.originalBackgroundImage = ImageIO.read(file);
-			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(	this.originalBackgroundImage,
-																						PANEL_WIDTH, PANEL_HEIGHT);
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage,
+				PANEL_WIDTH, PANEL_HEIGHT);
 			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
-
+			this.map.setImage(originalBackgroundImage);
 		} catch (IOException e) {
 			logger.severe("Reading of the image failed.\n" + e.getMessage());
 		}
@@ -227,8 +224,8 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	private void refreshPreviewImage() {
 
 		if (originalBackgroundImage != null) {
-			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(	this.originalBackgroundImage,
-																						PANEL_WIDTH, PANEL_HEIGHT);
+			this.scalingRatioToFitContainer = Utilities.getScalingRatioToFitContainer(this.originalBackgroundImage,
+				PANEL_WIDTH, PANEL_HEIGHT);
 			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
 			this.repaint();
 		}
@@ -366,15 +363,17 @@ public class MapPreviewPanel extends JPanel implements Observer {
 
 			if (map.getLowerLeftMarkerOffsetXInPixels() != 0 && map.getLowerLeftMarkerOffsetYInPixels() != 0) {
 				lowerLeftMarker
-						.setLocation(	(int) (map.getLowerLeftMarkerOffsetXInPixels() * scalingRatioToFitContainer),
-										(int) ((map.getLowerLeftMarkerOffsetYInPixels() * scalingRatioToFitContainer) - (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT * scalingRatioToFitContainer)));
+						.setLocation(
+							(int) (map.getLowerLeftMarkerOffsetXInPixels() * scalingRatioToFitContainer),
+							 ((int) (map.getLowerLeftMarkerOffsetYInPixels() * scalingRatioToFitContainer) - (int) (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT * scalingRatioToFitContainer)));
 			}
 
 			if (map.getUpperRightMarkerOffsetXInPixels() != 0 && map.getUpperRightMarkerOffsetYInPixels() != 0) {
 				upperRightMarker
-						.setLocation(	(int) (map.getUpperRightMarkerOffsetXInPixels() * scalingRatioToFitContainer)
-												- ((int) (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH * scalingRatioToFitContainer)),
-										(int) (map.getUpperRightMarkerOffsetYInPixels() * scalingRatioToFitContainer));
+						.setLocation(
+							((int)(map.getUpperRightMarkerOffsetXInPixels() * scalingRatioToFitContainer)
+									- (int)(CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH * scalingRatioToFitContainer)),
+							(int) (map.getUpperRightMarkerOffsetYInPixels() * scalingRatioToFitContainer));
 			}
 
 			add(lowerLeftMarker);
@@ -470,7 +469,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 					|| (receiverViewLocationX > upperRightMarkerPositionX)
 					|| (receiverViewLocationY > lowerLeftMarkerPositionY)
 					|| (receiverViewLocationY < upperRightMarkerPositionY)) {
-				validationErrors.add(RECEIVERS_OUT_OF_MAP_ERROR_MESSAGE);
+				validationErrors.add(RECEIVERS_OUT_OF_MAP_ERROR_MESSAGE + " Please check receiver " + receiverView.getReceiver().getID());
 				break;
 			}
 		}
@@ -492,12 +491,12 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		// set zero coordinate marker positions
 		int lowerLeftMarkerOffsetXInPixels = (int) (lowerLeftMarker.getLocation().getX() / scalingRatioToFitContainer);
 		int lowerLeftMarkerOffsetYInPixels = (int) (lowerLeftMarker.getLocation().getY() / scalingRatioToFitContainer)
-				+ (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT);
+				+ (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT); 
 		map.setLowerLeftMarkerOffsetXInPixels(lowerLeftMarkerOffsetXInPixels);
 		map.setLowerLeftMarkerOffsetYInPixels(lowerLeftMarkerOffsetYInPixels);
 
 		int upperRightMarkerOffsetXInPixels = (int) (upperRightMarker.getLocation().getX() / scalingRatioToFitContainer)
-				+ (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH);
+				+ (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH); 
 		int upperRightMarkerOffsetYInPixels = (int) (upperRightMarker.getLocation().getY() / scalingRatioToFitContainer);
 		map.setUpperRightMarkerOffsetXInPixels(upperRightMarkerOffsetXInPixels);
 		map.setUpperRightMarkerOffsetYInPixels(upperRightMarkerOffsetYInPixels);
@@ -511,7 +510,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 		// set width and height ratios
 		int mapWidthInPixels = upperRightMarkerOffsetXInPixels - lowerLeftMarkerOffsetXInPixels;
 		int mapHeightInPixels = lowerLeftMarkerOffsetYInPixels - upperRightMarkerOffsetYInPixels;
-
+		
 		double mapWidthRatio = (mapWidthInPixels) / roomWidthInMeters;
 		double mapHeightRatio = (mapHeightInPixels) / roomHeightInMeters;
 
@@ -527,25 +526,29 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			int receiverViewYInPixels = ((int) (receiverView.getLocation().getY() / scalingRatioToFitContainer))
 					+ (ReceiverView.RECEIVER_ITEM_HEIGHT / 2);
 
-			double receiverPositionInMetersX = calculateReceiverPositionInMetersX(	lowerLeftMarkerOffsetXInPixels,
-																					receiverViewXInPixels,
-																					mapWidthRatio);
-			double receiverPositionInMetersY = calculateReceiverPositionInMetersY(	lowerLeftMarkerOffsetYInPixels,
-																					receiverViewYInPixels,
-																					mapHeightRatio);
+			double receiverPositionInMetersX = calculateReceiverPositionInMetersX(lowerLeftMarkerOffsetXInPixels,
+				receiverViewXInPixels, mapWidthRatio);
+			double receiverPositionInMetersY = calculateReceiverPositionInMetersY(lowerLeftMarkerOffsetYInPixels,
+				receiverViewYInPixels, mapHeightRatio);
 
 			receiverView.getReceiver().setxPos(receiverPositionInMetersX);
 			receiverView.getReceiver().setyPos(receiverPositionInMetersY);
+			
 			map.addReceiver(receiverView.getReceiver());
-			System.out.println("Receiver[" + receiverView.getReceiver().getID() + "] position x (m): "
-					+ receiverPositionInMetersX + "\nReceiver position y (m): " + receiverPositionInMetersY);
 		}
-
+		
 		// set map title
 		String titleFromInput = parent.getRoomTitle();
 		map.setTitle(titleFromInput.equals("") ? "Unkown" : titleFromInput);
 
-		System.out.println(map);
+		// set map xFrom, xTo, yFrom and yTo values
+		map.setxFrom(0);
+		map.setxTo(map.getWidthInMeters());
+		map.setyFrom(0);
+		map.setyTo(map.getHeightInMeters());
+
+		Application.getApplication().setRoomMap(map);
+		
 		return map;
 	}
 
@@ -596,7 +599,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 	 * @param lowerLeftMarkerOffsetXInPixels
 	 *            <code>int</code> lower left marker offset x in pixels
 	 * @param mapRatioWidth
-	 *            <code>double</code> map width ratio 
+	 *            <code>double</code> map width ratio
 	 * @return the int
 	 */
 	private int calculateReceiverPositionInPixelsX(double receiverPositionInMetersX,

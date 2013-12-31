@@ -11,7 +11,6 @@ import java.util.logging.Logger;
 
 import utilities.Utilities;
 import algorithm.PositionLocalizationAlgorithm;
-import algorithm.ProbabilityBasedAlgorithm;
 
 import components.Receiver;
 import components.RoomMap;
@@ -20,7 +19,12 @@ import dao.HardcodedMapDAO;
 import dao.HardcodedReceiverDAO;
 import dao.MapDAO;
 import dao.ReceiverDAO;
+import data.COMPortDataReader;
 import data.Controller;
+import data.DataProcessor;
+import data.DataReader;
+import data.DataWriter;
+import data.DatabaseDataWriter;
 
 /**
  * This is the starting point of the java application. It contains references to: <br>
@@ -70,6 +74,10 @@ public final class Application {
 	/** The receiver dao. */
 	private ReceiverDAO receiverDAO;
 
+	private DataReader dataReader;
+	private DataWriter dataWriter;
+	private DataProcessor dataProcessor;
+	
 	/**
 	 *  Private constructor of Singleton class. To instantiate an object of type <code>Application</code>, static method
 	 * <code>getApplication</code> should be called.
@@ -81,10 +89,13 @@ public final class Application {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		receiverDAO = new HardcodedReceiverDAO();
 		mapDAO = new HardcodedMapDAO();
-		readConfigurationFile();
+		//readConfigurationFile();
 		controller = new Controller();
 		logger.info("Application started.");
-		algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
+		//algorithm = new ProbabilityBasedAlgorithm(roomMap, receivers);
+		dataReader = new COMPortDataReader();
+		dataWriter = new DatabaseDataWriter();
+		dataProcessor = new DataProcessor();
 	}
 
 	/**
@@ -208,15 +219,7 @@ public final class Application {
 	 */
 	public void setAlgorithm(PositionLocalizationAlgorithm algorithm) {
 
-		// XXX this check should be removed in final version
-		if (algorithm == null) {
-			return;
-		}
-
-		if (algorithm.getClass() != this.algorithm.getClass()) { // in order to avoid possibly expensive instantiation
-			this.algorithm = algorithm;
-		}
-
+		this.algorithm = algorithm;
 	}
 
 	/**
@@ -244,6 +247,25 @@ public final class Application {
 	 */
 	public ReceiverDAO getReceiverDAO() {
 		return receiverDAO;
+	}
+	
+	public void startReadingsAndWritings() {
+		
+		// start readings from source (COM port or file)
+		dataReader.readData();
+		// start writing to destination (database or console or file)
+		dataWriter.writeData();
+		
+		dataProcessor.processData();
+	}
+	
+	public void stopReadingsAndWritings() {
+		
+		// stop readings from COM port
+		dataReader.stopReading();
+		// stop writing to destination (database or console or file)
+		dataWriter.stopWriting();
+		dataProcessor.stopReading();
 	}
 
 }
