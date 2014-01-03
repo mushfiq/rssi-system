@@ -1,12 +1,16 @@
 package services;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -14,22 +18,30 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+
+import userInterface.MapImageView;
+import userInterface.WatchUserActivity;
+
+import dataobjects.CoordinateTransformation;
+import dataobjects.Point;
+import dataobjects.ReceiverRecord;
 import dataobjects.MapRecord;
 import dataobjects.ResponseParser;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.ImageView;
 
 public class RestMapService
 {
 	
-	public Activity activity;
+	public WatchUserActivity activity;
 	public static MapRecord mapRecord = null;
-
-	public RestMapService(Activity activity)
+	public ArrayList<ReceiverRecord> receiverRecords;
+	
+	public RestMapService(WatchUserActivity activity)
 	{
 		this.activity = activity;
 	}	
@@ -102,7 +114,7 @@ public class RestMapService
 	
 	public class BitmapTask extends AsyncTask<MapRecord, Void, Bitmap>
 	{
-		
+		ProgressDialog dialog;
 		public Activity getActivity()
 		{
 			return activity;			
@@ -114,14 +126,19 @@ public class RestMapService
 	        Bitmap map = null;   
 	        
 	        if( record.length > 0)
-	        {
+	        {	        	
 	        	Log.e("GET_MAP_TASK", "Getting Image started...");
 	        	mapRecord = record[0];
-    			String mapid = mapRecord.getMapId();
-    		    String image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+mapid;
+    			String id = mapRecord.getId();
+    		    String image_url = "http://shironambd.com/api/v1/image/?access_key=529a2d308333d14178f5c54d&id="+id;
     		    map = downloadImage(image_url);
     		    Log.e("GET_MAP_TASK", "Getting Image finished");
-	    			
+   		    
+    		    String receiver_url = "http://shironambd.com/api/v1/receiver/?access_key=529a2d308333d14178f5c54d&mapId="
+						+ mapRecord.getMapId() + "&format=json";
+
+    		    receiverRecords = downloadReceiverInformation(receiver_url);
+					
 	    	}
 	        return map;
 	    }
@@ -130,7 +147,7 @@ public class RestMapService
 	    @Override
 	    protected void onPostExecute(Bitmap result)
 	    {
-			ImageView imageView = (ImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImage);
+			MapImageView imageView = (MapImageView)this.getActivity().findViewById(com.example.chronolocalization.R.id.mapImage);
 	        
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			result.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -163,6 +180,26 @@ public class RestMapService
             Bitmap resizedbitmap =  BitmapFactory.decodeStream(is, null, o2);
 	    
 		    imageView.setImageBitmap(resizedbitmap);
+		    imageView.clearReceiverPositions();
+		    
+		    float scalingX = mapRecord.getScalingX();
+	    	float scalingY = mapRecord.getScalingY();
+	    	
+	    	float offsetX = mapRecord.getOffsetX();
+	    	float offsetY = mapRecord.getOffsetY();
+	    	
+	    	Point oldZero = new Point(0.0f, 0.0f);
+	    	Point newZero = new Point(offsetX, offsetY);
+	    	
+	    	CoordinateTransformation coordinateTransformation = new CoordinateTransformation(oldZero, newZero);
+		    
+		    for(ReceiverRecord receiverRecord : receiverRecords)
+		    {
+		    	Point receiverPosition = receiverRecord.getReceiverPosition();
+		    	System.out.println( receiverPosition + " -> " + coordinateTransformation.transformPosition(receiverPosition));
+		    	imageView.addReceiver(receiverRecord.getReceiverId(), receiverRecord.getReceiverPosition());
+		    }
+		    		    
 		    imageView.invalidate();
 
 	    }
@@ -218,6 +255,44 @@ public class RestMapService
 	        return stream;
 	    }
 	}
+	
+	private ArrayList<ReceiverRecord> downloadReceiverInformation(String url)
+	{
+
+		ArrayList<ReceiverRecord> receiverRecords = null;
+		try
+		{
+
+			URL obj = new URL(url);
+	    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	    	con.setRequestMethod("GET");
+	 
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(con.getInputStream()));
+			String inputLine;
+			StringBuffer response = new StringBuffer();
+	 
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+			
+			Log.e("GET_RECEIVER", "Http request finished");
+			
+			receiverRecords = ResponseParser
+					.parseReceiverRecord(response.toString());
+
+			return receiverRecords;
+		}
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+
+		return receiverRecords;
+
+	}
+
 
 }
 

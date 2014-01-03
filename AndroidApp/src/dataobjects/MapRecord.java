@@ -38,24 +38,59 @@ public class MapRecord
      }
      
      float scalingX = 0.0f;
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getScalingX()
+     {
+    	 return scalingX;
+     }
+     
      public void setScalingX(float scaling)
      {
     	 this.scalingX = scaling;
      }
      
      float scalingY = 0.0f;
+     
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getScalingY()
+     {
+    	 return scalingY;
+     }
+     
      public void setScalingY(float scaling)
      {
     	 this.scalingY = scaling;
      }
      
      float offsetX = 0.0f;
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getOffsetX()
+     {
+    	 return offsetX;
+     }
      public void setOffsetX(float offsetX)
      {
     	 this.offsetX = offsetX;
      }
      
      float offsetY = 0.0f;
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getOffsetY()
+     {
+    	 return offsetY;
+     }
      public void setOffsetY(float offsetY)
      {
     	 this.offsetY = offsetY;
@@ -70,6 +105,17 @@ public class MapRecord
  	public void setUpdateTime(Date updateTime)
  	{
  		this.updateTime = updateTime;
+ 	}
+ 	
+ 	private String id = "";
+ 	public String getId()
+ 	{
+ 		return id;
+ 	}
+ 	
+ 	public void setId(String id)
+ 	{
+ 		this.id = id;
  	}
 
 }

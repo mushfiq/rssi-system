@@ -42,16 +42,12 @@ public final class R {
         public static final int PositionText=0x7f0a0003;
         public static final int WatchSpinner=0x7f0a0007;
         public static final int WatchUser=0x7f0a0000;
-        public static final int action_settings=0x7f0a000c;
-        public static final int mapImage=0x7f0a0001;
+        public static final int mapImage1=0x7f0a0001;
         public static final int startImg=0x7f0a0008;
         public static final int stopImg=0x7f0a0009;
-        public static final int text=0x7f0a000b;
-        public static final int toast_layout_id=0x7f0a000a;
     }
     public static final class layout {
         public static final int activity_watch_user=0x7f030000;
-        public static final int toast=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f090000;
