@@ -7,7 +7,7 @@
     tools:context=".WatchUserActivity" >
 
     <userInterface.MapImageView
-        android:id="@+id/mapImage1"
+        android:id="@+id/mapImage"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
