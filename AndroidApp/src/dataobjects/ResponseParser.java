@@ -117,7 +117,7 @@ public class ResponseParser
                     Float scalingX =  Float.parseFloat(scalingStringX);
                     mapRecord.setScalingX(scalingX);
                     
-                    String scalingStringY = jsonObj.getString("scalingX").toString();
+                    String scalingStringY = jsonObj.getString("scalingY").toString();
                     Float scalingY =  Float.parseFloat(scalingStringY);
                     mapRecord.setScalingY(scalingY);                    
                     
@@ -128,6 +128,14 @@ public class ResponseParser
                     String offsetY = jsonObj.getString("offsetY").toString();
                     Float parseOffsetY =  Float.parseFloat(offsetY);
                     mapRecord.setOffsetY(parseOffsetY);
+                    
+                    String offset2X = jsonObj.getString("offset2X").toString();
+                    Float parseOffset2X =  Float.parseFloat(offset2X);
+                    mapRecord.setOffset2X(parseOffset2X);
+                    
+                    String offset2Y = jsonObj.getString("offset2Y").toString();
+                    Float parseOffset2Y =  Float.parseFloat(offset2Y);
+                    mapRecord.setOffset2Y(parseOffset2Y);
                     
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
                     try

@@ -152,52 +152,57 @@ public class RestMapService
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			result.compress(Bitmap.CompressFormat.PNG, 100, baos);
 			InputStream is = new ByteArrayInputStream( baos.toByteArray());
-	
-	           //Find the correct scale value. It should be the power of 2.
-            final int REQUIRED_SIZE=360;
-            int scale=2;
-
-            float width = 0.0f,height = 0.0f;
-			
-			width = mapRecord.getWidth();
-			height = mapRecord.getHeight();
-			while(true)
-			{
-				if(width<REQUIRED_SIZE || height<REQUIRED_SIZE)
-				{
-					width = REQUIRED_SIZE;
-					height = REQUIRED_SIZE;
-					break;
-				} 
-				width/=2;
-				height/=2;
-			}
-			
 	    		
 			 //decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize=scale;
             Bitmap resizedbitmap =  BitmapFactory.decodeStream(is, null, o2);
 	    
 		    imageView.setImageBitmap(resizedbitmap);
-		    imageView.clearReceiverPositions();
 		    
-		    float scalingX = mapRecord.getScalingX();
-	    	float scalingY = mapRecord.getScalingY();
+		    int bitmapHeight = resizedbitmap.getHeight();
+		    int bitmapWidth = resizedbitmap.getWidth();
+		    
+		    int imageViewHeight = imageView.getHeight();
+		    int imageViewWidth = imageView.getWidth();
+		    
+		    float additionalRatioX = (float) imageViewWidth / (float) bitmapWidth;
+		    float additionalRatioY = (float) imageViewHeight / (float) bitmapHeight;
+		    
+		    float additionalRatio = 1.0f;
+		    if( Math.abs(additionalRatioX - 1.0f) < Math.abs(additionalRatioY -1.0f) )
+		    {
+		    	additionalRatio = additionalRatioX;
+		    }
+		    else
+		    {
+		    	additionalRatio = additionalRatioY;
+		    }
+		    
+		    float heightInMeter = mapRecord.getHeight();
+		    float widthInMeter = mapRecord.getWidth();
+		    
+		    int heightInPixel = (int)heightInMeter * (int)mapRecord.getScalingY();
+		    int widthInPixel = (int)widthInMeter * (int)mapRecord.getScalingX();
+		    
+		    float scalingX = mapRecord.getScalingX() * additionalRatio;
+	    	float scalingY = mapRecord.getScalingY() * additionalRatio;
 	    	
 	    	float offsetX = mapRecord.getOffsetX();
 	    	float offsetY = mapRecord.getOffsetY();
 	    	
 	    	Point oldZero = new Point(0.0f, 0.0f);
-	    	Point newZero = new Point(offsetX, offsetY);
+	    	Point newZero = new Point(0.0f, -offsetY*additionalRatio);
 	    	
 	    	CoordinateTransformation coordinateTransformation = new CoordinateTransformation(oldZero, newZero);
 		    
+	    	imageView.clearReceiverPositions();
 		    for(ReceiverRecord receiverRecord : receiverRecords)
 		    {
 		    	Point receiverPosition = receiverRecord.getReceiverPosition();
-		    	System.out.println( receiverPosition + " -> " + coordinateTransformation.transformPosition(receiverPosition));
-		    	imageView.addReceiver(receiverRecord.getReceiverId(), receiverRecord.getReceiverPosition());
+		    	receiverPosition.scale(scalingX, scalingY);
+		    	receiverPosition = coordinateTransformation.transformPosition(receiverPosition);
+		    	
+		    	imageView.addReceiver(receiverRecord.getReceiverId(), receiverPosition);
 		    }
 		    		    
 		    imageView.invalidate();

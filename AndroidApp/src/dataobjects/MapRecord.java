@@ -82,6 +82,20 @@ public class MapRecord
     	 this.offsetX = offsetX;
      }
      
+     float offset2X = 0.0f;
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getOffset2X()
+     {
+    	 return offset2X;
+     }
+     public void setOffset2X(float offsetX)
+     {
+    	 this.offset2X = offsetX;
+     }
+     
      float offsetY = 0.0f;
      /**
       * @author Silvio
@@ -94,6 +108,20 @@ public class MapRecord
      public void setOffsetY(float offsetY)
      {
     	 this.offsetY = offsetY;
+     }
+     
+     float offset2Y = 0.0f;
+     /**
+      * @author Silvio
+      * @return
+      */
+     public float getOffset2Y()
+     {
+    	 return offset2Y;
+     }
+     public void setOffset2Y(float offsetY)
+     {
+    	 this.offset2Y = offsetY;
      }
      
     private Date updateTime = new Date();

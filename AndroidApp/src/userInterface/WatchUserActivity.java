@@ -234,8 +234,7 @@ public class WatchUserActivity extends Activity
 			    	{
 			    		if( records.get(0).getMapId() != lastMapId )
 			    		{
-			    			//lastMapId = records.get(0).getMapId();
-			    			lastMapId = 4;
+			    			lastMapId = records.get(0).getMapId();
 					       	RestMapService restMapService = new RestMapService(WatchUserActivity.this);
 							String mapID = ""+ lastMapId;
 							restMapService.new GetMapRecordTask(mapID).execute();

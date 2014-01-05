@@ -50,6 +50,12 @@ public class Point
 		return y;
 	}
 	
+	public void scale(float scalingX, float scalingY)
+	{
+		x = x * scalingX;
+		y = y * scalingY;
+	}
+	
 	@Override
 	/**
 	 * The toString method which returns a string representation of this object
