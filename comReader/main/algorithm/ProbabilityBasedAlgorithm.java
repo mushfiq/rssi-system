@@ -180,19 +180,19 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
-		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-										   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	    roommap.getGranularity(), 
-									  	    roommap.getImage());
-		
 		// instantiate logger
         this.logger = Utilities.initializeLogger(this.getClass().getName()); 
 		
 		readSpecialAlgoParameters();
 		
 		setUpConstructor();
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+				   						   (roommap.getXTo() + this.roommapExtension), 
+				   						   (roommap.getYFrom() - this.roommapExtension), 
+				   						   (roommap.getYTo() + this.roommapExtension), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
 	}
 	
 	/**
@@ -232,13 +232,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 									 ProbabilityMap probabilityMap, WeightFunction weightFunction, Filter filter) {
 		super(roommap, receivers);
 		
-		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						    roommap.getGranularity(), 
-				   						    roommap.getImage());
-		
 		// instantiate logger
         this.logger = Utilities.initializeLogger(this.getClass().getName());
 		
@@ -247,6 +240,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		this.filter = filter;
 		
 		setUpConstructor();
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+				   						   (roommap.getXTo() + this.roommapExtension), 
+				   						   (roommap.getYFrom() - this.roommapExtension), 
+				   						   (roommap.getYTo() + this.roommapExtension), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
 	}
 	
 	/**

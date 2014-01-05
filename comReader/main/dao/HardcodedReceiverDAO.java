@@ -96,17 +96,37 @@ public class HardcodedReceiverDAO implements ReceiverDAO {
 
 		allReceivers = new ArrayList<Receiver>();
 
+		Receiver receiver0 = new Receiver(0);
 		Receiver receiver1 = new Receiver(1);
 		Receiver receiver2 = new Receiver(2);
 		Receiver receiver3 = new Receiver(3);
 		Receiver receiver4 = new Receiver(4);
 		Receiver receiver5 = new Receiver(5);
-
+		Receiver receiver6 = new Receiver(6);
+		Receiver receiver7 = new Receiver(7);
+		Receiver receiver8 = new Receiver(8);
+		Receiver receiver9 = new Receiver(9);
+		Receiver receiver10 = new Receiver(10);
+		Receiver receiver11 = new Receiver(11);
+		Receiver receiver12 = new Receiver(12);
+		Receiver receiver13 = new Receiver(13);
+		Receiver receiver14 = new Receiver(14);
+		
+		allReceivers.add(receiver0);
 		allReceivers.add(receiver1);
 		allReceivers.add(receiver2);
 		allReceivers.add(receiver3);
 		allReceivers.add(receiver4);
 		allReceivers.add(receiver5);
+		allReceivers.add(receiver6);
+		allReceivers.add(receiver7);
+		allReceivers.add(receiver8);
+		allReceivers.add(receiver9);
+		allReceivers.add(receiver10);
+		allReceivers.add(receiver11);
+		allReceivers.add(receiver12);
+		allReceivers.add(receiver13);
+		allReceivers.add(receiver14);
 
 		isDirty = false;
 	}

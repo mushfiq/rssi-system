@@ -667,10 +667,24 @@ public final class Utilities {
 	}
 
 	public static BufferedImage deepCopy(BufferedImage bi) {
-		
+
 		ColorModel cm = bi.getColorModel();
 		boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
 		WritableRaster raster = bi.copyData(null);
 		return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+	}
+
+	public static byte[] LoadImageAsBytes(String filePath) throws Exception {
+		String path = filePath;
+		if(!(new File(filePath).exists())) {
+			path = Utilities.class.getResource(filePath).getPath();
+		}
+		File file = new File(path);
+		int size = (int) file.length();
+		byte[] buffer = new byte[size];
+		FileInputStream in = new FileInputStream(file);
+		in.read(buffer);
+		in.close();
+		return buffer;
 	}
 }
