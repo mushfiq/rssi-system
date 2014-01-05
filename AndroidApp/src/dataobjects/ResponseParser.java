@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 
 /**
  * This class provides different parse functions which parse a string in JSON format to the needed objects
@@ -23,22 +25,25 @@ public class ResponseParser
 	 * @param jsonString The string which represent the JSON Object
 	 * @return The List of WatchPositionRecords
 	 */
-	public static ArrayList<WatchPositionRecord> getParsedResponse(String jsonString) {
-		
+	public static ArrayList<WatchPositionRecord> getParsedResponse(String jsonString)
+	{		
 		ArrayList<WatchPositionRecord> deviceInformation = new ArrayList<WatchPositionRecord>();
-		if (jsonString!=null) {
+		if (jsonString!=null)
+		{
 			
-            try {
-            	
+            try
+            {
+            	// Create a JSON Object from the result string
             	JSONObject obj = new JSONObject(jsonString);
             	JSONArray  responseObject = obj.getJSONArray("objects");
 
-            	for(int i = 0 ; i < responseObject.length() ; i++){
-            		
+            	for(int i = 0 ; i < responseObject.length() ; i++)
+            	{            		
             		WatchPositionRecord watchPositionRecord = new WatchPositionRecord();
             		
                     JSONObject jsonObj = (JSONObject)responseObject.get(i);
                     
+                    // Accessing the different fields of the JSON Object and fill the POJO WatchPositionRecord with the data
                     watchPositionRecord.setMapId(jsonObj.getInt("mapId"));
                     watchPositionRecord.setWatchId(jsonObj.getString("watchId").toString());
                     
@@ -47,7 +52,8 @@ public class ResponseParser
 					{
 						Date insertedAt = dateFormatter.parse(jsonObj.getString("insertedAt").toString());
 						watchPositionRecord.setInsertedAt(insertedAt);
-					} catch (ParseException e)
+					}
+                    catch (ParseException e)
 					{
 						e.printStackTrace();
 					}
@@ -64,10 +70,11 @@ public class ResponseParser
                     deviceInformation.add(watchPositionRecord);
                 }
             	return deviceInformation;
-			} catch (JSONException e) {
+			}
+            catch (JSONException e)
+            {
 				e.printStackTrace();
 			}
-
 		}
 		return null;
 	}
@@ -94,7 +101,9 @@ public class ResponseParser
             		mapRecord = new MapRecord();
             		
                     JSONObject jsonObj = (JSONObject)responseObject.get(i);
-                    mapRecord.setMapId(jsonObj.getString("id").toString());
+                    mapRecord.setMapId(jsonObj.getString("mapId").toString());
+                    
+                    mapRecord.setId(jsonObj.getString("id").toString());
                     
                     String height = jsonObj.getString("height").toString();
                     Float parseHeight = Float.parseFloat(height);
@@ -142,4 +151,46 @@ public class ResponseParser
 		}
 		return null;
 	}
+
+public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
+
+	ArrayList<ReceiverRecord> receiverInformation = new ArrayList<ReceiverRecord>();
+	if (results!=null) {
+		
+        try {
+        	
+        	JSONObject obj = new JSONObject(results);
+        	JSONArray  responseObject = obj.getJSONArray("objects");
+
+        	for(int i = 0 ; i < responseObject.length() ; i++){
+        		
+        		ReceiverRecord receiverRecord = new ReceiverRecord();
+        		
+                JSONObject jsonObj = (JSONObject)responseObject.get(i);
+
+                receiverRecord.setReceiverId(jsonObj.getString("receiverId").toString());
+
+                
+                String x = jsonObj.getString("x").toString();
+
+                Float parseX = Float.parseFloat(x);
+                receiverRecord.setX(parseX);      
+                Log.d("**parser*x****",""+receiverRecord.getX());
+
+                String y = jsonObj.getString("y").toString();
+                Float parseY = Float.parseFloat(y);
+                receiverRecord.setY(parseY);      
+                Log.d("**parser*y****",""+receiverRecord.getY());
+
+                                
+                receiverInformation.add(receiverRecord);
+            }
+        	return receiverInformation;
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	return null;
+}
 }

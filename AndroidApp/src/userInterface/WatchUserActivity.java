@@ -2,8 +2,10 @@ package userInterface;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.RoundingMode;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -41,7 +43,7 @@ public class WatchUserActivity extends Activity
 	private CoordinateTransformation coordinateTransformation; 
 	
 	int offset = 0;
-	private int lastMapId = -1;
+	private int lastMapId = 4;
 
 	//TODO Get the ratios from mapRecord
 	private float pixel_per_meterX = 50.0f;
@@ -55,9 +57,7 @@ public class WatchUserActivity extends Activity
 	
 	//TODO Get the Update Rate from a configuration file or the second tab of the activity
 	static int UPDATE_RATE = 200; // in milliseconds 
-	
 
-	
 	ImageView start;
 	ImageView stop;
 	
@@ -92,16 +92,13 @@ public class WatchUserActivity extends Activity
 		imageView.setIsPanAndZoomable(true);
 		Toast.makeText( getApplicationContext(), "Application started", Toast.LENGTH_SHORT).show();
        	watchID = spinnerChooseWatch.getSelectedItem().toString();
-       	
-       	RestMapService restMapService = new RestMapService(WatchUserActivity.this);
-		watchID = spinnerChooseWatch.getSelectedItem().toString();
-		restMapService.new GetMapRecordTask("4").execute(); 
-				 
+     					 
 		timer = new Timer();
  		start.setVisibility(View.GONE);
  		stop.setVisibility(View.VISIBLE);
 
-	        timer.scheduleAtFixedRate(new TimerTask() {         
+ 		// Create a new timer task that asks periodically for the latest position of the watch
+        timer.scheduleAtFixedRate(new TimerTask() {         
 	            @Override
 	            public void run() {
 	                runOnUiThread(new Runnable()
@@ -119,19 +116,19 @@ public class WatchUserActivity extends Activity
 	
 	public void stopApplication(View view)
 	{
-
 		stop.setVisibility(View.GONE);
 		start.setVisibility(View.VISIBLE);
+		
+		Toast.makeText( getApplicationContext(), "Application is stoped", Toast.LENGTH_SHORT).show();
 
 		if(timer !=null){
 			timer.cancel();
 		}
-
 	}
 
 	@Override
 	protected void onStart() {
-	    super.onStart();
+	    super.onStart();	 
 	}
 	class GetPositionTask extends AsyncTask<String, Void, String>
 	  {
@@ -202,7 +199,7 @@ public class WatchUserActivity extends Activity
 		    }
 
 		    protected void onPostExecute(String result)
-		    {
+		    {	
 		    	imageView.invalidate();
 		    	// Needed for the coordinate transformation of accessed position and the imageview
 		    	
@@ -216,39 +213,6 @@ public class WatchUserActivity extends Activity
 			    Point newZero = new Point(0,-map_height);
 				coordinateTransformation = new CoordinateTransformation(oldZero, newZero);
 				
-
-				//Positions of Receiver hard coded in pixel
-				//for the test_room_fifth_floor to fit the real environment
-				
-				float x1 = 0.0f * pixel_per_meterX;
-				float y1 = 6.0f * pixel_per_meterY;
-				
-				float x2 = 0.0f * pixel_per_meterX;
-				float y2 = 2.45f * pixel_per_meterY;
-				
-				float x3 = 2.0f * pixel_per_meterX;
-				float y3 = 6.0f * pixel_per_meterY;
-				
-				float x4 = 6.0f * pixel_per_meterX;
-				float y4 = 6.0f * pixel_per_meterY;
-				
-				float x5 = 6.0f * pixel_per_meterX;
-				float y5 = 2.45f * pixel_per_meterY;
-				
-				float x6 = 6.0f * pixel_per_meterX;
-				float y6 = 0.0f * pixel_per_meterY;
-				
-				float x7 = 3.7f * pixel_per_meterX;
-				float y7 = 2.0f * pixel_per_meterY;
-				
-				imageView.addReceiver("Receiver1", coordinateTransformation.transformPosition(new Point(x1,y1)));
-				imageView.addReceiver("Receiver2", coordinateTransformation.transformPosition(new Point(x2,y2)));
-				imageView.addReceiver("Receiver3", coordinateTransformation.transformPosition(new Point(x3,y3)));
-				imageView.addReceiver("Receiver4", coordinateTransformation.transformPosition(new Point(x4,y4)));
-				imageView.addReceiver("Receiver5", coordinateTransformation.transformPosition(new Point(x5,y5)));
-				imageView.addReceiver("Receiver6", coordinateTransformation.transformPosition(new Point(x6,y6)));
-				imageView.addReceiver("Receiver7", coordinateTransformation.transformPosition(new Point(x7,y7)));
-
 				String watchID = spinnerChooseWatch.getSelectedItem().toString();
 		    	
 				try
@@ -258,6 +222,7 @@ public class WatchUserActivity extends Activity
 					float lastYPosition = 0.0f;
 					Log.e("PARSE_JSON_RESPONSE", "Parse JSON started...");
 			    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
+			    	
 			    	Log.e("PARSE_JSON_RESPONSE", "Parse JSON finished");
 			    	
 			    	Log.e("WATCH_USER_ACTIVITY", "Display position started");
@@ -267,6 +232,15 @@ public class WatchUserActivity extends Activity
 					
 			    	if( !records.isEmpty() )
 			    	{
+			    		if( records.get(0).getMapId() != lastMapId )
+			    		{
+			    			//lastMapId = records.get(0).getMapId();
+			    			lastMapId = 4;
+					       	RestMapService restMapService = new RestMapService(WatchUserActivity.this);
+							String mapID = ""+ lastMapId;
+							restMapService.new GetMapRecordTask(mapID).execute();
+			    		}
+
 			    		for (WatchPositionRecord record : records)
 						{	
 			    			lastPosition = record.getPosition();
@@ -289,7 +263,10 @@ public class WatchUserActivity extends Activity
 			    		
 			    		imageView.setPositionsToDraw(numberOfPositions);
 			    		
-			    		String positionString = "x = " + lastXPosition + "m, " + "y = " + lastYPosition + "m";
+			    		DecimalFormat df = new DecimalFormat("##.##");
+			    		df.setRoundingMode(RoundingMode.HALF_UP);
+			    		
+			    		String positionString = "x = " + df.format(lastXPosition) + "m, " + "y = " + df.format(lastYPosition) + "m";
 					    positionText.setText(positionString);
 			    		
 			    		imageView.setDrawPath(drawWatchPath); // drawWatchPath == true => draw a path of the last positions

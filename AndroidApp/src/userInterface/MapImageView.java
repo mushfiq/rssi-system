@@ -192,7 +192,7 @@ public class MapImageView extends ImageView {
         {
             scaleFactor *= detector.getScaleFactor();
 
-            // Don't let the object get too small or too large.
+            // Limit the size of the object that it gets not too small or too big
             scaleFactor = Math.max(0.5f, Math.min(scaleFactor, 1.5f));
 
             invalidate();
@@ -301,6 +301,15 @@ public class MapImageView extends ImageView {
     public void removeReceiver(String receiverID)
     {
     	receiverPoints.remove(receiverID);
+    }
+    
+    /**
+     * This method clear all receiver positions we want to display
+     * @author Silvio
+     */
+    public void clearReceiverPositions()
+    {
+    	receiverPoints.clear();
     }
     
     private Set<String> watchesToDraw = new TreeSet<String>(); //The set of watch ids that should be drawn

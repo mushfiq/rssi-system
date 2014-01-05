@@ -65,7 +65,7 @@ class GenerateData(object):
     
     def get_random_mapId(self):
         all_maps = mapRecords.objects.all()
-        randomMapId = randint(0, len(all_maps))
+        randomMapId = randint(0, len(all_maps)-1)
         return all_maps[randomMapId].mapId
         
     def generate_save_watch(self, total):
@@ -102,8 +102,9 @@ class GenerateData(object):
             r.y = random()*10
             r.angle = randint(25, 120)
             try:
+                print "receiver", r
                 r.save()
-                pass
+                # pass
             except Exception, e:
                 print e
             
@@ -156,6 +157,7 @@ if __name__ == '__main__':
     # dataGen.update_old_maps()
     # dataGen.delete_receivers()
     dataGen.generate_save_receiver(7)
+    # dataGen.get_random_mapId()
     # dataGen.generate_save_watch(30)
     # dataGen.delete_watches()
     # dataGen.delete_receivers()
