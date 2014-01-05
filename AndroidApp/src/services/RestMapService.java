@@ -156,7 +156,8 @@ public class RestMapService
 			 //decode with inSampleSize
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             Bitmap resizedbitmap =  BitmapFactory.decodeStream(is, null, o2);
-	    
+
+		    // The Bitmap is resized automatically to fit into the imageView
 		    imageView.setImageBitmap(resizedbitmap);
 		    
 		    int bitmapHeight = resizedbitmap.getHeight();
@@ -165,11 +166,14 @@ public class RestMapService
 		    int imageViewHeight = imageView.getHeight();
 		    int imageViewWidth = imageView.getWidth();
 		    
+		    // We have to calculate a additional ratio, because the scaling we get from the server are for the
+		    // original imagesize, due to the fact that the image is resized automatically when putting it into the imageview
+		    // the scaling from database would be wrong
 		    float additionalRatioX = (float) imageViewWidth / (float) bitmapWidth;
 		    float additionalRatioY = (float) imageViewHeight / (float) bitmapHeight;
 		    
 		    float additionalRatio = 1.0f;
-		    if( Math.abs(additionalRatioX - 1.0f) < Math.abs(additionalRatioY -1.0f) )
+		    if( additionalRatioX < additionalRatioY )
 		    {
 		    	additionalRatio = additionalRatioX;
 		    }
@@ -177,21 +181,12 @@ public class RestMapService
 		    {
 		    	additionalRatio = additionalRatioY;
 		    }
-		    
-		    float heightInMeter = mapRecord.getHeight();
-		    float widthInMeter = mapRecord.getWidth();
-		    
-		    int heightInPixel = (int)heightInMeter * (int)mapRecord.getScalingY();
-		    int widthInPixel = (int)widthInMeter * (int)mapRecord.getScalingX();
-		    
+	    
 		    float scalingX = mapRecord.getScalingX() * additionalRatio;
 	    	float scalingY = mapRecord.getScalingY() * additionalRatio;
-	    	
-	    	float offsetX = mapRecord.getOffsetX();
-	    	float offsetY = mapRecord.getOffsetY();
-	    	
+	    		    	
 	    	Point oldZero = new Point(0.0f, 0.0f);
-	    	Point newZero = new Point(0.0f, -offsetY*additionalRatio);
+	    	Point newZero = new Point(0.0f, -mapRecord.getOffsetY()*additionalRatio);
 	    	
 	    	CoordinateTransformation coordinateTransformation = new CoordinateTransformation(oldZero, newZero);
 		    
