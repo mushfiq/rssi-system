@@ -4,6 +4,11 @@ import json
 
 from configuration import BASE_URL, OPTIONS
 
+'''
+    this test case check whether server is returning an image or not, 
+    make sure to pass correct image id by replacing imageId.
+    And test suit covers create, update, delete (teardown) for new resource
+'''
 class ImageRetreiveTest(unittest.TestCase):
         
     def testGetImage(self):
