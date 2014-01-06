@@ -45,9 +45,8 @@ public class WatchUserActivity extends Activity
 	int offset = 0;
 	private int lastMapId = 4;
 
-	//TODO Get the ratios from mapRecord
-	private float pixel_per_meterX = 50.0f;
-	private float pixel_per_meterY = 50.0f;
+	private float pixel_per_meterX = 50.0f; //The ratio which represent how many pixel are one meter in x-direction
+	private float pixel_per_meterY = 50.0f; //The ratio which represent how many pixel are one meter in y-direction
 	
 	Timer timer = null; // Controls the periodically update
 	String watchID = "";
@@ -55,7 +54,6 @@ public class WatchUserActivity extends Activity
 	boolean drawWatchPath = false;
 	int numberOfPositions = 1;
 	
-	//TODO Get the Update Rate from a configuration file or the second tab of the activity
 	static int UPDATE_RATE = 200; // in milliseconds 
 
 	ImageView start;
@@ -63,7 +61,6 @@ public class WatchUserActivity extends Activity
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 	}
 
@@ -106,7 +103,6 @@ public class WatchUserActivity extends Activity
 	                    @Override
 	                    public void run()
 	                    {
-	                    	Log.e("GET_POSITION_TASK", "New GetPositionTaskStarted");
 	                     	new GetPositionTask(watchID).execute();
 	                    }
 	                });
@@ -172,7 +168,6 @@ public class WatchUserActivity extends Activity
 		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
 		    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=" + numberOfPositions + "&watchId=" + watchNr + "&format=json";
 		    		
-		    		Log.e("WATCH_USER_ACTIVITY", "Http request started");
 		    		URL obj = new URL(url);
 			    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			    	con.setRequestMethod("GET");
@@ -187,7 +182,6 @@ public class WatchUserActivity extends Activity
 					}
 					in.close();
 					
-					Log.e("WATCH_USER_ACTIVITY", "Http request finished");
 					httpResponse = response.toString();
 		    	}
 		    	catch(Exception e)
@@ -220,12 +214,8 @@ public class WatchUserActivity extends Activity
 					Point lastPosition = null;
 					float lastXPosition = 0.0f;
 					float lastYPosition = 0.0f;
-					Log.e("PARSE_JSON_RESPONSE", "Parse JSON started...");
 			    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
 			    	
-			    	Log.e("PARSE_JSON_RESPONSE", "Parse JSON finished");
-			    	
-			    	Log.e("WATCH_USER_ACTIVITY", "Display position started");
 			    	imageView.clearWatchesToDraw();
 			    	imageView.addWatchToDraw(watchID);					    
 					imageView.clearWatchPositions(watchID);
@@ -272,7 +262,6 @@ public class WatchUserActivity extends Activity
 			    		imageView.invalidate(); // redraw the map with the positions
 			    		
 			    	}
-			    	Log.e("WATCH_USER_ACTIVITY", "Display position finished");
 				}
 				catch(Exception e)
 				{

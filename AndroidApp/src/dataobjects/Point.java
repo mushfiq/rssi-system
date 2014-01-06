@@ -50,6 +50,11 @@ public class Point
 		return y;
 	}
 	
+	/**
+	 * This method scaling this point in the x and y-direction for the define scalingX and scalingY
+	 * @param scalingX The scaling value for the x-direction
+	 * @param scalingY The scaling value for the y-direction
+	 */
 	public void scale(float scalingX, float scalingY)
 	{
 		x = x * scalingX;

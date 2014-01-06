@@ -366,18 +366,7 @@ public class MapImageView extends ImageView {
         
         //Draw the whole data
         Paint p = paint;
-        
-        //Draw Rectangle around the imageView
-        int width = this.getWidth();
-        int height = this.getHeight();
-        p.setColor(Color.CYAN);
-        p.setStrokeWidth(2);
-        canvas.drawLine(0.0f, 0.0f, 0.0f, height, p);
-        canvas.drawLine(0.0f, height, width, height, p);
-        canvas.drawLine(width, height, width, 0.0f, p);
-        canvas.drawLine(width, 0.0f, 0.0f, 0.0f, p);
-        
-        
+
         //Draw Receiver Points
         for(Point receiverPoint : receiverPoints.values() )
         {
