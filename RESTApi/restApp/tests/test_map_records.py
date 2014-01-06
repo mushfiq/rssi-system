@@ -4,6 +4,12 @@ import json
 
 from configuration import BASE_URL, OPTIONS, HEADERS
 
+'''
+    this test suit test map resource 
+    change data values to check with custom data.
+    And test suit covers create, update, delete (teardown) for new resource.
+'''
+
 class MapResourceTest(unittest.TestCase):
     
     def setUp(self):
