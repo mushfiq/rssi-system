@@ -4,6 +4,12 @@ import json
 
 from configuration import BASE_URL, OPTIONS, HEADERS
 
+'''
+    This test suit test receiver resource 
+    change data values to check with custom data.
+    And test suit covers create, update, delete (teardown) for new resource.
+'''
+
 class watchResourceTest(unittest.TestCase):
     
     def setUp(self):
