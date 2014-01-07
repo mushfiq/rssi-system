@@ -11,28 +11,45 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import stu.project.chronolocalization.ReceiverRecord;
 
-
-
-public class ResponseParser {
-	
-	public static ArrayList<WatchPositionRecord> getParsedResponse(String results) {
-		
+/**
+ * This class provides different parse functions which parse a string in JSON format to the needed objects
+ * 
+ * @author Maheswari
+ * @author Silvio
+ *
+ */
+public class ResponseParser
+{
+	/**
+	 * This method parse the given string (which should be valid JSON) to a list of WatchPositionRecords
+	 * @author Silvio
+	 * @param jsonString The string which represent the JSON Object
+	 * @return The List of WatchPositionRecords
+	 */
+	public static ArrayList<WatchPositionRecord> getParsedResponse(String jsonString)
+	{		
 		ArrayList<WatchPositionRecord> deviceInformation = new ArrayList<WatchPositionRecord>();
-		if (results!=null) {
+		if (jsonString!=null)
+		{
 			
-            try {
-            	
-            	JSONObject obj = new JSONObject(results);
+            try
+            {
+            	/**
+            	 * This is to convert JSON into java class object
+            	 * @author Maheswari
+            	 */
+            	// Create a JSON Object from the result string
+            	JSONObject obj = new JSONObject(jsonString);
             	JSONArray  responseObject = obj.getJSONArray("objects");
 
-            	for(int i = 0 ; i < responseObject.length() ; i++){
-            		
+            	for(int i = 0 ; i < responseObject.length() ; i++)
+            	{            		
             		WatchPositionRecord watchPositionRecord = new WatchPositionRecord();
             		
                     JSONObject jsonObj = (JSONObject)responseObject.get(i);
                     
+                    // Accessing the different fields of the JSON Object and fill the POJO WatchPositionRecord with the data
                     watchPositionRecord.setMapId(jsonObj.getInt("mapId"));
                     watchPositionRecord.setWatchId(jsonObj.getString("watchId").toString());
                     
@@ -41,7 +58,8 @@ public class ResponseParser {
 					{
 						Date insertedAt = dateFormatter.parse(jsonObj.getString("insertedAt").toString());
 						watchPositionRecord.setInsertedAt(insertedAt);
-					} catch (ParseException e)
+					}
+                    catch (ParseException e)
 					{
 						e.printStackTrace();
 					}
@@ -58,31 +76,41 @@ public class ResponseParser {
                     deviceInformation.add(watchPositionRecord);
                 }
             	return deviceInformation;
-			} catch (JSONException e) {
+			}
+            catch (JSONException e)
+            {
 				e.printStackTrace();
 			}
-
 		}
 		return null;
 	}
 
 
-public static MapRecord parseMapRecord(String results) {
-	
-	MapRecord mapRecord = null;
-		if (results!=null) {
-			
-            try {
-            	
-            	JSONObject obj = new JSONObject(results);
+
+	/**
+	 * This method parse the given string (which should be valid JSONObject) to a MapRecord(which should be valid java class object)
+	 * @author Maheswari
+	 * @param jsonString The string which represent the JSON Object
+	 * @return The receiverInformation which represents the javaObject
+	 */
+	public static MapRecord parseMapRecord(String jsonString)
+	{	
+		MapRecord mapRecord = null;
+		if (jsonString!=null) 
+		{
+	        try
+	        {	            	
+            	JSONObject obj = new JSONObject(jsonString);
             	JSONArray  responseObject = obj.getJSONArray("objects");
 
-            	for(int i = 0 ; i < responseObject.length() ; i++){
-            		
-            		 mapRecord = new MapRecord();
+            	for(int i = 0 ; i < responseObject.length() ; i++)
+            	{
+            		mapRecord = new MapRecord();
             		
                     JSONObject jsonObj = (JSONObject)responseObject.get(i);
-                    mapRecord.setMapId(jsonObj.getString("id").toString());
+                    mapRecord.setMapId(jsonObj.getString("mapId").toString());
+                    
+                    mapRecord.setId(jsonObj.getString("id").toString());
                     
                     String height = jsonObj.getString("height").toString();
                     Float parseHeight = Float.parseFloat(height);
@@ -92,13 +120,13 @@ public static MapRecord parseMapRecord(String results) {
                     Float parsewidth =  Float.parseFloat(width);
                     mapRecord.setWidth(parsewidth);
                     
-                    String scalingX = jsonObj.getString("scalingX").toString();
-                    Float parseScalingX =  Float.parseFloat(scalingX);
-                    mapRecord.setSclaingX(parseScalingX);
+                    String scalingStringX = jsonObj.getString("scalingX").toString();
+                    Float scalingX =  Float.parseFloat(scalingStringX);
+                    mapRecord.setScalingX(scalingX);
                     
-                    String scalingY = jsonObj.getString("scalingY").toString();
-                    Float parseScalingY =  Float.parseFloat(scalingY);
-                    mapRecord.setSclaingX(parseScalingY);
+                    String scalingStringY = jsonObj.getString("scalingX").toString();
+                    Float scalingY =  Float.parseFloat(scalingStringY);
+                    mapRecord.setScalingY(scalingY);                    
                     
                     String offsetX = jsonObj.getString("offsetX").toString();
                     Float parseOffsetX =  Float.parseFloat(offsetX);
@@ -107,8 +135,6 @@ public static MapRecord parseMapRecord(String results) {
                     String offsetY = jsonObj.getString("offsetY").toString();
                     Float parseOffsetY =  Float.parseFloat(offsetY);
                     mapRecord.setOffsetY(parseOffsetY);
-                    
-                    
                     
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss" );
                     try
@@ -119,19 +145,25 @@ public static MapRecord parseMapRecord(String results) {
 					{
 						e.printStackTrace();
 					}
-                    
-//                    mapInformation.add(mapRecord);
                 }
             	
             	return mapRecord;
-			} catch (JSONException e) {
+            	
+			}
+	        catch (JSONException e)
+	        {
 				e.printStackTrace();
 			}
 
 		}
 		return null;
 	}
-
+	/**
+	 * This method parse the given string (which should be valid JSONObject) to a ReceiverRecord(which should be valid java class object)
+	 * @author Maheswari
+	 * @param jsonString The string which represent the JSON Object
+	 * @return The receiverInformation which represents the javaObject
+	 */
 public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
 
 	ArrayList<ReceiverRecord> receiverInformation = new ArrayList<ReceiverRecord>();
@@ -155,12 +187,10 @@ public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
 
                 Float parseX = Float.parseFloat(x);
                 receiverRecord.setX(parseX);      
-                Log.d("**parser*x****",""+receiverRecord.getX());
 
                 String y = jsonObj.getString("y").toString();
                 Float parseY = Float.parseFloat(y);
                 receiverRecord.setY(parseY);      
-                Log.d("**parser*y****",""+receiverRecord.getY());
 
                                 
                 receiverInformation.add(receiverRecord);
@@ -173,4 +203,41 @@ public static ArrayList<ReceiverRecord> parseReceiverRecord(String results) {
 	}
 	return null;
 }
+/**
+ * This method parse the given string (which should be valid JSONObject) to a WatchPositionRecord(which should be valid java class object)
+ * @author Maheswari
+ * @param jsonString The string which represent the JSON Object
+ * @return This is to return mapId and WatchId The deviceInformation which represents the javaObject
+ */
+public static WatchPositionRecord getMapIdResponse(String jsonString) {
+	
+	ArrayList<WatchPositionRecord> deviceInformation = new ArrayList<WatchPositionRecord>();
+	if (jsonString!=null) {
+		
+        try {
+        	
+        	JSONObject obj = new JSONObject(jsonString);
+        	JSONArray  responseObject = obj.getJSONArray("objects");
+
+        	for(int i = 0 ; i < responseObject.length() ; i++){
+        		
+        		WatchPositionRecord watchPositionRecord = new WatchPositionRecord();
+        		
+                JSONObject jsonObj = (JSONObject)responseObject.get(i);
+                
+                watchPositionRecord.setMapId(jsonObj.getInt("mapId"));
+                watchPositionRecord.setWatchId(jsonObj.getString("watchId").toString());
+                
+                                   
+                deviceInformation.add(watchPositionRecord);
+            }
+        	return deviceInformation.get(0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+	}
+	return null;
+}
+
 }
