@@ -4,18 +4,21 @@ import setup_django
 from random import shuffle, random, uniform, randint
 from restApp.documents import watchRecords, mapRecords, receiverRecords
 import json
-from  mongoengine import connect, Document
+# from  mongoengine import connect, Document
 
 #datetime.datetime.strptime(d, '%Y-%m-%dT%H:%M:%S')
 
-connect('rssiSystem')
 
 randomStrength = ["AAAA", "BBBB", "CCCCC", "DDDDD"]
 
 dthandler = lambda obj: obj.isoformat() if isinstance(obj, datetime.datetime)  or isinstance(obj, datetime.date) else None
 
 	
-reciversData = [(20, 13), (130, 235), (285, 305), (410, 405)]
+reciversData = [(None, 1, 1, 0.00, 6.00), (None, 1, 2, 2.00, 6.00), (None, 1, 3, 6.00, 6.00), 
+    (None, 1, 4, 0.00, 2.45), (None, 1, 5, 6.00, 2.45), (None, 1, 6, 6.00, 0.00),
+    (None, 1, 7, 3.70, 2.00), (None, 1, 8, 0.00, 0.00), (None, 1, 9, 4.00, 0.00),
+    (None, 1, 10, 4.00, 6.00),(None, 1, 11, 0.00, 6.00)]
+
 
 class GenerateData(object):
     
@@ -49,9 +52,6 @@ class GenerateData(object):
             m.scalingY = random()*10
             m.offsetX = randint(0, total)
             m.offsetY = randint(0, total)
-            m.offset2X = randint(0, total)
-            m.offset2Y = randint(0, total)
-            m.title = "Dummy Title"+str(i)
             m.updateTime = datetime.datetime.now()
             try:
                 m.save()
@@ -65,7 +65,7 @@ class GenerateData(object):
     
     def get_random_mapId(self):
         all_maps = mapRecords.objects.all()
-        randomMapId = randint(0, len(all_maps)-1)
+        randomMapId = randint(0, len(all_maps))
         return all_maps[randomMapId].mapId
         
     def generate_save_watch(self, total):
@@ -100,11 +100,10 @@ class GenerateData(object):
             r.mapId = self.get_random_mapId()
             r.x = random()*10
             r.y = random()*10
-            r.angle = randint(25, 120)
+            
             try:
-                print "receiver", r
                 r.save()
-                # pass
+                pass
             except Exception, e:
                 print e
             
@@ -145,20 +144,33 @@ class GenerateData(object):
             
         print "deleted successfully!"
             
+    def add_receivers_from_calculated_values(self):
+        for i in range(0, len(reciversData)):
+            # print reciversData[i][0], reciversData[i][1]
+            # print reciversData[i][2]
+            r = receiverRecords()
+            r.angle = reciversData[i][0]
+            r.mapId = reciversData[i][1]
+            r.receiverId = reciversData[i][2]
+            r.x = reciversData[i][3]
+            r.y = reciversData[i][4]
+            r.save()
             
+        print "Done!"
+        return
+        
         
 if __name__ == '__main__':
     dataGen = GenerateData()
     # dataGen.update_receiver_data()
     # dataGen.delete_extra_receivers()
+    dataGen.delete_receivers()
     # dataGen.update_receiver_data()
+    dataGen.add_receivers_from_calculated_values()
     # dataGen.delete_maps()
     # dataGen.generate_save_map(6)
     # dataGen.update_old_maps()
-    # dataGen.delete_receivers()
-    dataGen.generate_save_receiver(7)
-    # dataGen.get_random_mapId()
+    # dataGen.generate_save_receiver(7)
     # dataGen.generate_save_watch(30)
     # dataGen.delete_watches()
     # dataGen.delete_receivers()
-
