@@ -67,4 +67,10 @@ public class MapsPanel extends JPanel {
 		revalidate();
 	}
 
+	public void removeMapItem(MapItem itemToDelete) {
+		this.remove(itemToDelete);
+		this.revalidate();
+		this.repaint();
+	}
+
 }

@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 import utilities.Utilities;
 import algorithm.filter.Filter;
-import algorithm.filter.KalmanFilterOneDim;
+import algorithm.filter.KalmanFilter;
 import algorithm.helper.FastConvexHull;
 import algorithm.helper.Point;
 import algorithm.helper.PointProbabilityMap;
@@ -151,7 +151,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * can also be set by corresponding methods afterwards. Following parameters will be read from the file:<br>
 	 * <br>
 	 * probability_based_algorithm.probability_map (default value is {@link ProbabilityMapPathLossCircle})<br>
-	 * probability_based_algorithm.filter (default value is {@link KalmanFilterOneDim})<br>
+	 * probability_based_algorithm.filter (default value is {@link KalmanFilter})<br>
 	 * probability_based_algorithm.weight_function (default value is {@link WeightFunctionExtended})<br>
 	 * <br>
 	 * probability_based_algorithm.grayscale_debug_information_path 
@@ -180,19 +180,19 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	public ProbabilityBasedAlgorithm(RoomMap roommap, ArrayList<Receiver> receivers) {
 		super(roommap, receivers);
 		
-		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-										   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-									  	    roommap.getGranularity(), 
-									  	    roommap.getImage());
-		
 		// instantiate logger
         this.logger = Utilities.initializeLogger(this.getClass().getName()); 
 		
 		readSpecialAlgoParameters();
 		
 		setUpConstructor();
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+				   						   (roommap.getXTo() + this.roommapExtension), 
+				   						   (roommap.getYFrom() - this.roommapExtension), 
+				   						   (roommap.getYTo() + this.roommapExtension), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
 	}
 	
 	/**
@@ -232,13 +232,6 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 									 ProbabilityMap probabilityMap, WeightFunction weightFunction, Filter filter) {
 		super(roommap, receivers);
 		
-		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getXTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getYFrom() - ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						   (roommap.getYTo() + ProbabilityBasedAlgorithm.ROOM_MAP_EXTENSION), 
-				   						    roommap.getGranularity(), 
-				   						    roommap.getImage());
-		
 		// instantiate logger
         this.logger = Utilities.initializeLogger(this.getClass().getName());
 		
@@ -247,6 +240,13 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		this.filter = filter;
 		
 		setUpConstructor();
+		
+		this.extendedRoomMap = new RoomMap((roommap.getXFrom() - this.roommapExtension), 
+				   						   (roommap.getXTo() + this.roommapExtension), 
+				   						   (roommap.getYFrom() - this.roommapExtension), 
+				   						   (roommap.getYTo() + this.roommapExtension), 
+				   						    roommap.getGranularity(), 
+				   						    roommap.getImage());
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 	 * This method reads and initializes following parameters from the 'config.ini' file:<br>
 	 * <br>
 	 * probability_based_algorithm.probability_map (default value is {@link ProbabilityMapPathLossCircle})<br>
-	 * probability_based_algorithm.filter (default value is {@link KalmanFilterOneDim})<br>
+	 * probability_based_algorithm.filter (default value is {@link KalmanFilter})<br>
 	 * probability_based_algorithm.weight_function (default value is {@link WeightFunctionExtended})<br>
 	 * <br>
 	 * If there are any invalid parameters, these will be initialized with default values. 
@@ -291,11 +291,11 @@ public class ProbabilityBasedAlgorithm extends PositionLocalizationAlgorithm {
 		
 		res = Utilities.getConfigurationValue("probability_based_algorithm.filter");
 		if (res.equals("kalman_filter")) {
-			this.filter = new KalmanFilterOneDim();
+			this.filter = new KalmanFilter();
 			
 		} else {
 			this.logger.log(Level.WARNING, "Reading probability_based_algorithm.filter failed, default value was set.");
-			this.filter = new KalmanFilterOneDim();
+			this.filter = new KalmanFilter();
 		}
 		
 		res = Utilities.getConfigurationValue("probability_based_algorithm.weight_function");

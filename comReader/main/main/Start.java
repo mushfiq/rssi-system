@@ -1,5 +1,6 @@
 package main;
 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class Start.
@@ -12,9 +13,8 @@ public class Start {
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		
+		Application.getApplication();
+		Application.getApplication().initializeGUI();
 	}
 	
 	

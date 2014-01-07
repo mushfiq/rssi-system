@@ -33,9 +33,9 @@ public class SerialComm implements gnu.io.SerialPortEventListener{
 				portVect.add(portId.getName());
 			}
 		}
-		System.out.println(portVect.size() + " found Ports:");
+		//System.out.println(portVect.size() + " found Ports:");
 		for (int i = 0; i < portVect.size(); i++) {
-			System.out.println(i + "  : " + portVect.elementAt(i));
+			//System.out.println(i + "  : " + portVect.elementAt(i));
 		}
 		
 		return portVect;
@@ -56,31 +56,31 @@ public class SerialComm implements gnu.io.SerialPortEventListener{
 			if (aPortListNumber == 0) break;
 			aPortListNumber--;
 			} 
-		System.out.println("Oeffnen von Port Nr "+aPortListNumber);
-		if (portId == null) {System.out.println("Port nicht gefunden");return false;};
+		//System.out.println("Oeffnen von Port Nr "+aPortListNumber);
+		if (portId == null) {/*System.out.println("Port nicht gefunden");*/return false;};
 // System.out.println("pos1");
 		try {
 			serialPort = (SerialPort) portId.open("Serial_Test", 1000);
-		} catch (PortInUseException e) {System.out.println("Port in Use: "+e.toString()); }
+		} catch (PortInUseException e) {/*System.out.println("Port in Use: "+e.toString());*/ }
 // tem.out.println("pos2");
 		if (serialPort != null)
 		try {
 			inputStream = serialPort.getInputStream();
-		} catch (IOException e) {System.out.println("GetInpStream: "+e.toString()); }
+		} catch (IOException e) {/*System.out.println("GetInpStream: "+e.toString()); */}
 		if (inputStream != null)
 		try {
 			serialPort.addEventListener(this);
-		} catch (TooManyListenersException e) {System.out.println("ToMAnyListeners: "+e.toString()); }
+		} catch (TooManyListenersException e) {/*System.out.println("ToMAnyListeners: "+e.toString());*/ }
 		if (serialPort != null) serialPort.notifyOnDataAvailable(true);
 		if (serialPort != null) try {
 			serialPort.setSerialPortParams(aBaud, SerialPort.DATABITS_8, 
 						   SerialPort.STOPBITS_1, 
 						   SerialPort.PARITY_NONE);
-		} catch (UnsupportedCommOperationException e) {System.out.println("Uns.Comm.Op.Ex.: "+e.toString()); }
+		} catch (UnsupportedCommOperationException e) {/*System.out.println("Uns.Comm.Op.Ex.: "+e.toString());*/ }
 
 		if (serialPort != null) try {
 			outputStream = serialPort.getOutputStream();
-		} catch (IOException e) {System.out.println("IOExcp: "+e.toString()); }
+		} catch (IOException e) {/*System.out.println("IOExcp: "+e.toString());*/ }
 
                 return (inputStream != null);
 
@@ -112,16 +112,16 @@ public class SerialComm implements gnu.io.SerialPortEventListener{
                 try {
 
                     int len = s.length();
-                    System.out.print("Send "+len+" numbers: ");
+                    /*System.out.print("Send "+len+" numbers: ");*/
                     for(int i = 0; i<len;i++) {
 			int c = s.charAt(i);
-                        System.out.printf("%02X ", c);
+                       /* System.out.printf("%02X ", c);*/
 			outputStream.write(s.charAt(i));
                     }
-                    System.out.println();
+                    /*System.out.println();*/
                     
                 } catch (IOException e) {
-                    System.err.println("IOException: "  + e.getMessage());        
+                   /* System.err.println("IOException: "  + e.getMessage());*/        
                 }  // catch
             }
  

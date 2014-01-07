@@ -5,9 +5,20 @@
 package dao;
 
 import java.awt.image.BufferedImage;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
+import com.mongodb.gridfs.GridFS;
+import com.mongodb.gridfs.GridFSInputFile;
 
 import utilities.Utilities;
 import components.Receiver;
@@ -58,7 +69,9 @@ public class HardcodedMapDAO implements MapDAO {
 			allMaps = new ArrayList<RoomMap>();
 		}
 
-		// add sample maps
+		// TODO Update maps with valid sample data
+		
+		// sample maps initialization values
 		RoomMap map = null;
 		BufferedImage image = null;
 		double roomWidth = 0.0;
@@ -66,102 +79,55 @@ public class HardcodedMapDAO implements MapDAO {
 		String title = "";
 		ArrayList<Receiver> receivers = null;
 
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map1.png");
-
-		title = "Room 301";
+		// add sample map, id 0
+		String path1 = "images/room_4m_6m.png";
+		image = (BufferedImage) Utilities.loadImage(path1);
+		title = "Test Room";
+		roomWidth = 4.0;
+		roomHeight = 6.0;
 		receivers = new ArrayList<Receiver>();
-
+		receivers.add(new Receiver(0, 0.0, 0.0, 45.0, true));
+		receivers.add(new Receiver(1, 4.0, 0.0, 135.0, true));
+		receivers.add(new Receiver(2, 4.0, 6.0, 225.0, true));
+		receivers.add(new Receiver(3, 0.0, 6.0, 315.0, true));
 		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map2.png");
-		title = "Room 501";
-		roomWidth = 8;
-		roomHeight = 4;
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(1, 40, 50, 90, true));
-		receivers.add(new Receiver(2, 10, 20, 180, true));
-		receivers.add(new Receiver(5, 100, 50, 315, true));
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map3.png");
-
-		title = "Room 433";
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(1, 40, 50, 90, true));
-		receivers.add(new Receiver(2, 40, 50, 90, true));
-		receivers.add(new Receiver(4, 40, 50, 90, true));
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map5.png");
-		title = "Room 049";
-		receivers = new ArrayList<Receiver>();
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map6.png");
-		title = "Room 301";
-		receivers = new ArrayList<Receiver>();
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map7.png");
-		title = "Room 012";
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(1, 40, 50, 90, true));
-		receivers.add(new Receiver(2, 40, 50, 90, true));
-		receivers.add(new Receiver(3, 40, 50, 90, true));
-		receivers.add(new Receiver(4, 40, 50, 90, true));
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map8.png");
-
-		title = "Laboratory";
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(4, 40, 50, 90, true));
-		receivers.add(new Receiver(2, 40, 50, 90, true));
-		receivers.add(new Receiver(1, 40, 50, 90, true));
-		receivers.add(new Receiver(5, 40, 50, 90, true));
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map9.png");
-		title = "Room 210";
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(1, 40, 50, 90, true));
-		receivers.add(new Receiver(2, 40, 50, 90, true));
-		receivers.add(new Receiver(3, 40, 50, 90, true));
-		map = new RoomMap(image, title, receivers);
-		allMaps.add(map);
-
-		// add sample map
-		image = (BufferedImage) Utilities.loadImage("images/map10.png");
-		title = "Ground floor";
-		receivers = new ArrayList<Receiver>();
-		receivers.add(new Receiver(1, 1, 2, 45, true));
-		receivers.add(new Receiver(2, 7, 3.5, 135, true));
-		roomWidth = 8;
-		roomHeight = 4;
-		map = new RoomMap(image, title, receivers);
+		map.setId(0);
 		map.setWidthInMeters(roomWidth);
 		map.setHeightInMeters(roomHeight);
-		map.setLowerLeftMarkerOffsetXInPixels(247);
-		map.setLowerLeftMarkerOffsetYInPixels(872);
-		map.setUpperRightMarkerOffsetXInPixels(1315);
-		map.setUpperRightMarkerOffsetYInPixels(131);
-		map.setRatioWidth(133.875);
-		map.setRatioHeight(185.75);
+		map.setLowerLeftMarkerOffsetXInPixels(0);
+		map.setLowerLeftMarkerOffsetYInPixels(460);
+		map.setUpperRightMarkerOffsetXInPixels(309);
+		map.setUpperRightMarkerOffsetYInPixels(0);
+		map.setRatioWidth(75.5);
+		map.setRatioHeight(75.5);
+		map.setPath(path1);
+		allMaps.add(map);
+		
+		// add sample map, id 1
+		String path2 = "images/test_room_fifth_floor.png";
+		image = (BufferedImage) Utilities.loadImage(path2);
+		title = "Room 501";
+		roomWidth = 6.0;
+		roomHeight = 6.0;
+		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(0, 0.0, 6.0, 315.0, true));
+		receivers.add(new Receiver(1, 2.0, 6.0, 270.0, true));
+		receivers.add(new Receiver(2, 6.0, 6.0, 225.0, true));
+		receivers.add(new Receiver(3, 0.0, 2.45, 0.0, true));
+		receivers.add(new Receiver(4, 6.0, 2.45, 180.0, true));
+		receivers.add(new Receiver(6, 6.0, 0.0, 135.0, true));
+		receivers.add(new Receiver(9, 3.60, 2.0, 270.0, true));
+		map = new RoomMap(image, title, receivers);
+		map.setId(1);
+		map.setWidthInMeters(roomWidth);
+		map.setHeightInMeters(roomHeight);
+		map.setLowerLeftMarkerOffsetXInPixels(0);
+		map.setLowerLeftMarkerOffsetYInPixels(538);
+		map.setUpperRightMarkerOffsetXInPixels(538);
+		map.setUpperRightMarkerOffsetYInPixels(0);
+		map.setRatioWidth(89.67);
+		map.setRatioHeight(89.67);
+		map.setPath(path2);
 		allMaps.add(map);
 
 		return allMaps;
@@ -201,11 +167,77 @@ public class HardcodedMapDAO implements MapDAO {
 		for (int i = 0; i < listSize; i++) {
 			if (allMaps.get(i).getId() == newMap.getId()) {
 				allMaps.set(i, newMap);
-				return;
+				break;
+//				return;
 			}
 		}
-		// map didn't already exist, add it to the list
-		allMaps.add(newMap);
+		
+		// send the single map to the server
+		uploadMapToServer(newMap);
+	}
+
+	private void uploadMapToServer(RoomMap newMap) {
+		
+		Mongo mongo = null;
+		DB database;
+		DBCollection sampleData;
+		
+		try {
+			mongo = new Mongo("127.0.0.1");
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		}
+		
+		database = mongo.getDB("rssiSystem");
+		sampleData = database.getCollection("map_records");
+		// remove all maps
+		sampleData.drop();
+		
+		SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		String strDate = simpledateformat.format(new Date());
+		
+		// -------------------
+		//Load our image
+        byte[] imageBytes = null;
+		try {
+			imageBytes = Utilities.LoadImageAsBytes(newMap.getPath());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+        
+        // ---------------------
+		
+		//Create GridFS object
+        GridFS fs = new GridFS( database );
+        //Save image into database
+        GridFSInputFile in = fs.createFile( imageBytes );
+        in.save();
+        Object mapIdObject = in.getId();
+//        System.out.println(mapIdObject);
+		
+		try {
+			
+			DBObject documentDetail = new BasicDBObject();
+
+			documentDetail.put("_cls", "mapRecords"); // for mongoEngine ORM users
+			documentDetail.put("image", mapIdObject);
+			documentDetail.put("mapId", newMap.getId());
+			documentDetail.put("width", newMap.getWidthInMeters());
+			documentDetail.put("height", newMap.getHeightInMeters());
+			documentDetail.put("offsetX", newMap.getLowerLeftMarkerOffsetXInPixels());
+			documentDetail.put("offsetY", newMap.getLowerLeftMarkerOffsetYInPixels());
+			documentDetail.put("offset2X", newMap.getUpperRightMarkerOffsetXInPixels());
+			documentDetail.put("offset2Y", newMap.getUpperRightMarkerOffsetYInPixels());
+			documentDetail.put("scalingX", newMap.getRatioWidth());
+			documentDetail.put("scalingY", newMap.getRatioHeight());
+			documentDetail.put("title", newMap.getTitle());
+			documentDetail.put("updateTime", strDate);
+			
+			sampleData.insert(documentDetail);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 
 	/*
@@ -216,10 +248,11 @@ public class HardcodedMapDAO implements MapDAO {
 	@Override
 	public void deleteMap(RoomMap mapToDelete) {
 
-		if (allMaps.contains(mapToDelete)) {
-			allMaps.remove(mapToDelete);
+		for (RoomMap map : allMaps) {
+			if (map.getId() == mapToDelete.getId()) {
+				allMaps.remove(map);
+			}
 		}
-
 	}
 
 	/*
@@ -229,8 +262,21 @@ public class HardcodedMapDAO implements MapDAO {
 	 */
 	@Override
 	public void addMap(RoomMap newMap) {
-		// TODO Auto-generated method stub
-
+		// TODO find the index that doesn't exist and assign it to the map before storing it
+		int newMapId = 0;
+		int listSize = allMaps.size();
+		int highestId = 0;
+		for (int i = 0; i < listSize; i++) {
+			if (allMaps.get(i).getId() > highestId) {
+				highestId = allMaps.get(i).getId();
+			} 
+		}
+		newMapId = highestId + 1;
+		newMap.setId(newMapId);
+		allMaps.add(newMap);
+		
+		// send the single map to the server
+		uploadMapToServer(newMap);
 	}
 
 }

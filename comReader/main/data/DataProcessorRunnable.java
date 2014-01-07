@@ -45,7 +45,7 @@ public class DataProcessorRunnable implements Runnable {
 	@Override
 	public void run() {
 
-		while (running == true) {
+		while (running) {
 
 			if (!Application.getApplication().getController().getBatchSignalQueue().isEmpty()) {
 
@@ -59,16 +59,15 @@ public class DataProcessorRunnable implements Runnable {
 
 					Point position = Application.getApplication().getAlgorithm().calculate(entry.getValue());
 					if (position == null) {
-						System.out.println("position is null");
+						//System.out.println("position is null");
 					} else {
-						System.out.println(position);
-					}
-					int watchId = entry.getKey();
-					long currentTime = System.currentTimeMillis() / 1000L; // Tommy: changed it by dividing 1000L to get
-					// UNIX timestamp
-					int mapId = 0; // TODO: get actual room map id instead of supplying zero every time
-					WatchPositionData newData = new WatchPositionData(watchId, currentTime, position);
-					Application.getApplication().getController().getCalculatedPositionsQueue().add(newData);
+						int watchId = entry.getKey();
+						long currentTime = System.currentTimeMillis();
+						int mapId = Application.getApplication().getRoomMap().getId(); 
+						
+						WatchPositionData newData = new WatchPositionData(watchId, mapId, currentTime, position);
+						Application.getApplication().getController().getCalculatedPositionsQueue().add(newData);
+					}					
 				}
 
 			} else { // queue is empty, check again later

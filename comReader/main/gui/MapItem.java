@@ -8,14 +8,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -178,9 +176,8 @@ public class MapItem extends JPanel {
 			int dialogResult = JOptionPane.showConfirmDialog(mapsPanel,
 					"Are you sure you want to delete the map from the system? This action cannot be undone.");
 			if (dialogResult == JOptionPane.YES_OPTION) {
-				// TODO try to delete map from the server. On success, remove this MapItem from the MapsPanel
-				mapsPanel.remove(parent);
-				mapsPanel.revalidate();
+				// call MapsPanel's method to remove self from the panel
+				mapsPanel.removeMapItem(parent);
 			}
 		}
 	}
