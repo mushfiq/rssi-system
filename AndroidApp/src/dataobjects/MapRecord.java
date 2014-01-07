@@ -1,7 +1,12 @@
 package dataobjects;
 
 import java.util.Date;
-
+/**
+ * This class contains the information of the map. It includes the 
+ * height and width of the map and mapImage Id for retrieving the mapImage 
+ * @author Maheswari
+ *
+ */
 public class MapRecord
 {
 	 String mapId = "";
