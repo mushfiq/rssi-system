@@ -1,70 +1,65 @@
-
 package algorithm.filter;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import utilities.Utilities;
 import algorithm.helper.Point;
 /**
- * 
- * This class KalmanFilter aims to recursively provide better and better estimates of the position of the watch.
- * 
- * 
+ * This class KalmanFilter aims to recursively provide better
+ * and better estimates of the position of the watch. The construction of the Kalman filter is based on the
+ * explaination <a href="http://greg.czerniak.info/guides/kalman1/</a>.
  * @version 1.0 22 Nov 2013
  * @author Yentran Tran
  *
- */	
+ */
 public class KalmanFilter extends Filter {
 	/**
-	 * Process noise: value between 0 and 1
+	 * SensorNoise_DEFAUL is the estimated measurement error covariance as default value
 	 */
-	private static final double SENSORNOISE_DEFAULT = 0.4;
-	private static final double PROCESSNOISE_DEFAULT = 0.05;
-	
-	
+	private static final double SENSORNOISE_DEFAULT = 0.8;
+	/**
+	 * Processnoise_DEFAULT is the estimated process error covariance as default value
+	 */
+	private static final double PROCESSNOISE_DEFAULT = 0.125;
+
+
+
 	/**
 	 * prioreEstimate is the prior Point which we get from the variable estimate
-	 * estimate is the new Point that is calculated 
+	 * estimate is the new Point that is calculated
 	 * rawValue is used in order to store the lastPosition which is displayed
-	 * priorErrorVariance is the prior ErrorVariance which we get from the variable errorCovariance
-	 * errorCovariance 
-	 * firstTimeRunning check if the Filter is used first time
-	 * COVARIANCE
-	 * STATEVARIANCE
-	 * kalmanGain 
-	 * 
 	 */
 	private Point priorEstimate, estimate, rawValue;
-	private static double priorErrorVariance;
-	private static double kalmanGain;
+	/**.
+	 * priorErrorVariance is the prior ErrorVariance which we get from the variable errorCovariance
+	 * errorCovarRSSI is the newest estimate of the average error for each part of the state.
+	 * kalmanGain
+	 */
+	private double priorErrorVariance,kalmanGain;
+	/**
+	 * firstTimeRunning check if the Filter is used first time
+	 */
 	private boolean firstTimeRunning = true;
-	private static boolean firstTimeRun = true;
+	
+	/**
+	 * sensorNose is the estimated measurement error covariance
+	 * processNoise is the estimated process error covariance
+	 */
 	private static double sensorNoise, processNoise;
 
-	/** The logger. */
-    private Logger logger;
 
 	/**
 	 * Default constructur
 	 */
 	public KalmanFilter() {
 		super();
-		
-		 // instantiate logger
-        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
-        
-        readConfigParameters();
+		KalmanFilter.processNoise = KalmanFilter.PROCESSNOISE_DEFAULT;
+		KalmanFilter.sensorNoise = KalmanFilter.SENSORNOISE_DEFAULT;
+	    priorErrorVariance = 1;
 	}
-	
+
 	public KalmanFilter (double processNoise, double sensorNoise) {
-		super ();
-		
-		 // instantiate logger
-        this.logger = Utilities.initializeLogger(this.getClass().getName()); 
-        
-        KalmanFilter.processNoise = processNoise;
-        KalmanFilter.sensorNoise = sensorNoise;
+		super();
+		this.processNoise = processNoise;
+		this.sensorNoise = sensorNoise;
+	    priorErrorVariance = 1;
 	}
 
 	/**
@@ -73,85 +68,78 @@ public class KalmanFilter extends Filter {
 	 */
 	@Override
 	public Point applyFilter(Point lastPosition) {
-		
-		if(firstTimeRunning) {
-			priorEstimate = lastPosition;          		//estimate is the old one here
-		    priorErrorVariance = 0.5;        		//errorCovariance is the old one
-		    firstTimeRunning = false;
+
+		if (firstTimeRunning) {
+			//estimate is the old one here
+			priorEstimate = lastPosition;
+			    firstTimeRunning = false;
 		}
-		
+
 		//Prediction Part
 	    else {
-	    	priorEstimate = estimate;              	//estimate is the old one here
-	     	priorErrorVariance = errorCovarRSSI + processNoise;  	//errorCovariance is the old one
+	    	//estimate is the old one here
+	    	priorEstimate = estimate;
+	    	//errorCovariance is the old one
+	     	priorErrorVariance = errorCovarRSSI + processNoise;
+
 	    }
 		//Correction Part
-		rawValue = lastPosition;          				//lastPosition is the newest Position recieved
+		//lastPosition is the newest Position recieved
+		rawValue = lastPosition;
 		kalmanGain = priorErrorVariance / (priorErrorVariance + sensorNoise);
-		estimate = new Point (priorEstimate.getX() + (kalmanGain * (rawValue.getX() - priorEstimate.getX())),priorEstimate.getY() + (kalmanGain * (rawValue.getY() - priorEstimate.getY())));
+		estimate = new Point(priorEstimate.getX() + (kalmanGain * (rawValue.getX() - priorEstimate.getX())), priorEstimate.getY() + (kalmanGain * (rawValue.getY() - priorEstimate.getY())));
 		errorCovarRSSI = (1 - kalmanGain) * priorErrorVariance;
-		
-		lastPosition = new Point (estimate.getX(), 	estimate.getY());   //posistion is the variable I want to update which will be lastPosition next time
-		
-		return lastPosition;	
-	}
-	
-	
-	private double priorRSSI;
-	private double estimateRSSI;
-	private double rawRSSI;
-	private double priorErrorVarRSSI;
-	private double errorCovarRSSI;
+		//posistion is the variable I want to update which will be lastPosition next time
+		lastPosition = new Point(estimate.getX(), 	estimate.getY());
 
-	
+		return lastPosition;
+	}
+
 	/**
-	 * 
-	 * @param lastPosition is the position we want to estimate better
-	 * @return A new point that represents the position of the watch
+	 * priorRSSI is the previous calculated RSSI value.
+	 * estimateRSSI is the new calculate RSSI value
+	 * rawRSSI is temporary parameter to store the estimateRSSI
+	 */
+	private double priorRSSI, estimateRSSI, rawRSSI;
+
+	/**
+	 * prioErrorCovarRSSI is the previous Covariance
+	 * errorCovarRSSI is the new calculated Covariance
+	 */
+	private double priorErrorCovarRSSI,errorCovarRSSI;
+	/**
+	 * firstTimeRun check if the Filter is used first time
+	 */
+	private static boolean firstTimeRun = true;
+
+
+	/**
+	 * @param rssi is the RSSI value we want to estimate better
+	 * @return A new RSSI value which is calculated with the kalman filter based on the previous RSSI value
 	 */
 	public double updateRSSI (double rssi) {
-		
-		if(firstTimeRun) {
+
+		if (firstTimeRun) {
 			priorRSSI = rssi;
-			priorErrorVarRSSI = 0.5;
+			priorErrorCovarRSSI = 0.5;
 		    firstTimeRun = false;
 		}
 
-		//Prediction Part	
+		//Prediction Part
+
 	    else {
 	    	priorRSSI = estimateRSSI;
-	     	priorErrorVarRSSI = errorCovarRSSI+processNoise;
+	     	priorErrorCovarRSSI = errorCovarRSSI + processNoise;
 	    }
 		//Correction Part
 
 		rawRSSI = rssi;
-		kalmanGain = priorErrorVarRSSI / (priorErrorVarRSSI + sensorNoise);
+		kalmanGain = priorErrorCovarRSSI / (priorErrorCovarRSSI + sensorNoise);
 		estimateRSSI = priorRSSI + (kalmanGain * (rawRSSI - priorRSSI));
-		errorCovarRSSI = (1 - kalmanGain) * priorErrorVarRSSI;
+		errorCovarRSSI = (1 - kalmanGain) * priorErrorCovarRSSI;
 
 		rssi = estimateRSSI;
-		
-		return rssi;	
-	}
-	
-	private void readConfigParameters() {
-        String res = "";
-        double value = KalmanFilter.PROCESSNOISE_DEFAULT;
-        try {
-                res = Utilities.getConfigurationValue("kalman_filter.process_noise");
-                value = Double.parseDouble(res);
-        } catch(NumberFormatException e) {
-                this.logger.log(Level.WARNING, "Reading kalman_filter.process_noise failed, default value was set.");
-        }
-        KalmanFilter.processNoise = value;
-        
-        value = KalmanFilter.SENSORNOISE_DEFAULT;
-        try {
-                res = Utilities.getConfigurationValue("kalman_filter.sensor_noise");
-                value = Double.parseDouble(res);
-        } catch(NumberFormatException e) {
-                this.logger.log(Level.WARNING, "Reading kalman_filter.sensor_noise failed, default value was set.");
-        }
-        KalmanFilter.sensorNoise = value;
+
+		return rssi;
 	}
 }
