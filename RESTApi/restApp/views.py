@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 from  mongoengine import connect
 from documents import mapRecords
 
+import json
+
 connect('rssiSystem')
 
 
@@ -35,12 +37,12 @@ def authenticate(request):
         
     user_name =  request.POST.get('username')
     pass_word = request.POST.get('password')
-    print "request", request.POST
     try:
         user = User.objects.get(username=user_name, password=pass_word)
-        # converitng ObjectId('ID') to string using __str__()
         user_obj = str({'access_key':user.id.__str__(), 'name':user.username})
-        return HttpResponse(user_obj)
+        response = HttpResponse(json.dumps(user_obj), mimetype='application/json')
+        response['Access-Control-Allow-Origin'] = "*"
+        return response
         
     except ObjectDoesNotExist:
         raise Http404("User Not Authenticated!")
