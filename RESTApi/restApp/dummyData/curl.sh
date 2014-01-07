@@ -43,3 +43,10 @@ curl -i -H "Content-Type: application/json" -X DELETE http://localhost:8000/api/
  curl  -d "username=name&password=word"  http://localhost:8000/api/v1/authenticate/
 
 
+
+ ##demo for meeting:
+ 
+ curl -i -H "Content-Type: application/json" -X PUT -d '{"watchId": "0", "x": 12.3, "y": 3.4}' http://localhost:8000/api/v1/watch/52b38a3afb21ab32b448e93d/?access_key=5298fe82fb21ab1b8b725333
+
+ map receiver ---
+ curl -i -H "Content-Type: application/json" -X PUT -d '{"receiverId": 4, "x": 12.3, "y": 3.4}'  http://localhost:8000/api/v1/receiver/52c69a19fb21ab04a6637244/?access_key=5298fe82fb21ab1b8b725333
