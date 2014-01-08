@@ -43,14 +43,16 @@ public class COMPortDataReader implements DataReader {
 		runnable = new ComPortDataReaderRunnable();
 		Thread thread = new Thread(runnable);
 		thread.start();
+		logger.info("Reading data from COM port started.");
 	}
 
 	/**
 	 * Stops reading from COM port.
 	 */
+	@Override
 	public void stopReading() {
 		runnable.terminate();
-		logger.info("Reading from COM port stopped.");
+		logger.info("Reading data from COM port stopped.");
 	}
 
 }

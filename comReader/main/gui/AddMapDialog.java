@@ -18,8 +18,11 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import main.Application;
+import algorithm.ProbabilityBasedAlgorithm;
+
 import components.Receiver;
 import components.RoomMap;
+
 import dao.MapDAO;
 
 /**
@@ -73,6 +76,7 @@ public class AddMapDialog extends JDialog {
 
 		openingMode = AddMapDialogMode.ADD;
 		allReceivers = Application.getApplication().getReceiverDAO().getAllReceivers();
+		
 		/*
 		 * In 'ADD' mode, initially there are no receivers on the map, therefore we create an empty list to pass to
 		 * receiversPanel.
@@ -90,7 +94,7 @@ public class AddMapDialog extends JDialog {
 	 * system using <code>ReceiverDAO</code> interface and display available receivers to the user. Additionally, we
 	 * pass the method a <code>RoomMap</code> object from which it can obtain map information and display appropriate
 	 * settings (such as map image, correct position of map markers, receiver positions (if any on the map), room size
-	 * etc).
+	 * etc).R
 	 * 
 	 * @param map
 	 *            <code>RoomMap</code> instance
@@ -106,6 +110,11 @@ public class AddMapDialog extends JDialog {
 		parametersPanel = new ParametersPanel(this);
 		parametersPanel.setRoomWidthAndHeightInMetersSpinners(map.getWidthInMeters(), map.getHeightInMeters());
 		parametersPanel.setRoomTitle(map.getTitle());
+		
+		// set map and instantiate algorithm with it
+		// XXX second parameter should be changed in the constructor of PositionLocalizationAlgorithm to "List<Receiver>"
+		// TODO find the selected algorithm if ParametersPanel is not null (if we are using graphical user interface)
+		Application.getApplication().setAlgorithm(new ProbabilityBasedAlgorithm(map, (ArrayList<Receiver>)map.getReceivers()));
 		initializeGui();
 	}
 
@@ -279,10 +288,17 @@ public class AddMapDialog extends JDialog {
 			JOptionPane.showMessageDialog(this, builder.toString(), "Validation errors", JOptionPane.WARNING_MESSAGE);
 		} else { // map has passed validation
 			RoomMap map = mapPreviewPanel.getMap();
-			// TODO call HardcodedMapDAO object's method to store the map in the system
 			// On success, refresh the MapsPanel in MainFrame, otherwise notify user that saving failed
-			Application.getApplication().getMapDAO().saveMap(map);
-			Application.getApplication().getMainFrame().refreshMapsPanel();
+			// depending on the opening mode, we would like to save or add map to the data source
+			if (openingMode.equals(AddMapDialogMode.ADD)) {
+				
+				Application.getApplication().getMapDAO().addMap(map);
+				Application.getApplication().getMainFrame().refreshMapsPanel();
+			} else if (openingMode.equals(AddMapDialogMode.EDIT)) {
+				
+				Application.getApplication().getMapDAO().saveMap(map);
+				Application.getApplication().getMainFrame().refreshMapsPanel();
+			}
 		}
 	}
 

@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package data;
 
 /**
@@ -12,5 +16,10 @@ public interface DataWriter {
 	 * Writes data.
 	 */
 	void writeData();
+
+	/**
+	 * Stops writing data.
+	 */
+	void stopWriting();
 
 }

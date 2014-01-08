@@ -89,7 +89,7 @@ public class RestMapService
 		
 
 			Log.e("GET_MAP_TASK", "Http-GET MAP finished...");
-             return text;
+            return text;
 		}	
 			
 			
@@ -184,6 +184,11 @@ public class RestMapService
 	    
 		    float scalingX = mapRecord.getScalingX() * additionalRatio;
 	    	float scalingY = mapRecord.getScalingY() * additionalRatio;
+	    	
+	    	WatchUserActivity watchUserActivity = (WatchUserActivity)this.getActivity();
+	    	//We need to set the scaling ratios here, because we only have the map record data here
+	    	watchUserActivity.setScalingX(scalingX);
+	    	watchUserActivity.setScalingY(scalingY);
 	    		    	
 	    	Point oldZero = new Point(0.0f, 0.0f);
 	    	Point newZero = new Point(0.0f, -mapRecord.getOffsetY()*additionalRatio);

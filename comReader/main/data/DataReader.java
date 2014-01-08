@@ -1,3 +1,7 @@
+/*
+ * 
+ * 
+ */
 package data;
 
 /**
@@ -11,4 +15,10 @@ public interface DataReader {
 	 * Reads the data.
 	 */
 	void readData();
+	
+	
+	/**
+	 * Stops reading the data.
+	 */
+	void stopReading();
 }

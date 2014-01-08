@@ -58,10 +58,24 @@ public class RoomMap {
 	private double widthInMeters;
 	private double heightInMeters;
 
+	private String path;
+	
 	public RoomMap() {
 		pointsRoomMap = new ArrayList<PointRoomMap>();
 		title = "Title";
 		receivers = new ArrayList<Receiver>();
+		ratioWidth = 1.0;
+		ratioHeight = 1.0;
+		widthInMeters = 1.0;
+		heightInMeters = 1.0;
+		granularity = GRANULARITY_DEFAULT;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getPath() {
+		return this.path;
 	}
 
 	public ArrayList<PointRoomMap> getPointsRoomMap() {
@@ -92,7 +106,6 @@ public class RoomMap {
 		super();
 		this.xFrom = xFrom;
 		this.xTo = xTo;
-
 		this.yFrom = yFrom;
 		this.yTo = yTo;
 		this.image = image;
@@ -138,7 +151,8 @@ public class RoomMap {
 		} else {
 			this.title = title;
 		}
-
+		
+		this.granularity = GRANULARITY_DEFAULT;
 		this.receivers = receivers;
 	}
 
@@ -294,6 +308,7 @@ public class RoomMap {
 
 	public void setWidthInMeters(double widthInMeters) {
 		this.widthInMeters = widthInMeters;
+		this.setxTo(widthInMeters);
 	}
 
 	public double getHeightInMeters() {
@@ -302,6 +317,7 @@ public class RoomMap {
 
 	public void setHeightInMeters(double heightInMeters) {
 		this.heightInMeters = heightInMeters;
+		this.setyTo(heightInMeters);
 	}
 
 	public void setImage(Image image) {
@@ -339,4 +355,29 @@ public class RoomMap {
 		}
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setxFrom(double xFrom) {
+		this.xFrom = xFrom;
+	}
+
+	public void setxTo(double xTo) {
+		this.xTo = xTo;
+	}
+
+	public void setyFrom(double yFrom) {
+		this.yFrom = yFrom;
+	}
+
+	public void setyTo(double yTo) {
+		this.yTo = yTo;
+	}
+
+	public void setGranularity(double granularity) {
+		this.granularity = granularity;
+	}
+
+	
 }
