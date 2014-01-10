@@ -192,7 +192,7 @@ public class MongoDatabaseReceiverDAO implements ReceiverDAO {
 				receiver.setxPos(x);
 				receiver.setyPos(y);
 				receivers.add(receiver);
-				System.out.println(receiver);
+//				System.out.println(receiver);
 			}
 		} catch (Exception e) {
 			logger.severe("Error while obtaining receivers for particular map. " + e.getMessage());

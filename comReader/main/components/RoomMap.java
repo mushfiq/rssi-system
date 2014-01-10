@@ -58,6 +58,8 @@ public class RoomMap {
 	private double widthInMeters;
 	private double heightInMeters;
 
+	private String path;
+	
 	public RoomMap() {
 		pointsRoomMap = new ArrayList<PointRoomMap>();
 		title = "Title";
@@ -67,6 +69,13 @@ public class RoomMap {
 		widthInMeters = 1.0;
 		heightInMeters = 1.0;
 		granularity = GRANULARITY_DEFAULT;
+	}
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public String getPath() {
+		return this.path;
 	}
 
 	public ArrayList<PointRoomMap> getPointsRoomMap() {

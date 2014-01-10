@@ -27,12 +27,10 @@ import utilities.Utilities;
 public class ComPortDataReaderRunnable implements Runnable {
 
 	/** Sampling rate. The amount of data read from data source is determined by this parameter. */
-	private static final int SAMPLING_RATE = 100; // milliseconds
+	private static final int SAMPLING_RATE = 1000; // milliseconds
 
 	/** The Constant COM_PORT_NUMBER. */
 	private static final String COM_PORT_NUMBER = "com_port_number";
-	
-	private static final int TIME_TO_SLEEP = 10; // milliseconds
 
 	/** The Constant BAUD_RATE. */
 	private static final String BAUD_RATE = "baud_rate";

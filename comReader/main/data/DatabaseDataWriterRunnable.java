@@ -101,7 +101,7 @@ public class DatabaseDataWriterRunnable implements Runnable {
 					String strDate = simpledateformat.format(new Date(time));
 					documentDetail.put("insertedAt", strDate);
 
-					documentDetail.put("mapId", 1); // TODO mapId should get from watch or sth else...
+					documentDetail.put("mapId", watchPositionData.getMapId());
 					documentDetail.put("watchId", Integer.toString(watchPositionData.getWatchId()));
 
 					sampleData.insert(documentDetail);

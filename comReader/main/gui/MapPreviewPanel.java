@@ -213,6 +213,7 @@ public class MapPreviewPanel extends JPanel implements Observer {
 				PANEL_WIDTH, PANEL_HEIGHT);
 			this.backgroundImage = Utilities.scaleImageToFitContainer(this.backgroundImage, PANEL_WIDTH, PANEL_HEIGHT);
 			this.map.setImage(originalBackgroundImage);
+			this.map.setPath(file.getAbsolutePath());
 		} catch (IOException e) {
 			logger.severe("Reading of the image failed.\n" + e.getMessage());
 		}
@@ -361,20 +362,20 @@ public class MapPreviewPanel extends JPanel implements Observer {
 			lowerLeftMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.LOWER_LEFT, this);
 			upperRightMarker = new CoordinateZeroMarkerView(CoordinateZeroMarkerViewType.UPPER_RIGHT, this);
 
-			if (map.getLowerLeftMarkerOffsetXInPixels() != 0 && map.getLowerLeftMarkerOffsetYInPixels() != 0) {
+			//if (map.getLowerLeftMarkerOffsetXInPixels() != 0 && map.getLowerLeftMarkerOffsetYInPixels() != 0) {
 				lowerLeftMarker
 						.setLocation(
 							(int) (map.getLowerLeftMarkerOffsetXInPixels() * scalingRatioToFitContainer),
 							 ((int) (map.getLowerLeftMarkerOffsetYInPixels() * scalingRatioToFitContainer) - (int) (CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_HEIGHT * scalingRatioToFitContainer)));
-			}
+			//}
 
-			if (map.getUpperRightMarkerOffsetXInPixels() != 0 && map.getUpperRightMarkerOffsetYInPixels() != 0) {
+			//if (map.getUpperRightMarkerOffsetXInPixels() != 0 && map.getUpperRightMarkerOffsetYInPixels() != 0) {
 				upperRightMarker
 						.setLocation(
 							((int)(map.getUpperRightMarkerOffsetXInPixels() * scalingRatioToFitContainer)
 									- (int)(CoordinateZeroMarkerView.ZERO_COORDINATE_MARKER_VIEW_WIDTH * scalingRatioToFitContainer)),
 							(int) (map.getUpperRightMarkerOffsetYInPixels() * scalingRatioToFitContainer));
-			}
+			//}
 
 			add(lowerLeftMarker);
 			add(upperRightMarker);

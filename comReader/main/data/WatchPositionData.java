@@ -23,6 +23,24 @@ public class WatchPositionData {
 	/** The watch id. */
 	private int watchId;
 
+	private int mapId;
+	
+	public WatchPositionData(int watchId, int mapId, long time, Point position) {
+		super();
+		this.watchId = watchId;
+		this.mapId = mapId;
+		this.time = time;
+		this.position = position;
+	}
+
+	public int getMapId() {
+		return mapId;
+	}
+
+	public void setMapId(int mapId) {
+		this.mapId = mapId;
+	}
+
 	/**
 	 * The time when reading was calculated. This is also used in the database as the time when the reading occurred.
 	 * 

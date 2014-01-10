@@ -675,7 +675,10 @@ public final class Utilities {
 	}
 
 	public static byte[] LoadImageAsBytes(String filePath) throws Exception {
-		String path = Utilities.class.getResource(filePath).getPath();
+		String path = filePath;
+		if(!(new File(filePath).exists())) {
+			path = Utilities.class.getResource(filePath).getPath();
+		}
 		File file = new File(path);
 		int size = (int) file.length();
 		byte[] buffer = new byte[size];

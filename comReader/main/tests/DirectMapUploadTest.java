@@ -33,7 +33,7 @@ public class DirectMapUploadTest {
 			e1.printStackTrace();
 		}
 		
-		database = mongo.getDB("mydb");
+		database = mongo.getDB("rssiSystem");
 		sampleData = database.getCollection("map_records");
 		// remove all maps
 		//sampleData.drop();
