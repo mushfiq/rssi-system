@@ -21,7 +21,6 @@ import dataobjects.WatchPositionRecord;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.*;
@@ -45,9 +44,28 @@ public class WatchUserActivity extends Activity
 	int offset = 0;
 	private int lastMapId = 4;
 
-	//TODO Get the ratios from mapRecord
-	private float pixel_per_meterX = 50.0f;
-	private float pixel_per_meterY = 50.0f;
+	private float pixel_per_meterX = -1.0f; //The ratio which represent how many pixel are one meter in x-direction
+	private float pixel_per_meterY = -1.0f; //The ratio which represent how many pixel are one meter in y-direction
+
+	/**
+	 * Setter for the scaling value of the x-direction
+	 * @author Silvio
+	 * @param scaling The scaling to set for the x-direction
+	 */
+    public void setScalingX(float scaling)
+    {
+    	pixel_per_meterX = scaling;
+    }
+    
+    /**
+     * Setter for the scaling value of the y-direction
+     * @author Silvio
+     * @param scaling The scaling to set for the y-direction
+     */
+    public void setScalingY(float scaling)
+    {
+    	pixel_per_meterY = scaling;
+    }
 	
 	Timer timer = null; // Controls the periodically update
 	String watchID = "";
@@ -55,7 +73,6 @@ public class WatchUserActivity extends Activity
 	boolean drawWatchPath = false;
 	int numberOfPositions = 1;
 	
-	//TODO Get the Update Rate from a configuration file or the second tab of the activity
 	static int UPDATE_RATE = 200; // in milliseconds 
 
 	ImageView start;
@@ -63,7 +80,6 @@ public class WatchUserActivity extends Activity
 	
 	@Override
 	protected void onPause() {
-		// TODO Auto-generated method stub
 		super.onPause();
 	}
 
@@ -106,7 +122,6 @@ public class WatchUserActivity extends Activity
 	                    @Override
 	                    public void run()
 	                    {
-	                    	Log.e("GET_POSITION_TASK", "New GetPositionTaskStarted");
 	                     	new GetPositionTask(watchID).execute();
 	                    }
 	                });
@@ -172,7 +187,6 @@ public class WatchUserActivity extends Activity
 		    		String url = "http://shironambd.com/api/v1/watch/?watchId=" + watchID + "&offset=" + offset + "&limit=1&format=json";
 		    		url = "http://shironambd.com/api/v1/watch/?access_key=529a2d308333d14178f5c54d&limit=" + numberOfPositions + "&watchId=" + watchNr + "&format=json";
 		    		
-		    		Log.e("WATCH_USER_ACTIVITY", "Http request started");
 		    		URL obj = new URL(url);
 			    	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 			    	con.setRequestMethod("GET");
@@ -187,7 +201,6 @@ public class WatchUserActivity extends Activity
 					}
 					in.close();
 					
-					Log.e("WATCH_USER_ACTIVITY", "Http request finished");
 					httpResponse = response.toString();
 		    	}
 		    	catch(Exception e)
@@ -202,12 +215,7 @@ public class WatchUserActivity extends Activity
 		    {	
 		    	imageView.invalidate();
 		    	// Needed for the coordinate transformation of accessed position and the imageview
-		    	
-		    	int map_width = imageView.getWidth();
 		    	int map_height = imageView.getHeight();
-		    	
-		    	pixel_per_meterX = (float) (map_width) / 6.0f;
-		    	pixel_per_meterY = (float) (map_height) / 6.0f;
 		    	
 			    Point oldZero = new Point(0,0);
 			    Point newZero = new Point(0,-map_height);
@@ -220,40 +228,46 @@ public class WatchUserActivity extends Activity
 					Point lastPosition = null;
 					float lastXPosition = 0.0f;
 					float lastYPosition = 0.0f;
-					Log.e("PARSE_JSON_RESPONSE", "Parse JSON started...");
 			    	ArrayList<WatchPositionRecord> records = ResponseParser.getParsedResponse(result);
 			    	
-			    	Log.e("PARSE_JSON_RESPONSE", "Parse JSON finished");
-			    	
-			    	Log.e("WATCH_USER_ACTIVITY", "Display position started");
 			    	imageView.clearWatchesToDraw();
 			    	imageView.addWatchToDraw(watchID);					    
 					imageView.clearWatchPositions(watchID);
 					
 			    	if( !records.isEmpty() )
 			    	{
+			    		//Only if the mapId has changed since last time we need to download the image
 			    		if( records.get(0).getMapId() != lastMapId )
 			    		{
-			    			//lastMapId = records.get(0).getMapId();
-			    			lastMapId = 4;
+			    			//We reset the ratios to the default values -1.0 and indicate on this way that 
+			    			//the ratios for the new map are not available at the moment 
+			    			//At the inserting position we check these ratios and only if they are valid values
+			    			//we start to draw the positions on the map
+			    			resetRatios(); 
+			    			
+			    			lastMapId = records.get(0).getMapId();
 					       	RestMapService restMapService = new RestMapService(WatchUserActivity.this);
 							String mapID = ""+ lastMapId;
 							restMapService.new GetMapRecordTask(mapID).execute();
 			    		}
 
-			    		for (WatchPositionRecord record : records)
-						{	
-			    			lastPosition = record.getPosition();
-			    			lastXPosition = lastPosition.getX();
-			    			lastYPosition = lastPosition.getY();
-			    								    	
-					    	float x_inPixel = lastXPosition * pixel_per_meterX;
-					    	float y_inPixel = lastYPosition * pixel_per_meterY;
-					    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
-						    
-						    positionInPixel = coordinateTransformation.transformPosition(positionInPixel);
-						    imageView.addWatchPosition(watchID, positionInPixel);
-						}
+			    		//Check if the ratios are valid values, then we can add the positions to draw
+			    		if( pixel_per_meterX >= 0.0f && pixel_per_meterY >= 0.0f)
+			    		{
+				    		for (WatchPositionRecord record : records)
+							{	
+				    			lastPosition = record.getPosition();
+				    			lastXPosition = lastPosition.getX();
+				    			lastYPosition = lastPosition.getY();
+				    								    	
+						    	float x_inPixel = lastXPosition * pixel_per_meterX;
+						    	float y_inPixel = lastYPosition * pixel_per_meterY;
+						    	Point positionInPixel = new Point(x_inPixel, y_inPixel);
+							    
+							    positionInPixel = coordinateTransformation.transformPosition(positionInPixel);
+							    imageView.addWatchPosition(watchID, positionInPixel);
+							}
+			    		}
 			    		
 			    		//If we want to see more than one position, the path between these positions should be drawn
 			    		if( numberOfPositions > 1 )
@@ -273,7 +287,6 @@ public class WatchUserActivity extends Activity
 			    		imageView.invalidate(); // redraw the map with the positions
 			    		
 			    	}
-			    	Log.e("WATCH_USER_ACTIVITY", "Display position finished");
 				}
 				catch(Exception e)
 				{
@@ -283,6 +296,15 @@ public class WatchUserActivity extends Activity
 		    }
 		}
 
+	/**
+	 * This function reset the ratios to the default value -1.0f, which mean invalid ratio
+	 * @author Silvio
+	 */
+	private void resetRatios()
+	{
+		pixel_per_meterX = -1.0f;
+		pixel_per_meterY = -1.0f;
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)

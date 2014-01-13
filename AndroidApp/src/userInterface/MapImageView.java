@@ -214,6 +214,7 @@ public class MapImageView extends ImageView {
 
 
     Point zeroPoint = null; //The zero point of this imageView
+    
     /**
      * Setter for the zero point of this imageView
      * @author Silvio
@@ -366,7 +367,7 @@ public class MapImageView extends ImageView {
         
         //Draw the whole data
         Paint p = paint;
-        
+
         //Draw Receiver Points
         for(Point receiverPoint : receiverPoints.values() )
         {
@@ -380,7 +381,7 @@ public class MapImageView extends ImageView {
 		{
         	List<Point> allPointsOfWatch = watchToPositions.get(watchID);
         	List<Point> pointsOfWatchToDraw = null;
-        	if(allPointsOfWatch.size() > positionsToDraw )
+        	if( allPointsOfWatch != null && allPointsOfWatch.size() > positionsToDraw )
         	{	
         		pointsOfWatchToDraw = allPointsOfWatch.subList(allPointsOfWatch.size() - positionsToDraw, allPointsOfWatch.size());
         	}
@@ -389,7 +390,7 @@ public class MapImageView extends ImageView {
         		pointsOfWatchToDraw = allPointsOfWatch;
         	}
         	
-        	if( pointsOfWatchToDraw != null )
+        	if( pointsOfWatchToDraw != null && !pointsOfWatchToDraw.isEmpty() )
         	{
         		if( drawPath )
         		{
