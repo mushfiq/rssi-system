@@ -57,8 +57,8 @@ public class KalmanFilter extends Filter {
 
 	public KalmanFilter (double processNoise, double sensorNoise) {
 		super();
-		this.processNoise = processNoise;
-		this.sensorNoise = sensorNoise;
+		KalmanFilter.processNoise = processNoise;
+		KalmanFilter.sensorNoise = sensorNoise;
 	    priorErrorVariance = 1;
 	}
 
