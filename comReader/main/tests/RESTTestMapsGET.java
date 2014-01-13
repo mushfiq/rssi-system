@@ -13,10 +13,12 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 import components.RoomMap;
 
 public class RESTTestMapsGET {
 
+	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 
 		// Create the client resource
@@ -31,6 +33,7 @@ public class RESTTestMapsGET {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
 		List<RoomMap> maps = new ArrayList<RoomMap>();
 		try {
 			JsonElement jelement = new JsonParser().parse(response);
@@ -76,6 +79,7 @@ public class RESTTestMapsGET {
 		return parsedPath;
 	}
 
+	@SuppressWarnings("unused")
 	private static Image getMapImage(String imageId) {
 
 		// Create the client resource

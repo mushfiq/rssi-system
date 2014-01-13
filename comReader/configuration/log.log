@@ -1,0 +1,190 @@
+º‡Ì 10, 2014 5:46:55 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 5:46:55 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 5:49:41 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 5:49:41 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 5:51:43 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 5:51:43 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 5:53:32 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 5:53:32 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 5:54:38 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 5:54:38 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 5:54:39 PM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 10, 2014 6:13:01 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 6:13:01 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 6:13:01 PM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 10, 2014 6:25:24 PM main.Application <init>
+INFO: Application started.
+º‡Ì 10, 2014 6:25:24 PM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 10, 2014 6:25:24 PM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 11, 2014 10:58:12 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 10:58:12 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 10:59:03 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 10:59:04 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:00:02 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 11:00:02 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:00:18 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 11:00:18 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:00:19 AM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 11, 2014 11:03:35 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 11:03:35 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:03:35 AM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.probability_map failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.granularity failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_from failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_to failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_from failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_to failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.filter failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.weight_function failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.weightFunction.WeightFunctionExtended readConfigParameters
+WARNING: Reading weight_function_extended.percentage_steps failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_path failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_extended failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_roommap failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_convexhull failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_receiver failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_point failed, default value was set.
+º‡Ì 11, 2014 11:03:37 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.roommap_extension failed, default value was set.
+º‡Ì 11, 2014 11:11:12 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 11:11:12 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:11:12 AM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.probability_map failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.granularity failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_from failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_to failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_from failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_to failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.filter failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.weight_function failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.weightFunction.WeightFunctionExtended readConfigParameters
+WARNING: Reading weight_function_extended.percentage_steps failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_path failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_extended failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_roommap failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_convexhull failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_receiver failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_point failed, default value was set.
+º‡Ì 11, 2014 11:11:14 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.roommap_extension failed, default value was set.
+º‡Ì 11, 2014 11:12:50 AM main.Application <init>
+INFO: Application started.
+º‡Ì 11, 2014 11:12:50 AM gui.MenuBar <init>
+INFO: MenuBar initialized.
+º‡Ì 11, 2014 11:12:50 AM gui.MainFrame <init>
+INFO: GUI initialized.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.probability_map failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.granularity failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_from failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.x_to failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_from failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMap readConfigParameters
+WARNING: Reading probability_map.y_to failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_propagation_constant failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.probabilityMap.ProbabilityMapPathLossCircle readConfigParameters
+WARNING: Reading probability_map_path_loss_circle.signal_strength_one_meter failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.filter failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readSpecialAlgoParameters
+WARNING: Reading probability_based_algorithm.weight_function failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.weightFunction.WeightFunctionExtended readConfigParameters
+WARNING: Reading weight_function_extended.percentage_steps failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_path failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_extended failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_roommap failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_convexhull failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_receiver failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.grayscale_debug_information_point failed, default value was set.
+º‡Ì 11, 2014 11:12:52 AM algorithm.ProbabilityBasedAlgorithm readConfigParameters
+WARNING: Reading probability_based_algorithm.roommap_extension failed, default value was set.

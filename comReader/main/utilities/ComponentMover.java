@@ -32,6 +32,7 @@ import javax.swing.SwingUtilities;
  *  Components can be registered when the class is created. Additional
  *  components can be added at any time using the registerComponent() method.
  */
+@SuppressWarnings("rawtypes")
 public class ComponentMover extends MouseAdapter
 {
 	private Insets dragInsets = new Insets(0, 0, 0, 0);
@@ -40,6 +41,7 @@ public class ComponentMover extends MouseAdapter
 	private boolean changeCursor = true;
 	private boolean autoLayout = false;
 
+	
 	private Class destinationClass;
 	private Component destinationComponent;
 	private Component destination;

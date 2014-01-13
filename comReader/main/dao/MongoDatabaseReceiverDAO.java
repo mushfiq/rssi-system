@@ -14,7 +14,6 @@ import org.restlet.representation.StringRepresentation;
 import org.restlet.resource.ClientResource;
 import org.restlet.resource.ResourceException;
 
-import rest.MongoDatabaseReceiverWrapper;
 import utilities.Utilities;
 
 import com.google.gson.JsonArray;
@@ -32,7 +31,7 @@ public class MongoDatabaseReceiverDAO implements ReceiverDAO {
 
 	private List<Receiver> allReceivers;
 	private boolean isDirty; // if data has been written to the database, e.g. we have old copy of data
-	private List<MongoDatabaseReceiverWrapper> allReceiverWrappers;
+	
 	
 	public MongoDatabaseReceiverDAO() {
 		logger = Utilities.initializeLogger(this.getClass().getName());

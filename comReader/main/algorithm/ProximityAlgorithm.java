@@ -66,7 +66,6 @@ public class ProximityAlgorithm extends PositionLocalizationAlgorithm {
 			
 					if (receiverStrongestSignal != null){
 						Point strongestSignal = new Point(receiverStrongestSignal.getXPos(), receiverStrongestSignal.getYPos());
-						System.out.println(strongestSignal.toString());
 						return strongestSignal; 
 					}
 					else {

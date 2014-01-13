@@ -45,7 +45,12 @@ public class DatabaseDataWriterRunnable implements Runnable {
 
 	/** The sample data. */
 	private DBCollection sampleData;
-
+	
+	private static final String DATABASE_ADDRESS = "database_address";
+	
+	private static final String DEFAULT_DATABASE_ADDRESS = "127.0.0.1";
+	
+	
 	/**
 	 * Instantiates a new <code>DatabaseDataWriterRunnable</code>.
 	 */
@@ -54,11 +59,20 @@ public class DatabaseDataWriterRunnable implements Runnable {
 		logger = Utilities.initializeLogger(this.getClass().getName());
 		this.running = true;
 
+		String databaseAddress = DEFAULT_DATABASE_ADDRESS;
+		
+		try { // read parameters from the configuration file
+			databaseAddress = Utilities.getConfigurationValue(DATABASE_ADDRESS);
+			
+		} catch (NumberFormatException exception) { // reading has failed, use default values
+			logger.info("Reading parameters from configuration file failed. "
+					+ "Using default values for database_address instead.");
+		}
+		
 		try {
-			mongo = new Mongo("127.0.0.1");
+			mongo = new Mongo(databaseAddress);
 		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.severe("Connecting to database failed. Please check your internet connection and database parameters." + e1.getMessage());
 		}
 		
 		database = mongo.getDB("rssiSystem");
