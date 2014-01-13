@@ -4,6 +4,7 @@
  */
 package gui;
 import java.awt.*;
+
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
@@ -17,6 +18,7 @@ public class WrapLayout extends FlowLayout
 	private static final long serialVersionUID = 1L;
 	
 	/** The preferred layout size. */
+	@SuppressWarnings("unused")
 	private Dimension preferredLayoutSize;
 
 	/**
