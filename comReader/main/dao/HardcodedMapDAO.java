@@ -35,8 +35,11 @@ import components.RoomMap;
 public class HardcodedMapDAO implements MapDAO {
 
 	/** <code>Logger</code> object. */
-	@SuppressWarnings("unused")
 	private Logger logger;
+
+	private static final String DATABASE_ADDRESS = "database_address";
+
+	private static final String DEFAULT_DATABASE_ADDRESS = "127.0.0.1";
 
 	/**
 	 * <code>List</code> of all <code>RoomMaps</code> in the data source.
@@ -69,8 +72,6 @@ public class HardcodedMapDAO implements MapDAO {
 			allMaps = new ArrayList<RoomMap>();
 		}
 
-		// TODO Update maps with valid sample data
-		
 		// sample maps initialization values
 		RoomMap map = null;
 		BufferedImage image = null;
@@ -102,7 +103,7 @@ public class HardcodedMapDAO implements MapDAO {
 		map.setRatioHeight(75.5);
 		map.setPath(path1);
 		allMaps.add(map);
-		
+
 		// add sample map, id 1
 		String path2 = "images/test_room_fifth_floor.png";
 		image = (BufferedImage) Utilities.loadImage(path2);
@@ -128,6 +129,33 @@ public class HardcodedMapDAO implements MapDAO {
 		map.setRatioWidth(89.67);
 		map.setRatioHeight(89.67);
 		map.setPath(path2);
+		allMaps.add(map);
+		
+		// add sample map, id 2
+		String path3 = "images/room_4m_6m.png";
+		image = (BufferedImage) Utilities.loadImage(path3);
+		title = "Room 481";
+		roomWidth = 5.0;
+		roomHeight = 8.30;
+		receivers = new ArrayList<Receiver>();
+		receivers.add(new Receiver(6, 0.7, 0.0, 90.0, true));
+		receivers.add(new Receiver(1, 5.0, 0.65, 135.0, true));
+		receivers.add(new Receiver(2, 5.0, 4.5, 180.0, true));
+		receivers.add(new Receiver(3, 0.0, 2.0, 0.0, true));
+		receivers.add(new Receiver(4, 0.0, 7.8, 315.0, true));
+		receivers.add(new Receiver(0, 2.5, 8.3, 270.0, true));
+		receivers.add(new Receiver(9, 4.80, 8.3, 225.0, true));
+		map = new RoomMap(image, title, receivers);
+		map.setId(2);
+		map.setWidthInMeters(roomWidth);
+		map.setHeightInMeters(roomHeight);
+		map.setLowerLeftMarkerOffsetXInPixels(0);
+		map.setLowerLeftMarkerOffsetYInPixels(460);
+		map.setUpperRightMarkerOffsetXInPixels(309);
+		map.setUpperRightMarkerOffsetYInPixels(0);
+		map.setRatioWidth(61.80);
+		map.setRatioHeight(55.42);
+		map.setPath(path3);
 		allMaps.add(map);
 
 		return allMaps;
@@ -168,55 +196,64 @@ public class HardcodedMapDAO implements MapDAO {
 			if (allMaps.get(i).getId() == newMap.getId()) {
 				allMaps.set(i, newMap);
 				break;
-//				return;
 			}
 		}
-		
+
 		// send the single map to the server
 		uploadMapToServer(newMap);
 	}
 
 	private void uploadMapToServer(RoomMap newMap) {
-		
+
 		Mongo mongo = null;
 		DB database;
 		DBCollection sampleData;
-		
+
+		String databaseAddress = DEFAULT_DATABASE_ADDRESS;
+
+		try { // read parameters from the configuration file
+			databaseAddress = Utilities.getConfigurationValue(DATABASE_ADDRESS);
+
+		} catch (NumberFormatException exception) { // reading has failed, use default values
+			logger.info("Reading parameters from configuration file failed. "
+					+ "Using default values for database_address instead.");
+		}
+
 		try {
-			mongo = new Mongo("127.0.0.1");
+			mongo = new Mongo(databaseAddress);
 		} catch (UnknownHostException e1) {
 			e1.printStackTrace();
 		}
-		
+
 		database = mongo.getDB("rssiSystem");
 		sampleData = database.getCollection("map_records");
 		// remove all maps
 		sampleData.drop();
-		
+
 		SimpleDateFormat simpledateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 		String strDate = simpledateformat.format(new Date());
-		
+
 		// -------------------
-		//Load our image
-        byte[] imageBytes = null;
+		// Load our image
+		byte[] imageBytes = null;
 		try {
 			imageBytes = Utilities.LoadImageAsBytes(newMap.getPath());
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-        
-        // ---------------------
-		
-		//Create GridFS object
-        GridFS fs = new GridFS( database );
-        //Save image into database
-        GridFSInputFile in = fs.createFile( imageBytes );
-        in.save();
-        Object mapIdObject = in.getId();
-//        System.out.println(mapIdObject);
-		
+
+		// ---------------------
+
+		// Create GridFS object
+		GridFS fs = new GridFS(database);
+		// Save image into database
+		GridFSInputFile in = fs.createFile(imageBytes);
+		in.save();
+		Object mapIdObject = in.getId();
+		// System.out.println(mapIdObject);
+
 		try {
-			
+
 			DBObject documentDetail = new BasicDBObject();
 
 			documentDetail.put("_cls", "mapRecords"); // for mongoEngine ORM users
@@ -232,12 +269,12 @@ public class HardcodedMapDAO implements MapDAO {
 			documentDetail.put("scalingY", newMap.getRatioHeight());
 			documentDetail.put("title", newMap.getTitle());
 			documentDetail.put("updateTime", strDate);
-			
+
 			sampleData.insert(documentDetail);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	/*
@@ -269,12 +306,12 @@ public class HardcodedMapDAO implements MapDAO {
 		for (int i = 0; i < listSize; i++) {
 			if (allMaps.get(i).getId() > highestId) {
 				highestId = allMaps.get(i).getId();
-			} 
+			}
 		}
 		newMapId = highestId + 1;
 		newMap.setId(newMapId);
 		allMaps.add(newMap);
-		
+
 		// send the single map to the server
 		uploadMapToServer(newMap);
 	}
