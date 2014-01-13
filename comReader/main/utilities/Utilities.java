@@ -343,7 +343,7 @@ public final class Utilities {
 
 			reading = new Reading(receiverId, 0, signalStrengths);
 
-		} catch (NumberFormatException exception) {
+		} catch (Exception exception) {
 			getLogger().warning("Parsing data from COM port failed. Empty reading will be returned.");
 		}
 
