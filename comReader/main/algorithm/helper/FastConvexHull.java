@@ -29,6 +29,7 @@ public class FastConvexHull {
 	 * @param points the array list of all points to find the convex hull
 	 * @return the array list with the convex hull
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<PointProbabilityMap> computeHull(ArrayList<PointProbabilityMap> points) {
 		
 		ArrayList<PointProbabilityMap> xSorted = (ArrayList<PointProbabilityMap>) points.clone();
