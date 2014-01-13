@@ -26,7 +26,7 @@ class mapRecords(InheritableDocument):
     """ mapRecords document is extended from InheritableDocument
         it holds the fields for mapRecords collection for mongoDB."""
         
-    height = IntField()
+    height = FloatField()
     image = FileField()
     mapId = IntField()
     offsetX = IntField()
@@ -37,7 +37,7 @@ class mapRecords(InheritableDocument):
     scalingX = FloatField()
     scalingY = FloatField()
     updateTime = DateTimeField()
-    width = IntField()
+    width = FloatField()
     title = StringField()
     
     
