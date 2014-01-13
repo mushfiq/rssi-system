@@ -136,7 +136,7 @@ public class ReceiverView extends JComponent implements Observable {
 
 		BufferedImage myPicture = null;
 		try {
-			String path = Utilities.class.getResource("images/receiverView" + (int) receiver.getAngle() + ".png")
+			String path = Utilities.class.getResource("/images/receiverView" + (int) receiver.getAngle() + ".png")
 					.getPath();
 			myPicture = ImageIO.read(new File(path));
 		} catch (IOException e) {
