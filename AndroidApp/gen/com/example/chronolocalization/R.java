@@ -29,17 +29,10 @@ public final class R {
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
         public static final int logo_k=0x7f020001;
-<<<<<<< HEAD
         public static final int readme=0x7f020002;
         public static final int start=0x7f020003;
         public static final int start_screen=0x7f020004;
         public static final int stop=0x7f020005;
-=======
-        public static final int start=0x7f020002;
-        public static final int start_screen=0x7f020003;
-        public static final int stop=0x7f020004;
-        public static final int tab_divider=0x7f020005;
->>>>>>> fdb788801870cebe03c989e1f292e018011c4cc2
     }
     public static final class id {
         public static final int CurrentPositionText=0x7f0a0004;
