@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -604,41 +603,7 @@ public class ParametersPanel extends JPanel {
 		}
 	}
 
-	/*
-	 * XXX listener works fine, but it is most likely not going to be used this way. Code is left just in case. Should
-	 * be removed later if found unnecessary.
-	 */
-	/**
-	 * The listener interface for receiving algorithmComboBoxAction events. The class that is interested in processing a
-	 * algorithmComboBoxAction event implements this interface, and the object created with that class is registered
-	 * with a component using the component's <code>addAlgorithmComboBoxActionListener</code> method. When the
-	 * algorithmComboBoxAction event occurs, that object's appropriate method is invoked.
-	 * 
-	 * @see AlgorithmComboBoxActionEvent
-	 */
-	private class AlgorithmComboBoxActionListener implements ActionListener {
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-
-			if (e.getSource() instanceof JComboBox<?>) {
-				@SuppressWarnings("unchecked")
-				JComboBox<PositionLocalizationAlgorithmType> comboBox = ((JComboBox<PositionLocalizationAlgorithmType>) e
-						.getSource());
-				ComboBoxModel<PositionLocalizationAlgorithmType> model = comboBox.getModel();
-				int index = comboBox.getSelectedIndex();
-				PositionLocalizationAlgorithmType selection = model.getElementAt(index);
-
-				Application.getApplication().setAlgorithm(createAlgorithmInstance(selection));
-			}
-		}
-
-	}
+	
 
 	/**
 	 * Creates the algorithm instance.
