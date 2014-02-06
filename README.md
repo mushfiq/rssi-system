@@ -10,7 +10,6 @@ This  projects contains following applications.
 
 -- An android application that display latest position of the (choronoApp)
 
--- A web application that shows users current location and track position real time (webMap)
 
 
 
