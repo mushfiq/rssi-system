@@ -2,6 +2,8 @@ rssi-system
 ===========
 **RSSI based indoor localization project.**
 
+[![GitHub version](https://badge.fury.io/gh/mushfiq%2Frssi-system.png)](http://badge.fury.io/gh/mushfiq%2Frssi-system)
+
 This  project contains following applications.
  - Java Application consists of Algortihm and (comReadeer) 
  - Python, Django based REST API (RESTApi)
