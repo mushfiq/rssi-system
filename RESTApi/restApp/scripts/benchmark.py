@@ -8,28 +8,30 @@ def do_request_by_limit(type, limit):
     return resp.elapsed.total_seconds()
     
 def do():
+    tab = "\t\t\t"
     print '\n\n'
-    print "Starting Benchmarking of RSSI REST API"
-    print "======================================="
+    
+    print tab+"Starting Benchmarking of RSSI REST API"
+    print tab+"======================================="
     time.sleep(2)
-    print "| 1 watch    |", do_request_by_limit("watch", 1) , ' seconds|'
-    print "__________________________________"
-    print "| 1 map      |",  do_request_by_limit("map", 1), ' seconds|'
-    print "__________________________________"
-    print "| 1 receiver |",  do_request_by_limit("receiver", 1), ' seconds|'
-    print "__________________________________"
-    print "| 10 watch   |", do_request_by_limit("watch", 10), ' seconds|'
-    print "__________________________________"
-    print "| 10 map     |",  do_request_by_limit("map", 10), ' seconds|'
-    print "__________________________________"
-    print "| 10 receiver|",  do_request_by_limit("receiver", 10), ' seconds|'
-    print "__________________________________"
-    print "| 100 watch  |", do_request_by_limit("watch", 100), ' seconds|'
-    print "__________________________________"
-    print "| 100 map    |",  do_request_by_limit("map", 100), ' seconds|'
-    print "__________________________________"
-    print "|100 receiver|",  do_request_by_limit("receiver", 100), ' seconds|'
-    print "__________________________________"
+    print tab+"| 1 watch    |", do_request_by_limit("watch", 1) , ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 1 map      |",  do_request_by_limit("map", 1), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 1 receiver |",  do_request_by_limit("receiver", 1), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 10 watch   |", do_request_by_limit("watch", 10), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 10 map     |",  do_request_by_limit("map", 10), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 10 receiver|",  do_request_by_limit("receiver", 10), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 100 watch  |", do_request_by_limit("watch", 100), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"| 100 map    |",  do_request_by_limit("map", 100), ' seconds|'
+    print tab+"__________________________________"
+    print tab+"|100 receiver|",  do_request_by_limit("receiver", 100), ' seconds|'
+    print tab+"__________________________________"
     print '\n\n'
     
     return 
