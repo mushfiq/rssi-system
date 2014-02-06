@@ -4,7 +4,7 @@ import algorithm.helper.Point;
 /**
  * This class KalmanFilter aims to recursively provide better
  * and better estimates of the position of the watch. The construction of the Kalman filter is based on the
- * explaination <a href="http://greg.czerniak.info/guides/kalman1/</a>.
+ * explaination <a href="http://greg.czerniak.info/guides/kalman1/"</a>.
  * @version 1.0 22 Nov 2013
  * @author Yentran Tran
  *
